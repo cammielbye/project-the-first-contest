@@ -220,6 +220,12 @@ body.selecting .cell:hover, .cell.over { background: #ffffff12; border-color: va
 .card.face-force .c-name { font-style: italic; color: #24323f; }
 .card.undrafted .c-name { font-weight: 400; color: #6c7884; }
 
+/* Fifth-pillar meta cards: one face, a different stock. */
+.card.face-meta { background: #e3dcea; border-color: #a596b8; }
+.card.face-meta .c-inner { border: 1.5px double #8f7fa6; }
+.card.face-meta .c-name { color: #3b2f4d; letter-spacing: .02em; }
+.card.face-meta .c-dur { color: #5b4d70; }
+
 /* Which player a card belongs to: a coloured edge at the top. */
 .card.own-p1 { border-top: 4px solid var(--p1); }
 .card.own-p2 { border-top: 4px solid var(--p2); }

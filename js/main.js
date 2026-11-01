@@ -33,7 +33,8 @@ let mySeat = mode === "guest" ? "p2" : mode === "host" ? "p1" : store.get("tfc:s
 const managesSeat = (seat) => mode === "solo" || seat === mySeat;
 
 // ---- data ------------------------------------------------------------------
-let cardsByNo = new Map();
+let cardsById = new Map();
+let cardOrder = new Map(); // id -> position in the pool, for sorting binders
 let binders = [];
 let state = null;
 const privates = {}; // seat -> { binderId, binderName, cards: [inst] }
@@ -58,7 +59,7 @@ function loadPrivates() {
   for (const seat of SEATS) {
     if (!managesSeat(seat)) continue;
     const p = store.get(`${ns}:private:${seat}`, null);
-    if (p && Array.isArray(p.cards)) privates[seat] = p;
+    if (p && Array.isArray(p.cards) && p.cards.every((c) => typeof c.id === "string")) privates[seat] = p;
   }
 }
 
@@ -78,7 +79,7 @@ function dispatch(action) {
 }
 
 function hostApply(action) {
-  const { state: next, effects } = apply(state, action, cardsByNo);
+  const { state: next, effects } = apply(state, action, cardsById);
   if (next === state) return;
   state = next;
   saveState();
@@ -98,9 +99,9 @@ function handleEffect(e) {
     ui.voidOpen = null;
     ui.binderOpen = true;
   } else if (e.kind === "toBinder" && managesSeat(e.seat) && privates[e.seat]) {
-    const inst = { ...e.inst, face: "permanence" };
+    const inst = { ...e.inst, face: e.inst.face === "meta" ? "meta" : "permanence" };
     privates[e.seat].cards.push(inst);
-    privates[e.seat].cards.sort((a, b) => a.no - b.no);
+    sortBinder(privates[e.seat].cards);
     savePrivate(e.seat);
   }
 }
@@ -119,7 +120,7 @@ function onNetMessage(msg) {
   } else if (mode === "guest") {
     if (msg.type === "_linked") {
       net.send({ type: "hello", name: store.get("tfc:name", "") });
-    } else if (msg.type === "state" && msg.state) {
+    } else if (msg.type === "state" && msg.state && msg.state.v === 2) {
       state = msg.state;
       for (const e of msg.effects || []) handleEffect(e);
       render();
@@ -136,17 +137,25 @@ function onNetStatus(s) {
 }
 
 // ---- player intents ----------------------------------------------------------------
-const newIid = (seat, no) => `${seat}-${no}-${Math.random().toString(36).slice(2, 7)}`;
+const newIid = (seat, id) => `${seat}-${id}-${Math.random().toString(36).slice(2, 7)}`;
+const sortBinder = (cards) => cards.sort((a, b) => (cardOrder.get(a.id) ?? 1e6) - (cardOrder.get(b.id) ?? 1e6));
 
 function chooseBinder(binderId) {
   const b = binders.find((x) => x.id === binderId);
   if (!b) return;
   if (mode === "guest" && (!net || !net.isOpen())) return toast("Not connected to the host yet.");
-  const originals = new Set(b.originals || []);
-  const cards = [...new Set(b.cards)]
-    .filter((no) => cardsByNo.has(no))
-    .sort((a, c) => a - c)
-    .map((no) => ({ iid: newIid(mySeat, no), no, face: "permanence", owner: mySeat, original: originals.has(no) }));
+  const originals = new Set((b.originals || []).map(String));
+  const cards = sortBinder(
+    [...new Set(b.cards.map(String))]
+      .filter((id) => cardsById.has(id))
+      .map((id) => ({
+        iid: newIid(mySeat, id),
+        id,
+        face: cardsById.get(id).meta ? "meta" : "permanence",
+        owner: mySeat,
+        original: originals.has(id),
+      }))
+  );
   privates[mySeat] = { binderId: b.id, binderName: b.name, cards };
   savePrivate(mySeat);
   dispatch({ type: "chooseBinder", count: cards.length });
@@ -175,7 +184,7 @@ function dropOn(sel, to) {
 function flipCard(from, iid) {
   if (from === "binder") {
     const inst = privates[mySeat]?.cards.find((c) => c.iid === iid);
-    if (!inst) return;
+    if (!inst || inst.face === "meta") return;
     inst.face = otherFace(inst.face);
     savePrivate(mySeat);
     render();
@@ -187,7 +196,7 @@ function flipCard(from, iid) {
 function setAllBinderFaces(face) {
   const priv = privates[mySeat];
   if (!priv) return;
-  for (const c of priv.cards) c.face = face;
+  for (const c of priv.cards) if (c.face !== "meta") c.face = face;
   savePrivate(mySeat);
   render();
 }
@@ -427,13 +436,14 @@ function renderBinder() {
 
   const grid = h("div", { class: "binder-grid" });
   for (const inst of priv.cards) {
-    const card = cardsByNo.get(inst.no);
+    const card = cardsById.get(inst.id);
     if (!card) continue;
     const face = renderFace(card, inst.face, { size: "full", inst });
     face.dataset.from = "binder";
     face.draggable = true;
     if (ui.selected?.iid === inst.iid) face.classList.add("selected");
-    const wrap = h("div", { class: "binder-slot" }, face, h("button", { class: "flip", "data-act": "flip", "data-from": "binder", "data-iid": inst.iid, title: "Flip (F)" }, "↻"));
+    const flip = card.meta ? null : h("button", { class: "flip", "data-act": "flip", "data-from": "binder", "data-iid": inst.iid, title: "Flip (F)" }, "↻");
+    const wrap = h("div", { class: "binder-slot" }, face, flip);
     grid.append(wrap);
   }
   if (!priv.cards.length) grid.append(h("p", { class: "hint", text: "Your binder is empty." }));
@@ -473,7 +483,7 @@ function areaHeader(seat) {
 }
 
 function tokenFor(inst, from) {
-  const card = cardsByNo.get(inst.no) || { no: inst.no, rarity: "C", permanence: { name: `#${inst.no} (not in pool)`, tags: [], effect: "" }, force: null };
+  const card = cardsById.get(inst.id) || { id: inst.id, no: null, rarity: "C", permanence: { name: `${inst.id} (not in pool)`, affinities: [], text: "" }, force: null };
   const t = renderFace(card, inst.face, { size: "token", inst });
   t.dataset.from = from;
   t.draggable = true;
@@ -565,15 +575,16 @@ function showPreview(iid, x) {
     pv.hidden = true;
     return;
   }
-  const card = cardsByNo.get(found.inst.no);
+  const card = cardsById.get(found.inst.id);
   if (!card) return;
-  const back = renderFace(card, otherFace(found.inst.face), { size: "full", inst: { ...found.inst, iid: "" } });
-  back.classList.add("pv-other");
-  pv.replaceChildren(
-    renderFace(card, found.inst.face, { size: "full", inst: found.inst }),
-    h("div", { class: "pv-label", text: "Other face" }),
-    back
-  );
+  pv.replaceChildren(renderFace(card, found.inst.face, { size: "full", inst: found.inst }));
+  if (card.meta) {
+    pv.append(h("div", { class: "pv-label", text: "Meta card: one face, playable by either player" }));
+  } else {
+    const back = renderFace(card, otherFace(found.inst.face), { size: "full", inst: { ...found.inst, iid: "" } });
+    back.classList.add("pv-other");
+    pv.append(h("div", { class: "pv-label", text: "Other face" }), back);
+  }
   const owner = state.players[found.inst.owner]?.name;
   pv.append(h("div", { class: "pv-label", text: `${owner}'s card${found.inst.original ? " · original" : " · copy"}` }));
   pv.classList.toggle("left", x > window.innerWidth / 2);
@@ -588,7 +599,7 @@ function openMenu(x, y, from, iid) {
   const menu = $("#menu");
   const found = lookup(iid);
   if (!found) return;
-  const items = [["flip", "Flip  (F)"]];
+  const items = found.inst.face === "meta" ? [] : [["flip", "Flip  (F)"]];
   if (from !== "binder") {
     items.push(["select", "Move…  (click a spot)"]);
     if (from === "table") items.push(["to-void", `Send to ${state.players[found.inst.owner].name}'s void  (V)`]);
@@ -809,9 +820,10 @@ async function init() {
       fetch("data/cards.json", { cache: "no-cache" }).then((r) => r.json()),
       fetch("data/binders.json", { cache: "no-cache" }).then((r) => r.json()),
     ]);
-    cardsByNo = new Map(cardsJson.cards.map((c) => [c.no, c]));
+    cardsById = new Map(cardsJson.cards.map((c) => [c.id, c]));
+    cardOrder = new Map(cardsJson.cards.map((c, i) => [c.id, i]));
     binders = bindersJson.binders || [];
-    $("#footer").textContent = `Cards synced ${new Date(cardsJson.syncedAt).toLocaleString()} · ${cardsJson.counts.cards} cards, ${cardsJson.counts.withForceFace} with force faces`;
+    $("#footer").textContent = `Cards synced ${new Date(cardsJson.syncedAt).toLocaleString()} · ${cardsJson.counts.cards} cards (${cardsJson.counts.meta} meta), ${cardsJson.counts.withForceFace} with both faces`;
   } catch (err) {
     document.body.textContent = `Couldn't load the card data: ${err}`;
     return;
@@ -822,7 +834,7 @@ async function init() {
     state = initialState({ p2: store.get("tfc:name", "") || undefined });
   } else {
     state = store.get(`${ns}:state`, null);
-    if (!state || state.v !== 1) {
+    if (!state || state.v !== 2) {
       state = initialState(mode === "host" ? { p1: store.get("tfc:name", "") || undefined } : {});
       saveState();
     }

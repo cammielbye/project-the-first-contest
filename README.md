@@ -33,25 +33,35 @@ On the table:
 Without a room, the page runs in **solo mode**: you play both seats and
 **Switch seat** changes which binder you see.
 
-## Updating the cards
+## Updating the cards and binders
 
-Cards come from `data/card-pool.md`, a copy of `design/card-pool.md` in the
-project. After the card pool changes:
+Cards and test binders both come from `data/card-pool.md`, a copy of
+`design/card-pool.md` in the project. After the card pool changes:
 
 ```sh
-node scripts/sync-cards.mjs   # card-pool.md -> data/cards.json
+node scripts/sync-cards.mjs   # card-pool.md -> data/cards.json + data/binders.json
 ```
 
-The script reads everything above the first `---` line and recognises tables by
-their headers: the commons table (`Element | Numbers | Cards`), numbered tables
-(`No. | Card | Tags | Effect`), the force table (`No. | Permanence | Force |
-Rarity | Duration | …`) and the pinnacles paragraph. It warns instead of
-guessing when something doesn't fit.
+How it reads the file:
 
-## Test binders
+- Only the part above the first `---` line counts; older passes below it are
+  ignored.
+- **Newest first.** The card pool puts its newest pass at the top, so when a
+  card is defined more than once, the definition nearer the top wins and older
+  passes only fill in cards the newer ones don't cover. Clashes (a card's name
+  or force changing between passes) are listed as warnings.
+- Tables are recognised by their header rows: full two-faced cards (`No. |
+  Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force
+  text`), force-only tables, the one-affinity commons table (`Element | Numbers
+  | Cards`), permanence-only tables (`No. | Card | Tags | Effect`), meta cards
+  (`Card | Text` after a "Fifth-pillar meta…" line) and the pinnacles
+  paragraph.
+- Binders come from bullets like `- **Binder A, Tides.** Description. Ocean,
+  Archipelago, …` and are matched to cards by name.
 
-`data/binders.json` lists ready-made binders by card number. Add a number to a
-binder's `originals` to mark that card as an original.
+Meta cards have one face and no number. To mark a card in a binder as an
+original, add its id (the card number, or `meta-<name>`) to that binder's
+`originals` in `data/binders.json`; note that the next sync rewrites that file.
 
 ## Files
 

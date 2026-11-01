@@ -1,48 +1,45 @@
-// Turns data/card-pool.md into data/cards.json for the playtest page.
+// Turns data/card-pool.md into data/cards.json and data/binders.json.
 //
 // Usage: node scripts/sync-cards.mjs [path/to/card-pool.md]
 //
 // Only the part of the file above the first "---" line is read; the older
-// passes below it are kept for reference and ignored. The script recognises
-// tables by their header row, so section titles and prose can change freely:
-//   | Element | Numbers | Cards |                       commons, one tag each
-//   | No. | Card | Tags | Effect |                      uncommons and rares
-//   | No. | Permanence | Force | Rarity | Duration | … |  force faces
-// plus the "**Pinnacles…**" paragraph: "Core (96, fire, …)".
-// Anything it can't place is reported as a warning rather than guessed.
+// passes below it are kept for reference and ignored.
+//
+// Newest first: the card pool puts its newest pass at the top, so when a
+// card is defined more than once, the definition nearer the top wins and the
+// older ones only fill gaps (cards a newer pass doesn't cover). Name clashes
+// between passes are reported.
+//
+// Tables are recognised by their header row, so titles and prose can change:
+//   | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
+//   | No. | Permanence | Force | Rarity | Duration | What the force does |   (force faces only)
+//   | Element | Numbers | Cards |                                         (one-affinity commons)
+//   | No. | Card | Tags (or Affinities) | Effect |                         (permanence only)
+//   | Card | Text |   after a "**Fifth-pillar meta…**" line                 (meta cards)
+// plus the "**Pinnacles, numbers…**" paragraph ("Core (96, fire, …)") and
+// binder bullets: "- **Binder A, Tides.** Description. Card, Card, Card."
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const srcPath = process.argv[2] || join(root, "data", "card-pool.md");
-const outPath = join(root, "data", "cards.json");
+const cardsOut = join(root, "data", "cards.json");
+const bindersOut = join(root, "data", "binders.json");
 
 const ELEMENTS = ["fire", "water", "air", "earth"];
 const RARITY_BY_WORD = { commons: "C", uncommons: "B", rares: "A", pinnacles: "S" };
 
 const warnings = [];
-const cards = new Map(); // no -> card
+const warn = (msg) => warnings.push(msg);
 
-function warn(msg) {
-  warnings.push(msg);
-}
-
-function cleanText(s) {
-  return s.replace(/\\\*/g, "*").replace(/\*\*/g, "").trim();
-}
-
-function parseTags(cell, where) {
-  const tags = [];
-  for (const raw of cell.split(",")) {
-    const t = raw.trim().toLowerCase();
-    if (!t) continue;
-    if (ELEMENTS.includes(t) || t === "any") tags.push(t);
-    else warn(`${where}: unknown tag "${raw.trim()}" ignored`);
-  }
-  return tags;
-}
+const clean = (s) => (s || "").replace(/\\\*/g, "*").replace(/\*\*/g, "").trim();
+const text = (s) => {
+  const t = clean(s);
+  return t === "—" || t === "-" ? "" : t;
+};
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 function rarityFromNumber(no) {
   if (no >= 1 && no <= 60) return "C";
@@ -52,198 +49,361 @@ function rarityFromNumber(no) {
   return null;
 }
 
-function addCard(card, where) {
-  if (cards.has(card.no)) {
-    const prev = cards.get(card.no);
-    throw new Error(
-      `${where}: card #${card.no} (${card.permanence.name}) clashes with #${prev.no} (${prev.permanence.name})`
-    );
+// "1 fire, 1 water" | "2 air, 1 earth" | "fire, water" | "water, any"
+function parseAffinities(cell, where) {
+  const out = [];
+  for (const raw of (cell || "").split(",")) {
+    const part = raw.trim().toLowerCase();
+    if (!part) continue;
+    const m = part.match(/^(?:(\d+)\s+)?([a-z]+)$/);
+    if (!m || !(ELEMENTS.includes(m[2]) || m[2] === "any")) {
+      warn(`${where}: can't read the affinity "${raw.trim()}"`);
+      continue;
+    }
+    for (let i = 0; i < Number(m[1] || 1); i++) out.push(m[2]);
   }
-  cards.set(card.no, card);
+  return out;
 }
 
+// ---- collected definitions, in file order (newest first) ----------------------
+const permDefs = []; // { no, name, rarity, affinities, text, note, source }
+const forceDefs = []; // { no, permName, name, rarity, duration, text, source }
+const metaDefs = []; // { name, text, rarity, source }
+const binderLines = []; // { title, rest }
+
 function splitRow(line) {
-  // "| a | b | c |" -> ["a","b","c"]; keeps empty cells
   let s = line.trim();
   if (s.startsWith("|")) s = s.slice(1);
   if (s.endsWith("|")) s = s.slice(0, -1);
   return s.split("|").map((c) => c.trim());
 }
+const isSeparator = (line) => /-{3,}/.test(line) && /^\s*\|?[\s|:-]+$/.test(line);
 
-const isSeparator = (line) => /^\s*\|?\s*:?-{3,}/.test(line) && /-{3,}/.test(line) && !/[A-Za-z]/.test(line);
+const src = readFileSync(srcPath, "utf8");
+const allLines = src.split(/\r?\n/);
+const hr = allLines.findIndex((l) => /^\s*-{3,}\s*$/.test(l));
+const lines = hr === -1 ? allLines : allLines.slice(0, hr);
+if (hr === -1) warn('No "---" line found; read the whole file.');
 
-const text = readFileSync(srcPath, "utf8");
-const allLines = text.split(/\r?\n/);
-const hrIndex = allLines.findIndex((l) => /^\s*-{3,}\s*$/.test(l));
-const lines = hrIndex === -1 ? allLines : allLines.slice(0, hrIndex);
-if (hrIndex === -1) warn('No "---" line found; read the whole file.');
-
-let context = null; // last rarity word seen in a bold lead paragraph
-const forces = [];
+let section = "top"; // last "## " heading, used to name where a card came from
+let context = null; // last bold lead word: commons, uncommons, rares, pinnacles, meta
+let leadText = "";
 
 for (let i = 0; i < lines.length; i++) {
   const line = lines[i];
 
-  const lead = line.match(/^\*\*(Commons|Uncommons|Rares|Pinnacles)\b/i);
+  const h2 = line.match(/^##\s+(.*)$/);
+  if (h2) {
+    section = h2[1].trim();
+    context = null;
+    continue;
+  }
+
+  const binder = line.match(/^\s*[-*]\s+\*\*(Binder[^*]*?)\.?\*\*\s*(.*)$/);
+  if (binder) {
+    binderLines.push({ title: binder[1].trim(), rest: binder[2].trim(), source: section });
+    continue;
+  }
+
+  const lead = line.match(/^\*\*([^*]+)\*\*/);
   if (lead) {
-    context = lead[1].toLowerCase();
+    const words = lead[1].toLowerCase();
+    leadText = line;
+    if (/meta/.test(words)) context = "meta";
+    else if (/pinnacles/.test(words)) context = "pinnacles";
+    else if (/uncommons/.test(words)) context = "uncommons";
+    else if (/commons/.test(words)) context = "commons";
+    else if (/rares/.test(words)) context = "rares";
+    else context = null;
+
     if (context === "pinnacles") {
       const re = /([A-Z][A-Za-z' -]+?) \((\d+), (fire|water|air|earth)\b/g;
       let m;
-      let found = 0;
       while ((m = re.exec(line))) {
-        const no = Number(m[2]);
-        const el = m[3];
-        addCard(
-          {
-            no,
-            rarity: "S",
-            permanence: { name: m[1].trim(), tags: [el, el, el, el], effect: "" },
-            force: null,
-          },
-          `Pinnacles line`
-        );
-        found++;
+        permDefs.push({
+          no: Number(m[2]),
+          name: m[1].trim(),
+          rarity: "S",
+          affinities: [m[3], m[3], m[3], m[3]],
+          text: "",
+          source: section,
+        });
       }
-      if (!found) warn("Pinnacles paragraph found but no pinnacles could be read from it.");
     }
     continue;
   }
 
-  // Table start: a row followed by a separator row.
-  if (line.trim().startsWith("|") && i + 1 < lines.length && isSeparator(lines[i + 1])) {
-    const header = splitRow(line).map((h) => h.toLowerCase());
-    const rows = [];
-    let j = i + 2;
-    while (j < lines.length && lines[j].trim().startsWith("|")) {
-      rows.push(splitRow(lines[j]));
-      j++;
+  if (!(line.trim().startsWith("|") && i + 1 < lines.length && isSeparator(lines[i + 1]))) continue;
+
+  const header = splitRow(line).map((h) => h.toLowerCase());
+  const rows = [];
+  let j = i + 2;
+  while (j < lines.length && lines[j].trim().startsWith("|")) rows.push(splitRow(lines[j++]));
+  i = j - 1;
+
+  const col = (...names) => {
+    for (const n of names) {
+      const exact = header.indexOf(n);
+      if (exact !== -1) return exact;
     }
-    i = j - 1;
+    for (const n of names) {
+      const loose = header.findIndex((h) => h.includes(n));
+      if (loose !== -1) return loose;
+    }
+    return -1;
+  };
+  const has = (w) => header.some((h) => h.includes(w));
 
-    const has = (word) => header.some((h) => h.includes(word));
-
-    if (has("permanence") && has("force") && has("duration")) {
-      const col = (word) => header.findIndex((h) => h.includes(word));
-      const c = {
-        no: col("no"),
-        perm: col("permanence"),
-        force: col("force"),
-        rarity: col("rarity"),
-        duration: col("duration"),
-        effect: header.findIndex((h) => h.includes("does") || h.includes("effect")),
-      };
-      for (const r of rows) {
-        forces.push({
-          no: Number(r[c.no]),
-          permName: cleanText(r[c.perm] || ""),
-          name: cleanText(r[c.force] || ""),
-          rarity: (r[c.rarity] || "").trim(),
-          duration: cleanText(r[c.duration] || ""),
-          effect: cleanText(r[c.effect] || ""),
+  if (has("affinit") && has("force")) {
+    // Full two-faced card rows.
+    const c = {
+      no: col("no."),
+      perm: col("permanence"),
+      rarity: col("rarity"),
+      aff: col("affinities"),
+      ptext: col("permanence text"),
+      force: col("force"),
+      duration: col("duration"),
+      ftext: col("force text"),
+    };
+    for (const r of rows) {
+      const no = Number(r[c.no]);
+      if (!Number.isInteger(no)) {
+        warn(`${section}: row without a card number skipped (${r.join(" | ")})`);
+        continue;
+      }
+      permDefs.push({
+        no,
+        name: clean(r[c.perm]),
+        rarity: clean(r[c.rarity]) || rarityFromNumber(no),
+        affinities: parseAffinities(r[c.aff], `#${no}`),
+        text: text(r[c.ptext]),
+        source: section,
+      });
+      if (clean(r[c.force])) {
+        forceDefs.push({
+          no,
+          permName: clean(r[c.perm]),
+          name: clean(r[c.force]),
+          rarity: clean(r[c.rarity]),
+          duration: text(r[c.duration]),
+          text: text(r[c.ftext]),
+          source: section,
         });
       }
-    } else if (header[0] === "element" && has("numbers") && has("cards")) {
-      for (const r of rows) {
-        const el = r[0].trim().toLowerCase();
-        if (!ELEMENTS.includes(el)) {
-          warn(`Commons table: unknown element "${r[0]}" skipped`);
-          continue;
-        }
-        const range = r[1].match(/(\d+)\s*[–—-]\s*(\d+)/);
-        const names = r[2].split(",").map((n) => cleanText(n)).filter(Boolean);
-        if (!range) {
-          warn(`Commons table: can't read the number range "${r[1]}" for ${el}`);
-          continue;
-        }
-        const start = Number(range[1]);
-        const end = Number(range[2]);
-        if (end - start + 1 !== names.length) {
-          warn(`Commons table: ${el} lists ${names.length} cards for numbers ${start}–${end}`);
-        }
-        names.forEach((name, k) => {
-          const no = start + k;
-          addCard(
-            { no, rarity: "C", permanence: { name, tags: [el], effect: "" }, force: null },
-            `Commons (${el})`
-          );
-        });
-      }
-    } else if (has("no") && has("card") && has("tags")) {
-      const col = (word) => header.findIndex((h) => h.includes(word));
-      const c = { no: col("no"), name: col("card"), tags: col("tags"), effect: col("effect") };
-      for (const r of rows) {
-        const no = Number(r[c.no]);
-        if (!Number.isInteger(no)) {
-          warn(`Numbered table: row without a number skipped (${r.join(" | ")})`);
-          continue;
-        }
-        const rarity = RARITY_BY_WORD[context] || rarityFromNumber(no);
-        const fromNo = rarityFromNumber(no);
-        if (fromNo && rarity !== fromNo) {
-          warn(`#${no}: listed under ${context} (${rarity}) but its number falls in the ${fromNo} band`);
-        }
-        let effect = c.effect >= 0 ? cleanText(r[c.effect] || "") : "";
-        let note = "";
-        if (/^\(.*\)$/.test(effect)) {
-          note = effect.slice(1, -1);
-          effect = "";
-        }
-        const perm = { name: cleanText(r[c.name]), tags: parseTags(r[c.tags] || "", `#${no}`), effect };
-        if (note) perm.note = note;
-        addCard({ no, rarity, permanence: perm, force: null }, `#${no}`);
-      }
-    } else {
-      warn(`Unrecognised table skipped (header: ${header.join(" | ")})`);
     }
+  } else if (has("permanence") && has("force") && has("duration")) {
+    const c = {
+      no: col("no."),
+      perm: col("permanence"),
+      force: col("force"),
+      rarity: col("rarity"),
+      duration: col("duration"),
+      text: header.findIndex((h) => h.includes("does") || h.includes("text") || h.includes("effect")),
+    };
+    for (const r of rows) {
+      forceDefs.push({
+        no: Number(r[c.no]),
+        permName: clean(r[c.perm]),
+        name: clean(r[c.force]),
+        rarity: clean(r[c.rarity]),
+        duration: text(r[c.duration]),
+        text: text(r[c.text]),
+        source: section,
+      });
+    }
+  } else if (header[0] === "element" && has("numbers") && has("cards")) {
+    for (const r of rows) {
+      const el = r[0].trim().toLowerCase();
+      const range = r[1].match(/(\d+)\s*[–—-]\s*(\d+)/);
+      const names = r[2].split(",").map(clean).filter(Boolean);
+      if (!ELEMENTS.includes(el) || !range) {
+        warn(`${section}: commons row "${r[0]}" skipped`);
+        continue;
+      }
+      const start = Number(range[1]);
+      if (Number(range[2]) - start + 1 !== names.length) {
+        warn(`${section}: ${el} lists ${names.length} cards for numbers ${range[1]}–${range[2]}`);
+      }
+      names.forEach((name, k) =>
+        permDefs.push({ no: start + k, name, rarity: "C", affinities: [el], text: "", source: section })
+      );
+    }
+  } else if (has("no") && has("card") && (has("tags") || has("affinit"))) {
+    const c = { no: col("no."), name: col("card"), aff: col("affinities", "tags"), text: col("effect", "text") };
+    for (const r of rows) {
+      const no = Number(r[c.no]);
+      if (!Number.isInteger(no)) continue;
+      let t = c.text >= 0 ? text(r[c.text]) : "";
+      let note = "";
+      if (/^\(.*\)$/.test(t)) {
+        note = t.slice(1, -1);
+        t = "";
+      }
+      permDefs.push({
+        no,
+        name: clean(r[c.name]),
+        rarity: RARITY_BY_WORD[context] || rarityFromNumber(no),
+        affinities: parseAffinities(r[c.aff], `#${no}`),
+        text: t,
+        note,
+        source: section,
+      });
+    }
+  } else if (context === "meta" && header[0] === "card" && has("text")) {
+    const rarity = /\buncommon\b/i.test(leadText)
+      ? "B"
+      : /\brare\b/i.test(leadText)
+        ? "A"
+        : /\bcommon\b/i.test(leadText)
+          ? "C"
+          : "B";
+    for (const r of rows) metaDefs.push({ name: clean(r[0]), text: text(r[col("text")]), rarity, source: section });
+  } else {
+    warn(`${section}: table skipped (header: ${header.join(" | ")})`);
   }
 }
 
-// Attach force faces.
-for (const f of forces) {
-  const card = cards.get(f.no);
+// ---- merge, newest definition first ------------------------------------------------
+const cards = new Map(); // id -> card
+
+for (const d of permDefs) {
+  const id = String(d.no);
+  const existing = cards.get(id);
+  if (existing) {
+    if (existing.permanence.name !== d.name) {
+      warn(`#${d.no}: "${existing.permanence.name}" (${existing.source}) over older "${d.name}" (${d.source})`);
+    }
+    continue;
+  }
+  const perm = { name: d.name, affinities: d.affinities, text: d.text };
+  if (d.note) perm.note = d.note;
+  cards.set(id, { id, no: d.no, rarity: d.rarity, source: d.source, permanence: perm, force: null });
+}
+
+for (const f of forceDefs) {
+  const card = cards.get(String(f.no));
   if (!card) {
     warn(`Force ${f.name} names card #${f.no}, which isn't in the pool`);
     continue;
   }
+  if (card.force) {
+    if (card.force.name !== f.name) {
+      warn(`${card.permanence.name} (#${f.no}): force ${card.force.name} (${card.force.source}) over older ${f.name} (${f.source})`);
+    }
+    continue;
+  }
   if (f.permName && f.permName !== card.permanence.name) {
-    warn(`Force ${f.name} (#${f.no}) is paired with "${f.permName}", but #${f.no} is "${card.permanence.name}"`);
+    warn(`Force ${f.name} (#${f.no}) is listed with "${f.permName}", but #${f.no} is "${card.permanence.name}"`);
   }
-  if (f.rarity && f.rarity !== card.rarity) {
-    warn(`Force ${f.name} (#${f.no}) says rarity ${f.rarity}, the card is ${card.rarity}`);
-  }
-  card.force = { name: f.name, duration: f.duration, effect: f.effect };
+  card.force = { name: f.name, duration: f.duration, text: f.text, source: f.source };
 }
 
-// Gaps in the numbering.
-const nos = [...cards.keys()].sort((a, b) => a - b);
-const max = Math.max(100, ...nos);
+for (const m of metaDefs) {
+  const id = `meta-${slug(m.name)}`;
+  if (cards.has(id)) {
+    warn(`Meta card ${m.name} is defined twice; keeping the newer one`);
+    continue;
+  }
+  cards.set(id, { id, no: null, rarity: m.rarity, source: m.source, meta: { name: m.name, text: m.text } });
+}
+
+const list = [...cards.values()].sort(
+  (a, b) => (a.no ?? 1e6) - (b.no ?? 1e6) || (a.meta?.name || "").localeCompare(b.meta?.name || "")
+);
+
+// ---- binders ------------------------------------------------------------------------
+const byName = new Map();
+for (const c of list) {
+  const name = (c.meta ? c.meta.name : c.permanence.name).toLowerCase();
+  if (byName.has(name)) warn(`Two cards are called "${name}"; binders will use #${byName.get(name).no ?? byName.get(name).id}`);
+  else byName.set(name, c);
+}
+
+const binders = [];
+for (const b of binderLines) {
+  // The card list is the last sentence whose comma-separated items are all card names.
+  const sentences = b.rest.split(/\.\s+|\.$/).map((s) => s.trim()).filter(Boolean);
+  let listIdx = -1;
+  for (let k = sentences.length - 1; k >= 0; k--) {
+    const items = sentences[k].split(",").map((s) => s.trim()).filter(Boolean);
+    const known = items.filter((n) => byName.has(n.toLowerCase())).length;
+    if (items.length >= 3 && known >= items.length * 0.8) {
+      listIdx = k;
+      break;
+    }
+  }
+  if (listIdx === -1) {
+    warn(`${b.title}: couldn't find its card list`);
+    continue;
+  }
+  const names = sentences[listIdx].split(",").map((s) => s.trim()).filter(Boolean);
+  const ids = [];
+  for (const n of names) {
+    const card = byName.get(n.toLowerCase());
+    if (!card) warn(`${b.title}: "${n}" isn't a card in the pool`);
+    else if (ids.includes(card.id)) warn(`${b.title}: ${n} is listed twice (one of each card per binder)`);
+    else ids.push(card.id);
+  }
+  const missingForce = ids.map((id) => cards.get(id)).filter((c) => !c.meta && !c.force);
+  if (missingForce.length) {
+    warn(`${b.title}: no force face yet for ${missingForce.map((c) => c.permanence.name).join(", ")}`);
+  }
+  binders.push({
+    id: slug(b.title),
+    name: b.title,
+    note: sentences.slice(0, listIdx).join(". ") + (listIdx ? "." : ""),
+    cards: ids,
+    originals: [],
+  });
+}
+
+// ---- write -----------------------------------------------------------------------------
+const numbered = list.filter((c) => !c.meta);
+const nos = new Set(numbered.map((c) => c.no));
 const missing = [];
-for (let n = 1; n <= max; n++) if (!cards.has(n)) missing.push(n);
+for (let n = 1; n <= 100; n++) if (!nos.has(n)) missing.push(n);
 
-const list = nos.map((n) => cards.get(n));
-const withForce = list.filter((c) => c.force).length;
+const sources = {};
+for (const c of list) sources[c.source] = (sources[c.source] || 0) + 1;
 
+const syncedAt = new Date().toISOString();
 const out = {
   source: relative(root, srcPath),
-  syncedAt: new Date().toISOString(),
+  syncedAt,
   counts: {
     cards: list.length,
-    withForceFace: withForce,
+    meta: list.length - numbered.length,
+    withForceFace: numbered.filter((c) => c.force).length,
     byRarity: Object.fromEntries(["C", "B", "A", "S"].map((r) => [r, list.filter((c) => c.rarity === r).length])),
-    tags: Object.fromEntries(
-      [...ELEMENTS, "any"].map((e) => [e, list.reduce((s, c) => s + c.permanence.tags.filter((t) => t === e).length, 0)])
-    ),
+    fromSection: sources,
   },
   missingNumbers: missing,
   warnings,
   cards: list,
 };
+writeFileSync(cardsOut, JSON.stringify(out, null, 2) + "\n");
 
-writeFileSync(outPath, JSON.stringify(out, null, 2) + "\n");
+if (binders.length) {
+  writeFileSync(
+    bindersOut,
+    JSON.stringify(
+      {
+        about: `Generated from ${relative(root, srcPath)} by scripts/sync-cards.mjs. Edit the binders there, not here.`,
+        syncedAt,
+        binders,
+      },
+      null,
+      2
+    ) + "\n"
+  );
+} else if (existsSync(bindersOut)) {
+  warn("No binders found in the card pool; data/binders.json left as it was.");
+}
 
-console.log(`Read ${relative(root, srcPath)} → ${relative(root, outPath)}`);
-console.log(`  ${list.length} cards (${JSON.stringify(out.counts.byRarity)}), ${withForce} with a force face`);
-console.log(`  tags: ${JSON.stringify(out.counts.tags)}`);
+console.log(`Read ${relative(root, srcPath)}`);
+console.log(`  ${list.length} cards (${out.counts.meta} meta), ${out.counts.withForceFace} with a force face`);
+for (const [s, n] of Object.entries(sources)) console.log(`    ${n} from "${s}"`);
+for (const b of binders) console.log(`  binder ${b.name}: ${b.cards.length} cards`);
 if (missing.length) console.log(`  numbers not in the pool: ${missing.join(", ")}`);
 for (const w of warnings) console.log(`  warning: ${w}`);

@@ -4,15 +4,15 @@ import assert from "node:assert/strict";
 import { apply, initialState, findInst } from "../js/state.js";
 
 const data = JSON.parse(readFileSync(new URL("../data/cards.json", import.meta.url), "utf8"));
-const cardsByNo = new Map(data.cards.map((c) => [c.no, c]));
+const cardsById = new Map(data.cards.map((c) => [c.id, c]));
 
 let s = initialState({ p1: "Cam", p2: "Alex" });
 const run = (action) => {
-  const r = apply(s, action, cardsByNo);
+  const r = apply(s, action, cardsById);
   s = r.state;
   return r.effects;
 };
-const inst = (owner, no, face = "permanence") => ({ iid: `${owner}-${no}`, no, face, owner, original: false });
+const inst = (owner, id, face = "permanence") => ({ iid: `${owner}-${id}`, id: String(id), face, owner, original: false });
 
 run({ seat: "p1", type: "chooseBinder", count: 30 });
 run({ seat: "p2", type: "chooseBinder", count: 30 });
@@ -56,6 +56,13 @@ run({ seat: "p1", type: "move", iid: "p2-12", to: { area: "p1", key: "9,9" } });
 run({ seat: "p3", type: "pass" });
 run({ seat: "p1", type: "nonsense" });
 assert.equal(s, before);
+
+// Meta cards have one face: flipping does nothing.
+run({ seat: "p2", type: "place", inst: inst("p2", "meta-lull", "meta"), to: { area: "p2", key: "0,0" } });
+const metaBefore = s;
+run({ seat: "p2", type: "flip", iid: "p2-meta-lull" });
+assert.equal(s, metaBefore);
+assert.match(s.log.at(-1).text, /Alex played Lull \(meta\)/);
 
 // Counters, rounds, turns.
 run({ seat: "p1", type: "counter", target: "p2", field: "worldPoints", delta: 1 });

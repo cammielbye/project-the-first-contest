@@ -13,15 +13,14 @@ const SYMBOL_PATHS = {
   any: ["M12 2.5 L14.2 9.8 L21.5 12 L14.2 14.2 L12 21.5 L9.8 14.2 L2.5 12 L9.8 9.8 Z"],
 };
 
-export function symbol(el) {
+export function symbol(kind) {
   const svg = document.createElementNS(SVG_NS, "svg");
   svg.setAttribute("viewBox", "0 0 24 24");
-  svg.setAttribute("class", `sym sym-${el}`);
-  svg.setAttribute("aria-label", el);
+  svg.setAttribute("class", `sym sym-${kind}`);
   const title = document.createElementNS(SVG_NS, "title");
-  title.textContent = el === "any" ? "any element" : el;
+  title.textContent = kind === "any" ? "any element" : kind;
   svg.appendChild(title);
-  for (const d of SYMBOL_PATHS[el] || []) {
+  for (const d of SYMBOL_PATHS[kind] || []) {
     const p = document.createElementNS(SVG_NS, "path");
     p.setAttribute("d", d);
     svg.appendChild(p);
@@ -37,12 +36,13 @@ const el = (tag, cls, text) => {
 };
 
 // One face of a card, as a DOM element.
-//   size: "token" (on the table), "full" (binder, preview)
+//   face: "permanence" | "force" | "meta"
+//   size: "token" (on the table) or "full" (binder, preview)
 export function renderFace(card, face, opts = {}) {
   const { size = "full", inst = null } = opts;
-  const isForce = face === "force";
+  if (card.meta) face = "meta";
   const root = el("div", `card ${size} face-${face} r-${card.rarity}`);
-  if (isForce && !card.force) root.classList.add("undrafted");
+  if (face === "force" && !card.force) root.classList.add("undrafted");
   if (inst) {
     root.dataset.iid = inst.iid;
     root.classList.add(`own-${inst.owner}`);
@@ -52,35 +52,48 @@ export function renderFace(card, face, opts = {}) {
   const inner = el("div", "c-inner");
   root.appendChild(inner);
 
-  const name = isForce ? (card.force ? card.force.name : "Force face not drafted") : card.permanence.name;
+  let name;
+  let body = "";
+  if (face === "meta") {
+    name = card.meta.name;
+    body = card.meta.text;
+  } else if (face === "force") {
+    name = card.force ? card.force.name : "Force face not drafted";
+    body = card.force ? card.force.text : "";
+  } else {
+    name = card.permanence.name;
+    body = card.permanence.text;
+  }
   inner.appendChild(el("div", "c-name", name));
 
   if (size === "full") {
-    const kind = isForce ? "Force" : "Permanence";
+    const kind = face === "meta" ? "Meta" : face === "force" ? "Force" : "Permanence";
     inner.appendChild(el("div", "c-kind", inst && inst.original ? `${kind} · original` : kind));
   }
 
-  if (isForce) {
-    if (card.force) inner.appendChild(el("div", "c-dur", card.force.duration));
+  if (face === "force") {
+    if (card.force && card.force.duration) inner.appendChild(el("div", "c-dur", card.force.duration));
+  } else if (face === "permanence") {
+    const affs = el("div", "c-tags");
+    for (const a of card.permanence.affinities || []) affs.appendChild(symbol(a));
+    inner.appendChild(affs);
   } else {
-    const tags = el("div", "c-tags");
-    for (const t of card.permanence.tags) tags.appendChild(symbol(t));
-    inner.appendChild(tags);
+    inner.appendChild(el("div", "c-dur", "Either player"));
   }
 
   if (size === "full") {
-    const text = isForce ? (card.force ? card.force.effect : "") : card.permanence.effect;
-    if (text) inner.appendChild(el("div", "c-text", text));
-    if (!isForce && card.permanence.note) inner.appendChild(el("div", "c-note", card.permanence.note));
+    if (body) inner.appendChild(el("div", "c-text", body));
+    if (face === "permanence" && card.permanence.note) inner.appendChild(el("div", "c-note", card.permanence.note));
   }
 
   const foot = el("div", "c-foot");
-  foot.appendChild(el("span", "c-no", `${card.no}/100`));
+  foot.appendChild(el("span", "c-no", card.no ? `${card.no}/100` : "meta"));
   foot.appendChild(el("span", "c-rar", card.rarity));
   inner.appendChild(foot);
   return root;
 }
 
 export function otherFace(face) {
+  if (face === "meta") return "meta";
   return face === "force" ? "permanence" : "force";
 }

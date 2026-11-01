@@ -5,7 +5,7 @@
 // Each player's binder is NOT in this state: it lives only in that
 // player's own browser, so the other player never receives it.
 //
-// apply(state, action, cardsByNo) returns { state, effects } without
+// apply(state, action, cardsById) returns { state, effects } without
 // touching the input. Effects are things a player's own browser must do to
 // its private binder (a card returned to it, or a reset).
 
@@ -27,7 +27,7 @@ export function initialState(names = {}) {
     passed: false,
   });
   return {
-    v: 1,
+    v: 2,
     seq: 0,
     round: 1,
     turn: null,
@@ -38,12 +38,15 @@ export function initialState(names = {}) {
   };
 }
 
-export function faceName(inst, cardsByNo) {
-  const card = cardsByNo.get(inst.no);
-  if (!card) return `#${inst.no}`;
+export function faceName(inst, cardsById) {
+  const card = cardsById.get(inst.id);
+  if (!card) return `card ${inst.id}`;
+  if (card.meta) return card.meta.name;
   if (inst.face === "force") return card.force ? card.force.name : `${card.permanence.name} (force face)`;
   return card.permanence.name;
 }
+
+const FACES = ["permanence", "force", "meta"];
 
 export function findInst(state, iid) {
   for (const area of SEATS) {
@@ -83,20 +86,20 @@ function validInst(inst) {
   return (
     inst &&
     typeof inst.iid === "string" &&
-    Number.isInteger(inst.no) &&
-    (inst.face === "permanence" || inst.face === "force") &&
+    typeof inst.id === "string" &&
+    FACES.includes(inst.face) &&
     SEATS.includes(inst.owner)
   );
 }
 
-export function apply(prev, action, cardsByNo) {
+export function apply(prev, action, cardsById) {
   const state = structuredClone(prev);
   const effects = [];
   const seat = action && SEATS.includes(action.seat) ? action.seat : null;
   if (!seat) return { state: prev, effects };
 
   const name = (s) => state.players[s].name;
-  const label = (inst) => `${faceName(inst, cardsByNo)} (${inst.face === "force" ? "force" : "permanence"})`;
+  const label = (inst) => `${faceName(inst, cardsById)} (${inst.face})`;
   const log = (text) => {
     state.seq += 1;
     state.log.push({ n: state.seq, seat, text });
@@ -106,7 +109,7 @@ export function apply(prev, action, cardsByNo) {
     const stack = state.table[to.area][to.key];
     const under = stack && stack.length ? stack[stack.length - 1] : null;
     return under
-      ? `on ${faceName(under, cardsByNo)} in ${name(to.area)}'s area`
+      ? `on ${faceName(under, cardsById)} in ${name(to.area)}'s area`
       : `into ${name(to.area)}'s area`;
   };
   const put = (inst, to) => {
@@ -137,7 +140,7 @@ export function apply(prev, action, cardsByNo) {
       if (!validInst(inst) || inst.owner !== seat || !validCell(action.to)) return { state: prev, effects };
       if (findInst(state, inst.iid)) return { state: prev, effects };
       const text = `${name(seat)} played ${label(inst)} ${where(action.to)}.`;
-      put({ iid: inst.iid, no: inst.no, face: inst.face, owner: inst.owner, original: !!inst.original }, action.to);
+      put({ iid: inst.iid, id: inst.id, face: inst.face, owner: inst.owner, original: !!inst.original }, action.to);
       state.players[seat].binderCount = Math.max(0, state.players[seat].binderCount - 1);
       log(text);
       break;
@@ -162,9 +165,10 @@ export function apply(prev, action, cardsByNo) {
     case "flip": {
       const loc = findInst(state, action.iid);
       if (!loc) return { state: prev, effects };
-      const before = faceName(loc.inst, cardsByNo);
+      if (loc.inst.face === "meta") return { state: prev, effects };
+      const before = faceName(loc.inst, cardsById);
       loc.inst.face = loc.inst.face === "force" ? "permanence" : "force";
-      log(`${name(seat)} flipped ${before} to ${faceName(loc.inst, cardsByNo)}.`);
+      log(`${name(seat)} flipped ${before} to ${faceName(loc.inst, cardsById)}.`);
       break;
     }
 

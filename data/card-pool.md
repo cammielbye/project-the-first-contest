@@ -1,23 +1,132 @@
 # Card pool (draft)
 
-## Force faces for the 12 examples (Nov 1, 2026)
+> Terminology (Nov 1, 2026): what the passes below call a "tag" is now an "affinity" (working term). Card texts in the force-face table use the new word; older tables and notes still say "tag."
+
+## Second pass: 50 cards plus 5 meta (Nov 1, 2026)
+
+> Claude's draft at Cam's request, nothing Decided: half the pool (30 commons, 13 uncommons, 5 rares, 2 pinnacles) with both faces, plus five weaker fifth-pillar meta cards, and two playtest binders. Text-first: new force faces have placeholder art. Drawn on the [Card Anatomy canvas](https://claude.ai/artifact/5AWUHQhCvrbEw3YSmxbqac) under "Second pass". Rules followed: rules text under 8 words (CARD-23), effects up and restrictions down with rarity (CARD-24), balanced for the likely best case (CARD-25); worlds up to 2×2, scoring one world point per complete set; forces target either player's cards unless they say otherwise; moves and swaps never change a card's owner; "remove" sends a card to its owner's void; a card that "doesn't count" is treated as if it weren't there.
+
+Affinities across the 50: fire 17, water 17, air 17, earth 18, plus one any. 17 of the 30 commons carry a subtle permanence effect; the six dual-affinity commons cover each pair of elements once.
+
+**Fire commons (8)**
+
+| No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 12 | Cinder Field | C | 1 fire | — | Brushfire | Lasts the round | A one-affinity card doesn't count. |
+| 2 | Flint | C | 1 fire | Counts as fire or earth. | Spark | Lasts the round | A one-affinity card becomes fire. |
+| 3 | Obsidian | C | 1 fire | Forces can't remove this. | Ash Cloud | Lasts the round | The next permanence played doesn't count. |
+| 6 | Scrubland | C | 1 fire | Counts as fire or air. | Controlled Burn | Once | Remove one of your cards. |
+| 7 | Ashfield | C | 1 fire | Counts double in affinity ties. | Smoke | Lasts the round | A world doesn't count in ties. |
+| 9 | Dune | C | 1 fire | — | Shimmer | Lasts the round | A one-affinity card counts as any element. |
+| 10 | Barrens | C | 1 fire | — | Lightning | Once | Remove a lone one-affinity card. |
+| 11 | Steam Vent | C | 1 fire | Counts as fire or water. | Vent | Once | Return your card to your binder. |
+
+**Water commons (4)**
+
+| No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 23 | Spring | C | 1 water | Returns to your binder at round end. | Drizzle | Lasts the round | A one-affinity card also counts as water. |
+| 24 | Marsh | C | 1 water | Counts as water or earth. | Mire | Lasts the round | A world of two can't grow. |
+| 28 | Snowfield | C | 1 water | Play on one-affinity air. It becomes water. | Rain | Lasts the round | A one-affinity card becomes water. |
+| 29 | Tide Pool | C | 1 water | Ignores common forces. | Freeze | Lasts the round | A world's one-affinity cards can't be removed. |
+
+**Air commons (9)**
+
+| No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 41 | Ledge | C | 1 air | — | Gust | Once | A one-affinity card becomes its own world. |
+| 33 | Summit | C | 1 air | Counts double in affinity ties. | Breeze | Lasts the round | A one-affinity card becomes air. |
+| 38 | Pass | C | 1 air | Counts as air or earth. | Drift | Once | Move your card to another world. |
+| 45 | Wind Gap | C | 1 air | — | Crosswind | Once | Swap two one-affinity cards between worlds. |
+| 37 | Peak | C | 1 air | — | Downdraft | Lasts the round | A one-affinity air card becomes earth. |
+| 32 | Sea Stack | C | 1 air | Counts as air or water. | Sea Breeze | Lasts the round | A one-affinity card also counts as air. |
+| 36 | Ridge | C | 1 air | — | Lift | Once | Remove a common sitting on another. |
+| 31 | Spire | C | 1 air | Forces can't move this. | Vortex | Once | Move a one-affinity card between worlds. |
+| 39 | Bluff | C | 1 air | — | Eddy | Once | Swap two cards in one world. |
+
+**Earth commons (9)**
+
+| No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 52 | Hill | C | 1 earth | — | Overgrowth | Lasts the round | One of your worlds ignores common forces. |
+| 47 | Bedrock | C | 1 earth | Forces can't remove this. | Landslide | Lasts the round | A one-affinity card becomes earth. |
+| 48 | Cave | C | 1 earth | Ignores common forces. | Shelter | Lasts the round | A card can't be removed. |
+| 49 | Meadow | C | 1 earth | — | Bloom | Lasts the round | A one-affinity card also counts as earth. |
+| 50 | Grove | C | 1 earth | Returns to your binder at round end. | Lichen | Lasts the round | A one-affinity card counts double in ties. |
+| 59 | Mesa | C | 1 earth | — | Fault Line | Once | Split a world of three or fewer. |
+| 57 | Ravine | C | 1 earth | — | Washout | Once | Return a one-affinity card to its binder. |
+| 46 | Boulder | C | 1 earth | — | Rockfall | Once | Remove a lone one-affinity card. |
+| 54 | Thicket | C | 1 earth | Your touching cards can't be removed. | Tangle | Lasts the round | Cards in a world can't be moved. |
+
+**Uncommons (13)**
+
+| No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 63 | Hot Spring | B | 1 fire, 1 water | — | Steam Burst | Lasts the round | A touching fire-water pair doesn't count. |
+| 62 | Desert | B | 1 fire, 1 air | — | Heatwave | Lasts the round | A card doesn't count. |
+| 65 | Volcano | B | 1 fire, 1 earth | — | Eruption | Once | Remove a one-affinity card. |
+| 78 | Cloud Forest | B | 1 water, 1 air | — | Fog | Lasts the round | A world can't grow. |
+| 69 | Delta | B | 1 water, 1 earth | — | Flood | Once | Return a card to its binder. |
+| 71 | Sea Cliff | B | 1 air, 1 earth | — | Gale | Once | Swap two cards between one player's worlds. |
+| 66 | Glacier | B | 1 water | Play on earth permanence. It becomes water. | Thaw | Once | Remove a card sitting on another. |
+| 79 | Salt Flat | B | 1 fire | Play on one-affinity permanence. It doesn't count. | Drought | Lasts the round | A card becomes fire. |
+| 80 | Mirage | B | 1 air | Copies a touching card's affinities. | Haze | Lasts the round | A card counts as any element. |
+| 84 | Hidden Valley | B | 1 earth | Your other cards ignore common forces. | Rockslide | Lasts the round | A card becomes earth. |
+| 85 | Petrified Forest | B | 1 earth | Stays into the next round. | Uplift | Lasts the round | A world ignores all forces. |
+| 82 | Hanging Valley | B | 1 air | Your air counts double in ties. | Updraft | Lasts the round | A card becomes air. |
+| 81 | Confluence | B | 1 water, 1 any | Also counts as any one element. | Current | Once | Move a card between its owner's worlds. |
+
+**Rares (5)**
+
+| No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 88 | Caldera Lake | A | 1 fire, 1 water, 1 earth | — | Collapse | Once | Remove any card. |
+| 91 | Stone Towers | A | 2 air, 1 earth | — | Erosion | Once | Split a world in two. |
+| 93 | Archipelago | A | 2 water, 1 earth | Win the round with 10 water affinities. | Rising Sea | Lasts the round | One-affinity cards in a world don't count. |
+| 94 | Ice Sheet | A | 1 water | Fire affinities don't count. | Blizzard | Lasts the round | Worlds can't grow. |
+| 95 | Mountain Range | A | 1 air, 1 earth | Score a point per four earth affinities. | Avalanche | Once | Remove two touching one-affinity cards. |
+
+**Pinnacles (2)**
+
+| No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 96 | Core | S | 4 fire | — | Solar Flare | Once | Remove all one-affinity cards. |
+| 98 | Ocean | S | 4 water | — | Deluge | Lasts the round | A world doesn't count. |
+
+**Fifth-pillar meta cards (5).** One face, usable by either player, uncommon, numbers still to be placed.
+
+| Card | Text |
+| --- | --- |
+| Echo | Play a one-affinity card from your void. |
+| Ebb | Remove your opponent's last card. |
+| Horizon | Look through your opponent's binder. |
+| Lull | Your opponent skips their next turn. |
+| Verge | This round's cap drops to 6. |
+
+**Two playtest binders (25 each).**
+
+- **Binder A, Tides.** Water and air, control and turtling, built around Ocean. Ocean, Archipelago, Ice Sheet, Stone Towers, Cloud Forest, Glacier, Confluence, Hanging Valley, Mirage, Delta, Sea Cliff, Echo, Lull, Horizon, Cinder Field, Flint, Steam Vent, Ashfield, Dune, Hill, Cave, Thicket, Ledge, Spire, Spring.
+- **Binder B, Embers.** Fire and earth, removal and pressure, built around Core. Core, Caldera Lake, Mountain Range, Stone Towers, Hot Spring, Desert, Volcano, Salt Flat, Hidden Valley, Petrified Forest, Ebb, Verge, Horizon, Marsh, Snowfield, Tide Pool, Spring, Summit, Pass, Wind Gap, Peak, Bedrock, Meadow, Grove, Barrens.
+- Shared: Horizon, Spring, Stone Towers. In neither binder: Bluff, Boulder, Mesa, Obsidian, Ravine, Ridge, Scrubland, Sea Stack.
+
+## Force faces for the 12 examples (Nov 1, 2026, revised the same day)
 
 > Claude's draft at Cam's request, nothing Decided. Drawn in pairs (permanence beside force) on the "Force faces" board of the [Card Anatomy canvas](https://claude.ai/artifact/5AWUHQhCvrbEw3YSmxbqac). Working rules behind it (Exploring, DUEL-33 and CARD-15): worlds belong to one player; a world is a group of your cards that touch and scores one world point per complete set of the four elements; forces are never part of a world (no tags, no connecting); a force that lasts sits on the card it affects, or beside the world, until the round ends; a force that happens once goes to the void, each player's one place for cards that leave play (DUEL-34).
 
 | No. | Permanence | Force | Rarity | Duration | What the force does |
 | --- | --- | --- | --- | --- | --- |
-| 12 | Cinder Field | Brushfire | C | Lasts the round | Play on a card with one tag in an opponent's world. That card doesn't count this round. |
-| 23 | Spring | Washout | C | Once | Return a card with one tag from an opponent's world to their hand. |
-| 41 | Ledge | Gust | C | Once | Move a card with one tag out of an opponent's world. It stands apart as a world of its own. |
-| 52 | Hill | Overgrowth | C | Lasts the round | Choose one of your worlds. Forces can't touch it this round. |
-| 63 | Hot Spring | Steam Burst | B | Lasts the round | Play across two touching cards in an opponent's world. Neither counts this round. |
-| 71 | Sea Cliff | Gale | B | Once | Move any card in an opponent's worlds to an open spot beside another of their cards. |
-| 78 | Cloud Forest | Fog | B | Lasts the round | Choose one of an opponent's worlds. No cards can join it this round. |
-| 66 | Glacier | Thaw | B | Once | Send a card that sits on another to its owner's void. The card beneath counts again. |
-| 88 | Caldera Lake | Collapse | A | Once | Remove any card from an opponent's world. It goes to their void. |
-| 91 | Stone Towers | Erosion | A | Once | Split one of an opponent's worlds in two, along a straight line between its cards. |
-| 93 | Archipelago | Rising Sea | A | Lasts the round | In one of an opponent's worlds, cards with one tag don't count this round. |
-| 98 | Ocean | Deluge | S | Lasts the round | No card in one of an opponent's worlds counts this round. |
+| 12 | Cinder Field | Brushfire | C | Lasts the round | A one-affinity card doesn't count. |
+| 23 | Spring | Washout | C | Once | Return a one-affinity card to its binder. |
+| 41 | Ledge | Gust | C | Once | A one-affinity card becomes its own world. |
+| 52 | Hill | Overgrowth | C | Lasts the round | One of your worlds ignores common forces. |
+| 63 | Hot Spring | Steam Burst | B | Lasts the round | A touching fire-water pair doesn't count. |
+| 71 | Sea Cliff | Gale | B | Once | Swap two cards between one player's worlds. |
+| 78 | Cloud Forest | Fog | B | Lasts the round | A world can't grow. |
+| 66 | Glacier | Thaw | B | Once | Remove a card sitting on another. |
+| 88 | Caldera Lake | Collapse | A | Once | Remove any card. |
+| 91 | Stone Towers | Erosion | A | Once | Split a world in two. |
+| 93 | Archipelago | Rising Sea | A | Lasts the round | One-affinity cards in a world don't count. |
+| 98 | Ocean | Deluge | S | Lasts the round | A world doesn't count. |
 
 **Choices in this draft:**
 - Commons use one simple verb each (play on a card, return, move, shelter) and reach only cards with one tag, so rarer cards are sturdier.
@@ -25,7 +134,9 @@
 - Single-card hits favor big worlds with spare tags; Erosion, Rising Sea and Deluge favor spreading out.
 - Force faces look different from permanence: a cooler body, a dashed inner border, an italic name, no tags, and a duration line in place of the tags.
 
-**Open:** how Glacier holds a card in an opponent's world when worlds belong to one player; whether common forces should stay limited to one-tag cards.
+**Revised Nov 1** after Cam locked rules text under 8 words (CARD-23), effects up and restrictions down with rarity (CARD-24), and balancing for the likely best case (CARD-25). Cam's notes: Fog kept; Gale now swaps; Steam Burst reworded and restricted to a touching fire-water pair (placing fire and water diagonally in a 2×2 dodges it); Glacier plays only on earth permanence and turns it to water. Worlds are now capped at 2×2, rectangles only. Conventions in these drafts: forces can target either player's cards unless they say otherwise; "remove" sends a card to its owner's void.
+
+**Open:** whether common forces should stay limited to one-tag cards; every other card's text still needs a pass for the 8-word rule.
 
 ## Third pass: permanence faces for the world-points loop (Oct 31, 2026)
 
@@ -51,7 +162,7 @@ Cam's reaction: most are good, but 15 single-element commons per element is too 
 | 63 | Hot Spring | water, fire | |
 | 64 | Badlands | fire, air | |
 | 65 | Volcano | fire, earth | |
-| 66 | Glacier | water | Can be played on any permanence. The card beneath doesn't count while Glacier stands. |
+| 66 | Glacier | water | Play on earth permanence. It becomes water. |
 | 67 | Basalt Columns | fire, earth | |
 | 68 | Cloud Sea | water, air | |
 | 69 | Delta | water, earth | |
@@ -83,7 +194,7 @@ Cam's reaction: most are good, but 15 single-element commons per element is too 
 | 90 | Savanna | fire, fire, earth | |
 | 91 | Stone Towers | air, air, earth | (name still open) |
 | 92 | Dune Sea | fire, fire, air | |
-| 93 | Archipelago | water, water, earth | At the end of a round, if you control 10 water tags, you win the round. |
+| 93 | Archipelago | water, water, earth | Win the round with 10 water affinities. |
 | 94 | Ice Sheet | water, water | Fire tags don't count, for either player, while Ice Sheet stands. |
 | 95 | Mountain Range | earth, air | Every four earth tags you control also count as one world point. |
 
