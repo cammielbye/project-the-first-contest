@@ -1,0 +1,1312 @@
+{
+  "source": "data/card-pool.md",
+  "syncedAt": "2026-11-01T15:55:40.865Z",
+  "counts": {
+    "cards": 99,
+    "withForceFace": 12,
+    "byRarity": {
+      "C": 60,
+      "B": 25,
+      "A": 10,
+      "S": 4
+    },
+    "tags": {
+      "fire": 36,
+      "water": 37,
+      "air": 36,
+      "earth": 37,
+      "any": 1
+    }
+  },
+  "missingNumbers": [
+    100
+  ],
+  "warnings": [],
+  "cards": [
+    {
+      "no": 1,
+      "rarity": "C",
+      "permanence": {
+        "name": "Ember Bed",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 2,
+      "rarity": "C",
+      "permanence": {
+        "name": "Flint",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 3,
+      "rarity": "C",
+      "permanence": {
+        "name": "Obsidian",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 4,
+      "rarity": "C",
+      "permanence": {
+        "name": "Crater",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 5,
+      "rarity": "C",
+      "permanence": {
+        "name": "Geyser",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 6,
+      "rarity": "C",
+      "permanence": {
+        "name": "Scrubland",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 7,
+      "rarity": "C",
+      "permanence": {
+        "name": "Ashfield",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 8,
+      "rarity": "C",
+      "permanence": {
+        "name": "Lava Field",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 9,
+      "rarity": "C",
+      "permanence": {
+        "name": "Dune",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 10,
+      "rarity": "C",
+      "permanence": {
+        "name": "Barrens",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 11,
+      "rarity": "C",
+      "permanence": {
+        "name": "Steam Vent",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 12,
+      "rarity": "C",
+      "permanence": {
+        "name": "Cinder Field",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": {
+        "name": "Brushfire",
+        "duration": "Lasts the round",
+        "effect": "Play on a card with one tag in an opponent's world. That card doesn't count this round."
+      }
+    },
+    {
+      "no": 13,
+      "rarity": "C",
+      "permanence": {
+        "name": "Magma Pool",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 14,
+      "rarity": "C",
+      "permanence": {
+        "name": "Pumice",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 15,
+      "rarity": "C",
+      "permanence": {
+        "name": "Burnt Hollow",
+        "tags": [
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 16,
+      "rarity": "C",
+      "permanence": {
+        "name": "Stream",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 17,
+      "rarity": "C",
+      "permanence": {
+        "name": "Pond",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 18,
+      "rarity": "C",
+      "permanence": {
+        "name": "Brook",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 19,
+      "rarity": "C",
+      "permanence": {
+        "name": "Creek",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 20,
+      "rarity": "C",
+      "permanence": {
+        "name": "Cove",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 21,
+      "rarity": "C",
+      "permanence": {
+        "name": "Lagoon",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 22,
+      "rarity": "C",
+      "permanence": {
+        "name": "Bog",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 23,
+      "rarity": "C",
+      "permanence": {
+        "name": "Spring",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": {
+        "name": "Washout",
+        "duration": "Once",
+        "effect": "Return a card with one tag from an opponent's world to their hand."
+      }
+    },
+    {
+      "no": 24,
+      "rarity": "C",
+      "permanence": {
+        "name": "Marsh",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 25,
+      "rarity": "C",
+      "permanence": {
+        "name": "Swamp",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 26,
+      "rarity": "C",
+      "permanence": {
+        "name": "Waterfall",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 27,
+      "rarity": "C",
+      "permanence": {
+        "name": "Mangrove",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 28,
+      "rarity": "C",
+      "permanence": {
+        "name": "Snowfield",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 29,
+      "rarity": "C",
+      "permanence": {
+        "name": "Tide Pool",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 30,
+      "rarity": "C",
+      "permanence": {
+        "name": "Floodplain",
+        "tags": [
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 31,
+      "rarity": "C",
+      "permanence": {
+        "name": "Spire",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 32,
+      "rarity": "C",
+      "permanence": {
+        "name": "Sea Stack",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 33,
+      "rarity": "C",
+      "permanence": {
+        "name": "Summit",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 34,
+      "rarity": "C",
+      "permanence": {
+        "name": "Cliff",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 35,
+      "rarity": "C",
+      "permanence": {
+        "name": "Plateau",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 36,
+      "rarity": "C",
+      "permanence": {
+        "name": "Ridge",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 37,
+      "rarity": "C",
+      "permanence": {
+        "name": "Peak",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 38,
+      "rarity": "C",
+      "permanence": {
+        "name": "Pass",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 39,
+      "rarity": "C",
+      "permanence": {
+        "name": "Bluff",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 40,
+      "rarity": "C",
+      "permanence": {
+        "name": "Crag",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 41,
+      "rarity": "C",
+      "permanence": {
+        "name": "Ledge",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": {
+        "name": "Gust",
+        "duration": "Once",
+        "effect": "Move a card with one tag out of an opponent's world. It stands apart as a world of its own."
+      }
+    },
+    {
+      "no": 42,
+      "rarity": "C",
+      "permanence": {
+        "name": "Moor",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 43,
+      "rarity": "C",
+      "permanence": {
+        "name": "Steppe",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 44,
+      "rarity": "C",
+      "permanence": {
+        "name": "Overlook",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 45,
+      "rarity": "C",
+      "permanence": {
+        "name": "Wind Gap",
+        "tags": [
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 46,
+      "rarity": "C",
+      "permanence": {
+        "name": "Boulder",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 47,
+      "rarity": "C",
+      "permanence": {
+        "name": "Bedrock",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 48,
+      "rarity": "C",
+      "permanence": {
+        "name": "Cave",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 49,
+      "rarity": "C",
+      "permanence": {
+        "name": "Meadow",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 50,
+      "rarity": "C",
+      "permanence": {
+        "name": "Grove",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 51,
+      "rarity": "C",
+      "permanence": {
+        "name": "Field",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 52,
+      "rarity": "C",
+      "permanence": {
+        "name": "Hill",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": {
+        "name": "Overgrowth",
+        "duration": "Lasts the round",
+        "effect": "Choose one of your worlds. Forces can't touch it this round."
+      }
+    },
+    {
+      "no": 53,
+      "rarity": "C",
+      "permanence": {
+        "name": "Prairie",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 54,
+      "rarity": "C",
+      "permanence": {
+        "name": "Thicket",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 55,
+      "rarity": "C",
+      "permanence": {
+        "name": "Woodland",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 56,
+      "rarity": "C",
+      "permanence": {
+        "name": "Clay Bank",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 57,
+      "rarity": "C",
+      "permanence": {
+        "name": "Ravine",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 58,
+      "rarity": "C",
+      "permanence": {
+        "name": "Gulch",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 59,
+      "rarity": "C",
+      "permanence": {
+        "name": "Mesa",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 60,
+      "rarity": "C",
+      "permanence": {
+        "name": "Plain",
+        "tags": [
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 61,
+      "rarity": "B",
+      "permanence": {
+        "name": "Boiling Lake",
+        "tags": [
+          "fire",
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 62,
+      "rarity": "B",
+      "permanence": {
+        "name": "Desert",
+        "tags": [
+          "fire",
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 63,
+      "rarity": "B",
+      "permanence": {
+        "name": "Hot Spring",
+        "tags": [
+          "water",
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": {
+        "name": "Steam Burst",
+        "duration": "Lasts the round",
+        "effect": "Play across two touching cards in an opponent's world. Neither counts this round."
+      }
+    },
+    {
+      "no": 64,
+      "rarity": "B",
+      "permanence": {
+        "name": "Badlands",
+        "tags": [
+          "fire",
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 65,
+      "rarity": "B",
+      "permanence": {
+        "name": "Volcano",
+        "tags": [
+          "fire",
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 66,
+      "rarity": "B",
+      "permanence": {
+        "name": "Glacier",
+        "tags": [
+          "water"
+        ],
+        "effect": "Can be played on any permanence. The card beneath doesn't count while Glacier stands."
+      },
+      "force": {
+        "name": "Thaw",
+        "duration": "Once",
+        "effect": "Send a card that sits on another to its owner's void. The card beneath counts again."
+      }
+    },
+    {
+      "no": 67,
+      "rarity": "B",
+      "permanence": {
+        "name": "Basalt Columns",
+        "tags": [
+          "fire",
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 68,
+      "rarity": "B",
+      "permanence": {
+        "name": "Cloud Sea",
+        "tags": [
+          "water",
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 69,
+      "rarity": "B",
+      "permanence": {
+        "name": "Delta",
+        "tags": [
+          "water",
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 70,
+      "rarity": "B",
+      "permanence": {
+        "name": "Fjord",
+        "tags": [
+          "water",
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 71,
+      "rarity": "B",
+      "permanence": {
+        "name": "Sea Cliff",
+        "tags": [
+          "earth",
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": {
+        "name": "Gale",
+        "duration": "Once",
+        "effect": "Move any card in an opponent's worlds to an open spot beside another of their cards."
+      }
+    },
+    {
+      "no": 72,
+      "rarity": "B",
+      "permanence": {
+        "name": "Estuary",
+        "tags": [
+          "water",
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 73,
+      "rarity": "B",
+      "permanence": {
+        "name": "Mountain",
+        "tags": [
+          "earth",
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 74,
+      "rarity": "B",
+      "permanence": {
+        "name": "Lava Lake",
+        "tags": [
+          "fire",
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 75,
+      "rarity": "B",
+      "permanence": {
+        "name": "Lake",
+        "tags": [
+          "water",
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 76,
+      "rarity": "B",
+      "permanence": {
+        "name": "Highlands",
+        "tags": [
+          "air",
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 77,
+      "rarity": "B",
+      "permanence": {
+        "name": "Forest",
+        "tags": [
+          "earth",
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 78,
+      "rarity": "B",
+      "permanence": {
+        "name": "Cloud Forest",
+        "tags": [
+          "air",
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": {
+        "name": "Fog",
+        "duration": "Lasts the round",
+        "effect": "Choose one of an opponent's worlds. No cards can join it this round."
+      }
+    },
+    {
+      "no": 79,
+      "rarity": "B",
+      "permanence": {
+        "name": "Salt Flat",
+        "tags": [
+          "fire"
+        ],
+        "effect": "Choose one tag on any permanence. That tag doesn't count while Salt Flat stands."
+      },
+      "force": null
+    },
+    {
+      "no": 80,
+      "rarity": "B",
+      "permanence": {
+        "name": "Mirage",
+        "tags": [
+          "fire"
+        ],
+        "effect": "Also copies the tags of the permanence played just before it."
+      },
+      "force": null
+    },
+    {
+      "no": 81,
+      "rarity": "B",
+      "permanence": {
+        "name": "Confluence",
+        "tags": [
+          "water",
+          "any"
+        ],
+        "effect": "Also counts as one tag of any element, chosen at the end of the round."
+      },
+      "force": null
+    },
+    {
+      "no": 82,
+      "rarity": "B",
+      "permanence": {
+        "name": "Hanging Valley",
+        "tags": [
+          "air"
+        ],
+        "effect": "Your air tags count double for affinity."
+      },
+      "force": null
+    },
+    {
+      "no": 83,
+      "rarity": "B",
+      "permanence": {
+        "name": "Echo Canyon",
+        "tags": [
+          "air"
+        ],
+        "effect": "Also copies the tags of the next permanence played after it."
+      },
+      "force": null
+    },
+    {
+      "no": 84,
+      "rarity": "B",
+      "permanence": {
+        "name": "Hidden Valley",
+        "tags": [
+          "earth"
+        ],
+        "effect": "Nothing can be played on your other permanence, and their tags can't be negated."
+      },
+      "force": null
+    },
+    {
+      "no": 85,
+      "rarity": "B",
+      "permanence": {
+        "name": "Petrified Forest",
+        "tags": [
+          "earth"
+        ],
+        "effect": "Stays on the table into the next round, like an original."
+      },
+      "force": null
+    },
+    {
+      "no": 86,
+      "rarity": "A",
+      "permanence": {
+        "name": "Geyser Basin",
+        "tags": [
+          "fire",
+          "water",
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 87,
+      "rarity": "A",
+      "permanence": {
+        "name": "Ashen Range",
+        "tags": [
+          "fire",
+          "air",
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 88,
+      "rarity": "A",
+      "permanence": {
+        "name": "Caldera Lake",
+        "tags": [
+          "fire",
+          "earth",
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": {
+        "name": "Collapse",
+        "duration": "Once",
+        "effect": "Remove any card from an opponent's world. It goes to their void."
+      }
+    },
+    {
+      "no": 89,
+      "rarity": "A",
+      "permanence": {
+        "name": "Rainforest",
+        "tags": [
+          "water",
+          "air",
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 90,
+      "rarity": "A",
+      "permanence": {
+        "name": "Savanna",
+        "tags": [
+          "fire",
+          "fire",
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 91,
+      "rarity": "A",
+      "permanence": {
+        "name": "Stone Towers",
+        "tags": [
+          "air",
+          "air",
+          "earth"
+        ],
+        "effect": "",
+        "note": "name still open"
+      },
+      "force": {
+        "name": "Erosion",
+        "duration": "Once",
+        "effect": "Split one of an opponent's worlds in two, along a straight line between its cards."
+      }
+    },
+    {
+      "no": 92,
+      "rarity": "A",
+      "permanence": {
+        "name": "Dune Sea",
+        "tags": [
+          "fire",
+          "fire",
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 93,
+      "rarity": "A",
+      "permanence": {
+        "name": "Archipelago",
+        "tags": [
+          "water",
+          "water",
+          "earth"
+        ],
+        "effect": "At the end of a round, if you control 10 water tags, you win the round."
+      },
+      "force": {
+        "name": "Rising Sea",
+        "duration": "Lasts the round",
+        "effect": "In one of an opponent's worlds, cards with one tag don't count this round."
+      }
+    },
+    {
+      "no": 94,
+      "rarity": "A",
+      "permanence": {
+        "name": "Ice Sheet",
+        "tags": [
+          "water",
+          "water"
+        ],
+        "effect": "Fire tags don't count, for either player, while Ice Sheet stands."
+      },
+      "force": null
+    },
+    {
+      "no": 95,
+      "rarity": "A",
+      "permanence": {
+        "name": "Mountain Range",
+        "tags": [
+          "earth",
+          "air"
+        ],
+        "effect": "Every four earth tags you control also count as one world point."
+      },
+      "force": null
+    },
+    {
+      "no": 96,
+      "rarity": "S",
+      "permanence": {
+        "name": "Core",
+        "tags": [
+          "fire",
+          "fire",
+          "fire",
+          "fire"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 97,
+      "rarity": "S",
+      "permanence": {
+        "name": "Pangaea",
+        "tags": [
+          "earth",
+          "earth",
+          "earth",
+          "earth"
+        ],
+        "effect": ""
+      },
+      "force": null
+    },
+    {
+      "no": 98,
+      "rarity": "S",
+      "permanence": {
+        "name": "Ocean",
+        "tags": [
+          "water",
+          "water",
+          "water",
+          "water"
+        ],
+        "effect": ""
+      },
+      "force": {
+        "name": "Deluge",
+        "duration": "Lasts the round",
+        "effect": "No card in one of an opponent's worlds counts this round."
+      }
+    },
+    {
+      "no": 99,
+      "rarity": "S",
+      "permanence": {
+        "name": "Trade Winds",
+        "tags": [
+          "air",
+          "air",
+          "air",
+          "air"
+        ],
+        "effect": ""
+      },
+      "force": null
+    }
+  ]
+}

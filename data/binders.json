@@ -1,0 +1,23 @@
+{
+  "about": "Ready-made test binders. List cards by number; one of each card per binder (DUEL-14). Put a card's number in \"originals\" to mark that copy as an original. These two are placeholders: both hold all 12 cards with drafted force faces plus 18 others, 30 cards each.",
+  "binders": [
+    {
+      "id": "test-a",
+      "name": "Test binder A",
+      "note": "Placeholder. The 12 cards with force faces, plus 16 commons and 2 uncommons.",
+      "cards": [12, 23, 41, 52, 63, 66, 71, 78, 88, 91, 93, 98,
+                1, 3, 5, 8, 16, 18, 21, 25, 31, 33, 36, 44, 46, 49, 53, 57,
+                61, 73],
+      "originals": []
+    },
+    {
+      "id": "test-b",
+      "name": "Test binder B",
+      "note": "Placeholder. The 12 cards with force faces, plus 16 different commons and 2 different uncommons.",
+      "cards": [12, 23, 41, 52, 63, 66, 71, 78, 88, 91, 93, 98,
+                2, 4, 6, 10, 17, 20, 22, 27, 32, 34, 38, 42, 47, 51, 55, 59,
+                62, 69],
+      "originals": []
+    }
+  ]
+}
