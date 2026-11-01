@@ -21,7 +21,7 @@
      one, so light colours (air, earth) still read on the card's paper. */
   --fire: #e2703e;   --fire-line: #9a3816;
   --water: #4f8fd8;  --water-line: #1d4c86;
-  --air: #f3d35a;    --air-line: #9c7b0c;
+  --air: #ffffff;    --air-line: #6f6e73;
   --earth: #d6b88c;  --earth-line: #7a5832;
   --any: #c3acdf;    --any-line: #634a8c;
 
