@@ -2,13 +2,10 @@
 //
 // Usage: node scripts/sync-cards.mjs [path/to/card-pool.md]
 //
-// Only the part of the file above the first "---" line is read; the older
-// passes below it are kept for reference and ignored.
-//
-// Newest first: the card pool puts its newest pass at the top, so when a
-// card is defined more than once, the definition nearer the top wins and the
-// older ones only fill gaps (cards a newer pass doesn't cover). Name clashes
-// between passes are reported.
+// Only the most recent pass is used. The card pool puts its newest pass at
+// the top, so the script reads the first "## " section that defines cards and
+// stops at the next "## " heading. Older passes (and anything below a "---"
+// line) are ignored entirely, so the table always matches the latest draft.
 //
 // Tables are recognised by their header row, so titles and prose can change:
 //   | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
@@ -16,7 +13,7 @@
 //   | Element | Numbers | Cards |                                         (one-affinity commons)
 //   | No. | Card | Tags (or Affinities) | Effect |                         (permanence only)
 //   | Card | Text |   after a "**Fifth-pillar meta…**" line                 (meta cards)
-// plus the "**Pinnacles, numbers…**" paragraph ("Core (96, fire, …)") and
+// plus a "**Pinnacles, numbers…**" paragraph ("Core (96, fire, …)") and
 // binder bullets: "- **Binder A, Tides.** Description. Card, Card, Card."
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
@@ -94,6 +91,8 @@ for (let i = 0; i < lines.length; i++) {
 
   const h2 = line.match(/^##\s+(.*)$/);
   if (h2) {
+    // The newest pass ends where the next section begins.
+    if (permDefs.length || metaDefs.length) break;
     section = h2[1].trim();
     context = null;
     continue;
@@ -264,16 +263,14 @@ for (let i = 0; i < lines.length; i++) {
   }
 }
 
-// ---- merge, newest definition first ------------------------------------------------
+// ---- assemble ----------------------------------------------------------------------
 const cards = new Map(); // id -> card
 
 for (const d of permDefs) {
   const id = String(d.no);
   const existing = cards.get(id);
   if (existing) {
-    if (existing.permanence.name !== d.name) {
-      warn(`#${d.no}: "${existing.permanence.name}" (${existing.source}) over older "${d.name}" (${d.source})`);
-    }
+    warn(`#${d.no} is listed twice ("${existing.permanence.name}" and "${d.name}"); keeping the first`);
     continue;
   }
   const perm = { name: d.name, affinities: d.affinities, text: d.text };
@@ -288,15 +285,13 @@ for (const f of forceDefs) {
     continue;
   }
   if (card.force) {
-    if (card.force.name !== f.name) {
-      warn(`${card.permanence.name} (#${f.no}): force ${card.force.name} (${card.force.source}) over older ${f.name} (${f.source})`);
-    }
+    warn(`${card.permanence.name} (#${f.no}) has two force faces (${card.force.name}, ${f.name}); keeping the first`);
     continue;
   }
   if (f.permName && f.permName !== card.permanence.name) {
     warn(`Force ${f.name} (#${f.no}) is listed with "${f.permName}", but #${f.no} is "${card.permanence.name}"`);
   }
-  card.force = { name: f.name, duration: f.duration, text: f.text, source: f.source };
+  card.force = { name: f.name, duration: f.duration, text: f.text };
 }
 
 for (const m of metaDefs) {
@@ -401,9 +396,8 @@ if (binders.length) {
   warn("No binders found in the card pool; data/binders.json left as it was.");
 }
 
-console.log(`Read ${relative(root, srcPath)}`);
+console.log(`Read ${relative(root, srcPath)}, newest pass only: "${section}"`);
 console.log(`  ${list.length} cards (${out.counts.meta} meta), ${out.counts.withForceFace} with a force face`);
-for (const [s, n] of Object.entries(sources)) console.log(`    ${n} from "${s}"`);
 for (const b of binders) console.log(`  binder ${b.name}: ${b.cards.length} cards`);
-if (missing.length) console.log(`  numbers not in the pool: ${missing.join(", ")}`);
+if (missing.length) console.log(`  ${missing.length} card numbers not in this pass`);
 for (const w of warnings) console.log(`  warning: ${w}`);

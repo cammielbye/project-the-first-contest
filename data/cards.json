@@ -1,42 +1,74 @@
 {
   "source": "data/card-pool.md",
-  "syncedAt": "2026-11-01T16:13:23.502Z",
+  "syncedAt": "2026-11-01T16:23:08.442Z",
   "counts": {
-    "cards": 104,
+    "cards": 55,
     "meta": 5,
     "withForceFace": 50,
     "byRarity": {
-      "C": 60,
-      "B": 30,
-      "A": 10,
-      "S": 4
+      "C": 30,
+      "B": 18,
+      "A": 5,
+      "S": 2
     },
     "fromSection": {
-      "Third pass: permanence faces for the world-points loop (Oct 31, 2026)": 49,
       "Second pass: 50 cards plus 5 meta (Nov 1, 2026)": 55
     }
   },
   "missingNumbers": [
+    1,
+    4,
+    5,
+    8,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    25,
+    26,
+    27,
+    30,
+    34,
+    35,
+    40,
+    42,
+    43,
+    44,
+    51,
+    53,
+    55,
+    56,
+    58,
+    60,
+    61,
+    64,
+    67,
+    68,
+    70,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    83,
+    86,
+    87,
+    89,
+    90,
+    92,
+    97,
+    99,
     100
   ],
-  "warnings": [
-    "Spring (#23): force Drizzle (Second pass: 50 cards plus 5 meta (Nov 1, 2026)) over older Washout (Force faces for the 12 examples (Nov 1, 2026, revised the same day))"
-  ],
+  "warnings": [],
   "cards": [
-    {
-      "id": "1",
-      "no": 1,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Ember Bed",
-        "affinities": [
-          "fire"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
     {
       "id": "2",
       "no": 2,
@@ -52,8 +84,7 @@
       "force": {
         "name": "Spark",
         "duration": "Lasts the round",
-        "text": "A one-affinity card becomes fire.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A one-affinity card becomes fire."
       }
     },
     {
@@ -71,37 +102,8 @@
       "force": {
         "name": "Ash Cloud",
         "duration": "Lasts the round",
-        "text": "The next permanence played doesn't count.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "The next permanence played doesn't count."
       }
-    },
-    {
-      "id": "4",
-      "no": 4,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Crater",
-        "affinities": [
-          "fire"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "5",
-      "no": 5,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Geyser",
-        "affinities": [
-          "fire"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "6",
@@ -118,8 +120,7 @@
       "force": {
         "name": "Controlled Burn",
         "duration": "Once",
-        "text": "Remove one of your cards.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Remove one of your cards."
       }
     },
     {
@@ -137,23 +138,8 @@
       "force": {
         "name": "Smoke",
         "duration": "Lasts the round",
-        "text": "A world doesn't count in ties.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A world doesn't count in ties."
       }
-    },
-    {
-      "id": "8",
-      "no": 8,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Lava Field",
-        "affinities": [
-          "fire"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "9",
@@ -170,8 +156,7 @@
       "force": {
         "name": "Shimmer",
         "duration": "Lasts the round",
-        "text": "A one-affinity card counts as any element.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A one-affinity card counts as any element."
       }
     },
     {
@@ -189,8 +174,7 @@
       "force": {
         "name": "Lightning",
         "duration": "Once",
-        "text": "Remove a lone one-affinity card.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Remove a lone one-affinity card."
       }
     },
     {
@@ -208,8 +192,7 @@
       "force": {
         "name": "Vent",
         "duration": "Once",
-        "text": "Return your card to your binder.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Return your card to your binder."
       }
     },
     {
@@ -227,149 +210,8 @@
       "force": {
         "name": "Brushfire",
         "duration": "Lasts the round",
-        "text": "A one-affinity card doesn't count.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A one-affinity card doesn't count."
       }
-    },
-    {
-      "id": "13",
-      "no": 13,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Magma Pool",
-        "affinities": [
-          "fire"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "14",
-      "no": 14,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Pumice",
-        "affinities": [
-          "fire"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "15",
-      "no": 15,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Burnt Hollow",
-        "affinities": [
-          "fire"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "16",
-      "no": 16,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Stream",
-        "affinities": [
-          "water"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "17",
-      "no": 17,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Pond",
-        "affinities": [
-          "water"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "18",
-      "no": 18,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Brook",
-        "affinities": [
-          "water"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "19",
-      "no": 19,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Creek",
-        "affinities": [
-          "water"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "20",
-      "no": 20,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Cove",
-        "affinities": [
-          "water"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "21",
-      "no": 21,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Lagoon",
-        "affinities": [
-          "water"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "22",
-      "no": 22,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Bog",
-        "affinities": [
-          "water"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "23",
@@ -386,8 +228,7 @@
       "force": {
         "name": "Drizzle",
         "duration": "Lasts the round",
-        "text": "A one-affinity card also counts as water.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A one-affinity card also counts as water."
       }
     },
     {
@@ -405,51 +246,8 @@
       "force": {
         "name": "Mire",
         "duration": "Lasts the round",
-        "text": "A world of two can't grow.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A world of two can't grow."
       }
-    },
-    {
-      "id": "25",
-      "no": 25,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Swamp",
-        "affinities": [
-          "water"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "26",
-      "no": 26,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Waterfall",
-        "affinities": [
-          "water"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "27",
-      "no": 27,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Mangrove",
-        "affinities": [
-          "water"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "28",
@@ -466,8 +264,7 @@
       "force": {
         "name": "Rain",
         "duration": "Lasts the round",
-        "text": "A one-affinity card becomes water.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A one-affinity card becomes water."
       }
     },
     {
@@ -485,23 +282,8 @@
       "force": {
         "name": "Freeze",
         "duration": "Lasts the round",
-        "text": "A world's one-affinity cards can't be removed.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A world's one-affinity cards can't be removed."
       }
-    },
-    {
-      "id": "30",
-      "no": 30,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Floodplain",
-        "affinities": [
-          "water"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "31",
@@ -518,8 +300,7 @@
       "force": {
         "name": "Vortex",
         "duration": "Once",
-        "text": "Move a one-affinity card between worlds.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Move a one-affinity card between worlds."
       }
     },
     {
@@ -537,8 +318,7 @@
       "force": {
         "name": "Sea Breeze",
         "duration": "Lasts the round",
-        "text": "A one-affinity card also counts as air.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A one-affinity card also counts as air."
       }
     },
     {
@@ -556,37 +336,8 @@
       "force": {
         "name": "Breeze",
         "duration": "Lasts the round",
-        "text": "A one-affinity card becomes air.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A one-affinity card becomes air."
       }
-    },
-    {
-      "id": "34",
-      "no": 34,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Cliff",
-        "affinities": [
-          "air"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "35",
-      "no": 35,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Plateau",
-        "affinities": [
-          "air"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "36",
@@ -603,8 +354,7 @@
       "force": {
         "name": "Lift",
         "duration": "Once",
-        "text": "Remove a common sitting on another.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Remove a common sitting on another."
       }
     },
     {
@@ -622,8 +372,7 @@
       "force": {
         "name": "Downdraft",
         "duration": "Lasts the round",
-        "text": "A one-affinity air card becomes earth.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A one-affinity air card becomes earth."
       }
     },
     {
@@ -641,8 +390,7 @@
       "force": {
         "name": "Drift",
         "duration": "Once",
-        "text": "Move your card to another world.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Move your card to another world."
       }
     },
     {
@@ -660,23 +408,8 @@
       "force": {
         "name": "Eddy",
         "duration": "Once",
-        "text": "Swap two cards in one world.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Swap two cards in one world."
       }
-    },
-    {
-      "id": "40",
-      "no": 40,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Crag",
-        "affinities": [
-          "air"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "41",
@@ -693,51 +426,8 @@
       "force": {
         "name": "Gust",
         "duration": "Once",
-        "text": "A one-affinity card becomes its own world.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A one-affinity card becomes its own world."
       }
-    },
-    {
-      "id": "42",
-      "no": 42,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Moor",
-        "affinities": [
-          "air"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "43",
-      "no": 43,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Steppe",
-        "affinities": [
-          "air"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "44",
-      "no": 44,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Overlook",
-        "affinities": [
-          "air"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "45",
@@ -754,8 +444,7 @@
       "force": {
         "name": "Crosswind",
         "duration": "Once",
-        "text": "Swap two one-affinity cards between worlds.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Swap two one-affinity cards between worlds."
       }
     },
     {
@@ -773,8 +462,7 @@
       "force": {
         "name": "Rockfall",
         "duration": "Once",
-        "text": "Remove a lone one-affinity card.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Remove a lone one-affinity card."
       }
     },
     {
@@ -792,8 +480,7 @@
       "force": {
         "name": "Landslide",
         "duration": "Lasts the round",
-        "text": "A one-affinity card becomes earth.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A one-affinity card becomes earth."
       }
     },
     {
@@ -811,8 +498,7 @@
       "force": {
         "name": "Shelter",
         "duration": "Lasts the round",
-        "text": "A card can't be removed.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A card can't be removed."
       }
     },
     {
@@ -830,8 +516,7 @@
       "force": {
         "name": "Bloom",
         "duration": "Lasts the round",
-        "text": "A one-affinity card also counts as earth.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A one-affinity card also counts as earth."
       }
     },
     {
@@ -849,23 +534,8 @@
       "force": {
         "name": "Lichen",
         "duration": "Lasts the round",
-        "text": "A one-affinity card counts double in ties.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A one-affinity card counts double in ties."
       }
-    },
-    {
-      "id": "51",
-      "no": 51,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Field",
-        "affinities": [
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "52",
@@ -882,23 +552,8 @@
       "force": {
         "name": "Overgrowth",
         "duration": "Lasts the round",
-        "text": "One of your worlds ignores common forces.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "One of your worlds ignores common forces."
       }
-    },
-    {
-      "id": "53",
-      "no": 53,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Prairie",
-        "affinities": [
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "54",
@@ -915,37 +570,8 @@
       "force": {
         "name": "Tangle",
         "duration": "Lasts the round",
-        "text": "Cards in a world can't be moved.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Cards in a world can't be moved."
       }
-    },
-    {
-      "id": "55",
-      "no": 55,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Woodland",
-        "affinities": [
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "56",
-      "no": 56,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Clay Bank",
-        "affinities": [
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "57",
@@ -962,23 +588,8 @@
       "force": {
         "name": "Washout",
         "duration": "Once",
-        "text": "Return a one-affinity card to its binder.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Return a one-affinity card to its binder."
       }
-    },
-    {
-      "id": "58",
-      "no": 58,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Gulch",
-        "affinities": [
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "59",
@@ -995,38 +606,8 @@
       "force": {
         "name": "Fault Line",
         "duration": "Once",
-        "text": "Split a world of three or fewer.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Split a world of three or fewer."
       }
-    },
-    {
-      "id": "60",
-      "no": 60,
-      "rarity": "C",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Plain",
-        "affinities": [
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "61",
-      "no": 61,
-      "rarity": "B",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Boiling Lake",
-        "affinities": [
-          "fire",
-          "water"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "62",
@@ -1044,8 +625,7 @@
       "force": {
         "name": "Heatwave",
         "duration": "Lasts the round",
-        "text": "A card doesn't count.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A card doesn't count."
       }
     },
     {
@@ -1064,24 +644,8 @@
       "force": {
         "name": "Steam Burst",
         "duration": "Lasts the round",
-        "text": "A touching fire-water pair doesn't count.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A touching fire-water pair doesn't count."
       }
-    },
-    {
-      "id": "64",
-      "no": 64,
-      "rarity": "B",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Badlands",
-        "affinities": [
-          "fire",
-          "air"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "65",
@@ -1099,8 +663,7 @@
       "force": {
         "name": "Eruption",
         "duration": "Once",
-        "text": "Remove a one-affinity card.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Remove a one-affinity card."
       }
     },
     {
@@ -1118,39 +681,8 @@
       "force": {
         "name": "Thaw",
         "duration": "Once",
-        "text": "Remove a card sitting on another.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Remove a card sitting on another."
       }
-    },
-    {
-      "id": "67",
-      "no": 67,
-      "rarity": "B",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Basalt Columns",
-        "affinities": [
-          "fire",
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "68",
-      "no": 68,
-      "rarity": "B",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Cloud Sea",
-        "affinities": [
-          "water",
-          "air"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "69",
@@ -1168,24 +700,8 @@
       "force": {
         "name": "Flood",
         "duration": "Once",
-        "text": "Return a card to its binder.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Return a card to its binder."
       }
-    },
-    {
-      "id": "70",
-      "no": 70,
-      "rarity": "B",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Fjord",
-        "affinities": [
-          "water",
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "71",
@@ -1203,99 +719,8 @@
       "force": {
         "name": "Gale",
         "duration": "Once",
-        "text": "Swap two cards between one player's worlds.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Swap two cards between one player's worlds."
       }
-    },
-    {
-      "id": "72",
-      "no": 72,
-      "rarity": "B",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Estuary",
-        "affinities": [
-          "water",
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "73",
-      "no": 73,
-      "rarity": "B",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Mountain",
-        "affinities": [
-          "earth",
-          "air"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "74",
-      "no": 74,
-      "rarity": "B",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Lava Lake",
-        "affinities": [
-          "fire",
-          "fire"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "75",
-      "no": 75,
-      "rarity": "B",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Lake",
-        "affinities": [
-          "water",
-          "water"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "76",
-      "no": 76,
-      "rarity": "B",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Highlands",
-        "affinities": [
-          "air",
-          "air"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "77",
-      "no": 77,
-      "rarity": "B",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Forest",
-        "affinities": [
-          "earth",
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "78",
@@ -1313,8 +738,7 @@
       "force": {
         "name": "Fog",
         "duration": "Lasts the round",
-        "text": "A world can't grow.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A world can't grow."
       }
     },
     {
@@ -1332,8 +756,7 @@
       "force": {
         "name": "Drought",
         "duration": "Lasts the round",
-        "text": "A card becomes fire.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A card becomes fire."
       }
     },
     {
@@ -1351,8 +774,7 @@
       "force": {
         "name": "Haze",
         "duration": "Lasts the round",
-        "text": "A card counts as any element.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A card counts as any element."
       }
     },
     {
@@ -1371,8 +793,7 @@
       "force": {
         "name": "Current",
         "duration": "Once",
-        "text": "Move a card between its owner's worlds.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Move a card between its owner's worlds."
       }
     },
     {
@@ -1390,23 +811,8 @@
       "force": {
         "name": "Updraft",
         "duration": "Lasts the round",
-        "text": "A card becomes air.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A card becomes air."
       }
-    },
-    {
-      "id": "83",
-      "no": 83,
-      "rarity": "B",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Echo Canyon",
-        "affinities": [
-          "air"
-        ],
-        "text": "Also copies the tags of the next permanence played after it."
-      },
-      "force": null
     },
     {
       "id": "84",
@@ -1423,8 +829,7 @@
       "force": {
         "name": "Rockslide",
         "duration": "Lasts the round",
-        "text": "A card becomes earth.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A card becomes earth."
       }
     },
     {
@@ -1442,41 +847,8 @@
       "force": {
         "name": "Uplift",
         "duration": "Lasts the round",
-        "text": "A world ignores all forces.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A world ignores all forces."
       }
-    },
-    {
-      "id": "86",
-      "no": 86,
-      "rarity": "A",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Geyser Basin",
-        "affinities": [
-          "fire",
-          "water",
-          "air"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "87",
-      "no": 87,
-      "rarity": "A",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Ashen Range",
-        "affinities": [
-          "fire",
-          "air",
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "88",
@@ -1495,41 +867,8 @@
       "force": {
         "name": "Collapse",
         "duration": "Once",
-        "text": "Remove any card.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Remove any card."
       }
-    },
-    {
-      "id": "89",
-      "no": 89,
-      "rarity": "A",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Rainforest",
-        "affinities": [
-          "water",
-          "air",
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
-    },
-    {
-      "id": "90",
-      "no": 90,
-      "rarity": "A",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Savanna",
-        "affinities": [
-          "fire",
-          "fire",
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "91",
@@ -1548,25 +887,8 @@
       "force": {
         "name": "Erosion",
         "duration": "Once",
-        "text": "Split a world in two.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Split a world in two."
       }
-    },
-    {
-      "id": "92",
-      "no": 92,
-      "rarity": "A",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Dune Sea",
-        "affinities": [
-          "fire",
-          "fire",
-          "air"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "93",
@@ -1585,8 +907,7 @@
       "force": {
         "name": "Rising Sea",
         "duration": "Lasts the round",
-        "text": "One-affinity cards in a world don't count.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "One-affinity cards in a world don't count."
       }
     },
     {
@@ -1604,8 +925,7 @@
       "force": {
         "name": "Blizzard",
         "duration": "Lasts the round",
-        "text": "Worlds can't grow.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Worlds can't grow."
       }
     },
     {
@@ -1624,8 +944,7 @@
       "force": {
         "name": "Avalanche",
         "duration": "Once",
-        "text": "Remove two touching one-affinity cards.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Remove two touching one-affinity cards."
       }
     },
     {
@@ -1646,26 +965,8 @@
       "force": {
         "name": "Solar Flare",
         "duration": "Once",
-        "text": "Remove all one-affinity cards.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "Remove all one-affinity cards."
       }
-    },
-    {
-      "id": "97",
-      "no": 97,
-      "rarity": "S",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Pangaea",
-        "affinities": [
-          "earth",
-          "earth",
-          "earth",
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "98",
@@ -1685,26 +986,8 @@
       "force": {
         "name": "Deluge",
         "duration": "Lasts the round",
-        "text": "A world doesn't count.",
-        "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)"
+        "text": "A world doesn't count."
       }
-    },
-    {
-      "id": "99",
-      "no": 99,
-      "rarity": "S",
-      "source": "Third pass: permanence faces for the world-points loop (Oct 31, 2026)",
-      "permanence": {
-        "name": "Trade Winds",
-        "affinities": [
-          "air",
-          "air",
-          "air",
-          "air"
-        ],
-        "text": ""
-      },
-      "force": null
     },
     {
       "id": "meta-ebb",

@@ -44,12 +44,9 @@ node scripts/sync-cards.mjs   # card-pool.md -> data/cards.json + data/binders.j
 
 How it reads the file:
 
-- Only the part above the first `---` line counts; older passes below it are
-  ignored.
-- **Newest first.** The card pool puts its newest pass at the top, so when a
-  card is defined more than once, the definition nearer the top wins and older
-  passes only fill in cards the newer ones don't cover. Clashes (a card's name
-  or force changing between passes) are listed as warnings.
+- **Only the most recent pass is used.** The card pool puts its newest pass at
+  the top, so the script reads the first `## ` section that defines cards and
+  stops at the next `## ` heading. Every older pass is ignored.
 - Tables are recognised by their header rows: full two-faced cards (`No. |
   Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force
   text`), force-only tables, the one-affinity commons table (`Element | Numbers
