@@ -96,7 +96,25 @@ original, add its id (the card number, or `meta-<name>`) to that binder's
 | `vendor/peerjs.min.js` | PeerJS 1.5.5. |
 | `data/` | Card pool, generated card data and binders, card faces from the canvas. |
 | `scripts/` | Card sync and state tests (`node scripts/test-state.mjs`). |
+| `sim/` | The contest simulator: two AI players play the test binders against each other (see below). |
 
 To run it locally: `python3 -m http.server 8080`, then open
 <http://localhost:8080>. Adding `?peerhost=127.0.0.1&peerport=9000` points the
 page at a local PeerJS broker for testing.
+
+## Simulating contests
+
+`sim/` has two AI players play the first two test binders against each other
+with the same card data, so it can be rerun after every card-pool sync:
+
+```sh
+node sim/sim.js 200                    # 200 contests, prints the trends
+node sim/sim.js 200 --style noforces   # a control run with no force faces
+node sim/show.js sim/out/main-200-1.json 0   # read one contest move by move
+```
+
+It prints contest and round win rates, how rounds were decided (world points,
+the affinity tie-break, a card's own win condition), cards per round, what took
+cards off the table, and the least-played cards; the full stats, card by card,
+are in `sim/out/`. See `sim/README.md` for the AI styles and the readings it
+uses where the rules are still open.
