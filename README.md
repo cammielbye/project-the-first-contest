@@ -61,6 +61,10 @@ How it reads the file:
   | Cards`), permanence-only tables (`No. | Card | Tags | Effect`), meta cards
   (`Card | Text` after a "Fifth-pillar meta…" line) and the pinnacles
   paragraph.
+- Affinities read like `1 fire, 1 water`, `2 air, 1 earth`, `water, any`, or
+  `1 either-or (fire or earth)`. An either-or affinity is stored as
+  `fire|earth` and drawn as one capsule holding both symbols, divided by a
+  slash; every other affinity is drawn in a white ring.
 - Binders come from bullets like `- **Binder A, Tides.** Description. Ocean,
   Archipelago, …` and are matched to cards by name.
 

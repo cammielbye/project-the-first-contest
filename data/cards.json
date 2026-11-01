@@ -1,7 +1,7 @@
 {
   "source": "data/card-pool.md",
   "pass": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)",
-  "syncedAt": "2026-11-01T16:45:53.946Z",
+  "syncedAt": "2026-11-01T20:10:54.822Z",
   "counts": {
     "cards": 55,
     "meta": 5,
@@ -78,9 +78,9 @@
       "permanence": {
         "name": "Flint",
         "affinities": [
-          "fire"
+          "fire|earth"
         ],
-        "text": "Counts as fire or earth."
+        "text": ""
       },
       "force": {
         "name": "Spark",
@@ -103,7 +103,7 @@
       "force": {
         "name": "Ash Cloud",
         "duration": "Lasts the round",
-        "text": "The next permanence played doesn't count."
+        "text": "A one-affinity air card doesn't count."
       }
     },
     {
@@ -114,9 +114,9 @@
       "permanence": {
         "name": "Scrubland",
         "affinities": [
-          "fire"
+          "fire|air"
         ],
-        "text": "Counts as fire or air."
+        "text": ""
       },
       "force": {
         "name": "Controlled Burn",
@@ -186,9 +186,9 @@
       "permanence": {
         "name": "Steam Vent",
         "affinities": [
-          "fire"
+          "fire|water"
         ],
-        "text": "Counts as fire or water."
+        "text": ""
       },
       "force": {
         "name": "Vent",
@@ -240,9 +240,9 @@
       "permanence": {
         "name": "Marsh",
         "affinities": [
-          "water"
+          "water|earth"
         ],
-        "text": "Counts as water or earth."
+        "text": ""
       },
       "force": {
         "name": "Mire",
@@ -312,9 +312,9 @@
       "permanence": {
         "name": "Sea Stack",
         "affinities": [
-          "air"
+          "water|air"
         ],
-        "text": "Counts as air or water."
+        "text": ""
       },
       "force": {
         "name": "Sea Breeze",
@@ -384,9 +384,9 @@
       "permanence": {
         "name": "Pass",
         "affinities": [
-          "air"
+          "air|earth"
         ],
-        "text": "Counts as air or earth."
+        "text": ""
       },
       "force": {
         "name": "Drift",
@@ -789,7 +789,7 @@
           "water",
           "any"
         ],
-        "text": "Also counts as any one element."
+        "text": ""
       },
       "force": {
         "name": "Current",
@@ -925,8 +925,8 @@
       },
       "force": {
         "name": "Blizzard",
-        "duration": "Lasts the round",
-        "text": "Worlds can't grow."
+        "duration": "Once",
+        "text": "Return a world to its owner's binder."
       }
     },
     {
@@ -1037,7 +1037,7 @@
       "source": "Second pass: 50 cards plus 5 meta (Nov 1, 2026)",
       "meta": {
         "name": "Verge",
-        "text": "This round's cap drops to 6."
+        "text": "Play two cards this turn."
       }
     }
   ]

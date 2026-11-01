@@ -1,6 +1,6 @@
 {
   "about": "Generated from data/card-pool.md by scripts/sync-cards.mjs. Edit the binders there, not here.",
-  "syncedAt": "2026-11-01T16:45:53.946Z",
+  "syncedAt": "2026-11-01T20:10:54.822Z",
   "binders": [
     {
       "id": "binder-a-tides",

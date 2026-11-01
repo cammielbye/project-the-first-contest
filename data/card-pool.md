@@ -6,27 +6,29 @@
 
 > Claude's draft at Cam's request, nothing Decided: half the pool (30 commons, 13 uncommons, 5 rares, 2 pinnacles) with both faces, plus five weaker fifth-pillar meta cards, and two playtest binders. Text-first: new force faces have placeholder art. Drawn on the [Card Anatomy canvas](https://claude.ai/artifact/5AWUHQhCvrbEw3YSmxbqac) under "Second pass". Rules followed: rules text under 8 words (CARD-23), effects up and restrictions down with rarity (CARD-24), balanced for the likely best case (CARD-25); worlds up to 2×2, scoring one world point per complete set; forces target either player's cards unless they say otherwise; moves and swaps never change a card's owner; "remove" sends a card to its owner's void; a card that "doesn't count" is treated as if it weren't there.
 
-Affinities across the 50: fire 17, water 17, air 17, earth 18, plus one any. 17 of the 30 commons carry a subtle permanence effect; the six dual-affinity commons cover each pair of elements once.
+> Revised Nov 1 (Cam): the six dual commons show an either-or mark instead of "Counts as X or Y" text, and Confluence drops its text. On the cards, every affinity sits in a white ring, and an either-or affinity is one capsule holding both symbols, divided by a slash; one ring or one capsule is one affinity, its element chosen at round end for a capsule. Also, a force that lasts the round sits on one card or beside one world and never affects the whole table, so Ash Cloud now hits one card, Blizzard happens once, and Verge plays two cards.
+
+Affinities across the 50: fire 14, water 16, air 15, earth 18, plus 6 either-or capsules and one any. 11 of the 30 commons carry a subtle permanence effect; six carry an either-or capsule, one per pair of elements.
 
 **Fire commons (8)**
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 12 | Cinder Field | C | 1 fire | — | Brushfire | Lasts the round | A one-affinity card doesn't count. |
-| 2 | Flint | C | 1 fire | Counts as fire or earth. | Spark | Lasts the round | A one-affinity card becomes fire. |
-| 3 | Obsidian | C | 1 fire | Forces can't remove this. | Ash Cloud | Lasts the round | The next permanence played doesn't count. |
-| 6 | Scrubland | C | 1 fire | Counts as fire or air. | Controlled Burn | Once | Remove one of your cards. |
+| 2 | Flint | C | 1 either-or (fire or earth) | — | Spark | Lasts the round | A one-affinity card becomes fire. |
+| 3 | Obsidian | C | 1 fire | Forces can't remove this. | Ash Cloud | Lasts the round | A one-affinity air card doesn't count. |
+| 6 | Scrubland | C | 1 either-or (fire or air) | — | Controlled Burn | Once | Remove one of your cards. |
 | 7 | Ashfield | C | 1 fire | Counts double in affinity ties. | Smoke | Lasts the round | A world doesn't count in ties. |
 | 9 | Dune | C | 1 fire | — | Shimmer | Lasts the round | A one-affinity card counts as any element. |
 | 10 | Barrens | C | 1 fire | — | Lightning | Once | Remove a lone one-affinity card. |
-| 11 | Steam Vent | C | 1 fire | Counts as fire or water. | Vent | Once | Return your card to your binder. |
+| 11 | Steam Vent | C | 1 either-or (fire or water) | — | Vent | Once | Return your card to your binder. |
 
 **Water commons (4)**
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 23 | Spring | C | 1 water | Returns to your binder at round end. | Drizzle | Lasts the round | A one-affinity card also counts as water. |
-| 24 | Marsh | C | 1 water | Counts as water or earth. | Mire | Lasts the round | A world of two can't grow. |
+| 24 | Marsh | C | 1 either-or (water or earth) | — | Mire | Lasts the round | A world of two can't grow. |
 | 28 | Snowfield | C | 1 water | Play on one-affinity air. It becomes water. | Rain | Lasts the round | A one-affinity card becomes water. |
 | 29 | Tide Pool | C | 1 water | Ignores common forces. | Freeze | Lasts the round | A world's one-affinity cards can't be removed. |
 
@@ -36,10 +38,10 @@ Affinities across the 50: fire 17, water 17, air 17, earth 18, plus one any. 17 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 41 | Ledge | C | 1 air | — | Gust | Once | A one-affinity card becomes its own world. |
 | 33 | Summit | C | 1 air | Counts double in affinity ties. | Breeze | Lasts the round | A one-affinity card becomes air. |
-| 38 | Pass | C | 1 air | Counts as air or earth. | Drift | Once | Move your card to another world. |
+| 38 | Pass | C | 1 either-or (air or earth) | — | Drift | Once | Move your card to another world. |
 | 45 | Wind Gap | C | 1 air | — | Crosswind | Once | Swap two one-affinity cards between worlds. |
 | 37 | Peak | C | 1 air | — | Downdraft | Lasts the round | A one-affinity air card becomes earth. |
-| 32 | Sea Stack | C | 1 air | Counts as air or water. | Sea Breeze | Lasts the round | A one-affinity card also counts as air. |
+| 32 | Sea Stack | C | 1 either-or (water or air) | — | Sea Breeze | Lasts the round | A one-affinity card also counts as air. |
 | 36 | Ridge | C | 1 air | — | Lift | Once | Remove a common sitting on another. |
 | 31 | Spire | C | 1 air | Forces can't move this. | Vortex | Once | Move a one-affinity card between worlds. |
 | 39 | Bluff | C | 1 air | — | Eddy | Once | Swap two cards in one world. |
@@ -74,7 +76,7 @@ Affinities across the 50: fire 17, water 17, air 17, earth 18, plus one any. 17 
 | 84 | Hidden Valley | B | 1 earth | Your other cards ignore common forces. | Rockslide | Lasts the round | A card becomes earth. |
 | 85 | Petrified Forest | B | 1 earth | Stays into the next round. | Uplift | Lasts the round | A world ignores all forces. |
 | 82 | Hanging Valley | B | 1 air | Your air counts double in ties. | Updraft | Lasts the round | A card becomes air. |
-| 81 | Confluence | B | 1 water, 1 any | Also counts as any one element. | Current | Once | Move a card between its owner's worlds. |
+| 81 | Confluence | B | 1 water, 1 any | — | Current | Once | Move a card between its owner's worlds. |
 
 **Rares (5)**
 
@@ -83,7 +85,7 @@ Affinities across the 50: fire 17, water 17, air 17, earth 18, plus one any. 17 
 | 88 | Caldera Lake | A | 1 fire, 1 water, 1 earth | — | Collapse | Once | Remove any card. |
 | 91 | Stone Towers | A | 2 air, 1 earth | — | Erosion | Once | Split a world in two. |
 | 93 | Archipelago | A | 2 water, 1 earth | Win the round with 10 water affinities. | Rising Sea | Lasts the round | One-affinity cards in a world don't count. |
-| 94 | Ice Sheet | A | 1 water | Fire affinities don't count. | Blizzard | Lasts the round | Worlds can't grow. |
+| 94 | Ice Sheet | A | 1 water | Fire affinities don't count. | Blizzard | Once | Return a world to its owner's binder. |
 | 95 | Mountain Range | A | 1 air, 1 earth | Score a point per four earth affinities. | Avalanche | Once | Remove two touching one-affinity cards. |
 
 **Pinnacles (2)**
@@ -101,7 +103,7 @@ Affinities across the 50: fire 17, water 17, air 17, earth 18, plus one any. 17 
 | Ebb | Remove your opponent's last card. |
 | Horizon | Look through your opponent's binder. |
 | Lull | Your opponent skips their next turn. |
-| Verge | This round's cap drops to 6. |
+| Verge | Play two cards this turn. |
 
 **Two playtest binders (25 each).**
 

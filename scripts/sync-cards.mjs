@@ -47,11 +47,21 @@ function rarityFromNumber(no) {
 }
 
 // "1 fire, 1 water" | "2 air, 1 earth" | "fire, water" | "water, any"
+// | "1 either-or (fire or earth)" -> "fire|earth": one affinity, either element
 function parseAffinities(cell, where) {
   const out = [];
   for (const raw of (cell || "").split(",")) {
     const part = raw.trim().toLowerCase();
     if (!part) continue;
+    const e = part.match(/^(?:(\d+)\s+)?either-or\s*\(\s*([a-z]+)\s+or\s+([a-z]+)\s*\)$/);
+    if (e) {
+      if (!ELEMENTS.includes(e[2]) || !ELEMENTS.includes(e[3])) {
+        warn(`${where}: can't read the affinity "${raw.trim()}"`);
+        continue;
+      }
+      for (let i = 0; i < Number(e[1] || 1); i++) out.push(`${e[2]}|${e[3]}`);
+      continue;
+    }
     const m = part.match(/^(?:(\d+)\s+)?([a-z]+)$/);
     if (!m || !(ELEMENTS.includes(m[2]) || m[2] === "any")) {
       warn(`${where}: can't read the affinity "${raw.trim()}"`);
