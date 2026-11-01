@@ -77,6 +77,46 @@ run({ seat: "p1", type: "round", delta: 1 });
 assert.equal(s.round, 2);
 assert.equal(s.players.p2.passed, false);
 
+// Play tracker: plays from the binder count for the round they happen in.
+{
+  let t = initialState({ p1: "Cam", p2: "Alex" });
+  const go = (a) => (t = apply(t, a, cardsById).state);
+  go({ seat: "p1", type: "place", inst: inst("p1", 41), to: { area: "p1", key: "0,0" } });
+  go({ seat: "p1", type: "place", inst: inst("p1", 52), to: { area: "p1", key: "0,1" } });
+  go({ seat: "p2", type: "place", inst: inst("p2", 12, "force"), to: { area: "p1", key: "0,0" } });
+  assert.equal(t.players.p1.played[1], 2);
+  assert.equal(t.players.p2.played[1], 1);
+  assert.match(t.log.at(-1).text, /\(1 of 10 this round\)/);
+
+  // A card effect returning a card doesn't undo the play...
+  go({ seat: "p2", type: "toBinder", iid: "p1-52" });
+  assert.equal(t.players.p1.played[1], 2);
+  // ...and neither can the other player's "undo"...
+  go({ seat: "p2", type: "toBinder", iid: "p1-41", undo: true });
+  assert.equal(t.players.p1.played[1], 2);
+  // ...but the owner taking back their own play does.
+  go({ seat: "p1", type: "place", inst: inst("p1", 23), to: { area: "p1", key: "1,1" } });
+  assert.equal(t.players.p1.played[1], 3);
+  go({ seat: "p1", type: "toBinder", iid: "p1-23", undo: true });
+  assert.equal(t.players.p1.played[1], 2);
+  assert.match(t.log.at(-1).text, /took back Spring/);
+
+  // Each round counts separately, and has its own cap.
+  go({ seat: "p1", type: "round", delta: 1 });
+  assert.equal(t.players.p1.played[2] || 0, 0);
+  go({ seat: "p1", type: "cap", delta: -1 });
+  assert.equal(t.caps[2], 9);
+  go({ seat: "p1", type: "round", delta: -1 });
+  assert.equal(t.caps[1] ?? 10, 10);
+
+  // Manual correction.
+  go({ seat: "p2", type: "played", target: "p1", delta: 1 });
+  assert.equal(t.players.p1.played[1], 3);
+  go({ seat: "p2", type: "played", target: "p2", delta: -1 });
+  go({ seat: "p2", type: "played", target: "p2", delta: -1 });
+  assert.equal(t.players.p2.played[1], 0);
+}
+
 // Reset keeps names and clears everything else.
 const rfx = run({ seat: "p2", type: "reset" });
 assert.deepEqual(rfx, [{ kind: "clearPrivate" }]);

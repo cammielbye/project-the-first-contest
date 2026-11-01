@@ -12,6 +12,7 @@
 export const SEATS = ["p1", "p2"];
 export const GRID = { cols: 8, rows: 3 };
 export const COUNTERS = ["worldPoints", "roundsWon"];
+export const DEFAULT_CAP = 10; // cards per player per round (design doc, DUEL-09 working number)
 const LOG_LIMIT = 500;
 
 export const other = (seat) => (seat === "p1" ? "p2" : "p1");
@@ -25,11 +26,13 @@ export function initialState(names = {}) {
     worldPoints: 0,
     roundsWon: 0,
     passed: false,
+    played: {}, // round -> cards played from the binder that round
   });
   return {
-    v: 3,
+    v: 4,
     seq: 0,
     round: 1,
+    caps: {}, // round -> that round's cap, when it differs from DEFAULT_CAP
     turn: null,
     players: { p1: player("p1", "Player 1"), p2: player("p2", "Player 2") },
     table: { p1: {}, p2: {} },
@@ -37,6 +40,9 @@ export function initialState(names = {}) {
     log: [],
   };
 }
+
+export const capFor = (state, round = state.round) => state.caps[round] ?? DEFAULT_CAP;
+export const playedIn = (state, seat, round = state.round) => state.players[seat].played[round] || 0;
 
 export function faceName(inst, cardsById) {
   const card = cardsById.get(inst.id);
@@ -140,9 +146,16 @@ export function apply(prev, action, cardsById) {
       if (!validInst(inst) || inst.owner !== seat || !validCell(action.to)) return { state: prev, effects };
       if (findInst(state, inst.iid)) return { state: prev, effects };
       const text = `${name(seat)} played ${label(inst)} ${where(action.to)}.`;
-      put({ iid: inst.iid, id: inst.id, face: inst.face, owner: inst.owner, original: !!inst.original }, action.to);
+      put(
+        { iid: inst.iid, id: inst.id, face: inst.face, owner: inst.owner, original: !!inst.original, playedRound: state.round },
+        action.to
+      );
       state.players[seat].binderCount = Math.max(0, state.players[seat].binderCount - 1);
-      log(text);
+      const p = state.players[seat];
+      p.played[state.round] = (p.played[state.round] || 0) + 1;
+      const n = p.played[state.round];
+      const cap = capFor(state);
+      log(`${text} (${n} of ${cap} this round${n > cap ? ", over the cap" : ""})`);
       break;
     }
 
@@ -184,10 +197,18 @@ export function apply(prev, action, cardsById) {
     case "toBinder": {
       const loc = findInst(state, action.iid);
       if (!loc) return { state: prev, effects };
+      // undo: the owner takes back a play they made by mistake, so it no longer
+      // counts toward that round. Otherwise (a card effect) the play still counts.
+      const undo = !!action.undo && loc.inst.owner === seat;
       const inst = removeAt(state, loc);
       state.players[inst.owner].binderCount += 1;
       effects.push({ kind: "toBinder", seat: inst.owner, inst });
-      log(`${name(seat)} returned ${label(inst)} to ${name(inst.owner)}'s binder.`);
+      if (undo && inst.playedRound && state.players[seat].played[inst.playedRound] > 0) {
+        state.players[seat].played[inst.playedRound] -= 1;
+        log(`${name(seat)} took back ${label(inst)}; it no longer counts as played.`);
+      } else {
+        log(`${name(seat)} returned ${label(inst)} to ${name(inst.owner)}'s binder.`);
+      }
       break;
     }
 
@@ -201,6 +222,30 @@ export function apply(prev, action, cardsById) {
       p[action.field] = next;
       const what = action.field === "worldPoints" ? "world points" : "rounds won";
       log(`${name(seat)} set ${name(target)}'s ${what} to ${next}.`);
+      break;
+    }
+
+    case "played": {
+      // Manual correction of a player's count for the current round.
+      const target = SEATS.includes(action.target) ? action.target : null;
+      if (!target) return { state: prev, effects };
+      const delta = Math.sign(Number(action.delta) || 0);
+      const p = state.players[target];
+      const now = p.played[state.round] || 0;
+      const next = Math.max(0, Math.min(99, now + delta));
+      if (next === now) return { state: prev, effects };
+      p.played[state.round] = next;
+      log(`${name(seat)} set ${name(target)}'s cards played this round to ${next}.`);
+      break;
+    }
+
+    case "cap": {
+      const delta = Math.sign(Number(action.delta) || 0);
+      const now = capFor(state);
+      const next = Math.max(0, Math.min(25, now + delta));
+      if (next === now) return { state: prev, effects };
+      state.caps[state.round] = next;
+      log(`${name(seat)} set round ${state.round}'s cap to ${next}.`);
       break;
     }
 

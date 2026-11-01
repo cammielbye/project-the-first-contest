@@ -26,6 +26,12 @@ On the table:
   on a permanence). The coloured edge on each card shows whose card it is.
 - **Void (n)** opens a void; both players see both voids. Cards can be dragged
   back out.
+- **Played R1 3/10** in each player's header counts the cards they've played
+  from their binder this round, against the round's **Cap** (10 by default;
+  change it beside the round number for cards like Verge). It turns amber at
+  the cap and red past it. Taking back your own card (dragging it to your
+  binder, or **Take back** on right-click) un-counts it; a card returned by a
+  card effect still counts. **−** and **+** correct it by hand.
 - World points, rounds won, the round number and whose turn it is are all set
   by hand. **Random opener** picks who opens.
 - **Reset game** clears the table, voids and counters for both players, and

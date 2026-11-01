@@ -1,4 +1,4 @@
-import { SEATS, GRID, other, cellKey, initialState, apply, findInst } from "./state.js";
+import { SEATS, GRID, other, cellKey, initialState, apply, findInst, capFor, playedIn } from "./state.js";
 import { renderFace, otherFace, setFaceArt } from "./cards.js";
 import { createNet, peerOptionsFromUrl } from "./net.js";
 
@@ -120,7 +120,7 @@ function onNetMessage(msg) {
   } else if (mode === "guest") {
     if (msg.type === "_linked") {
       net.send({ type: "hello", name: store.get("tfc:name", "") });
-    } else if (msg.type === "state" && msg.state && msg.state.v === 3) {
+    } else if (msg.type === "state" && msg.state && msg.state.v === 4) {
       state = msg.state;
       for (const e of msg.effects || []) handleEffect(e);
       render();
@@ -196,7 +196,7 @@ function returnToMyBinder(iid) {
     return;
   }
   if (!privates[mySeat]) return toast("Choose a binder first.");
-  dispatch({ type: "toBinder", iid });
+  dispatch({ type: "toBinder", iid, undo: true });
 }
 
 function flipCard(from, iid) {
@@ -314,7 +314,7 @@ function linkText() {
   const opp = state ? state.players[other(mySeat)].name : "your friend";
   switch (link.kind) {
     case "solo":
-      return "Solo: you play both seats";
+      return "Solo, both seats";
     case "starting":
       return "Starting…";
     case "waiting":
@@ -369,6 +369,17 @@ function renderTopbar() {
       h("button", { "data-act": "round", "data-delta": "-1", class: "icon", title: "Previous round" }, "−"),
       h("span", { class: "big", text: String(state.round) }),
       h("button", { "data-act": "round", "data-delta": "1", class: "icon", title: "Next round" }, "+")
+    )
+  );
+
+  bar.append(
+    h(
+      "div",
+      { class: "group", title: "Most cards each player can play this round (Verge, for example, drops it to 6)" },
+      h("span", { class: "label", text: "Cap" }),
+      h("button", { "data-act": "cap", "data-delta": "-1", class: "icon", title: "Lower this round's cap" }, "−"),
+      h("span", { class: "big", text: String(capFor(state)) }),
+      h("button", { "data-act": "cap", "data-delta": "1", class: "icon", title: "Raise this round's cap" }, "+")
     )
   );
 
@@ -480,6 +491,26 @@ function areaHeader(seat) {
       h("span", { class: "big", text: String(p[field]) }),
       h("button", { "data-act": "counter", "data-target": seat, "data-field": field, "data-delta": "1", class: "icon" }, "+")
     );
+  const n = playedIn(state, seat);
+  const cap = capFor(state);
+  const history = Object.keys(p.played)
+    .map(Number)
+    .filter((r) => r !== state.round && p.played[r] > 0)
+    .sort((a, b) => a - b)
+    .map((r) => `R${r} ${p.played[r]}`)
+    .join(" · ");
+  const tracker = h(
+    "div",
+    {
+      class: `played ${n > cap ? "over" : n === cap ? "full" : ""}`,
+      title: "Cards played from the binder this round. Counts itself; − and + correct it.",
+    },
+    h("span", { class: "label", text: `Played R${state.round}` }),
+    h("button", { "data-act": "played", "data-target": seat, "data-delta": "-1", class: "icon", title: "One fewer" }, "−"),
+    h("span", { class: "big", text: `${n}/${cap}` }),
+    h("button", { "data-act": "played", "data-target": seat, "data-delta": "1", class: "icon", title: "One more" }, "+"),
+    history ? h("span", { class: "muted history", text: history }) : null
+  );
   const canRename = mode === "solo" || mine;
   return h(
     "div",
@@ -493,6 +524,7 @@ function areaHeader(seat) {
     state.turn === seat ? h("span", { class: "badge turn", text: "to play" }) : null,
     p.passed ? h("span", { class: "badge passed", text: "passed" }) : null,
     h("span", { class: "muted", text: p.binderChosen ? `binder: ${plural(p.binderCount, "card")}` : "no binder chosen" }),
+    tracker,
     h("span", { class: "spacer" }),
     counter("worldPoints", "World points"),
     counter("roundsWon", "Rounds won"),
@@ -623,6 +655,7 @@ function openMenu(x, y, from, iid) {
   if (from !== "binder") {
     items.push(["select", "Move…  (click a spot)"]);
     if (from === "table") items.push(["to-void", `Send to ${state.players[found.inst.owner].name}'s void  (V)`]);
+    if (found.inst.owner === mySeat) items.push(["undo", "Take back (doesn't count as played)"]);
     items.push(["to-binder", `Return to ${state.players[found.inst.owner].name}'s binder  (R)`]);
   } else {
     items.push(["select", "Play…  (click a spot)"]);
@@ -658,6 +691,7 @@ function bindInput() {
         render();
       } else if (act === "to-void") dispatch({ type: "toVoid", iid });
       else if (act === "to-binder") dispatch({ type: "toBinder", iid });
+      else if (act === "undo") returnToMyBinder(iid);
       return;
     }
     closeMenu();
@@ -716,6 +750,12 @@ function bindInput() {
           break;
         case "rename":
           renameSeat(d.seat);
+          break;
+        case "played":
+          dispatch({ type: "played", target: d.target, delta: Number(d.delta) });
+          break;
+        case "cap":
+          dispatch({ type: "cap", delta: Number(d.delta) });
           break;
         case "counter":
           dispatch({ type: "counter", target: d.target, field: d.field, delta: Number(d.delta) });
@@ -872,7 +912,7 @@ async function init() {
     state = initialState({ p2: store.get("tfc:name", "") || undefined });
   } else {
     state = store.get(`${ns}:state`, null);
-    if (!state || state.v !== 3) {
+    if (!state || state.v !== 4) {
       state = initialState(mode === "host" ? { p1: store.get("tfc:name", "") || undefined } : {});
       saveState();
     }

@@ -54,7 +54,7 @@ button:disabled { cursor: default; }
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 16px;
+  gap: 8px 12px;
   padding: 8px 14px;
   border-bottom: 1px solid var(--line);
   background: var(--panel);
@@ -62,7 +62,7 @@ button:disabled { cursor: default; }
 .brand { display: flex; flex-direction: column; line-height: 1.1; }
 .brand span { font-family: Georgia, "Times New Roman", serif; font-size: 17px; color: var(--accent); }
 .brand small { color: var(--muted); font-size: 11px; }
-.conn, .group { display: flex; align-items: center; gap: 8px; }
+.conn, .group { display: flex; align-items: center; gap: 6px; }
 .group.right { margin-left: auto; }
 .conn .dot { width: 8px; height: 8px; border-radius: 50%; background: #777; }
 .conn-linked .dot, .conn-solo .dot { background: #5cc48c; }
@@ -160,6 +160,13 @@ body.dragging-back [data-act="toggle-binder"] { outline: 2px dashed var(--accent
 .area-head button.who.own-p1:disabled { color: var(--p1); }
 .area-head button.who.own-p2:disabled { color: var(--p2); }
 .counter { display: flex; align-items: center; gap: 4px; }
+.played { display: flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 8px; background: #ffffff0d; }
+.played .big { min-width: 3em; }
+.played.full { background: #5a4a1e; }
+.played.full .big { color: #f2d27a; }
+.played.over { background: #6b2e26; }
+.played.over .big { color: #ffc4b8; }
+.played .history { font-size: 11px; margin-left: 4px; }
 .badge { font-size: 11px; padding: 1px 7px; border-radius: 10px; border: 1px solid; }
 .badge.turn { color: #e9d48a; border-color: #8a7a3f; }
 .badge.passed { color: var(--muted); border-color: var(--line); }
