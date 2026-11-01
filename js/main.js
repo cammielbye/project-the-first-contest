@@ -1,5 +1,5 @@
 import { SEATS, GRID, other, cellKey, initialState, apply, findInst } from "./state.js";
-import { renderFace, otherFace } from "./cards.js";
+import { renderFace, otherFace, setFaceArt } from "./cards.js";
 import { createNet, peerOptionsFromUrl } from "./net.js";
 
 // ---- where we are ----------------------------------------------------------
@@ -120,7 +120,7 @@ function onNetMessage(msg) {
   } else if (mode === "guest") {
     if (msg.type === "_linked") {
       net.send({ type: "hello", name: store.get("tfc:name", "") });
-    } else if (msg.type === "state" && msg.state && msg.state.v === 2) {
+    } else if (msg.type === "state" && msg.state && msg.state.v === 3) {
       state = msg.state;
       for (const e of msg.effects || []) handleEffect(e);
       render();
@@ -516,6 +516,7 @@ function renderTable() {
     const area = h("section", { class: `area ${seat === mySeat ? "mine" : "theirs"} area-${seat}`, "data-area": seat });
     area.append(areaHeader(seat));
     const grid = h("div", { class: "grid" });
+    grid.style.setProperty("--cols", String(GRID.cols));
     for (let r = 0; r < GRID.rows; r++) {
       for (let c = 0; c < GRID.cols; c++) {
         const key = cellKey(r, c);
@@ -582,6 +583,7 @@ function layout() {
   const byH = ((hgt - gap * (GRID.rows - 1) - 18) / GRID.rows) * (5 / 7);
   const cw = Math.max(40, Math.floor(Math.min(byW, byH)));
   table.style.setProperty("--cw", `${cw}px`);
+  table.style.setProperty("--ts", String(cw / 320));
   table.style.setProperty("--gap", `${gap}px`);
 }
 
@@ -595,11 +597,11 @@ function showPreview(iid, x) {
   }
   const card = cardsById.get(found.inst.id);
   if (!card) return;
-  pv.replaceChildren(renderFace(card, found.inst.face, { size: "full", inst: found.inst }));
+  pv.replaceChildren(renderFace(card, found.inst.face, { size: "preview", inst: found.inst }));
   if (card.meta) {
     pv.append(h("div", { class: "pv-label", text: "Meta card: one face, playable by either player" }));
   } else {
-    const back = renderFace(card, otherFace(found.inst.face), { size: "full", inst: { ...found.inst, iid: "" } });
+    const back = renderFace(card, otherFace(found.inst.face), { size: "preview", inst: { ...found.inst, iid: "" } });
     back.classList.add("pv-other");
     pv.append(h("div", { class: "pv-label", text: "Other face" }), back);
   }
@@ -848,10 +850,14 @@ function bindInput() {
 // ---- start -------------------------------------------------------------------------------------
 async function init() {
   try {
-    const [cardsJson, bindersJson] = await Promise.all([
+    const [cardsJson, bindersJson, facesJson] = await Promise.all([
       fetch("data/cards.json", { cache: "no-cache" }).then((r) => r.json()),
       fetch("data/binders.json", { cache: "no-cache" }).then((r) => r.json()),
+      fetch("data/card-faces.json", { cache: "no-cache" })
+        .then((r) => (r.ok ? r.json() : null))
+        .catch(() => null),
     ]);
+    setFaceArt(facesJson?.faces);
     cardsById = new Map(cardsJson.cards.map((c) => [c.id, c]));
     cardOrder = new Map(cardsJson.cards.map((c, i) => [c.id, i]));
     binders = bindersJson.binders || [];
@@ -866,7 +872,7 @@ async function init() {
     state = initialState({ p2: store.get("tfc:name", "") || undefined });
   } else {
     state = store.get(`${ns}:state`, null);
-    if (!state || state.v !== 2) {
+    if (!state || state.v !== 3) {
       state = initialState(mode === "host" ? { p1: store.get("tfc:name", "") || undefined } : {});
       saveState();
     }

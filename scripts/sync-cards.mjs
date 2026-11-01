@@ -365,6 +365,7 @@ for (const c of list) sources[c.source] = (sources[c.source] || 0) + 1;
 const syncedAt = new Date().toISOString();
 const out = {
   source: relative(root, srcPath),
+  pass: section,
   syncedAt,
   counts: {
     cards: list.length,

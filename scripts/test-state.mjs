@@ -46,7 +46,7 @@ assert.deepEqual(fx.map((e) => [e.kind, e.seat]), [["toBinder", "p1"]]);
 assert.equal(s.players.p1.binderCount, 30);
 
 // From a void back onto the table.
-run({ seat: "p2", type: "move", iid: "p2-12", to: { area: "p2", key: "3,8" } });
+run({ seat: "p2", type: "move", iid: "p2-12", to: { area: "p2", key: "2,7" } });
 assert.equal(s.voids.p2.length, 0);
 
 // Bad input is ignored.

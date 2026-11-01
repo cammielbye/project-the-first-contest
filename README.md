@@ -58,6 +58,20 @@ How it reads the file:
 - Binders come from bullets like `- **Binder A, Tides.** Description. Ocean,
   Archipelago, …` and are matched to cards by name.
 
+### Card faces
+
+The cards on the table are the faces drawn on the Card Anatomy canvas, copied
+as they are, art included:
+
+```sh
+node scripts/sync-card-art.mjs <folder with the canvas's canvas.json and boards>
+```
+
+It uses only the canvas boards whose title starts with the newest pass's name
+("Second pass: …"), matches every 320×448 face to a card by the name at its
+top, and writes `data/card-faces.json`. A card the canvas hasn't drawn yet is
+shown in the same carved-stone layout with a blank art panel.
+
 Meta cards have one face and no number. To mark a card in a binder as an
 original, add its id (the card number, or `meta-<name>`) to that binder's
 `originals` in `data/binders.json`; note that the next sync rewrites that file.
@@ -70,7 +84,7 @@ original, add its id (the card number, or `meta-<name>`) to that binder's
 | `js/state.js` | The shared table and every action on it. |
 | `js/net.js` | The browser-to-browser link (PeerJS). |
 | `vendor/peerjs.min.js` | PeerJS 1.5.5. |
-| `data/` | Card pool, generated card data, test binders. |
+| `data/` | Card pool, generated card data and binders, card faces from the canvas. |
 | `scripts/` | Card sync and state tests (`node scripts/test-state.mjs`). |
 
 To run it locally: `python3 -m http.server 8080`, then open

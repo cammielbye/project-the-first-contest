@@ -10,7 +10,7 @@
 // its private binder (a card returned to it, or a reset).
 
 export const SEATS = ["p1", "p2"];
-export const GRID = { cols: 9, rows: 4 };
+export const GRID = { cols: 8, rows: 3 };
 export const COUNTERS = ["worldPoints", "roundsWon"];
 const LOG_LIMIT = 500;
 
@@ -27,7 +27,7 @@ export function initialState(names = {}) {
     passed: false,
   });
   return {
-    v: 2,
+    v: 3,
     seq: 0,
     round: 1,
     turn: null,
