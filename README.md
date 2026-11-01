@@ -20,6 +20,8 @@ On the table:
 - **Hover** any card to see it full size with its other face.
 - **Right-click** a card to flip it, send it to its owner's void or return it to
   its owner's binder. Keys while hovering: **F** flip, **V** void, **R** return.
+- **Made a mistake?** Drag one of your cards from the table (or a void) back
+  onto your binder, or onto the **Open binder** button when it's closed.
 - Dropping a card on an occupied spot lays it on top (a force on a card, Glacier
   on a permanence). The coloured edge on each card shows whose card it is.
 - **Void (n)** opens a void; both players see both voids. Cards can be dragged

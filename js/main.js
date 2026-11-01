@@ -181,6 +181,24 @@ function dropOn(sel, to) {
   render();
 }
 
+// Undo a play: put one of your own cards from the table or a void back in your binder.
+function returnToMyBinder(iid) {
+  const found = lookup(iid);
+  if (!found || found.from === "binder") return;
+  const owner = found.inst.owner;
+  if (owner !== mySeat) {
+    const whose = state.players[owner].name;
+    toast(
+      mode === "solo"
+        ? `That's ${whose}'s card. Switch seat to put it in their binder, or right-click it.`
+        : `That's ${whose}'s card. Right-click it to return it to their binder.`
+    );
+    return;
+  }
+  if (!privates[mySeat]) return toast("Choose a binder first.");
+  dispatch({ type: "toBinder", iid });
+}
+
 function flipCard(from, iid) {
   if (from === "binder") {
     const inst = privates[mySeat]?.cards.find((c) => c.iid === iid);
@@ -430,7 +448,7 @@ function renderBinder() {
   panel.append(
     h("p", {
       class: "hint",
-      text: "Click a card, then click a spot on the table (or drag it there). It goes down on the face you see. ↻ flips it.",
+      text: "Click a card, then click a spot on the table (or drag it there). It goes down on the face you see. ↻ flips it. Made a mistake? Drag your card from the table back here.",
     })
   );
 
@@ -756,35 +774,49 @@ function bindInput() {
     }
   });
 
-  // Drag and drop.
+  // Drag and drop. A card from the table or a void can also be dragged back
+  // onto your binder (the panel, or the Open binder button when it's closed).
+  let drag = null; // { from, iid }
+  const clearOver = () => document.querySelectorAll(".over, .drop-over").forEach((n) => n.classList.remove("over", "drop-over"));
+  const binderTarget = (t) => t.closest("#binderPanel") || t.closest('[data-act="toggle-binder"]');
+
   document.addEventListener("dragstart", (e) => {
     const cardEl = e.target.closest(".card[data-iid]");
     if (!cardEl) return;
-    e.dataTransfer.setData("application/x-tfc", JSON.stringify({ from: cardEl.dataset.from, iid: cardEl.dataset.iid }));
+    drag = { from: cardEl.dataset.from, iid: cardEl.dataset.iid };
+    e.dataTransfer.setData("application/x-tfc", JSON.stringify(drag));
     e.dataTransfer.effectAllowed = "move";
     hidePreview();
     document.body.classList.add("dragging");
+    if (drag.from !== "binder") document.body.classList.add("dragging-back");
   });
   document.addEventListener("dragend", () => {
-    document.body.classList.remove("dragging");
-    document.querySelectorAll(".cell.over").forEach((c) => c.classList.remove("over"));
+    drag = null;
+    document.body.classList.remove("dragging", "dragging-back");
+    clearOver();
   });
   document.addEventListener("dragover", (e) => {
     const cell = e.target.closest(".cell");
-    if (!cell) return;
+    const binder = drag && drag.from !== "binder" ? binderTarget(e.target) : null;
+    const target = cell || binder;
+    if (!target) return;
     e.preventDefault();
-    document.querySelectorAll(".cell.over").forEach((c) => c !== cell && c.classList.remove("over"));
-    cell.classList.add("over");
+    document.querySelectorAll(".over, .drop-over").forEach((n) => n !== target && n.classList.remove("over", "drop-over"));
+    target.classList.add(cell ? "over" : "drop-over");
   });
   document.addEventListener("drop", (e) => {
     const cell = e.target.closest(".cell");
-    if (!cell) return;
+    const binder = binderTarget(e.target);
+    if (!cell && !binder) return;
     e.preventDefault();
-    cell.classList.remove("over");
+    clearOver();
+    let sel = drag;
     try {
-      const sel = JSON.parse(e.dataTransfer.getData("application/x-tfc"));
-      dropOn(sel, { area: cell.dataset.area, key: cell.dataset.key });
+      sel = JSON.parse(e.dataTransfer.getData("application/x-tfc"));
     } catch {}
+    if (!sel) return;
+    if (cell) dropOn(sel, { area: cell.dataset.area, key: cell.dataset.key });
+    else if (sel.from !== "binder") returnToMyBinder(sel.iid);
   });
 
   document.addEventListener("keydown", (e) => {

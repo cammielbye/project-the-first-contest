@@ -17,11 +17,13 @@
   --force-paper: #dbe3ea;
   --force-edge: #9fb0be;
 
-  --fire: #c4532c;
-  --water: #2f6fb4;
-  --air: #4f8aa3;
-  --earth: #5f7f2c;
-  --any: #8b6cb3;
+  /* Element symbols are filled with a light shade and outlined with a dark
+     one, so light colours (air, earth) still read on the card's paper. */
+  --fire: #e2703e;   --fire-line: #9a3816;
+  --water: #4f8fd8;  --water-line: #1d4c86;
+  --air: #f3d35a;    --air-line: #9c7b0c;
+  --earth: #d6b88c;  --earth-line: #7a5832;
+  --any: #c3acdf;    --any-line: #634a8c;
 
   --cw: 72px;
   --gap: 6px;
@@ -84,15 +86,18 @@ button:disabled { cursor: default; }
 .own-p1.turn-name, button.who.own-p1 { color: var(--p1); }
 .own-p2.turn-name, button.who.own-p2 { color: var(--p2); }
 
-/* ---- main split: binder | table ---- */
+/* ---- main split: table | dock (void, log) | binder on the right ---- */
 #main {
   display: grid;
-  grid-template-columns: 0 1fr 0;
+  grid-template-columns: 1fr 0 0;
   min-height: 0;
 }
-#main.binder-open { grid-template-columns: 1fr 1fr 0; }
-#main.dock-open { grid-template-columns: 0 1fr 300px; }
-#main.binder-open.dock-open { grid-template-columns: 1fr 1fr 300px; }
+#table { order: 1; }
+#dock { order: 2; }
+#binderPanel { order: 3; }
+#main.binder-open { grid-template-columns: 1fr 0 1fr; }
+#main.dock-open { grid-template-columns: 1fr 300px 0; }
+#main.binder-open.dock-open { grid-template-columns: 1fr 300px 1fr; }
 #dock {
   min-width: 0; min-height: 0;
   display: flex; flex-direction: column;
@@ -105,13 +110,24 @@ button:disabled { cursor: default; }
 #voidPanel { flex: 0 1 auto; max-height: 50%; overflow: auto; border-bottom: 1px solid var(--line); }
 #logPanel { flex: 1 1 0; display: flex; flex-direction: column; }
 #binderPanel {
+  position: relative;
   min-width: 0;
   overflow: auto;
   background: var(--panel);
-  border-right: 1px solid var(--line);
+  border-left: 1px solid var(--line);
   padding: 0 14px 14px;
 }
 #main:not(.binder-open) #binderPanel { padding: 0; border: 0; }
+/* Dragging one of your cards from the table or a void back to your binder. */
+body.dragging-back #binderPanel { outline: 2px dashed var(--accent); outline-offset: -6px; }
+#binderPanel.drop-over, [data-act="toggle-binder"].drop-over { background: #2c3a35; }
+body.dragging-back #binderPanel::before {
+  content: "Drop here to return it to your binder";
+  position: sticky; top: 0; z-index: 5; display: block;
+  margin: 0 -14px; padding: 8px 14px;
+  background: #3b5a50; color: var(--text); font-weight: 600;
+}
+body.dragging-back [data-act="toggle-binder"] { outline: 2px dashed var(--accent); }
 #binderPanel h2 { font: 600 16px Georgia, serif; color: var(--accent); margin: 12px 0 2px; }
 .binder-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; position: sticky; top: 0; background: var(--panel); padding-bottom: 4px; z-index: 2; }
 .binder-head .seg { margin-left: auto; display: flex; align-items: center; gap: 6px; }
@@ -208,12 +224,12 @@ body.selecting .cell:hover, .cell.over { background: #ffffff12; border-color: va
 .card .c-foot { display: flex; justify-content: space-between; margin-top: auto; font-size: 10px; color: #6d6450; font-variant-numeric: tabular-nums; }
 .card .c-rar { font-weight: 700; }
 
-.sym { width: 26%; aspect-ratio: 1; fill: none; stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; }
-.sym-fire { stroke: var(--fire); }
-.sym-water { stroke: var(--water); }
-.sym-air { stroke: var(--air); }
-.sym-earth { stroke: var(--earth); }
-.sym-any { stroke: var(--any); }
+.sym { width: 26%; aspect-ratio: 1; stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; }
+.sym-fire { fill: var(--fire); stroke: var(--fire-line); }
+.sym-water { fill: var(--water); stroke: var(--water-line); }
+.sym-air { fill: var(--air); stroke: var(--air-line); }
+.sym-earth { fill: var(--earth); stroke: var(--earth-line); }
+.sym-any { fill: var(--any); stroke: var(--any-line); }
 
 .card.face-force { background: var(--force-paper); border-color: var(--force-edge); }
 .card.face-force .c-inner { border: 1.5px dashed #7f93a5; }
@@ -247,7 +263,7 @@ body.selecting .cell:hover, .cell.over { background: #ffffff12; border-color: va
 .card.token .c-name { font-size: 1em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .card.token .c-foot { font-size: .8em; }
 .card.token .c-dur { font-size: .85em; }
-.card.token .sym { width: 30%; stroke-width: 2.8; }
+.card.token .sym { width: 30%; stroke-width: 2.2; }
 
 /* Binder and preview cards: full size, with text. */
 .card.full { width: 100%; font-size: 14px; }
