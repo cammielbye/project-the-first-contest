@@ -52,7 +52,7 @@ function parseAffinities(cell, where) {
   const out = [];
   for (const raw of (cell || "").split(",")) {
     const part = raw.trim().toLowerCase();
-    if (!part) continue;
+    if (!part || part === "none" || part === "—") continue; // "none": no affinity of its own (Mirage, Cradle)
     const e = part.match(/^(?:(\d+)\s+)?either-or\s*\(\s*([a-z]+)\s+or\s+([a-z]+)\s*\)$/);
     if (e) {
       if (!ELEMENTS.includes(e[2]) || !ELEMENTS.includes(e[3])) {
@@ -260,14 +260,20 @@ for (let i = 0; i < lines.length; i++) {
       });
     }
   } else if (context === "meta" && header[0] === "card" && has("text")) {
-    const rarity = /\buncommon\b/i.test(leadText)
+    const rarity = /\bpinnacle\b/i.test(leadText)
+      ? "S"
+      : /\buncommon\b/i.test(leadText)
       ? "B"
       : /\brare\b/i.test(leadText)
         ? "A"
         : /\bcommon\b/i.test(leadText)
           ? "C"
           : "B";
-    for (const r of rows) metaDefs.push({ name: clean(r[0]), text: text(r[col("text")]), rarity, source: section });
+    const noCol = header.indexOf("no.");
+    for (const r of rows) {
+      const no = noCol >= 0 ? Number(clean(r[noCol])) || null : null;
+      metaDefs.push({ name: clean(r[0]), text: text(r[col("text")]), rarity, no, source: section });
+    }
   } else {
     warn(`${section}: table skipped (header: ${header.join(" | ")})`);
   }
@@ -310,7 +316,7 @@ for (const m of metaDefs) {
     warn(`Meta card ${m.name} is defined twice; keeping the newer one`);
     continue;
   }
-  cards.set(id, { id, no: null, rarity: m.rarity, source: m.source, meta: { name: m.name, text: m.text } });
+  cards.set(id, { id, no: m.no ?? null, rarity: m.rarity, source: m.source, meta: { name: m.name, text: m.text } });
 }
 
 const list = [...cards.values()].sort(
@@ -365,7 +371,7 @@ for (const b of binderLines) {
 
 // ---- write -----------------------------------------------------------------------------
 const numbered = list.filter((c) => !c.meta);
-const nos = new Set(numbered.map((c) => c.no));
+const nos = new Set(list.map((c) => c.no).filter((n) => n != null)); // meta cards carry numbers from the third pass on
 const missing = [];
 for (let n = 1; n <= 100; n++) if (!nos.has(n)) missing.push(n);
 

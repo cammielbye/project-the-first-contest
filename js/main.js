@@ -374,7 +374,8 @@ function renderTopbar() {
   if (mode === "solo") {
     conn.append(
       h("button", { "data-act": "switch-seat", class: "quiet", title: `Play as ${state.players[other(mySeat)].name}` }, "Switch seat"),
-      h("button", { "data-act": "host", class: "primary" }, "Host a contest")
+      h("button", { "data-act": "host", class: "primary" }, "Host a contest"),
+      h("a", { href: "play.html", class: "btnlink", title: "Play a contest against the computer, with the rules enforced" }, "Play the computer")
     );
   } else {
     if (mode === "host") conn.append(h("button", { "data-act": "copy-invite", class: "primary" }, "Copy invite link"));

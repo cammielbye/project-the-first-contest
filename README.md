@@ -55,6 +55,67 @@ for both players so both choose a binder again.
 Without a room, the page runs in **solo mode**: you play both seats and
 **Switch seat** changes which binder you see.
 
+## Playing against the computer
+
+Open **`play.html`** (or **Play the computer** on the table's top bar). It plays one
+contest against a computer opponent with the rules enforced, using the newest card
+pool (the third pass) and its four test binders (Tides, Embers, Gales, Roots; no
+pinnacles, Origin or the Gap):
+
+1. Pick your binder and the computer's, then **Start the contest**. The opener is random.
+2. Click a card in your binder. If both faces can be played, choose one. Then click
+   the highlighted spot, card or world (or the matching button above your binder).
+   **Esc** or **Cancel** backs out. **Pass for the round** when you're done.
+3. Hover any card to see both faces on the right. The symbols under a card on the
+   table are its affinities right now, after every effect; an outline means they've
+   changed.
+
+The page counts everything: world points per world, the tie-break, the 10-card cap,
+round wins, and the Nov 2 test rule (a world worth 3 world points wins the contest at
+once). Everything runs in your browser; nothing is sent anywhere.
+
+The rules live in `js/game/rules.js` and the opponent in `js/game/ai.js`. The same
+files run in node:
+
+```sh
+node scripts/test-rules3.mjs     # rule checks on hand-built tables
+node scripts/sim3.mjs 4          # computer v computer, every pairing of the four binders
+node scripts/sim3.mjs 1 --log    # and print one contest per pairing, play by play
+```
+
+### Rule readings
+
+Where a card's text leaves a question open, the engine picks one reading (marked
+`READING` in `js/game/rules.js`):
+
+- "With one affinity" means one ring printed on the card; an either-or capsule and a
+  wildcard each count as one. Mirage and Cradle have none.
+- "A fire permanence" means a permanence showing fire right now, after effects.
+- A force has its card's printed elements (both, for an either-or); a wildcard gives
+  none. "Ignores … forces" ignores them entirely, helpful or not.
+- "Return" isn't "remove", so "can't be removed" doesn't stop a return.
+- "Move" goes to another existing world of the card's owner; "becomes its own world"
+  starts a new one. A split cuts a world down the middle (left from right, or top from
+  bottom). Canyon stops splits (Tremor, Typhoon, Earthquake, Hurricane, Jet Stream),
+  not single cards leaving.
+- Hurricane ("Rearrange a player's worlds") scatters every world of the chosen player
+  into worlds of one.
+- Heat Shimmer and Mirage copy printed affinities. Element changes from permanence
+  happen first, then lasting forces in the order they were played; losing affinities
+  comes last.
+- Ice Sheet blanks every fire permanence, both players'.
+- Echo's card from the void doesn't count toward the 10; Verge's two plays do.
+  "Play another fire card" means a card with fire on it, played on either face.
+- Calm stops force faces (from the binder or through Echo) for both players for the
+  rest of the round. Whiteout lasts until its player's next turn starts.
+- Ebb removes the most recent common the opponent played this round that's still on
+  the table, a lasting force included.
+- Archipelago and Cradle are checked at the start of their owner's turns, so not after
+  they pass. A drawn round counts for both players; openers alternate.
+- Equinox returns your whole void, itself included.
+
+## Updating the cards and binders
+
 ## Updating the cards and binders
 
 Cards and test binders both come from `data/card-pool.md`, a copy of
@@ -92,7 +153,7 @@ node scripts/sync-card-art.mjs <folder with the canvas's canvas.json and boards>
 ```
 
 It uses only the canvas boards whose title starts with the newest pass's name
-("Second pass: …"), matches every 320×448 face to a card by the name at its
+("Third pass: …"), matches every 320×448 face to a card by the name at its
 top, and writes `data/card-faces.json`. A card the canvas hasn't drawn yet is
 shown in the same carved-stone layout with a blank art panel.
 
@@ -110,7 +171,9 @@ original, add its id (the card number, or `meta-<name>`) to that binder's
 | `vendor/peerjs.min.js` | PeerJS 1.5.5. |
 | `data/` | Card pool, generated card data and binders, card faces from the canvas. |
 | `scripts/` | Card sync and state tests (`node scripts/test-state.mjs`). |
-| `sim/` | The contest simulator: two AI players play the test binders against each other (see below). |
+| `play.html`, `js/play.js`, `css/play.css` | Play a contest against the computer. |
+| `js/game/rules.js`, `js/game/ai.js` | The third-pass rules engine and the computer opponent (browser and node). |
+| `sim/` | The second-pass contest simulator (kept for its Nov 1 results; it doesn't know the third-pass cards). |
 
 To run it locally: `python3 -m http.server 8080`, then open
 <http://localhost:8080>. Adding `?peerhost=127.0.0.1&peerport=9000` points the
@@ -118,8 +181,9 @@ page at a local PeerJS broker for testing.
 
 ## Simulating contests
 
-`sim/` has two AI players play the first two test binders against each other
-with the same card data, so it can be rerun after every card-pool sync:
+For the current cards, use `node scripts/sim3.mjs` (above). The older `sim/`
+simulator was written for the second pass and stops on third-pass cards; it's kept
+with its Nov 1 readings. Its usage, for a second-pass card pool:
 
 ```sh
 node sim/sim.js 200                    # 200 contests, prints the trends

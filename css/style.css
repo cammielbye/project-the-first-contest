@@ -30,6 +30,8 @@ body {
   overflow: hidden;
 }
 [hidden] { display: none !important; }
+a.btnlink { color: var(--text); text-decoration: none; background: #2a3330; border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; }
+a.btnlink:hover { background: #34403c; }
 button {
   font: inherit;
   color: var(--text);

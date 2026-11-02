@@ -65,7 +65,7 @@ const sanitize = (html) =>
     .replace(/\s+/g, " ")
     .replace(/> </g, "><");
 
-const CARD_START = /<div style="position: relative; width: 320px; height: 448px/g;
+const CARD_START = /<div(?: class="[^"]*")? style="position: relative; width: 320px; height: 448px/g;
 
 const faces = {}; // id -> { permanence?, force?, meta? }
 let found = 0;
