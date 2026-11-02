@@ -1,4 +1,4 @@
-import { SEATS, GRID, WORLDS, other, cellKey, initialState, apply, findInst, capFor, playedIn } from "./state.js";
+import { SEATS, GRID, other, cellKey, initialState, apply, findInst, capFor, playedIn } from "./state.js";
 import { renderFace, otherFace, setFaceArt } from "./cards.js";
 import { createNet, peerOptionsFromUrl } from "./net.js";
 
@@ -599,36 +599,39 @@ function tokenFor(inst, from) {
   return t;
 }
 
+// The guide: the four spots in the top-left corner, drawn dotted, show what a
+// complete world looks like. Every other spot is invisible until you place a card.
+const GUIDE = new Set(["0,0", "0,1", "1,0", "1,1"]);
+
 function renderArea(seat) {
   const area = h("section", {
     class: `area ${seat === mySeat ? "mine" : "theirs"} area-${seat}`,
     "data-area": seat,
-    "aria-label": `${state.players[seat].name}'s worlds`,
+    "aria-label": `${state.players[seat].name}'s area`,
   });
-  const worlds = h("div", { class: "worlds" });
-  for (let w = 0; w < WORLDS; w++) {
-    const world = h("div", { class: `world own-${seat}`, "data-world": String(w + 1) });
-    world.append(h("span", { class: "world-label", text: `World ${w + 1}` }));
-    let filled = false;
-    for (let r = 0; r < GRID.rows; r++) {
-      for (let c = 2 * w; c < 2 * w + 2; c++) {
-        const key = cellKey(r, c);
-        const cell = h("div", { class: "cell", "data-area": seat, "data-key": key });
-        const stack = state.table[seat][key] || [];
-        if (stack.length) filled = true;
-        stack.forEach((inst, i) => {
-          const t = tokenFor(inst, "table");
-          t.style.setProperty("--depth", i);
-          cell.append(t);
-        });
-        if (stack.length > 1) cell.append(h("span", { class: "stack-count", text: String(stack.length) }));
-        world.append(cell);
-      }
+  const board = h("div", { class: `board own-${seat}` });
+  board.style.setProperty("--cols", String(GRID.cols));
+  for (let r = 0; r < GRID.rows; r++) {
+    for (let c = 0; c < GRID.cols; c++) {
+      const key = cellKey(r, c);
+      const guide = GUIDE.has(key);
+      const cell = h("div", {
+        class: `cell${guide ? " guide" : ""}`,
+        "data-area": seat,
+        "data-key": key,
+        title: guide ? "A world: up to four of your cards in a 2×2 square" : null,
+      });
+      const stack = state.table[seat][key] || [];
+      stack.forEach((inst, i) => {
+        const t = tokenFor(inst, "table");
+        t.style.setProperty("--depth", i);
+        cell.append(t);
+      });
+      if (stack.length > 1) cell.append(h("span", { class: "stack-count", text: String(stack.length) }));
+      board.append(cell);
     }
-    if (filled) world.classList.add("filled");
-    worlds.append(world);
   }
-  area.append(worlds);
+  area.append(board);
   return area;
 }
 
@@ -672,23 +675,22 @@ function renderLog() {
   list.scrollTop = list.scrollHeight;
 }
 
-// Size the cards so the row of 2x2 worlds fits the space each area has.
-const SIZES = { gap: 6, worldPad: 6, worldGap: 18, label: 16, border: 2 };
+// Size the cards so the whole grid fits the space each area has.
+const GAP = 6;
 function layout() {
   const table = $("#table");
-  const worlds = table.querySelector(".area .worlds");
-  if (!worlds) return;
-  const { gap, worldPad, worldGap, label, border } = SIZES;
-  const w = worlds.clientWidth;
-  const hgt = worlds.clientHeight;
-  const byW = (w - worldGap * (WORLDS - 1) - WORLDS * (gap + 2 * worldPad + border)) / (2 * WORLDS);
-  const byH = (hgt - label - gap - 2 * worldPad - border) / 2 / 1.4;
+  const area = table.querySelector(".area");
+  if (!area) return;
+  const cs = getComputedStyle(area);
+  const w = area.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  const hgt = area.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+  const pad = 2 * 8; // the board's padding
+  const byW = (w - pad - GAP * (GRID.cols - 1)) / GRID.cols;
+  const byH = (hgt - pad - GAP * (GRID.rows - 1)) / GRID.rows / 1.4;
   const cw = Math.max(36, Math.floor(Math.min(byW, byH)));
   table.style.setProperty("--cw", `${cw}px`);
   table.style.setProperty("--ts", String(cw / 320));
-  table.style.setProperty("--gap", `${gap}px`);
-  table.style.setProperty("--wp", `${worldPad}px`);
-  table.style.setProperty("--wg", `${worldGap}px`);
+  table.style.setProperty("--gap", `${GAP}px`);
 }
 
 // A starfield for the table, drawn once: two tiles of different sizes so the

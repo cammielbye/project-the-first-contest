@@ -17,8 +17,12 @@ and count world points themselves on the manual counters.
 
 On the table:
 
-- Each player has **four world slots**, each a 2×2 square. Your worlds are at
-  the bottom, the other player's at the top; the log names worlds by number.
+- Each player's area is an open grid (10 spots across, 3 down) that cards snap
+  to; only its faint edge and a **dotted 2×2 in the top-left corner** are drawn.
+  The 2×2 shows what a complete world looks like; it isn't a slot, and there's
+  no limit on how many worlds you make. The spot under the pointer lights up
+  while you're placing a card. Your area is at the bottom, the other player's
+  at the top, and the log says what each new card sits next to.
 - **Hover** any card to see it full size with its other face.
 - **Right-click** a card to flip it, send it to its owner's void or return it to
   its owner's binder. Keys while hovering: **F** flip, **V** void, **R** return.

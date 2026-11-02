@@ -24,7 +24,7 @@ run({ seat: "p2", type: "place", inst: inst("p2", 12, "force"), to: { area: "p1"
 assert.equal(s.table.p1["1,1"].length, 2);
 assert.equal(s.players.p1.binderCount, 29);
 assert.equal(s.players.p2.binderCount, 29);
-assert.match(s.log.at(-1).text, /Alex played Brushfire \(force\) on Ledge in Cam's world 1/);
+assert.match(s.log.at(-1).text, /Alex played Brushfire \(force\) on Ledge in Cam's area/);
 
 // The force goes to its owner's void, not the area's owner.
 run({ seat: "p1", type: "toVoid", iid: "p2-12" });
@@ -76,6 +76,21 @@ assert.equal(s.players.p2.passed, true);
 run({ seat: "p1", type: "round", delta: 1 });
 assert.equal(s.round, 2);
 assert.equal(s.players.p2.passed, false);
+
+// The log says what a new card sits next to.
+{
+  let t = initialState({ p1: "Cam", p2: "Alex" });
+  const go = (a) => (t = apply(t, a, cardsById).state);
+  go({ seat: "p1", type: "place", inst: inst("p1", 52), to: { area: "p1", key: "0,0" } });
+  assert.match(t.log.at(-1).text, /into Cam's area, on its own/);
+  go({ seat: "p1", type: "place", inst: inst("p1", 48), to: { area: "p1", key: "1,0" } });
+  go({ seat: "p1", type: "place", inst: inst("p1", 41), to: { area: "p1", key: "1,1" } });
+  assert.match(t.log.at(-1).text, /next to Cave/);
+  go({ seat: "p1", type: "place", inst: inst("p1", 31), to: { area: "p1", key: "0,1" } });
+  assert.match(t.log.at(-1).text, /next to Hill and Ledge/);
+  go({ seat: "p1", type: "place", inst: inst("p1", 23), to: { area: "p1", key: "2,9" } });
+  assert.ok(t.table.p1["2,9"]);
+}
 
 // Play tracker: plays from the binder count for the round they happen in.
 {

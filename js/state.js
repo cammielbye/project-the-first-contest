@@ -10,11 +10,9 @@
 // its private binder (a card returned to it, or a reset).
 
 export const SEATS = ["p1", "p2"];
-// Each player's area is a row of 2x2 world slots: columns 0-1 are world 1,
-// columns 2-3 world 2, and so on.
-export const GRID = { cols: 8, rows: 2 };
-export const WORLDS = GRID.cols / 2;
-export const worldOf = (key) => Math.floor(Number(String(key).split(",")[1]) / 2) + 1;
+// Each player's area is an open grid that cards snap to. It marks no worlds:
+// players form them by placing cards next to each other, as many as they like.
+export const GRID = { cols: 10, rows: 3 };
 export const COUNTERS = ["worldPoints", "roundsWon"];
 export const DEFAULT_CAP = 10; // cards per player per round (design doc, DUEL-09 working number)
 const LOG_LIMIT = 500;
@@ -118,10 +116,16 @@ export function apply(prev, action, cardsById) {
   const where = (to) => {
     const stack = state.table[to.area][to.key];
     const under = stack && stack.length ? stack[stack.length - 1] : null;
-    const w = worldOf(to.key);
-    return under
-      ? `on ${faceName(under, cardsById)} in ${name(to.area)}'s world ${w}`
-      : `into ${name(to.area)}'s world ${w}`;
+    if (under) return `on ${faceName(under, cardsById)} in ${name(to.area)}'s area`;
+    // Say which cards it now sits next to, so the log shows how worlds formed.
+    const [r, c] = to.key.split(",").map(Number);
+    const next = [];
+    for (const [dr, dc] of [[-1, 0], [0, -1], [0, 1], [1, 0]]) {
+      const st = state.table[to.area][cellKey(r + dr, c + dc)];
+      if (st && st.length) next.push(faceName(st[0], cardsById));
+    }
+    const list = next.length > 1 ? `${next.slice(0, -1).join(", ")} and ${next.at(-1)}` : next[0];
+    return next.length ? `into ${name(to.area)}'s area, next to ${list}` : `into ${name(to.area)}'s area, on its own`;
   };
   const put = (inst, to) => {
     (state.table[to.area][to.key] ||= []).push(inst);
