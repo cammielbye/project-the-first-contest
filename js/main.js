@@ -1,4 +1,4 @@
-import { SEATS, GRID, other, cellKey, initialState, apply, findInst, capFor, playedIn } from "./state.js";
+import { SEATS, GRID, WORLDS, other, cellKey, initialState, apply, findInst, capFor, playedIn } from "./state.js";
 import { renderFace, otherFace, setFaceArt } from "./cards.js";
 import { createNet, peerOptionsFromUrl } from "./net.js";
 
@@ -120,7 +120,7 @@ function onNetMessage(msg) {
   } else if (mode === "guest") {
     if (msg.type === "_linked") {
       net.send({ type: "hello", name: store.get("tfc:name", "") });
-    } else if (msg.type === "state" && msg.state && msg.state.v === 4) {
+    } else if (msg.type === "state" && msg.state && msg.state.v === 5) {
       state = msg.state;
       for (const e of msg.effects || []) handleEffect(e);
       render();
@@ -171,6 +171,27 @@ function placeFromBinder(iid, to) {
   const [inst] = priv.cards.splice(idx, 1);
   savePrivate(mySeat);
   dispatch({ type: "place", inst, to });
+}
+
+// A card dropped on a void pile goes to its owner's void. Straight from the
+// binder, that's playing it (a force that happens once).
+function playToVoid(iid) {
+  const priv = privates[mySeat];
+  if (!priv) return;
+  const idx = priv.cards.findIndex((c) => c.iid === iid);
+  if (idx === -1) return;
+  if (mode === "guest" && (!net || !net.isOpen())) return toast("Not connected to the host yet.");
+  const [inst] = priv.cards.splice(idx, 1);
+  savePrivate(mySeat);
+  dispatch({ type: "placeVoid", inst });
+}
+
+function sendToVoid(sel) {
+  if (!sel) return;
+  if (sel.from === "binder") playToVoid(sel.iid);
+  else if (sel.from === "table") dispatch({ type: "toVoid", iid: sel.iid });
+  ui.selected = null;
+  render();
 }
 
 function dropOn(sel, to) {
@@ -348,61 +369,26 @@ function renderTopbar() {
 
   const conn = h("div", { class: `conn conn-${link.kind}` });
   conn.append(h("span", { class: "dot" }));
-  if (room) conn.append(h("span", { class: "room", text: `Room ${room}` }));
+  if (room) conn.append(h("span", { class: "room", text: room }));
   conn.append(h("span", { class: "status", text: linkText() }));
   if (mode === "solo") {
     conn.append(
-      h("button", { "data-act": "switch-seat", title: `Play as ${state.players[other(mySeat)].name}` }, "Switch seat"),
+      h("button", { "data-act": "switch-seat", class: "quiet", title: `Play as ${state.players[other(mySeat)].name}` }, "Switch seat"),
       h("button", { "data-act": "host", class: "primary" }, "Host a contest")
     );
   } else {
     if (mode === "host") conn.append(h("button", { "data-act": "copy-invite", class: "primary" }, "Copy invite link"));
-    conn.append(h("button", { "data-act": "leave" }, "Leave"));
+    conn.append(h("button", { "data-act": "leave", class: "quiet" }, "Leave"));
   }
   bar.append(conn);
 
   bar.append(
     h(
       "div",
-      { class: "group" },
-      h("span", { class: "label", text: "Round" }),
-      h("button", { "data-act": "round", "data-delta": "-1", class: "icon", title: "Previous round" }, "−"),
-      h("span", { class: "big", text: String(state.round) }),
-      h("button", { "data-act": "round", "data-delta": "1", class: "icon", title: "Next round" }, "+")
-    )
-  );
-
-  bar.append(
-    h(
-      "div",
-      { class: "group", title: "Most cards each player can play this round (Verge, for example, drops it to 6)" },
-      h("span", { class: "label", text: "Cap" }),
-      h("button", { "data-act": "cap", "data-delta": "-1", class: "icon", title: "Lower this round's cap" }, "−"),
-      h("span", { class: "big", text: String(capFor(state)) }),
-      h("button", { "data-act": "cap", "data-delta": "1", class: "icon", title: "Raise this round's cap" }, "+")
-    )
-  );
-
-  const turnName = state.turn ? state.players[state.turn].name : "nobody yet";
-  bar.append(
-    h(
-      "div",
-      { class: "group" },
-      h("span", { class: "label", text: "Turn" }),
-      h("span", { class: `turn-name ${state.turn ? `own-${state.turn}` : ""}`, text: turnName }),
-      h("button", { "data-act": "opener", title: "Pick who opens at random" }, "Random opener"),
-      h("button", { "data-act": "end-turn" }, "End turn"),
-      h("button", { "data-act": "pass" }, "Pass")
-    )
-  );
-
-  bar.append(
-    h(
-      "div",
       { class: "group right" },
-      h("button", { "data-act": "toggle-binder", class: ui.binderOpen ? "on" : "", title: "Open or close your binder (B)" }, ui.binderOpen ? "Close binder" : "Open binder"),
+      h("button", { "data-act": "toggle-binder", class: ui.binderOpen ? "on" : "", title: "Open or close your binder (B)" }, "Binder"),
       h("button", { "data-act": "toggle-log", class: ui.logOpen ? "on" : "", title: "Show the action log (L)" }, "Log"),
-      h("button", { "data-act": "reset", class: "danger" }, "Reset game")
+      h("button", { "data-act": "reset", class: "quiet danger", title: "Clear the table for both players" }, "Reset")
     )
   );
 }
@@ -442,25 +428,20 @@ function renderBinder() {
     return;
   }
 
-  const head = h(
-    "div",
-    { class: "binder-head" },
-    h("h2", { text: `${who}'s binder` }),
-    h("span", { class: "muted", text: `${priv.binderName} · ${plural(priv.cards.length, "card")} left` }),
+  panel.append(
     h(
       "div",
-      { class: "seg" },
-      h("span", { class: "label", text: "Show" }),
-      h("button", { "data-act": "binder-faces", "data-face": "permanence" }, "Permanence"),
-      h("button", { "data-act": "binder-faces", "data-face": "force" }, "Force")
-    )
-  );
-  panel.append(head);
-  panel.append(
-    h("p", {
-      class: "hint",
-      text: "Click a card, then click a spot on the table (or drag it there). It goes down on the face you see. ↻ flips it. Made a mistake? Drag your card from the table back here.",
-    })
+      { class: "binder-head" },
+      h("h2", { text: `${who}'s binder` }),
+      h("span", { class: "muted", text: `${priv.binderName} · ${priv.cards.length} left` }),
+      h(
+        "div",
+        { class: "seg", role: "group", "aria-label": "Show every card's" },
+        h("button", { "data-act": "binder-faces", "data-face": "permanence" }, "Permanence"),
+        h("button", { "data-act": "binder-faces", "data-face": "force" }, "Force")
+      )
+    ),
+    h("p", { class: "hint", text: "Click or drag a card onto a world. It goes down on the face showing; ↻ flips it." })
   );
 
   const grid = h("div", { class: "binder-grid" });
@@ -471,64 +452,141 @@ function renderBinder() {
     face.dataset.from = "binder";
     face.draggable = true;
     if (ui.selected?.iid === inst.iid) face.classList.add("selected");
-    const flip = card.meta ? null : h("button", { class: "flip", "data-act": "flip", "data-from": "binder", "data-iid": inst.iid, title: "Flip (F)" }, "↻");
-    const wrap = h("div", { class: "binder-slot" }, face, flip);
-    grid.append(wrap);
+    const flip = card.meta
+      ? null
+      : h("button", { class: "flip", "data-act": "flip", "data-from": "binder", "data-iid": inst.iid, title: "Flip (F)", "aria-label": "Flip" }, "↻");
+    grid.append(h("div", { class: "binder-slot" }, face, flip));
   }
   if (!priv.cards.length) grid.append(h("p", { class: "hint", text: "Your binder is empty." }));
   panel.append(grid);
 }
 
-function areaHeader(seat) {
+// ---- counters: a value with a small up and down arrow beside it ------------------
+const svgTemplate = document.createElement("template");
+const svg = (markup) => {
+  svgTemplate.innerHTML = markup;
+  return svgTemplate.content.firstElementChild;
+};
+const CHEVRON = (up) =>
+  `<svg viewBox="0 0 10 6" width="10" height="6" aria-hidden="true"><path d="${up ? "M1 5 L5 1 L9 5" : "M1 1 L5 5 L9 1"}"/></svg>`;
+
+function arrows(attrs, what) {
+  const up = h("button", { class: "arr", ...attrs, "data-delta": "1", title: `Raise ${what}`, "aria-label": `Raise ${what}` });
+  up.append(svg(CHEVRON(true)));
+  const down = h("button", { class: "arr", ...attrs, "data-delta": "-1", title: `Lower ${what}`, "aria-label": `Lower ${what}` });
+  down.append(svg(CHEVRON(false)));
+  return h("span", { class: "arrows" }, up, down);
+}
+
+function counterEl(label, value, attrs, what, { cls = "", title = null } = {}) {
+  return h(
+    "div",
+    { class: `ctr ${cls}`, title },
+    h("span", { class: "label", text: label }),
+    h("span", { class: "val", text: value }),
+    arrows(attrs, what)
+  );
+}
+
+function voidPile(seat) {
+  const n = state.voids[seat].length;
+  const pile = h(
+    "button",
+    {
+      class: `void-pile ${ui.voidOpen === seat ? "on" : ""} ${n ? "" : "empty"}`,
+      "data-act": "open-void",
+      "data-seat": seat,
+      "data-void": seat,
+      title: `${state.players[seat].name}'s void: ${plural(n, "card")}. Click to look; drop a card here to send it to its owner's void.`,
+    },
+    svg(
+      n
+        ? '<svg class="pile" viewBox="0 0 16 20" width="14" height="18" aria-hidden="true"><rect x="5" y="1" width="10" height="14" rx="2"/><rect x="1" y="5" width="10" height="14" rx="2"/></svg>'
+        : '<svg class="pile" viewBox="0 0 16 20" width="14" height="18" aria-hidden="true"><rect x="3" y="3" width="10" height="14" rx="2" stroke-dasharray="2 2"/></svg>'
+    ),
+    h("span", { class: "label", text: "Void" }),
+    h("span", { class: "val", text: String(n) })
+  );
+  return pile;
+}
+
+function scoreRow(seat) {
   const p = state.players[seat];
   const mine = seat === mySeat;
-  const counter = (field, label) =>
-    h(
-      "div",
-      { class: "counter" },
-      h("span", { class: "label", text: label }),
-      h("button", { "data-act": "counter", "data-target": seat, "data-field": field, "data-delta": "-1", class: "icon" }, "−"),
-      h("span", { class: "big", text: String(p[field]) }),
-      h("button", { "data-act": "counter", "data-target": seat, "data-field": field, "data-delta": "1", class: "icon" }, "+")
-    );
   const n = playedIn(state, seat);
   const cap = capFor(state);
-  const history = Object.keys(p.played)
+  const earlier = Object.keys(p.played)
     .map(Number)
     .filter((r) => r !== state.round && p.played[r] > 0)
     .sort((a, b) => a - b)
-    .map((r) => `R${r} ${p.played[r]}`)
-    .join(" · ");
-  const tracker = h(
-    "div",
-    {
-      class: `played ${n > cap ? "over" : n === cap ? "full" : ""}`,
-      title: "Cards played from the binder this round. Counts itself; − and + correct it.",
-    },
-    h("span", { class: "label", text: `Played R${state.round}` }),
-    h("button", { "data-act": "played", "data-target": seat, "data-delta": "-1", class: "icon", title: "One fewer" }, "−"),
-    h("span", { class: "big", text: `${n}/${cap}` }),
-    h("button", { "data-act": "played", "data-target": seat, "data-delta": "1", class: "icon", title: "One more" }, "+"),
-    history ? h("span", { class: "muted history", text: history }) : null
-  );
+    .map((r) => `round ${r}: ${p.played[r]}`)
+    .join(", ");
   const canRename = mode === "solo" || mine;
+  const isTurn = state.turn === seat;
+
   return h(
     "div",
-    { class: "area-head" },
+    { class: `score-row ${mine ? "mine" : "theirs"} own-${seat} ${isTurn ? "active" : ""}` },
     h(
-      "button",
-      { class: `who own-${seat}`, "data-act": canRename ? "rename" : null, "data-seat": seat, title: canRename ? "Rename" : null, disabled: !canRename },
-      p.name
+      "div",
+      { class: "who-block" },
+      h(
+        "button",
+        { class: `who own-${seat}`, "data-act": canRename ? "rename" : null, "data-seat": seat, title: canRename ? "Rename" : null, disabled: !canRename },
+        p.name
+      ),
+      mine ? h("span", { class: "you", text: "you" }) : null,
+      p.passed ? h("span", { class: "badge passed", text: "passed" }) : null,
+      h("span", {
+        class: "muted small",
+        text: p.binderChosen ? `${p.binderCount} left` : "no binder yet",
+        title: p.binderChosen ? `${plural(p.binderCount, "card")} left in ${p.name}'s binder` : null,
+      })
     ),
-    h("span", { class: "muted", text: mine ? "(you)" : "" }),
-    state.turn === seat ? h("span", { class: "badge turn", text: "to play" }) : null,
-    p.passed ? h("span", { class: "badge passed", text: "passed" }) : null,
-    h("span", { class: "muted", text: p.binderChosen ? `binder: ${plural(p.binderCount, "card")}` : "no binder chosen" }),
-    tracker,
-    h("span", { class: "spacer" }),
-    counter("worldPoints", "World points"),
-    counter("roundsWon", "Rounds won"),
-    h("button", { "data-act": "open-void", "data-seat": seat, class: ui.voidOpen === seat ? "on" : "" }, `Void (${state.voids[seat].length})`)
+    counterEl("Played", `${n}/${cap}`, { "data-act": "played", "data-target": seat }, `${p.name}'s cards played this round`, {
+      cls: `played ${n > cap ? "over" : n === cap ? "full" : ""}`,
+      title: `Cards ${p.name} has played from their binder this round; it counts itself. ${earlier ? `Earlier, ${earlier}.` : ""}`,
+    }),
+    counterEl("World pts", String(p.worldPoints), { "data-act": "counter", "data-target": seat, "data-field": "worldPoints" }, `${p.name}'s world points`),
+    counterEl("Rounds", String(p.roundsWon), { "data-act": "counter", "data-target": seat, "data-field": "roundsWon" }, `${p.name}'s rounds won`),
+    voidPile(seat)
+  );
+}
+
+function renderScoreboard() {
+  const shared = h(
+    "div",
+    { class: "shared" },
+    counterEl("Round", String(state.round), { "data-act": "round" }, "the round"),
+    counterEl("Cap", String(capFor(state)), { "data-act": "cap" }, "this round's cap", {
+      title: "Most cards each player can play this round",
+    }),
+    (() => {
+      const b = h("button", { "data-act": "opener", class: "icon-btn", title: "Pick who opens at random", "aria-label": "Pick who opens at random" });
+      b.append(
+        svg(
+          '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.6" fill="currentColor" stroke="none"/><circle cx="15" cy="15" r="1.6" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r="1.6" fill="currentColor" stroke="none"/><circle cx="9" cy="15" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg>'
+        )
+      );
+      return b;
+    })(),
+    turnControls()
+  );
+  return h("div", { class: "scoreboard" }, scoreRow(other(mySeat)), shared, scoreRow(mySeat));
+}
+
+// End turn and Pass, for whoever is to play (in solo you play both seats).
+function turnControls() {
+  const t = state.turn;
+  if (!t) return h("span", { class: "turn-acts muted small", text: "Roll for the opener" });
+  if (mode !== "solo" && t !== mySeat) {
+    return h("span", { class: `turn-acts small own-${t}`, text: `${state.players[t].name} to play` });
+  }
+  return h(
+    "span",
+    { class: "turn-acts" },
+    h("button", { "data-act": "end-turn", "data-seat": t, title: `End ${state.players[t].name}'s turn` }, "End turn"),
+    h("button", { "data-act": "pass", "data-seat": t, class: "quiet", title: `${state.players[t].name} passes` }, "Pass")
   );
 }
 
@@ -541,31 +599,42 @@ function tokenFor(inst, from) {
   return t;
 }
 
-function renderTable() {
-  const table = $("#table");
-  table.replaceChildren();
-  for (const seat of [other(mySeat), mySeat]) {
-    const area = h("section", { class: `area ${seat === mySeat ? "mine" : "theirs"} area-${seat}`, "data-area": seat });
-    area.append(areaHeader(seat));
-    const grid = h("div", { class: "grid" });
-    grid.style.setProperty("--cols", String(GRID.cols));
+function renderArea(seat) {
+  const area = h("section", {
+    class: `area ${seat === mySeat ? "mine" : "theirs"} area-${seat}`,
+    "data-area": seat,
+    "aria-label": `${state.players[seat].name}'s worlds`,
+  });
+  const worlds = h("div", { class: "worlds" });
+  for (let w = 0; w < WORLDS; w++) {
+    const world = h("div", { class: `world own-${seat}`, "data-world": String(w + 1) });
+    world.append(h("span", { class: "world-label", text: `World ${w + 1}` }));
+    let filled = false;
     for (let r = 0; r < GRID.rows; r++) {
-      for (let c = 0; c < GRID.cols; c++) {
+      for (let c = 2 * w; c < 2 * w + 2; c++) {
         const key = cellKey(r, c);
         const cell = h("div", { class: "cell", "data-area": seat, "data-key": key });
         const stack = state.table[seat][key] || [];
+        if (stack.length) filled = true;
         stack.forEach((inst, i) => {
           const t = tokenFor(inst, "table");
           t.style.setProperty("--depth", i);
           cell.append(t);
         });
         if (stack.length > 1) cell.append(h("span", { class: "stack-count", text: String(stack.length) }));
-        grid.append(cell);
+        world.append(cell);
       }
     }
-    area.append(grid);
-    table.append(area);
+    if (filled) world.classList.add("filled");
+    worlds.append(world);
   }
+  area.append(worlds);
+  return area;
+}
+
+function renderTable() {
+  const table = $("#table");
+  table.replaceChildren(renderArea(other(mySeat)), renderScoreboard(), renderArea(mySeat));
 }
 
 function renderVoid() {
@@ -580,14 +649,14 @@ function renderVoid() {
       { class: "pop-head" },
       h("strong", { text: `${state.players[seat].name}'s void` }),
       h("span", { class: "muted", text: `${plural(state.voids[seat].length, "card")} · both players see it` }),
-      h("button", { "data-act": "close-void", class: "icon", title: "Close" }, "×")
+      h("button", { "data-act": "close-void", class: "icon quiet", title: "Close", "aria-label": "Close" }, "×")
     )
   );
   const list = h("div", { class: "void-list" });
   for (const inst of state.voids[seat]) list.append(tokenFor(inst, "void"));
   if (!state.voids[seat].length) list.append(h("p", { class: "hint", text: "Empty." }));
   pop.append(list);
-  pop.append(h("p", { class: "hint", text: "Drag a card out, or click it and then a spot on the table. Right-click for more." }));
+  pop.append(h("p", { class: "hint", text: "Drag a card out, or click it and then a spot. Right-click for more." }));
 }
 
 function renderLog() {
@@ -595,7 +664,7 @@ function renderLog() {
   panel.hidden = !ui.logOpen;
   if (!ui.logOpen) return;
   panel.replaceChildren(
-    h("div", { class: "pop-head" }, h("strong", { text: "Log" }), h("button", { "data-act": "toggle-log", class: "icon", title: "Close" }, "×"))
+    h("div", { class: "pop-head" }, h("strong", { text: "Log" }), h("button", { "data-act": "toggle-log", class: "icon quiet", title: "Close", "aria-label": "Close" }, "×"))
   );
   const list = h("ol", { class: "log-list" });
   for (const entry of state.log) list.append(h("li", { class: `own-${entry.seat}`, text: entry.text }));
@@ -603,20 +672,61 @@ function renderLog() {
   list.scrollTop = list.scrollHeight;
 }
 
-// Size the table cells to fit the space they have.
+// Size the cards so the row of 2x2 worlds fits the space each area has.
+const SIZES = { gap: 6, worldPad: 6, worldGap: 18, label: 16, border: 2 };
 function layout() {
   const table = $("#table");
-  const grid = table.querySelector(".area .grid");
-  if (!grid) return;
-  const gap = 6;
-  const w = grid.clientWidth;
-  const hgt = grid.clientHeight;
-  const byW = (w - gap * (GRID.cols - 1)) / GRID.cols;
-  const byH = ((hgt - gap * (GRID.rows - 1) - 18) / GRID.rows) * (5 / 7);
-  const cw = Math.max(40, Math.floor(Math.min(byW, byH)));
+  const worlds = table.querySelector(".area .worlds");
+  if (!worlds) return;
+  const { gap, worldPad, worldGap, label, border } = SIZES;
+  const w = worlds.clientWidth;
+  const hgt = worlds.clientHeight;
+  const byW = (w - worldGap * (WORLDS - 1) - WORLDS * (gap + 2 * worldPad + border)) / (2 * WORLDS);
+  const byH = (hgt - label - gap - 2 * worldPad - border) / 2 / 1.4;
+  const cw = Math.max(36, Math.floor(Math.min(byW, byH)));
   table.style.setProperty("--cw", `${cw}px`);
   table.style.setProperty("--ts", String(cw / 320));
   table.style.setProperty("--gap", `${gap}px`);
+  table.style.setProperty("--wp", `${worldPad}px`);
+  table.style.setProperty("--wg", `${worldGap}px`);
+}
+
+// A starfield for the table, drawn once: two tiles of different sizes so the
+// repeat doesn't show.
+function starTile(size, count, seed) {
+  const c = document.createElement("canvas");
+  c.width = c.height = size;
+  const g = c.getContext("2d");
+  let s = seed;
+  const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < count; i++) {
+    const x = rnd() * size;
+    const y = rnd() * size;
+    const big = rnd() > 0.94;
+    const r = big ? 0.9 + rnd() * 0.7 : 0.3 + rnd() * 0.55;
+    const a = big ? 0.7 + rnd() * 0.3 : 0.18 + rnd() * 0.5;
+    const t = rnd();
+    const rgb = t < 0.12 ? "190,208,255" : t < 0.2 ? "255,226,196" : "255,255,255";
+    if (big) {
+      const glow = g.createRadialGradient(x, y, 0, x, y, r * 4);
+      glow.addColorStop(0, `rgba(${rgb},${a * 0.35})`);
+      glow.addColorStop(1, `rgba(${rgb},0)`);
+      g.fillStyle = glow;
+      g.fillRect(x - r * 4, y - r * 4, r * 8, r * 8);
+    }
+    g.fillStyle = `rgba(${rgb},${a})`;
+    g.beginPath();
+    g.arc(x, y, r, 0, Math.PI * 2);
+    g.fill();
+  }
+  return c.toDataURL("image/png");
+}
+function paintStars() {
+  try {
+    const a = starTile(512, 150, 1931);
+    const b = starTile(733, 110, 7177);
+    $("#table").style.setProperty("--stars", `url(${a}), url(${b})`);
+  } catch {}
 }
 
 // ---- preview and menus --------------------------------------------------------------
@@ -722,10 +832,10 @@ function bindInput() {
           dispatch({ type: "opener", pick: Math.random() < 0.5 ? "p1" : "p2" });
           break;
         case "end-turn":
-          dispatch({ type: "endTurn" });
+          dispatch({ type: "endTurn", seat: mode === "solo" ? d.seat : undefined });
           break;
         case "pass":
-          dispatch({ type: "pass" });
+          dispatch({ type: "pass", seat: mode === "solo" ? d.seat : undefined });
           break;
         case "toggle-binder":
           ui.binderOpen = !ui.binderOpen;
@@ -761,6 +871,10 @@ function bindInput() {
           dispatch({ type: "counter", target: d.target, field: d.field, delta: Number(d.delta) });
           break;
         case "open-void":
+          if (ui.selected) {
+            sendToVoid(ui.selected);
+            break;
+          }
           ui.voidOpen = ui.voidOpen === d.seat ? null : d.seat;
           render();
           break;
@@ -839,8 +953,9 @@ function bindInput() {
   });
   document.addEventListener("dragover", (e) => {
     const cell = e.target.closest(".cell");
+    const pile = drag && drag.from !== "void" ? e.target.closest("[data-void]") : null;
     const binder = drag && drag.from !== "binder" ? binderTarget(e.target) : null;
-    const target = cell || binder;
+    const target = cell || pile || binder;
     if (!target) return;
     e.preventDefault();
     document.querySelectorAll(".over, .drop-over").forEach((n) => n !== target && n.classList.remove("over", "drop-over"));
@@ -848,8 +963,9 @@ function bindInput() {
   });
   document.addEventListener("drop", (e) => {
     const cell = e.target.closest(".cell");
+    const pile = e.target.closest("[data-void]");
     const binder = binderTarget(e.target);
-    if (!cell && !binder) return;
+    if (!cell && !pile && !binder) return;
     e.preventDefault();
     clearOver();
     let sel = drag;
@@ -858,6 +974,7 @@ function bindInput() {
     } catch {}
     if (!sel) return;
     if (cell) dropOn(sel, { area: cell.dataset.area, key: cell.dataset.key });
+    else if (pile) sendToVoid(sel);
     else if (sel.from !== "binder") returnToMyBinder(sel.iid);
   });
 
@@ -912,7 +1029,7 @@ async function init() {
     state = initialState({ p2: store.get("tfc:name", "") || undefined });
   } else {
     state = store.get(`${ns}:state`, null);
-    if (!state || state.v !== 4) {
+    if (!state || state.v !== 5) {
       state = initialState(mode === "host" ? { p1: store.get("tfc:name", "") || undefined } : {});
       saveState();
     }
@@ -922,6 +1039,7 @@ async function init() {
     if (n && n.trim()) store.set("tfc:name", n.trim());
   }
 
+  paintStars();
   bindInput();
   render();
 

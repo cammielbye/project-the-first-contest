@@ -17,26 +17,36 @@ and count world points themselves on the manual counters.
 
 On the table:
 
+- Each player has **four world slots**, each a 2×2 square. Your worlds are at
+  the bottom, the other player's at the top; the log names worlds by number.
 - **Hover** any card to see it full size with its other face.
 - **Right-click** a card to flip it, send it to its owner's void or return it to
   its owner's binder. Keys while hovering: **F** flip, **V** void, **R** return.
 - **Made a mistake?** Drag one of your cards from the table (or a void) back
-  onto your binder, or onto the **Open binder** button when it's closed.
+  onto your binder, or onto the **Binder** button when it's closed.
 - Dropping a card on an occupied spot lays it on top (a force on a card, Glacier
-  on a permanence). The coloured edge on each card shows whose card it is.
-- **Void (n)** opens a void; both players see both voids. Cards can be dragged
-  back out.
-- **Played R1 3/10** in each player's header counts the cards they've played
-  from their binder this round, against the round's **Cap** (10 by default;
-  change it beside the round number for cards like Verge). It turns amber at
-  the cap and red past it. Taking back your own card (dragging it to your
-  binder, or **Take back** on right-click) un-counts it; a card returned by a
-  card effect still counts. **−** and **+** correct it by hand.
-- World points, rounds won, the round number and whose turn it is are all set
-  by hand. **Random opener** picks who opens.
-- **Reset game** clears the table, voids and counters for both players, and
-  both choose a binder again.
-- **B** opens and closes your binder; **L** shows the log of every action.
+  on a permanence). The coloured ring on each card shows whose card it is.
+
+The **scoreboard** between the two boards holds every counter. Each has a small
+up and down arrow beside it.
+
+- **Played 3/10** counts the cards each player has played from their binder this
+  round, against the round's **Cap** (10 by default; lower it for cards like
+  Verge). It turns amber at the cap and red past it, and its tooltip lists
+  earlier rounds. Taking back your own card un-counts it; a card returned by a
+  card effect still counts.
+- **World pts** and **Rounds** are set by hand.
+- **Void** shows how many cards are in each player's void; click it to look
+  (both players see both voids). Drop a card on it to send that card to its
+  owner's void; dropping one straight from your binder plays it there, for a
+  force that happens once.
+- **Round** and **Cap**, the die (picks who opens at random), and **End turn** /
+  **Pass** for whoever is to play sit in the middle. The row of the player to
+  play is highlighted.
+
+In the top bar, **Binder** (or **B**) opens and closes your binder, **Log** (or
+**L**) shows every action, and **Reset** clears the table, voids and counters
+for both players so both choose a binder again.
 
 Without a room, the page runs in **solo mode**: you play both seats and
 **Switch seat** changes which binder you see.

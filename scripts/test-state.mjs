@@ -24,7 +24,7 @@ run({ seat: "p2", type: "place", inst: inst("p2", 12, "force"), to: { area: "p1"
 assert.equal(s.table.p1["1,1"].length, 2);
 assert.equal(s.players.p1.binderCount, 29);
 assert.equal(s.players.p2.binderCount, 29);
-assert.match(s.log.at(-1).text, /Alex played Brushfire \(force\) on Ledge in Cam's area/);
+assert.match(s.log.at(-1).text, /Alex played Brushfire \(force\) on Ledge in Cam's world 1/);
 
 // The force goes to its owner's void, not the area's owner.
 run({ seat: "p1", type: "toVoid", iid: "p2-12" });
@@ -46,7 +46,7 @@ assert.deepEqual(fx.map((e) => [e.kind, e.seat]), [["toBinder", "p1"]]);
 assert.equal(s.players.p1.binderCount, 30);
 
 // From a void back onto the table.
-run({ seat: "p2", type: "move", iid: "p2-12", to: { area: "p2", key: "2,7" } });
+run({ seat: "p2", type: "move", iid: "p2-12", to: { area: "p2", key: "1,7" } });
 assert.equal(s.voids.p2.length, 0);
 
 // Bad input is ignored.
@@ -115,6 +115,18 @@ assert.equal(s.players.p2.passed, false);
   go({ seat: "p2", type: "played", target: "p2", delta: -1 });
   go({ seat: "p2", type: "played", target: "p2", delta: -1 });
   assert.equal(t.players.p2.played[1], 0);
+}
+
+// A force that happens once can go straight from the binder to its owner's void, and counts as played.
+{
+  let t = initialState({ p1: "Cam", p2: "Alex" });
+  t = apply(t, { seat: "p1", type: "placeVoid", inst: inst("p1", 88, "force") }, cardsById).state;
+  assert.equal(t.voids.p1.length, 1);
+  assert.equal(t.players.p1.played[1], 1);
+  assert.match(t.log.at(-1).text, /Cam played Collapse \(force\) straight to their void/);
+  const same = t;
+  t = apply(t, { seat: "p2", type: "placeVoid", inst: inst("p1", 41) }, cardsById).state; // not your card
+  assert.equal(t, same);
 }
 
 // Reset keeps names and clears everything else.

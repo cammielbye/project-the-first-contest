@@ -10,7 +10,11 @@
 // its private binder (a card returned to it, or a reset).
 
 export const SEATS = ["p1", "p2"];
-export const GRID = { cols: 8, rows: 3 };
+// Each player's area is a row of 2x2 world slots: columns 0-1 are world 1,
+// columns 2-3 world 2, and so on.
+export const GRID = { cols: 8, rows: 2 };
+export const WORLDS = GRID.cols / 2;
+export const worldOf = (key) => Math.floor(Number(String(key).split(",")[1]) / 2) + 1;
 export const COUNTERS = ["worldPoints", "roundsWon"];
 export const DEFAULT_CAP = 10; // cards per player per round (design doc, DUEL-09 working number)
 const LOG_LIMIT = 500;
@@ -29,7 +33,7 @@ export function initialState(names = {}) {
     played: {}, // round -> cards played from the binder that round
   });
   return {
-    v: 4,
+    v: 5,
     seq: 0,
     round: 1,
     caps: {}, // round -> that round's cap, when it differs from DEFAULT_CAP
@@ -114,9 +118,10 @@ export function apply(prev, action, cardsById) {
   const where = (to) => {
     const stack = state.table[to.area][to.key];
     const under = stack && stack.length ? stack[stack.length - 1] : null;
+    const w = worldOf(to.key);
     return under
-      ? `on ${faceName(under, cardsById)} in ${name(to.area)}'s area`
-      : `into ${name(to.area)}'s area`;
+      ? `on ${faceName(under, cardsById)} in ${name(to.area)}'s world ${w}`
+      : `into ${name(to.area)}'s world ${w}`;
   };
   const put = (inst, to) => {
     (state.table[to.area][to.key] ||= []).push(inst);
@@ -156,6 +161,22 @@ export function apply(prev, action, cardsById) {
       const n = p.played[state.round];
       const cap = capFor(state);
       log(`${text} (${n} of ${cap} this round${n > cap ? ", over the cap" : ""})`);
+      break;
+    }
+
+    case "placeVoid": {
+      const inst = action.inst;
+      if (!validInst(inst) || inst.owner !== seat) return { state: prev, effects };
+      if (findInst(state, inst.iid)) return { state: prev, effects };
+      state.voids[seat].push({
+        iid: inst.iid, id: inst.id, face: inst.face, owner: inst.owner, original: !!inst.original, playedRound: state.round,
+      });
+      state.players[seat].binderCount = Math.max(0, state.players[seat].binderCount - 1);
+      const p = state.players[seat];
+      p.played[state.round] = (p.played[state.round] || 0) + 1;
+      const n = p.played[state.round];
+      const cap = capFor(state);
+      log(`${name(seat)} played ${label(inst)} straight to their void. (${n} of ${cap} this round${n > cap ? ", over the cap" : ""})`);
       break;
     }
 
