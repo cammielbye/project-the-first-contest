@@ -459,3 +459,103 @@ button.icon-btn:hover:not(:disabled) { background: #ffffff10; color: var(--text)
   background: #000d; color: #fff; padding: 8px 14px; border-radius: 8px;
 }
 #footer { padding: 3px 14px; font-size: 10.5px; color: var(--faint); border-top: 1px solid var(--line); background: var(--panel); }
+
+/* ---- who you play: a friend, or the computer ---- */
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+.seg button { border: 0; border-radius: 0; background: transparent; color: var(--muted); padding: 4px 12px; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button.on { background: #33423c; color: var(--text); }
+.seg button:hover:not(:disabled):not(.on) { background: #ffffff0a; color: var(--text); }
+
+/* ---- against the computer: the engine's worlds on the same felt ---- */
+.cpu-area { overflow: auto; }
+.eworlds {
+  display: flex; flex-wrap: wrap; align-items: flex-start; align-content: flex-start;
+  gap: 10px var(--wg);
+  width: 100%;
+  min-height: calc(var(--cw) * 1.4 * 2 + var(--gap) + 46px);
+  padding: 8px; border-radius: 14px;
+  background: #ffffff03; box-shadow: inset 0 0 0 1px #ffffff0b;
+}
+.eempty { color: var(--faint); font-size: 12px; margin: 6px 4px; }
+.eworld { display: grid; gap: 4px; align-content: start; padding: 2px; border-radius: 10px; }
+.ewlabel {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; min-height: 18px;
+  font: 10.5px "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--faint);
+}
+.ewlabel .pts { color: var(--muted); }
+.ewlabel .pts.hot { color: #f2d27a; }
+.eworld.new .ewlabel { color: var(--accent); }
+.egrid { display: grid; gap: var(--gap); grid-auto-rows: calc(var(--cw) * 1.4); }
+.eworlds.own-p1 .cell.guide { border-color: color-mix(in srgb, var(--p1) 45%, transparent); }
+.eworlds.own-p2 .cell.guide { border-color: color-mix(in srgb, var(--p2) 45%, transparent); }
+.vs-computer .card.token { cursor: default; }
+/* a force laid on a card: its own small card, tucked under the corner */
+.card.token.mini {
+  --s: calc(var(--ts, .25) * .46);
+  left: auto; top: auto;
+  right: calc(-5px - var(--k, 0) * 9px); bottom: calc(-6px + var(--k, 0) * 16px);
+  transform: rotate(7deg); z-index: 25;
+}
+.card.token.mini.own-p1 { box-shadow: 0 0 0 1.5px var(--p1), 0 4px 10px #000c; }
+.card.token.mini.own-p2 { box-shadow: 0 0 0 1.5px var(--p2), 0 4px 10px #000c; }
+/* a card's affinities right now, when an effect has changed them */
+.echips {
+  position: absolute; left: 50%; bottom: 3px; transform: translateX(-50%); z-index: 22;
+  display: flex; align-items: center; gap: 2px; padding: 2px 5px; border-radius: 9px; white-space: nowrap;
+  background: #0d0f0de6; border: 1px solid #d9c9a388; line-height: 0;
+}
+.echips svg { width: calc(var(--cw) * .2); height: calc(var(--cw) * .2); }
+.echips .or { color: var(--faint); font-size: 9px; line-height: 1; }
+.echips .none { font-size: 9.5px; line-height: 14px; color: var(--muted); }
+.card.blanked { filter: grayscale(1) brightness(.72); }
+/* what the computer just played */
+.card.lastplay.own-p2 { box-shadow: 0 0 0 2px var(--p2), 0 0 12px 3px color-mix(in srgb, var(--p2) 45%, transparent); }
+/* places you can choose while playing a card */
+.vs-computer .pickable { cursor: pointer; }
+.cell.pickable, .eworld.pickable, .etag.pickable { outline: 2px solid #f2d27a; outline-offset: 2px; animation: pickme 1.5s ease-in-out infinite; }
+.cell.pickable { border-radius: 7px; }
+.cell.guide.pickable { background: #f2d27a12; }
+@keyframes pickme { 50% { outline-color: #f2d27a55; } }
+@media (prefers-reduced-motion: reduce) { .pickable { animation: none !important; } }
+.etag { font-size: 11px; padding: 1px 8px; border-radius: 10px; border: 1px solid #4f625a; color: #cfd8d2; background: #ffffff08; white-space: nowrap; text-transform: none; letter-spacing: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+.etag.own-p1 { border-color: color-mix(in srgb, var(--p1) 55%, transparent); }
+.etag.own-p2 { border-color: color-mix(in srgb, var(--p2) 55%, transparent); }
+.etag.fresh { background: color-mix(in srgb, var(--p2) 18%, transparent); }
+.etag.warn { border-color: #7d6d39; color: #ecd690; }
+/* scoreboard: a tie-break column, then what's in play and what to do next */
+.scoreboard.cpu { grid-template-columns: minmax(0, 1fr) auto auto auto auto auto; }
+.who-block .you { font-family: "IM Fell English", Georgia, serif; font-size: 13px; font-style: italic; color: var(--muted); }
+.cpu-inplay, .cpu-prompt { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 5px 8px; padding: 3px 8px; }
+.cpu-inplay { border-top: 1px solid #ffffff0d; }
+.cpu-prompt { border-top: 1px solid #ffffff0d; min-height: 32px; }
+.cpu-prompt .msg em { color: var(--muted); }
+.cpu-prompt .msg.flash { color: #ff9f8e; }
+.cpu-prompt button { padding: 3px 10px; font-size: 12px; }
+@container table (min-width: 1000px) {
+  .scoreboard.cpu { grid-template-columns: minmax(0, 1fr) auto auto auto auto auto auto; }
+  .scoreboard.cpu .score-row { grid-column: 1 / 7; }
+  .scoreboard.cpu .shared { grid-column: 7; grid-template-columns: auto auto; }
+  .scoreboard.cpu .shared > .turn-acts { grid-column: 2; }
+}
+/* the binder: choosing two binders, then cards you can't play right now are dimmed */
+.binder-pick-sub { font: 400 19px "IM Fell English", "Cormorant Garamond", Georgia, serif; color: #d8c29a; margin: 20px 0 0; }
+.binder-choice.on { background-color: #5c3a25; box-shadow: inset 0 0 30px rgba(0, 0, 0, .45), 0 0 0 2px #e2c08c, 0 10px 22px rgba(0, 0, 0, .55); }
+.binder-choice.on::after { content: "chosen"; position: absolute; top: 10px; right: 14px; font: 10.5px "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: #f0d9a8; }
+.cpu-start { margin: 22px 0 10px; }
+.cpu-start button { font-size: 15px; padding: 8px 20px; }
+.vs-computer #binderPanel .pocket .card { cursor: pointer; }
+#binderPanel .pocket .card.unplayable { filter: grayscale(.65) brightness(.8); opacity: .72; }
+
+/* ---- round and contest summaries ---- */
+#overlay { position: fixed; inset: 0; z-index: 85; display: flex; align-items: center; justify-content: center; padding: 16px; background: #0b0e0dcc; }
+.dialog { width: min(640px, 100%); max-height: calc(100vh - 32px); overflow: auto; padding: 18px 22px; border-radius: 12px; background: var(--panel); border: 1px solid var(--line); box-shadow: 0 20px 50px #000c; }
+.dialog h2 { margin: 0 0 6px; font: 600 26px "Cormorant Garamond", Georgia, serif; color: var(--accent); }
+.dialog p { color: var(--muted); margin: 0 0 12px; }
+.dialog table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.dialog th, .dialog td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.dialog th { color: var(--muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+.dialog .actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+@container table (max-width: 720px) {
+  .scoreboard.cpu .who-block .you, .scoreboard.cpu .who-block .muted.small { display: none; }
+}

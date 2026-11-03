@@ -1,9 +1,14 @@
 # The First Contest · playtest table
 
-A browser table for playtesting one contest between two people, at one link,
-with no download and no accounts. Like Cockatrice, the page knows where every
-card is but doesn't enforce rules: players apply card effects by moving cards,
-and count world points themselves on the manual counters.
+A browser table for playtesting one contest, at one link, with no download and no
+accounts. The **Friend / Computer** switch in the top bar picks who you play:
+
+- **Friend:** like Cockatrice, the page knows where every card is but doesn't enforce
+  rules. Players apply card effects by moving cards and count world points themselves
+  on the manual counters.
+- **Computer:** the rules engine applies every card and the computer plays the other
+  seat (see *Playing against the computer* below). `index.html?vs=computer` opens
+  straight to it.
 
 ## Playing
 
@@ -57,26 +62,31 @@ Without a room, the page runs in **solo mode**: you play both seats and
 
 ## Playing against the computer
 
-Open **`play.html`** (or **Play the computer** on the table's top bar). It plays one
-contest against a computer opponent with the rules enforced, using the newest card
-pool (the third pass) and its five test binders (Tides, Embers, Gales, Roots and the even Compass; no
-pinnacles, Origin or the Gap):
+Choose **Computer** in the top bar (on a table without a room). It's the same table,
+binder and scoreboard, but the page plays by the rules, with the newest card pool (the
+third pass) and its five test binders (Tides, Embers, Gales, Roots and the even
+Compass; no pinnacles, Origin or the Gap):
 
-1. Pick your binder and the computer's, then **Start the contest**. The opener is random.
-2. Your binder sits open on the right, two pages of nine pockets. Turn pages with
-   ‹ ›, the tabs on its edge, or the arrow keys. The tabs on top (or **F**) turn every
-   card over to its permanence side or its force side. Cards keep their pockets all
-   contest; a played card leaves an empty sleeve that says where it went.
-3. Click a card to play the side it's showing (if only its other side can be played,
-   you're offered that one). Then click the highlighted spot, card or world (or the
-   matching button under the table). **Esc** or **Cancel** backs out. **Pass for the
-   round** when you're done.
-4. Hover any card to see both faces larger. The symbols under a card on the table are
-   its affinities right now, after every effect; an outline means they've changed.
+1. In the binder panel, choose your binder and the computer's, then **Start the
+   contest**. The opener is random.
+2. Click a card in your binder to play the side it's showing; the tabs down the right
+   edge (or **F**) turn every card over, **↻** flips one. If only its other side can be
+   played, you're offered that one. Then click a highlighted spot, card or world, or a
+   button in the scoreboard's prompt row. **Esc** or **Cancel** backs out. **Pass for
+   the round** when you're done.
+3. Your worlds are at the bottom, the computer's at the top, each labelled with its
+   world points. A lasting force played on a card is tucked under that card's corner;
+   one on a world sits by the world's label, and every lasting force is listed under
+   **In play**. When an effect has changed a card's affinities, a small strip on the
+   card shows what it has right now. The computer's newest plays glow.
+4. Hover any card to see both faces larger. **Log** shows every play; click a **Void**
+   to look inside.
 
 The page counts everything: world points per world, the tie-break, the 10-card cap,
 round wins, and the Nov 2 test rule (a world worth 3 world points wins the contest at
-once). Everything runs in your browser; nothing is sent anywhere.
+once). A contest survives a reload, and switching to **Friend** and back keeps both
+tables. Everything runs in your browser; nothing is sent anywhere. (The old
+`play.html` link now opens this.)
 
 The rules live in `js/game/rules.js` and the opponent in `js/game/ai.js`. The same
 files run in node:
@@ -180,7 +190,8 @@ original, add its id (the card number, or `meta-<name>`) to that binder's
 | `vendor/peerjs.min.js` | PeerJS 1.5.5. |
 | `data/` | Card pool, generated card data and binders, card faces from the canvas. |
 | `scripts/` | Card sync and state tests (`node scripts/test-state.mjs`). |
-| `play.html`, `js/play.js`, `css/play.css` | Play a contest against the computer. |
+| `js/computer.js` | Playing the computer on the table: feeds the engine's contest to the table's binder, board and scoreboard. |
+| `play.html` | Redirects to `index.html?vs=computer`, for old links. |
 | `js/game/rules.js`, `js/game/ai.js` | The third-pass rules engine and the computer opponent (browser and node). |
 | `sim/` | The second-pass contest simulator (kept for its Nov 1 results; it doesn't know the third-pass cards). |
 

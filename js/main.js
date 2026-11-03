@@ -1,6 +1,7 @@
 import { SEATS, GRID, other, cellKey, initialState, apply, findInst, capFor, playedIn } from "./state.js";
 import { renderFace, otherFace, setFaceArt } from "./cards.js";
 import { createNet, peerOptionsFromUrl } from "./net.js";
+import { createComputer } from "./computer.js";
 
 // ---- where we are ----------------------------------------------------------
 const params = new URLSearchParams(location.search);
@@ -31,6 +32,14 @@ const mode = !room ? "solo" : store.get(`tfc:host:${room}`, false) ? "host" : "g
 const ns = room ? `tfc:${room}` : "tfc:solo";
 let mySeat = mode === "guest" ? "p2" : mode === "host" ? "p1" : store.get("tfc:solo:seat", "p1");
 const managesSeat = (seat) => mode === "solo" || seat === mySeat;
+
+// Who you play. A friend: the page only knows where cards are and you apply every effect by
+// hand. The computer (a table without a room only): the rules engine applies every card and
+// the computer plays the other seat (js/computer.js). ?vs=computer opens straight to it.
+let cpu = null;
+let opponent =
+  mode !== "solo" ? "friend" : params.get("vs") === "computer" ? "computer" : params.get("vs") === "friend" ? "friend" : store.get("tfc:opponent", "friend");
+const vsComputer = () => opponent === "computer" && !!cpu;
 
 // ---- data ------------------------------------------------------------------
 let cardsById = new Map();
@@ -265,8 +274,25 @@ function hostContest() {
     if (n && n.trim()) store.set("tfc:name", n.trim());
   }
   const p = new URLSearchParams(params);
+  p.delete("vs");
   p.set("room", code);
   location.search = p.toString();
+}
+
+function setOpponent(v) {
+  if (mode !== "solo" || (v !== "friend" && v !== "computer") || v === opponent) return;
+  opponent = v;
+  store.set("tfc:opponent", v);
+  const p = new URLSearchParams(location.search);
+  if (v === "computer") p.set("vs", "computer");
+  else p.delete("vs");
+  const q = p.toString();
+  history.replaceState(null, "", location.pathname + (q ? `?${q}` : "") + location.hash);
+  ui.selected = null;
+  ui.voidOpen = null;
+  hidePreview();
+  render();
+  if (vsComputer()) cpu.resume();
 }
 
 function leaveRoom() {
@@ -278,6 +304,7 @@ function leaveRoom() {
 
 function inviteLink() {
   const p = new URLSearchParams(params);
+  p.delete("vs");
   p.set("room", room);
   return `${location.origin}${location.pathname}?${p.toString()}`;
 }
@@ -322,6 +349,16 @@ const h = (tag, attrs = {}, ...kids) => {
 
 function render() {
   if (!state) return;
+  document.body.classList.toggle("vs-computer", vsComputer());
+  if (vsComputer()) {
+    document.body.classList.remove("selecting");
+    $("#main").classList.toggle("dock-open", !!(ui.voidOpen || ui.logOpen));
+    renderTopbar();
+    cpu.render();
+    layout();
+    return;
+  }
+  $("#overlay").hidden = true;
   if (!privates[mySeat] && !state.players[mySeat].binderChosen) ui.binderOpen = true;
   document.body.classList.toggle("selecting", !!ui.selected);
   $("#main").classList.toggle("dock-open", !!(ui.voidOpen || ui.logOpen));
@@ -369,17 +406,30 @@ function renderTopbar() {
   bar.replaceChildren();
   bar.append(h("div", { class: "brand" }, h("span", { text: "The First Contest" }), h("small", { text: "playtest table" })));
 
-  const conn = h("div", { class: `conn conn-${link.kind}` });
-  conn.append(h("span", { class: "dot" }));
-  if (room) conn.append(h("span", { class: "room", text: room }));
-  conn.append(h("span", { class: "status", text: linkText() }));
   if (mode === "solo") {
+    const seg = h("div", { class: "seg", role: "group", "aria-label": "Opponent" });
+    for (const [v, label, title] of [
+      ["friend", "Friend", "Play a friend: the page knows where cards are, and you apply their effects by hand"],
+      ["computer", "Computer", "Play the computer: the page applies every card's rules"],
+    ]) {
+      seg.append(h("button", { class: opponent === v ? "on" : "", "data-act": "opponent", "data-vs": v, title, "aria-pressed": String(opponent === v) }, label));
+    }
+    bar.append(seg);
+  }
+
+  const conn = h("div", { class: `conn conn-${vsComputer() ? "solo" : link.kind}` });
+  conn.append(h("span", { class: "dot" }));
+  if (vsComputer()) {
+    conn.append(h("span", { class: "status", text: cpu.status() }));
+  } else if (mode === "solo") {
     conn.append(
+      h("span", { class: "status", text: linkText() }),
       h("button", { "data-act": "switch-seat", class: "quiet", title: `Play as ${state.players[other(mySeat)].name}` }, "Switch seat"),
-      h("button", { "data-act": "host", class: "primary" }, "Host a contest"),
-      h("a", { href: "play.html", class: "btnlink", title: "Play a contest against the computer, with the rules enforced" }, "Play the computer")
+      h("button", { "data-act": "host", class: "primary" }, "Host a contest")
     );
   } else {
+    if (room) conn.append(h("span", { class: "room", text: room }));
+    conn.append(h("span", { class: "status", text: linkText() }));
     if (mode === "host") conn.append(h("button", { "data-act": "copy-invite", class: "primary" }, "Copy invite link"));
     conn.append(h("button", { "data-act": "leave", class: "quiet" }, "Leave"));
   }
@@ -391,7 +441,9 @@ function renderTopbar() {
       { class: "group right" },
       h("button", { "data-act": "toggle-binder", class: ui.binderOpen ? "on" : "", title: "Open or close your binder (B)" }, "Binder"),
       h("button", { "data-act": "toggle-log", class: ui.logOpen ? "on" : "", title: "Show the action log (L)" }, "Log"),
-      h("button", { "data-act": "reset", class: "quiet danger", title: "Clear the table for both players" }, "Reset")
+      vsComputer()
+        ? h("button", { "data-act": "reset", class: "quiet danger", title: "End this contest and choose binders again" }, "New contest")
+        : h("button", { "data-act": "reset", class: "quiet danger", title: "Clear the table for both players" }, "Reset")
     )
   );
 }
@@ -462,21 +514,14 @@ function renderBinder() {
     return;
   }
 
-  fitBinder();
   const slots = binderSlots(priv);
-  const spreads = Math.max(1, Math.ceil(slots.length / (2 * PER_PAGE)));
-  ui.binderPage = Math.min(Math.max(0, ui.binderPage), spreads - 1);
   const inBinder = new Map(priv.cards.map((c) => [c.id, c]));
-  const name = priv.binderName.replace(/^Binder \w, /, "");
-
-  const leaf = (pg, which) => {
-    const page = h("div", { class: `leaf ${which}` });
-    page.append(h("div", { class: "phead" }, h("span", { text: which === "left" ? name : "" }), h("span", { text: which === "right" ? `${who}'s binder` : "" })));
-    const grid = h("div", { class: "pockets" });
-    for (let k = 0; k < PER_PAGE; k++) {
-      const id = slots[pg * PER_PAGE + k];
-      const pocket = h("div", { class: "pocket" });
-      if (!id) { pocket.classList.add("blank"); grid.append(pocket); continue; }
+  buildAlbum(panel, {
+    name: priv.binderName.replace(/^Binder \w, /, ""),
+    owner: `${who}'s binder`,
+    slots,
+    keys: `${priv.cards.length} of ${slots.length} in the binder · click or drag a card onto a world; it goes down on the face showing, ↻ flips one`,
+    fillPocket(pocket, id) {
       const inst = inBinder.get(id);
       const card = cardsById.get(id);
       if (inst) {
@@ -489,8 +534,31 @@ function renderBinder() {
         if (flip) pocket.append(flip);
       } else {
         const label = card.meta ? card.meta.name : ui.binderSide === "force" && card.force ? card.force.name : card.permanence.name;
-        pocket.append(h("div", { class: "gone" }, h("span", {}, h("b", { text: label }), whereMine(id))));
+        pocket.append(goneSleeve(label, whereMine(id)));
       }
+    },
+  });
+}
+
+// An empty sleeve, saying where its card went.
+const goneSleeve = (label, where) => h("div", { class: "gone" }, h("span", {}, h("b", { text: label }), where));
+
+// The album, for either opponent: two pages of nine pockets, page tabs on top, the
+// permanence/force tabs down the right edge. fillPocket(pocket, id) fills one pocket.
+function buildAlbum(panel, { name, owner, slots, keys, fillPocket }) {
+  fitBinder();
+  const spreads = Math.max(1, Math.ceil(slots.length / (2 * PER_PAGE)));
+  ui.binderPage = Math.min(Math.max(0, ui.binderPage), spreads - 1);
+
+  const leaf = (pg, which) => {
+    const page = h("div", { class: `leaf ${which}` });
+    page.append(h("div", { class: "phead" }, h("span", { text: which === "left" ? name : "" }), h("span", { text: which === "right" ? owner : "" })));
+    const grid = h("div", { class: "pockets" });
+    for (let k = 0; k < PER_PAGE; k++) {
+      const id = slots[pg * PER_PAGE + k];
+      const pocket = h("div", { class: "pocket" });
+      if (!id) pocket.classList.add("blank");
+      else fillPocket(pocket, id);
       grid.append(pocket);
     }
     page.append(grid, h("div", { class: `pfoot ${which}`, text: String(pg + 1) }));
@@ -516,7 +584,7 @@ function renderBinder() {
     h("button", { "data-act": "binder-page", "data-page": String(ui.binderPage - 1), disabled: ui.binderPage === 0, title: "Previous pages (←)" }, "‹"),
     h("span", { text: `Pages ${2 * ui.binderPage + 1}–${2 * ui.binderPage + 2} of ${2 * spreads}` }),
     h("button", { "data-act": "binder-page", "data-page": String(ui.binderPage + 1), disabled: ui.binderPage >= spreads - 1, title: "Next pages (→)" }, "›"),
-    h("span", { class: "keys", text: `${priv.cards.length} of ${slots.length} in the binder · click or drag a card onto a world; it goes down on the face showing, ↻ flips one` })
+    h("span", { class: "keys", text: keys })
   );
   panel.append(h("div", { class: "album" }, cover, nav));
 }
@@ -745,8 +813,10 @@ function layout() {
   const w = area.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
   const hgt = area.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
   const pad = 2 * 8; // the board's padding
-  const byW = (w - pad - GAP * (GRID.cols - 1)) / GRID.cols;
-  const byH = (hgt - pad - GAP * (GRID.rows - 1)) / GRID.rows / 1.4;
+  // against the computer, worlds sit side by side: two rows of cards under a label, eight across
+  const cols = vsComputer() ? 8 : GRID.cols, rows = vsComputer() ? 2 : GRID.rows, labels = vsComputer() ? 30 : 0;
+  const byW = (w - pad - GAP * (cols - 1)) / cols;
+  const byH = (hgt - pad - labels - GAP * (rows - 1)) / rows / 1.4;
   const cw = Math.max(36, Math.floor(Math.min(byW, byH)));
   table.style.setProperty("--cw", `${cw}px`);
   table.style.setProperty("--ts", String(cw / 320));
@@ -793,7 +863,7 @@ function paintStars() {
 
 // ---- preview and menus --------------------------------------------------------------
 function showPreview(iid, x) {
-  const found = lookup(iid);
+  const found = vsComputer() ? cpu.lookup(iid) : lookup(iid);
   const pv = $("#preview");
   if (!found) {
     pv.hidden = true;
@@ -810,7 +880,7 @@ function showPreview(iid, x) {
     pv.append(h("div", { class: "pv-label", text: "Other face" }), back);
   }
   const owner = state.players[found.inst.owner]?.name;
-  pv.append(h("div", { class: "pv-label", text: `${owner}'s card${found.inst.original ? " · original" : " · copy"}` }));
+  pv.append(h("div", { class: "pv-label", text: found.label || `${owner}'s card${found.inst.original ? " · original" : " · copy"}` }));
   pv.classList.toggle("left", x > window.innerWidth / 2);
   pv.hidden = false;
 }
@@ -853,6 +923,7 @@ function toast(text) {
 // ---- input ---------------------------------------------------------------------------------
 function bindInput() {
   document.addEventListener("click", (e) => {
+    if (vsComputer() && cpu.click(e)) return;
     const menuBtn = e.target.closest("[data-menu]");
     if (menuBtn) {
       const { menu: act, from, iid } = menuBtn.dataset;
@@ -872,6 +943,9 @@ function bindInput() {
     if (btn) {
       const d = btn.dataset;
       switch (d.act) {
+        case "opponent":
+          setOpponent(d.vs);
+          break;
         case "switch-seat":
           mySeat = other(mySeat);
           store.set("tfc:solo:seat", mySeat);
@@ -952,6 +1026,7 @@ function bindInput() {
       }
       return;
     }
+    if (vsComputer()) return; // against the computer, cards are played through the rules
 
     const cardEl = e.target.closest(".card[data-iid]");
     if (cardEl && cardEl.dataset.iid) {
@@ -975,6 +1050,7 @@ function bindInput() {
   });
 
   document.addEventListener("contextmenu", (e) => {
+    if (vsComputer()) return;
     const cardEl = e.target.closest(".card[data-iid]");
     if (!cardEl || !cardEl.dataset.iid) return;
     e.preventDefault();
@@ -1004,6 +1080,7 @@ function bindInput() {
   const binderTarget = (t) => t.closest("#binderPanel") || t.closest('[data-act="toggle-binder"]');
 
   document.addEventListener("dragstart", (e) => {
+    if (vsComputer()) return;
     const cardEl = e.target.closest(".card[data-iid]");
     if (!cardEl) return;
     drag = { from: cardEl.dataset.from, iid: cardEl.dataset.iid };
@@ -1048,6 +1125,10 @@ function bindInput() {
   document.addEventListener("keydown", (e) => {
     if (e.target.closest("input, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
     const k = e.key.toLowerCase();
+    if (vsComputer() && k !== "b" && k !== "l") {
+      cpu.key(k);
+      return;
+    }
     if (k === "escape") {
       ui.selected = null;
       closeMenu();
@@ -1079,8 +1160,10 @@ function bindInput() {
 
 // ---- start -------------------------------------------------------------------------------------
 async function init() {
+  let cardsJson;
   try {
-    const [cardsJson, bindersJson, facesJson] = await Promise.all([
+    let bindersJson, facesJson;
+    [cardsJson, bindersJson, facesJson] = await Promise.all([
       fetch("data/cards.json", { cache: "no-cache" }).then((r) => r.json()),
       fetch("data/binders.json", { cache: "no-cache" }).then((r) => r.json()),
       fetch("data/card-faces.json", { cache: "no-cache" })
@@ -1112,9 +1195,19 @@ async function init() {
     if (n && n.trim()) store.set("tfc:name", n.trim());
   }
 
+  if (mode === "solo") {
+    try {
+      cpu = createComputer({ h, renderFace, buildAlbum, goneSleeve, hidePreview, toast, store, $, ui, cardsJson, cardsById, cardOrder, binders, active: vsComputer, render: () => render() });
+    } catch (err) {
+      console.error("The computer opponent didn't start:", err);
+      cpu = null;
+    }
+  }
+
   paintStars();
   bindInput();
   render();
+  if (vsComputer()) cpu.resume();
 
   if (mode !== "solo") {
     net = createNet({ mode, room, peerOptions: peerOptionsFromUrl(params), onMessage: onNetMessage, onStatus: onNetStatus });

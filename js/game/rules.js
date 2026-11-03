@@ -1,6 +1,6 @@
 // The First Contest: rules engine for the third-pass cards (Nov 2, 2026).
 //
-// Runs in the browser (play.html) and in node (scripts/sim3.mjs, scripts/test-rules3.mjs).
+// Runs in the browser (the table's Computer mode, js/computer.js) and in node (scripts/sim3.mjs, scripts/test-rules3.mjs).
 // It enforces the current loop: worlds of up to 2x2, one world point per complete set of the
 // four elements in a world, the highest single-element count as the tie-break, best of three
 // rounds, Gwent-style passing, 10 cards a round, and the test rule from Nov 2: a player who
