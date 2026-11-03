@@ -44,6 +44,8 @@ const ui = {
   selected: null, // { from: "binder"|"table"|"void", iid }
   voidOpen: null, // seat whose void is shown
   hover: null, // iid under the pointer
+  binderPage: 0, // which two-page spread of the binder is open
+  binderSide: "permanence", // the side the binder's tabs last turned every card to
 };
 let net = null;
 let link = { kind: mode === "solo" ? "solo" : "starting" };
@@ -394,6 +396,37 @@ function renderTopbar() {
   );
 }
 
+// The binder is an old leather album open flat: two pages of nine pockets. Every card keeps
+// its pocket (the binder's order); a card that's out leaves an empty sleeve saying where it is.
+const PER_PAGE = 9;
+function binderSlots(priv) {
+  const b = binders.find((x) => x.id === priv.binderId);
+  const ids = b ? [...new Set(b.cards.map(String))].filter((id) => cardsById.has(id)) : priv.cards.map((c) => c.id);
+  for (const c of priv.cards) if (!ids.includes(c.id)) ids.push(c.id); // anything else that came back
+  return ids.sort((x, y) => (cardOrder.get(x) ?? 1e6) - (cardOrder.get(y) ?? 1e6));
+}
+function whereMine(id) {
+  for (const area of SEATS) for (const stack of Object.values(state.table[area] || {})) if (stack.some((c) => c.id === id && c.owner === mySeat)) return "on the table";
+  if ((state.voids[mySeat] || []).some((c) => c.id === id)) return "in the void";
+  return "out of the binder";
+}
+function fitBinder() {
+  const panel = $("#binderPanel");
+  if (!panel || !ui.binderOpen) return;
+  const w = panel.clientWidth - 28 - 30, hgt = panel.clientHeight - 110;
+  const sc = Math.max(0.16, Math.min((w - 174) / 1920, (hgt - 160) / 1344, 0.5));
+  panel.style.setProperty("--bs", sc.toFixed(3));
+}
+function spineSvg(hgt) {
+  let d = "", holes = "";
+  const n = Math.max(6, Math.round(hgt / 70));
+  for (let k = 0; k <= n; k++) {
+    const y = 20 + ((hgt - 40) * k) / n;
+    holes += `<circle cx="15" cy="${y.toFixed(1)}" r="2.6" fill="#140a04"/>`;
+    if (k < n) { const y2 = 20 + ((hgt - 40) * (k + 1)) / n; d += `M15 ${y.toFixed(1)} C4 ${((y + y2) / 2).toFixed(1)} 26 ${((y + y2) / 2).toFixed(1)} 15 ${y2.toFixed(1)} `; }
+  }
+  return `<svg viewBox="0 0 30 ${hgt}" preserveAspectRatio="none" aria-hidden="true">${holes}<path d="${d}" stroke="#1a0e06" stroke-width="3.2" fill="none" transform="translate(0.8 1)"/><path d="${d}" stroke="#b58a52" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>`;
+}
 function renderBinder() {
   const panel = $("#binderPanel");
   panel.replaceChildren();
@@ -404,7 +437,7 @@ function renderBinder() {
   const who = state.players[mySeat].name;
 
   if (!priv) {
-    panel.append(h("h2", { text: `Choose a binder for ${who}` }));
+    panel.append(h("h2", { class: "binder-pick-title", text: `Choose a binder for ${who}` }));
     if (state.players[mySeat].binderChosen) {
       panel.append(
         h("p", {
@@ -419,7 +452,7 @@ function renderBinder() {
         h(
           "button",
           { class: "binder-choice", "data-act": "choose-binder", "data-binder": b.id },
-          h("strong", { text: b.name }),
+          h("strong", { text: b.name.replace(/^Binder \w, /, "") }),
           h("span", { text: `${b.cards.length} cards` }),
           b.note ? h("small", { text: b.note }) : null
         )
@@ -429,37 +462,63 @@ function renderBinder() {
     return;
   }
 
-  panel.append(
-    h(
-      "div",
-      { class: "binder-head" },
-      h("h2", { text: `${who}'s binder` }),
-      h("span", { class: "muted", text: `${priv.binderName} · ${priv.cards.length} left` }),
-      h(
-        "div",
-        { class: "seg", role: "group", "aria-label": "Show every card's" },
-        h("button", { "data-act": "binder-faces", "data-face": "permanence" }, "Permanence"),
-        h("button", { "data-act": "binder-faces", "data-face": "force" }, "Force")
-      )
-    ),
-    h("p", { class: "hint", text: "Click or drag a card onto a world. It goes down on the face showing; ↻ flips it." })
-  );
+  fitBinder();
+  const slots = binderSlots(priv);
+  const spreads = Math.max(1, Math.ceil(slots.length / (2 * PER_PAGE)));
+  ui.binderPage = Math.min(Math.max(0, ui.binderPage), spreads - 1);
+  const inBinder = new Map(priv.cards.map((c) => [c.id, c]));
+  const name = priv.binderName.replace(/^Binder \w, /, "");
 
-  const grid = h("div", { class: "binder-grid" });
-  for (const inst of priv.cards) {
-    const card = cardsById.get(inst.id);
-    if (!card) continue;
-    const face = renderFace(card, inst.face, { size: "full", inst });
-    face.dataset.from = "binder";
-    face.draggable = true;
-    if (ui.selected?.iid === inst.iid) face.classList.add("selected");
-    const flip = card.meta
-      ? null
-      : h("button", { class: "flip", "data-act": "flip", "data-from": "binder", "data-iid": inst.iid, title: "Flip (F)", "aria-label": "Flip" }, "↻");
-    grid.append(h("div", { class: "binder-slot" }, face, flip));
+  const leaf = (pg, which) => {
+    const page = h("div", { class: `leaf ${which}` });
+    page.append(h("div", { class: "phead" }, h("span", { text: which === "left" ? name : "" }), h("span", { text: which === "right" ? `${who}'s binder` : "" })));
+    const grid = h("div", { class: "pockets" });
+    for (let k = 0; k < PER_PAGE; k++) {
+      const id = slots[pg * PER_PAGE + k];
+      const pocket = h("div", { class: "pocket" });
+      if (!id) { pocket.classList.add("blank"); grid.append(pocket); continue; }
+      const inst = inBinder.get(id);
+      const card = cardsById.get(id);
+      if (inst) {
+        const face = renderFace(card, inst.face, { size: "full", inst });
+        face.dataset.from = "binder";
+        face.draggable = true;
+        if (ui.selected?.iid === inst.iid) { face.classList.add("selected"); pocket.classList.add("sel"); }
+        const flip = card.meta ? null : h("button", { class: "flip", "data-act": "flip", "data-from": "binder", "data-iid": inst.iid, title: "Flip this card (F)", "aria-label": "Flip" }, "↻");
+        pocket.append(face);
+        if (flip) pocket.append(flip);
+      } else {
+        const label = card.meta ? card.meta.name : ui.binderSide === "force" && card.force ? card.force.name : card.permanence.name;
+        pocket.append(h("div", { class: "gone" }, h("span", {}, h("b", { text: label }), whereMine(id))));
+      }
+      grid.append(pocket);
+    }
+    page.append(grid, h("div", { class: `pfoot ${which}`, text: String(pg + 1) }));
+    return page;
+  };
+
+  const cover = h("div", { class: "cover" });
+  const sides = h("div", { class: "stabs" });
+  for (const [f, label] of [["permanence", "Permanence side"], ["force", "Force side"]]) {
+    sides.append(h("button", { class: ui.binderSide === f ? "on" : "", "data-act": "binder-faces", "data-face": f, title: `Turn every card to its ${f} face` }, label));
   }
-  if (!priv.cards.length) grid.append(h("p", { class: "hint", text: "Your binder is empty." }));
-  panel.append(grid);
+  const tabs = h("div", { class: "ptabs" });
+  for (let k = 0; k < spreads; k++) {
+    tabs.append(h("button", { class: k === ui.binderPage ? "on" : "", "data-act": "binder-page", "data-page": String(k), title: `Pages ${2 * k + 1} and ${2 * k + 2}` }, `${2 * k + 1}–${2 * k + 2}`));
+  }
+  const pageH = Math.round(24 + 26 + 1344 * Number(panel.style.getPropertyValue("--bs") || 0.3) + 18 + 14 + 26);
+  cover.append(sides, leaf(2 * ui.binderPage, "left"), h("div", { class: "spine" }), leaf(2 * ui.binderPage + 1, "right"), tabs);
+  cover.querySelector(".spine").innerHTML = spineSvg(pageH);
+
+  const nav = h(
+    "div",
+    { class: "bnav" },
+    h("button", { "data-act": "binder-page", "data-page": String(ui.binderPage - 1), disabled: ui.binderPage === 0, title: "Previous pages (←)" }, "‹"),
+    h("span", { text: `Pages ${2 * ui.binderPage + 1}–${2 * ui.binderPage + 2} of ${2 * spreads}` }),
+    h("button", { "data-act": "binder-page", "data-page": String(ui.binderPage + 1), disabled: ui.binderPage >= spreads - 1, title: "Next pages (→)" }, "›"),
+    h("span", { class: "keys", text: `${priv.cards.length} of ${slots.length} in the binder · click or drag a card onto a world; it goes down on the face showing, ↻ flips one` })
+  );
+  panel.append(h("div", { class: "album" }, cover, nav));
 }
 
 // ---- counters: a value with a small up and down arrow beside it ------------------
@@ -696,7 +755,7 @@ function layout() {
 
 // A starfield for the table, drawn once: two tiles of different sizes so the
 // repeat doesn't show.
-function starTile(size, count, seed) {
+function starTile(size, count, seed, dim = 1) {
   const c = document.createElement("canvas");
   c.width = c.height = size;
   const g = c.getContext("2d");
@@ -707,7 +766,7 @@ function starTile(size, count, seed) {
     const y = rnd() * size;
     const big = rnd() > 0.94;
     const r = big ? 0.9 + rnd() * 0.7 : 0.3 + rnd() * 0.55;
-    const a = big ? 0.7 + rnd() * 0.3 : 0.18 + rnd() * 0.5;
+    const a = (big ? 0.7 + rnd() * 0.3 : 0.18 + rnd() * 0.5) * dim;
     const t = rnd();
     const rgb = t < 0.12 ? "190,208,255" : t < 0.2 ? "255,226,196" : "255,255,255";
     if (big) {
@@ -726,8 +785,8 @@ function starTile(size, count, seed) {
 }
 function paintStars() {
   try {
-    const a = starTile(512, 150, 1931);
-    const b = starTile(733, 110, 7177);
+    const a = starTile(512, 90, 1931, 0.42); // a faint sky over the felt
+    const b = starTile(733, 60, 7177, 0.42);
     $("#table").style.setProperty("--stars", `url(${a}), url(${b})`);
   } catch {}
 }
@@ -856,7 +915,12 @@ function bindInput() {
           chooseBinder(d.binder);
           break;
         case "binder-faces":
+          ui.binderSide = d.face;
           setAllBinderFaces(d.face);
+          break;
+        case "binder-page":
+          ui.binderPage = Number(d.page);
+          renderBinder();
           break;
         case "flip":
           flipCard(d.from, d.iid);
@@ -997,6 +1061,12 @@ function bindInput() {
       render();
     } else if (ui.hover && k === "f") {
       flipCard(ui.hover.from, ui.hover.iid);
+    } else if (!ui.hover && k === "f" && ui.binderOpen && privates[mySeat]) {
+      ui.binderSide = ui.binderSide === "force" ? "permanence" : "force";
+      setAllBinderFaces(ui.binderSide);
+    } else if ((k === "arrowright" || k === "arrowleft") && ui.binderOpen && privates[mySeat]) {
+      ui.binderPage += k === "arrowright" ? 1 : -1;
+      renderBinder();
     } else if (ui.hover && k === "v" && ui.hover.from === "table") {
       dispatch({ type: "toVoid", iid: ui.hover.iid });
     } else if (ui.hover && k === "r" && ui.hover.from !== "binder") {
@@ -1004,7 +1074,7 @@ function bindInput() {
     }
   });
 
-  window.addEventListener("resize", layout);
+  window.addEventListener("resize", () => { layout(); fitBinder(); });
 }
 
 // ---- start -------------------------------------------------------------------------------------
