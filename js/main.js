@@ -821,6 +821,10 @@ function layout() {
   table.style.setProperty("--cw", `${cw}px`);
   table.style.setProperty("--ts", String(cw / 320));
   table.style.setProperty("--gap", `${GAP}px`);
+  // the runner is just wider than the cards on it
+  const boardW = vsComputer() ? cols * cw + 4 * GAP + 3 * 18 + 16 + 16 : cols * cw + (cols - 1) * GAP + pad;
+  table.style.setProperty("--boardw", `${Math.round(boardW)}px`);
+  table.style.setProperty("--runw", `${Math.round(boardW + 64)}px`);
 }
 
 // A starfield for the table, drawn once: two tiles of different sizes so the

@@ -559,3 +559,46 @@ button.icon-btn:hover:not(:disabled) { background: #ffffff10; color: var(--text)
 @container table (max-width: 720px) {
   .scoreboard.cpu .who-block .you, .scoreboard.cpu .who-block .muted.small { display: none; }
 }
+
+/* ---- the table itself (Nov 3, an experiment): a dark wooden table with a fabric runner down the
+   middle for the cards, and the starry space showing only around its edges ---- */
+#table {
+  --rim: 20px;
+  position: relative; isolation: isolate;
+  padding: var(--rim);
+  --wood: #3a2416;
+  --runner: #4a201c;      /* oxblood */
+  --runner-band: #9a7a44; /* ochre */
+  --runner-edge: #cdbb93; /* cream */
+}
+#table::before { /* the tabletop: dark brown wood with long grain, a lamp's warmth in the middle */
+  content: ""; position: absolute; inset: var(--rim); z-index: -2; border-radius: 22px; pointer-events: none;
+  background-color: var(--wood);
+  background-image:
+    radial-gradient(ellipse 70% 55% at 50% 48%, rgba(255, 196, 130, .11), transparent 72%),
+    linear-gradient(to bottom, rgba(0, 0, 0, .28), transparent 12%, transparent 88%, rgba(0, 0, 0, .32)),
+    repeating-linear-gradient(to bottom, transparent 0 157px, rgba(0, 0, 0, .55) 157px 159px, rgba(255, 220, 170, .06) 159px 160px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='320'%3E%3Cfilter id='k'%3E%3CfeTurbulence type='turbulence' baseFrequency='.0018 .045' numOctaves='4' seed='21' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .07 0 0 0 0 .04 0 0 0 0 .02 0 0 0 2.6 -.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23k%29'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='320'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.02 .9' numOctaves='2' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .33 0 0 0 0 .19 0 0 0 1.1 -.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23h%29'/%3E%3C/svg%3E");
+  box-shadow: 0 0 0 2px #140b06, 0 0 0 5px #4a2e1c, 0 0 0 6px #1a0f08, 0 20px 46px rgba(0, 0, 0, .75), inset 0 0 70px rgba(0, 0, 0, .55), inset 0 2px 0 rgba(255, 220, 170, .08);
+}
+#table::after { /* the runner: woven oxblood cloth with ochre and cream bands along its edges */
+  content: ""; position: absolute; top: calc(var(--rim) + 10px); bottom: calc(var(--rim) + 10px); left: 50%; z-index: -1; pointer-events: none;
+  width: min(var(--runw, 70%), calc(100% - 2 * var(--rim) - 72px)); transform: translateX(-50%);
+  border-radius: 3px;
+  background-color: var(--runner);
+  background-image:
+    linear-gradient(to right, var(--runner-edge) 0 3px, transparent 3px 9px, var(--runner-band) 9px 15px, transparent 15px 19px, var(--runner-band) 19px 21px, transparent 21px),
+    linear-gradient(to left, var(--runner-edge) 0 3px, transparent 3px 9px, var(--runner-band) 9px 15px, transparent 15px 19px, var(--runner-band) 19px 21px, transparent 21px),
+    repeating-linear-gradient(45deg, rgba(255, 220, 190, .035) 0 2px, transparent 2px 14px),
+    repeating-linear-gradient(-45deg, rgba(255, 220, 190, .035) 0 2px, transparent 2px 14px),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, .16) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, .12) 0 1px, transparent 1px 3px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .55), inset 0 0 26px rgba(0, 0, 0, .45);
+}
+/* the cards sit on the runner */
+.area { justify-items: center; }
+.board { justify-self: center; background: transparent; box-shadow: none; }
+.eworlds { justify-self: center; width: min(100%, var(--boardw, 100%)); background: transparent; box-shadow: none; }
+/* the scoreboard is a dark plaque laid across the table */
+.scoreboard { margin-inline: 14px; border: 1px solid rgba(255, 255, 255, .07); border-radius: 10px; background: rgba(14, 18, 16, .9); box-shadow: 0 6px 16px rgba(0, 0, 0, .5); }
