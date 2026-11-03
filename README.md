@@ -119,9 +119,11 @@ Where a card's text leaves a question open, the engine picks one reading (marked
 - Equinox returns three cards of your choice from your void (all of them if there are
   three or fewer); it goes to the void itself afterwards.
 - The eight conversion commons (Updraft, Brushfire, Shower, Current, Rockfall, Dust
-  Devil, Riptide, Dry Wind) reach a permanence of any size showing the named element and
-  turn every ring on it to the new element until the round ends. Flare-up removes a
-  common force from the table, ending its effect.
+  Devil, Riptide, Dry Wind) reach a permanence of any size showing the named element.
+  Until the round ends it has a single affinity of the new element, however many it
+  printed: a three-affinity card becomes one earth. Every "A … permanence becomes X"
+  force works this way, Cloudburst and the one-affinity commons included. Flare-up
+  removes a common force from the table, ending its effect.
 
 ## Updating the cards and binders
 

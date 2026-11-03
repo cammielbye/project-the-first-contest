@@ -155,7 +155,8 @@ export function view(s) {
   }
   for (const f of fs) {
     const n = fname(f);
-    if (SET_EL[n] !== undefined) { const i = s.inst[f.t]; if (i && applies(s, f, i)) tok[i.id] = tok[i.id].map(() => SET_EL[n]); }
+    // "A … permanence becomes X": overwritten to a single X affinity, whatever it had (Cam, Nov 2)
+    if (SET_EL[n] !== undefined) { const i = s.inst[f.t]; if (i && applies(s, f, i)) tok[i.id] = [SET_EL[n]]; }
     else if (WORLD_SHIFT[n]) {
       const w = s.worlds[f.w]; if (!w) continue; const [x, y] = WORLD_SHIFT[n];
       for (const i of permsIn(s, w)) if (applies(s, f, i) && hasBit(tok[i.id], x)) tok[i.id] = tok[i.id].map(() => y);

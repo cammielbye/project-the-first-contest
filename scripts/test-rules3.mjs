@@ -25,13 +25,14 @@ const targetNames = (s, ms) => ms.map((m) => R.C[s.inst[m.t].card].name).sort();
 let n = 0;
 const test = (name, fn) => { fn(); n++; console.log("ok -", name); };
 
-test("Brushfire turns an earth permanence of any size to fire for the round", () => {
-  const s = table(["Ashfield"], ["Hill", "Volcano"]);
-  put(s, 1, "Hill"); const v = put(s, 1, "Volcano");
-  assert.deepEqual(targetNames(s, forceTargets(s, 0, "Brushfire")), ["Hill", "Volcano"]);
+test("Brushfire overwrites an earth permanence of any size to a single fire for the round", () => {
+  const s = table(["Ashfield"], ["Hill", "Red Canyon"]);
+  put(s, 1, "Hill"); const v = put(s, 1, "Red Canyon");
+  assert.equal(R.C[v.card].aff.length, 3);
+  assert.deepEqual(targetNames(s, forceTargets(s, 0, "Brushfire")), ["Hill", "Red Canyon"]);
   R.applyMove(s, 0, forceTargets(s, 0, "Brushfire").find((m) => m.t === v.id));
-  assert.deepEqual(R.view(s).tok[v.id], [R.BIT.fire, R.BIT.fire]);
-  assert.ok(findPerm(s, "Volcano"), "it stays on the table");
+  assert.deepEqual(R.view(s).tok[v.id], [R.BIT.fire]);
+  assert.ok(findPerm(s, "Red Canyon"), "it stays on the table");
 });
 test("Flare-up removes a common force, not an uncommon one", () => {
   const s = table(["Fumarole", "Ashfield", "Cloud Forest"], []);
