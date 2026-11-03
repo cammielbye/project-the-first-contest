@@ -30,6 +30,8 @@
 
 **Changes after review (Nov 2, Cam).** Echo plays any card from your void; Calm lasts the round. Option A: the 23 common forces that aimed at "a [element] permanence" now reach only a permanence with one affinity, and so do the four uncommon removal forces (Scald, Lava Bomb, Hail, Landslide), so a common or uncommon force can't remove, blank, recolour or move a pinnacle or a three-affinity card. "One of yours" now reads "one of your permanences" (Vent, Snowfield, Bluff, Drift, Hanging Valley).
 
+**Changes after the first games (Nov 2, Cam).** The eight common forces that removed or moved a permanence with one affinity now last the round and turn a permanence of any size to the force's element instead (Brushfire: "An earth permanence becomes fire."); nothing at common removes or moves a permanence any more. Flare-up was pointless and now removes a common force. Equinox was far too strong (Cam brought back 17 cards in the third round) and now returns 3 cards from your void.
+
 **Test rule (Nov 2, Cam).** A decisive win: if a player creates a world that scores 3 world points, they win the contest at once. The four test binders below leave out the pinnacles, Origin and the Gap, which are meant for the end game.
 
 **Open.** The cycle above; whether the commons' restriction text ("Loses its affinities if adjacent to water") is worth its words; Horizon's final shape; card 101's force; names that may sit at the wrong tier.
@@ -39,9 +41,9 @@
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Cinder Field | C | 1 fire | — | Smolder | Lasts the round | An earth permanence with one affinity loses it. |
-| 2 | Dune | C | 1 fire | — | Updraft | Once | Move an air permanence with one affinity to another world. |
-| 3 | Fumarole | C | 1 fire | Returns at round end. | Flare-up | Once | Play another fire card this turn. |
-| 4 | Ashfield | C | 1 fire | Ignores water forces. | Brushfire | Once | Remove an earth permanence with one affinity. |
+| 2 | Dune | C | 1 fire | — | Updraft | Lasts the round | An air permanence becomes fire. |
+| 3 | Fumarole | C | 1 fire | Returns at round end. | Flare-up | Once | Remove a common force. |
+| 4 | Ashfield | C | 1 fire | Ignores water forces. | Brushfire | Lasts the round | An earth permanence becomes fire. |
 | 5 | Lava Field | C | 1 fire | Adjacent earth permanences become fire. | Spark | Lasts the round | An air permanence with one affinity becomes fire. |
 | 6 | Badlands | C | 1 fire | Loses its affinities if adjacent to water. | Ember | Lasts the round | A lone permanence loses its affinities. |
 | 7 | Barrens | C | 1 fire | Ignores common forces. | Kindling | Lasts the round | An earth permanence with one affinity becomes fire. |
@@ -50,8 +52,8 @@
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 8 | Lagoon | C | 1 water | — | Shower | Once | Remove a fire permanence with one affinity. |
-| 9 | Ice Floe | C | 1 water | — | Current | Once | Move a water permanence with one affinity to another world. |
+| 8 | Lagoon | C | 1 water | — | Shower | Lasts the round | A fire permanence becomes water. |
+| 9 | Ice Floe | C | 1 water | — | Current | Lasts the round | An earth permanence becomes water. |
 | 10 | Spring | C | 1 water | Returns at round end. | Low Tide | Once | Return one of your worlds. |
 | 11 | Tide Pool | C | 1 water | Ignores air forces. | Drizzle | Lasts the round | A fire permanence with one affinity loses it. |
 | 12 | Shoal | C | 1 water | Adjacent fire permanences become water. | Rain | Lasts the round | A fire permanence with one affinity becomes water. |
@@ -74,7 +76,7 @@
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 22 | Hill | C | 1 earth | — | Rockfall | Once | Remove an air permanence with one affinity. |
+| 22 | Hill | C | 1 earth | — | Rockfall | Lasts the round | An air permanence becomes earth. |
 | 23 | Grove | C | 1 earth | Returns at round end. | Overgrowth | Lasts the round | One of your worlds ignores common forces. |
 | 24 | Stone Field | C | 1 earth | Ignores fire forces. | Dust | Lasts the round | An air permanence with one affinity loses it. |
 | 25 | Meadow | C | 1 earth | Adjacent air permanences become earth. | Silt | Lasts the round | A water permanence with one affinity becomes earth. |
@@ -87,13 +89,13 @@
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 29 | Flint | C | 1 either-or (fire or earth) | — | Sinkhole | Once | An earth permanence with one affinity becomes its own world. |
-| 30 | Scrubland | C | 1 either-or (fire or air) | — | Dust Devil | Once | Move an earth permanence with one affinity to another world. |
+| 30 | Scrubland | C | 1 either-or (fire or air) | — | Dust Devil | Lasts the round | An earth permanence becomes air. |
 | 31 | Steam Vent | C | 1 either-or (fire or water) | — | Vent | Once | Return one of your permanences. |
 | 32 | Marsh | C | 1 either-or (water or earth) | — | Mire | Lasts the round | A world of two can't grow. |
-| 33 | Sea Stack | C | 1 either-or (water or air) | — | Riptide | Once | Move a fire permanence with one affinity to another world. |
+| 33 | Sea Stack | C | 1 either-or (water or air) | — | Riptide | Lasts the round | An air permanence becomes water. |
 | 34 | Pass | C | 1 either-or (air or earth) | — | Whirl | Once | Move a permanence to another world. |
 | 35 | Hot Mud | C | 1 either-or (fire or water) | Ignores air and earth forces. | Steam | Lasts the round | A world of three can't grow. |
-| 36 | Heath | C | 1 either-or (fire or air) | Ignores water and earth forces. | Dry Wind | Once | Remove a water permanence with one affinity. |
+| 36 | Heath | C | 1 either-or (fire or air) | Ignores water and earth forces. | Dry Wind | Lasts the round | A water permanence becomes air. |
 | 37 | Peat Bog | C | 1 either-or (fire or earth) | Ignores water and air forces. | Firebreak | Lasts the round | Your worlds ignore fire forces. |
 | 38 | Spray Coast | C | 1 either-or (water or air) | Ignores fire and earth forces. | Drying Wind | Lasts the round | A water permanence with one affinity loses it. |
 | 39 | Mudflat | C | 1 either-or (water or earth) | Ignores fire and air forces. | Tremor | Once | A world of two splits apart. |
@@ -175,7 +177,7 @@
 | 85 | Ice Sheet | A | 1 water | Fire permanences lose their affinities. | Blizzard | Once | Return a world. |
 | 86 | Mountain Range | A | 1 air, 1 earth | Score a point per four earth affinities. | Avalanche | Once | Remove a world's air permanences. |
 | 87 | Massif | A | 1 earth | Your worlds ignore common forces. | Uplift | Lasts the round | A world ignores all forces. |
-| 88 | Cradle | A | none | At the start of your turn, if you have 3 of each affinity, you win the contest. | Equinox | Once | Return every card in your void. |
+| 88 | Cradle | A | none | At the start of your turn, if you have 3 of each affinity, you win the contest. | Equinox | Once | Return 3 cards from your void. |
 
 **Pinnacles, and card 101 (5)**
 

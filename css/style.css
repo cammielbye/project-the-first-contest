@@ -203,16 +203,16 @@ body.dragging-back [data-act="toggle-binder"] { outline: 2px dashed var(--accent
   font-family: "IM Fell English", Georgia, serif; font-style: italic; color: #8a7050; font-size: 12px; line-height: 1.2; }
 .pocket .gone b { display: block; font-style: normal; color: #6b5233; font-size: 13px; }
 .pocket.blank { background: rgba(110, 80, 40, .05); }
-.ptabs { position: absolute; right: -26px; top: 46px; display: flex; flex-direction: column; gap: 6px; z-index: 0; }
-.ptabs button { width: 34px; height: 54px; padding: 0 0 0 8px; border-radius: 0 7px 7px 0; border: none; writing-mode: vertical-rl; font: 13px "IM Fell English", Georgia, serif; color: #5c4528;
+.stabs { position: absolute; right: -26px; top: 46px; display: flex; flex-direction: column; gap: 6px; z-index: 0; }
+.stabs button { width: 34px; height: auto; min-height: 54px; padding: 14px 0 14px 6px; border-radius: 0 7px 7px 0; border: none; writing-mode: vertical-rl; font: 13px "IM Fell English", Georgia, serif; color: #5c4528;
   background: linear-gradient(to right, #b9a57c, #d9c9a2); box-shadow: 2px 2px 4px rgba(0, 0, 0, .45); }
-.ptabs button.on { background: linear-gradient(to right, #d8c8a0, #efe3c4); color: #2e1f0e; }
-.ptabs button:hover:not(:disabled) { background: linear-gradient(to right, #ccb88e, #e9dcbb); }
-.stabs { position: absolute; top: -28px; left: 34px; display: flex; gap: 6px; z-index: 0; }
-.stabs button { height: 30px; padding: 0 14px 6px; border: none; border-radius: 8px 8px 0 0; font: 15px "IM Fell English", Georgia, serif; color: #5c4528;
+.stabs button.on { background: linear-gradient(to right, #d8c8a0, #efe3c4); color: #2e1f0e; }
+.stabs button:hover:not(:disabled) { background: linear-gradient(to right, #ccb88e, #e9dcbb); }
+.ptabs { position: absolute; top: -28px; left: 34px; display: flex; gap: 6px; z-index: 0; }
+.ptabs button { height: 30px; padding: 0 14px 6px; border: none; border-radius: 8px 8px 0 0; font: 15px "IM Fell English", Georgia, serif; color: #5c4528;
   background: linear-gradient(to top, #b9a57c, #d9c9a2); box-shadow: 0 -2px 4px rgba(0, 0, 0, .35); }
-.stabs button.on { background: linear-gradient(to top, #d8c8a0, #efe3c4); color: #2e1f0e; height: 34px; margin-top: -4px; }
-.stabs button:hover:not(:disabled) { background: linear-gradient(to top, #ccb88e, #e9dcbb); }
+.ptabs button.on { background: linear-gradient(to top, #d8c8a0, #efe3c4); color: #2e1f0e; height: 34px; margin-top: -4px; }
+.ptabs button:hover:not(:disabled) { background: linear-gradient(to top, #ccb88e, #e9dcbb); }
 .bnav { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; font-family: "IM Fell English", Georgia, serif; color: #cdb892; font-size: 15px; }
 .bnav button { font: 18px "IM Fell English", Georgia, serif; color: #f0e2c6; background: #4b2e1d; border: 1px solid #2c190e; border-radius: 18px; padding: 2px 14px; box-shadow: 0 2px 0 #1d1008; }
 .bnav button:hover:not(:disabled) { background: #5c3a25; }

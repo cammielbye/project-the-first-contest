@@ -25,10 +25,32 @@ const targetNames = (s, ms) => ms.map((m) => R.C[s.inst[m.t].card].name).sort();
 let n = 0;
 const test = (name, fn) => { fn(); n++; console.log("ok -", name); };
 
-test("Option A: a common removal force reaches only a permanence with one affinity", () => {
+test("Brushfire turns an earth permanence of any size to fire for the round", () => {
   const s = table(["Ashfield"], ["Hill", "Volcano"]);
-  put(s, 1, "Hill"); put(s, 1, "Volcano");
-  assert.deepEqual(targetNames(s, forceTargets(s, 0, "Brushfire")), ["Hill"]);
+  put(s, 1, "Hill"); const v = put(s, 1, "Volcano");
+  assert.deepEqual(targetNames(s, forceTargets(s, 0, "Brushfire")), ["Hill", "Volcano"]);
+  R.applyMove(s, 0, forceTargets(s, 0, "Brushfire").find((m) => m.t === v.id));
+  assert.deepEqual(R.view(s).tok[v.id], [R.BIT.fire, R.BIT.fire]);
+  assert.ok(findPerm(s, "Volcano"), "it stays on the table");
+});
+test("Flare-up removes a common force, not an uncommon one", () => {
+  const s = table(["Fumarole", "Ashfield", "Cloud Forest"], []);
+  const h = put(s, 1, "Hill"); put(s, 1, "Grove");
+  R.applyMove(s, 0, forceTargets(s, 0, "Brushfire").find((m) => m.t === h.id));
+  R.applyMove(s, 0, forceTargets(s, 0, "Fog")[0]);
+  const ms = forceTargets(s, 0, "Flare-up");
+  assert.deepEqual(ms.map((m) => R.C[s.inst[m.f].card].fname), ["Brushfire"]);
+  R.applyMove(s, 0, ms[0]);
+  assert.deepEqual(R.view(s).tok[h.id], [R.BIT.earth]);
+});
+test("Equinox returns three cards from your void", () => {
+  const s = R.newContest([id("Cradle")], [id("Ridge")], 0);
+  for (const n of ["Hill", "Grove", "Ledge", "Lagoon", "Dune"]) s.p[0].void.push(id(n));
+  R.advance(s);
+  const m = R.legalMoves(s, 0).find((x) => x.face === "force");
+  R.applyMove(s, 0, m);
+  assert.equal(s.p[0].binder.length, 3);
+  assert.equal(s.p[0].void.length, 3); // two left, plus Cradle itself
 });
 test("Option A: uncommon removal reaches two elements, still one affinity", () => {
   const s = table(["Hot Spring"], []);
@@ -50,10 +72,11 @@ test("ignores water forces: Shower can't reach Ashfield", () => {
   assert.deepEqual(targetNames(s, forceTargets(s, 0, "Shower")), ["Cinder Field"]);
 });
 test("Heat Dome: fire permanences can't be removed", () => {
-  const s = table(["Lagoon", "Lava Lake"], []);
+  const s = table(["Hot Spring", "Lava Lake"], []);
   put(s, 1, "Cinder Field");
+  assert.equal(forceTargets(s, 0, "Scald").length, 1);
   R.applyMove(s, 0, forceTargets(s, 0, "Heat Dome")[0]);
-  assert.equal(forceTargets(s, 0, "Shower").length, 0);
+  assert.equal(forceTargets(s, 0, "Scald").length, 0);
 });
 test("Thicket: your adjacent permanences can't be moved", () => {
   const s = table(["Eyrie"], []);

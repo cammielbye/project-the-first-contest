@@ -1,7 +1,7 @@
 {
   "source": "data/card-pool.md",
   "pass": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
-  "syncedAt": "2026-11-03T00:47:13.829Z",
+  "syncedAt": "2026-11-03T03:30:05.805Z",
   "counts": {
     "cards": 101,
     "meta": 8,
@@ -51,8 +51,8 @@
       },
       "force": {
         "name": "Updraft",
-        "duration": "Once",
-        "text": "Move an air permanence with one affinity to another world."
+        "duration": "Lasts the round",
+        "text": "An air permanence becomes fire."
       }
     },
     {
@@ -70,7 +70,7 @@
       "force": {
         "name": "Flare-up",
         "duration": "Once",
-        "text": "Play another fire card this turn."
+        "text": "Remove a common force."
       }
     },
     {
@@ -87,8 +87,8 @@
       },
       "force": {
         "name": "Brushfire",
-        "duration": "Once",
-        "text": "Remove an earth permanence with one affinity."
+        "duration": "Lasts the round",
+        "text": "An earth permanence becomes fire."
       }
     },
     {
@@ -159,8 +159,8 @@
       },
       "force": {
         "name": "Shower",
-        "duration": "Once",
-        "text": "Remove a fire permanence with one affinity."
+        "duration": "Lasts the round",
+        "text": "A fire permanence becomes water."
       }
     },
     {
@@ -177,8 +177,8 @@
       },
       "force": {
         "name": "Current",
-        "duration": "Once",
-        "text": "Move a water permanence with one affinity to another world."
+        "duration": "Lasts the round",
+        "text": "An earth permanence becomes water."
       }
     },
     {
@@ -411,8 +411,8 @@
       },
       "force": {
         "name": "Rockfall",
-        "duration": "Once",
-        "text": "Remove an air permanence with one affinity."
+        "duration": "Lasts the round",
+        "text": "An air permanence becomes earth."
       }
     },
     {
@@ -555,8 +555,8 @@
       },
       "force": {
         "name": "Dust Devil",
-        "duration": "Once",
-        "text": "Move an earth permanence with one affinity to another world."
+        "duration": "Lasts the round",
+        "text": "An earth permanence becomes air."
       }
     },
     {
@@ -609,8 +609,8 @@
       },
       "force": {
         "name": "Riptide",
-        "duration": "Once",
-        "text": "Move a fire permanence with one affinity to another world."
+        "duration": "Lasts the round",
+        "text": "An air permanence becomes water."
       }
     },
     {
@@ -663,8 +663,8 @@
       },
       "force": {
         "name": "Dry Wind",
-        "duration": "Once",
-        "text": "Remove a water permanence with one affinity."
+        "duration": "Lasts the round",
+        "text": "A water permanence becomes air."
       }
     },
     {
@@ -1645,7 +1645,7 @@
       "force": {
         "name": "Equinox",
         "duration": "Once",
-        "text": "Return every card in your void."
+        "text": "Return 3 cards from your void."
       }
     },
     {

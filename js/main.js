@@ -504,7 +504,7 @@ function renderBinder() {
   }
   const tabs = h("div", { class: "ptabs" });
   for (let k = 0; k < spreads; k++) {
-    tabs.append(h("button", { class: k === ui.binderPage ? "on" : "", "data-act": "binder-page", "data-page": String(k), title: `Pages ${2 * k + 1} and ${2 * k + 2}` }, `${2 * k + 1}–${2 * k + 2}`));
+    tabs.append(h("button", { class: k === ui.binderPage ? "on" : "", "data-act": "binder-page", "data-page": String(k), title: `Pages ${2 * k + 1} and ${2 * k + 2}` }, `Pages ${2 * k + 1}–${2 * k + 2}`));
   }
   const pageH = Math.round(24 + 26 + 1344 * Number(panel.style.getPropertyValue("--bs") || 0.3) + 18 + 14 + 26);
   cover.append(sides, leaf(2 * ui.binderPage, "left"), h("div", { class: "spine" }), leaf(2 * ui.binderPage + 1, "right"), tabs);

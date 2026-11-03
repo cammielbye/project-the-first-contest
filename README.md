@@ -83,7 +83,7 @@ files run in node:
 
 ```sh
 node scripts/test-rules3.mjs     # rule checks on hand-built tables
-node scripts/sim3.mjs 4          # computer v computer, every pairing of the four binders
+node scripts/sim3.mjs 4          # computer v computer, every pairing of the five binders
 node scripts/sim3.mjs 1 --log    # and print one contest per pairing, play by play
 ```
 
@@ -116,9 +116,12 @@ Where a card's text leaves a question open, the engine picks one reading (marked
   the table, a lasting force included.
 - Archipelago and Cradle are checked at the start of their owner's turns, so not after
   they pass. A drawn round counts for both players; openers alternate.
-- Equinox returns your whole void, itself included.
-
-## Updating the cards and binders
+- Equinox returns three cards of your choice from your void (all of them if there are
+  three or fewer); it goes to the void itself afterwards.
+- The eight conversion commons (Updraft, Brushfire, Shower, Current, Rockfall, Dust
+  Devil, Riptide, Dry Wind) reach a permanence of any size showing the named element and
+  turn every ring on it to the new element until the round ends. Flare-up removes a
+  common force from the table, ending its effect.
 
 ## Updating the cards and binders
 

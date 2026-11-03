@@ -125,7 +125,8 @@ const applies = (s, f, i) => !permIgnores(s, i, { card: f.card, caster: f.owner,
 const appliesW = (s, f, wid) => !worldIgnores(s, wid, { card: f.card, caster: f.owner, fid: f.id });
 
 // ---------------------------------------------------------------- the view: each permanence's affinities now
-const SET_EL = { Spark: F, Kindling: F, Rain: W, Snowmelt: W, Breeze: A, Thermal: A, Silt: E, Dustfall: E, Cloudburst: W };
+const SET_EL = { Spark: F, Kindling: F, Rain: W, Snowmelt: W, Breeze: A, Thermal: A, Silt: E, Dustfall: E, Cloudburst: W,
+  Updraft: F, Brushfire: F, Shower: W, Current: W, Rockfall: E, "Dust Devil": A, Riptide: W, "Dry Wind": A };
 const WORLD_SHIFT = { Downpour: [F, W], Sandstorm: [E, F], Waterspout: [W, A], "Dust Storm": [A, E] };
 const WORLD_BECOMES = { Firestorm: F, Tsunami: W };
 const CARD_BLANK = new Set(["Smolder", "Drizzle", "Dust", "Drying Wind", "Ember"]);
@@ -438,8 +439,10 @@ function placeFresh(s, P, id, pl) {
   return i;
 }
 
-const REMOVE_ONE = { Brushfire: E, Shower: F, Rockfall: A, "Dry Wind": W, Scald: F | E, "Lava Bomb": E | A, Hail: F | A, Landslide: A | W };
-const MOVE_ONE = { Updraft: A, Current: W, "Dust Devil": E, Riptide: F };
+const REMOVE_ONE = { Scald: F | E, "Lava Bomb": E | A, Hail: F | A, Landslide: A | W };
+const MOVE_ONE = {};
+// common forces that turn a permanence of any size to their element for the round (Nov 2): the element they reach
+const CARD_LASTING_ANY = { Updraft: A, Brushfire: E, Shower: F, Current: E, Rockfall: A, "Dust Devil": E, Riptide: A, "Dry Wind": W };
 const OWN_WORLD_ONE = { Gust: A, Downdraft: F, Sinkhole: E };
 const CARD_LASTING_ONE = { Smolder: E, Drizzle: F, Dust: A, "Drying Wind": W, Spark: A, Kindling: E, Rain: F, Snowmelt: E, Breeze: W, Thermal: F, Silt: W, Dustfall: A };
 const WORLD_LASTING = new Set(["Freeze", "Tangle", "Fog", "Downpour", "Sandstorm", "Ashfall", "Dust Storm", "Scorch", "Waterspout", "Firestorm", "Eruption", "Tsunami", "Uplift"]);
@@ -463,6 +466,7 @@ function forceMoves(s, P, id, out) {
   if (MOVE_ONE[n] !== undefined) { movesOf(tp.filter((i) => one(i) && shows(s, i, MOVE_ONE[n]))); return; }
   if (OWN_WORLD_ONE[n] !== undefined) { forT(tp.filter((i) => one(i) && shows(s, i, OWN_WORLD_ONE[n]) && big(i) && canMove(s, i, src))); return; }
   if (CARD_LASTING_ONE[n] !== undefined) { forT(tp.filter((i) => one(i) && shows(s, i, CARD_LASTING_ONE[n]))); return; }
+  if (CARD_LASTING_ANY[n] !== undefined) { forT(tp.filter((i) => shows(s, i, CARD_LASTING_ANY[n]))); return; }
   if (WORLD_LASTING.has(n)) { for (const w of tw) mk({ w: w.id }, [worldPick(w.id)]); return; }
   if (GLOBAL_LASTING.has(n)) { mk({}); return; }
   if (REMOVE_KIND[n] !== undefined) {
@@ -470,7 +474,7 @@ function forceMoves(s, P, id, out) {
     return;
   }
   switch (n) {
-    case "Flare-up": if (s.p[P].binder.some((x) => x !== id && C[x].fireCard)) mk({}); return;
+    case "Flare-up": for (const f of forces(s)) if (C[f.card].rarity === "C") mk({ f: f.id }, [{ k: "force", id: f.id }]); return;
     case "Ember": forT(tp.filter((i) => isLone(s, i))); return;
     case "Low Tide": for (const w of tw) if (w.owner === P) mk({ w: w.id }, [worldPick(w.id)]); return;
     case "Drift": movesOf(tp.filter((i) => i.owner === P)); return;
@@ -524,7 +528,13 @@ function forceMoves(s, P, id, out) {
     case "Tornado": pairs(tp); return;
     case "Hurricane": for (const Q of [0, 1]) if (worldsOf(s, Q).some((w) => worldSize(w) >= 2 && canSplit(s, w))) mk({ P2: Q }, [{ k: "player", P: Q }]); return;
     case "Earthquake": for (const Q of [0, 1]) if (worldsOf(s, Q).some((w) => worldSize(w) >= 2 && canSplit(s, w))) mk({ P2: Q }, [{ k: "player", P: Q }]); return;
-    case "Equinox": if (s.p[P].void.length) mk({}); return;
+    case "Equinox": { // return 3 cards from your void, chosen in any order
+      const v = [...new Set(s.p[P].void)];
+      if (!v.length) return;
+      if (v.length <= 3) { mk({ cards: v }, v.map((c) => ({ k: "void", card: c }))); return; }
+      for (const a of v) for (const b of v) for (const c of v) if (a !== b && a !== c && b !== c) mk({ cards: [a, b, c] }, [{ k: "void", card: a }, { k: "void", card: b }, { k: "void", card: c }]);
+      return;
+    }
     case "Solar Flare": if (tp.some((i) => one(i) && canRemove(s, i, src))) mk({}); return;
     case "Deluge": for (let a = 0; a < tw.length; a++) for (let b = a + 1; b < tw.length; b++) mk({ w: tw[a].id, w2: tw[b].id }, [worldPick(tw[a].id), worldPick(tw[b].id)]); return;
     case "Jet Stream": if (Object.values(s.worlds).some((w) => worldSize(w) >= 2 && canSplit(s, w))) mk({}); return;
@@ -628,7 +638,7 @@ export function applyMove(s, P, m, fromVoid) {
   }
   // force face
   const n = d.fname; const src = { card: m.id, caster: P, fid: null };
-  if (d.fdur === "round" && n !== "Flare-up") {
+  if (d.fdur === "round") {
     const f = newInst(s, P, m.id, "force", { t: m.t || null, t2: m.t2 || null, src: m.src || null, w: m.w || null, w2: m.w2 || null });
     if (n === "Whiteout") f.until = P; // ends at the start of the caster's next turn
     noteCommon(f.id);
@@ -642,7 +652,7 @@ export function applyMove(s, P, m, fromVoid) {
   else if (OWN_WORLD_ONE[n] !== undefined || n === "Squall") { if (T) { ownWorld(s, T); ev.moved++; } }
   else if (REMOVE_KIND[n] !== undefined) { if (Wd) for (const i of permsIn(s, Wd)) if (!permIgnores(s, i, src) && shows(s, i, REMOVE_KIND[n]) && canRemove(s, i, src)) gone(i, "void"); }
   else switch (n) {
-    case "Flare-up": s.extras.push("fire"); break;
+    case "Flare-up": { const f = s.inst[m.f]; if (f) gone(f, "void"); break; }
     case "Low Tide": case "Blizzard": case "Undertow": case "Mudflow": if (Wd) returnWorld(s, Wd, ev); break; // READING: returning isn't removal, so "can't be removed" doesn't stop it
     case "Crosswind": case "Eddy": if (T && T2) { swap(s, T, T2); ev.moved += 2; } break;
     case "Vent": gone(T, "binder"); break;
@@ -668,7 +678,7 @@ export function applyMove(s, P, m, fromVoid) {
     case "Monsoon": for (const i of perms(s)) if (isLone(s, i) && !permIgnores(s, i, src)) gone(i, "binder"); break;
     case "Hurricane": for (const w of worldsOf(s, m.P2)) if (!worldIgnores(s, w.id, src) && canSplit(s, w)) scatter(s, w, src); break; // READING: scatters that player's worlds
     case "Earthquake": for (const w of worldsOf(s, m.P2)) if (!worldIgnores(s, w.id, src)) splitWorld(s, w, src); break;
-    case "Equinox": while (pl.void.length) pl.binder.push(pl.void.shift()); break; // READING: the Equinox card goes too
+    case "Equinox": for (const c of m.cards || []) if (removeOne(pl.void, c)) pl.binder.push(c); break;
     case "Solar Flare": for (const i of perms(s)) if (one(i) && !permIgnores(s, i, src) && canRemove(s, i, src)) gone(i, "void"); break;
     case "Jet Stream": for (const w of Object.values(s.worlds)) if (canSplit(s, w)) scatter(s, w, src); break;
     case "Unmaking": for (const i of perms(s)) if (!permIgnores(s, i, src) && canRemove(s, i, src)) gone(i, "void"); break;
@@ -799,5 +809,6 @@ export function describe(s, P, m) {
   if (m.w2 && !m.t) bits.push(worldLabel(s, m.w2, -1));
   if (m.P2 !== undefined) bits.push(s.p[m.P2].name);
   if (m.f) bits.push(fname(s.inst[m.f]));
+  if (m.cards) return `${who} played ${d.fname} (${d.name}'s force), returning ${m.cards.map((c) => C[c].name).join(", ")} to their binder.`;
   return `${who} played ${d.fname} (${d.name}'s force)${bits.length ? " on " + bits.join(", ") : ""}.`;
 }

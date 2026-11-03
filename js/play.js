@@ -448,7 +448,7 @@ function binder() {
   }
   const tabs = el("div", "ptabs");
   for (let k = 0; k < spreadCount(); k++) {
-    const t = el("button", k === page ? "on" : "", `${2 * k + 1}–${2 * k + 2}`);
+    const t = el("button", k === page ? "on" : "", `Pages ${2 * k + 1}–${2 * k + 2}`);
     t.title = `Pages ${2 * k + 1} and ${2 * k + 2}`;
     t.onclick = () => flipTo(k);
     tabs.append(t);
