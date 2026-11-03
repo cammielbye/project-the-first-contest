@@ -130,7 +130,7 @@ button.warn { background: #4a3a2c; border-color: #6d5640; }
 #log li.sys { color: var(--accent); list-style: none; margin-left: -18px; font-family: "IBM Plex Mono", monospace; font-size: 11px; }
 #peek { position: fixed; z-index: 60; pointer-events: none; display: flex; gap: 8px; padding: 8px; border-radius: 12px; background: #121615ee; border: 1px solid var(--line); box-shadow: 0 12px 30px #000a; --s: 0.5; }
 
-#overlay { position: fixed; inset: 0; z-index: 100; background: rgba(8,10,10,.72); display: flex; align-items: center; justify-content: center; padding: 20px; }
+#overlay { position: fixed; inset: 0; z-index: 100; background: rgba(8,10,10,.6); display: flex; align-items: center; justify-content: center; padding: 20px; }
 .dialog { background: #1c2220; border: 1px solid #44524d; border-radius: 14px; padding: 22px 26px; max-width: 900px; width: 100%; max-height: 92vh; overflow: auto; box-shadow: 0 20px 60px #000c; }
 .dialog h2 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 30px; font-weight: 600; margin: 0 0 6px; }
 .dialog h3 { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 18px 0 8px; font-weight: 500; }

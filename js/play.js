@@ -83,7 +83,18 @@ function binderCard(k, on, which) {
   d.onclick = () => { choice[which] = k; showStart(); };
   return d;
 }
+// before a contest starts, lay the chosen binder open on the right so it's there to look through
+function previewContest() {
+  const bm = binders[choice.mine], bt = binders[choice.theirs];
+  s = R.newContest(bm.cards, bt.cards, ME, ["You", "Computer"]);
+  s.phase = "preview";
+  s.binderNames = [bm.name.replace(/^Binder \w, /, ""), bt.name.replace(/^Binder \w, /, "")];
+  s.order = [bm.cards.slice(), bt.cards.slice()];
+  sel = null; hover = null; page = 0; busy = false;
+  render();
+}
 function showStart() {
+  previewContest();
   const o = $("overlay"); o.hidden = false; o.innerHTML = "";
   const dlg = el("div", "dialog");
   dlg.innerHTML = `<h2>Play a contest against the computer</h2><p>Third-pass cards, best of three rounds, 10 cards a round. Make a world worth 3 world points and you win the contest on the spot (the Nov 2 test rule). Pick your binder and the computer's.</p>`;
@@ -259,7 +270,7 @@ function render() {
   const sc = R.score(T);
   const v = R.view(T);
   // status
-  const turn = s.phase !== "turn" ? "" : s.turn === ME ? (s.extras.length ? "<b>Your turn</b> · you may play another card" : "<b>Your turn</b>") : busy ? "The computer is thinking…" : "The computer's turn";
+  const turn = s.phase === "preview" ? "choose binders to begin" : s.phase !== "turn" ? "" : s.turn === ME ? (s.extras.length ? "<b>Your turn</b> · you may play another card" : "<b>Your turn</b>") : busy ? "The computer is thinking…" : "The computer's turn";
   $("status").innerHTML = `Round <b>${s.r}</b> of 3 · rounds won: you <b>${s.p[ME].wins}</b> – <b>${s.p[AI].wins}</b> computer · ${turn}`;
   bar($("oppBar"), AI, sc); bar($("myBar"), ME, sc);
   worlds($("oppWorlds"), AI, v, sc); worlds($("myWorlds"), ME, v, sc);
@@ -397,7 +408,7 @@ function pagesLeaf(pg, playable) {
     const at = whereIs(id);
     if (at === "binder") {
       const node = face(id, "permanence");
-      if (!playable.has(id)) node.classList.add("unplayable");
+      if (s.phase === "turn" && !playable.has(id)) node.classList.add("unplayable");
       if (sel && sel.id === id) pocket.classList.add("sel");
       node.onclick = () => clickCard(id);
       pocket.append(node);
