@@ -27,7 +27,14 @@ async function boot() {
   $("btnNew").onclick = () => showStart();
   $("btnRules").onclick = () => showRules();
   $("btnVoids").onclick = () => showVoids();
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && sel) { sel = null; render(); } });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && sel) { sel = null; render(); }
+    if (!s || !$("overlay").hidden) return;
+    if (e.key === "ArrowRight") flipTo(page + 1);
+    if (e.key === "ArrowLeft") flipTo(page - 1);
+  });
+  let rt = null;
+  window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => s && binder(), 120); });
   showStart();
 }
 
@@ -60,14 +67,11 @@ function face(id, faceName, extra = {}) {
   node.addEventListener("mouseenter", () => preview(id, f));
   return node;
 }
+let hover = null; // { id, face } the card being looked at closely, on the binder's inside page
 function preview(id, f) {
-  const box = $("preview"); box.innerHTML = "";
-  const c = byId.get(id);
-  if (c.meta) { box.append(renderFace(c, "meta", { size: "small" })); return; }
-  const a = renderFace(c, f === "force" ? "force" : "permanence", { size: "small" });
-  const b = renderFace(c, f === "force" ? "permanence" : "force", { size: "small" });
-  b.style.opacity = "0.8";
-  box.append(a, b);
+  if (sel && !sel.face) return; // the chosen card stays on the page until a face is picked
+  hover = { id, face: f };
+  insidePage();
 }
 
 // ------------------------------------------------------------------ start, rules, voids
@@ -108,8 +112,9 @@ function showRules(back) {
   </ul>
   <h3>Playing a card</h3>
   <ul>
-    <li>Click a card in your binder. If both faces can be played, choose one. Then click the highlighted spots, cards or worlds, or use the buttons above your binder. <b>Esc</b> or <b>Cancel</b> backs out.</li>
-    <li>Hover any card to see both faces on the right. The symbols under a card on the table are its affinities <i>right now</i>, after every effect; an outline means they've changed.</li>
+    <li>Your binder is on the right. Turn its leaves with ‹ ›, the tabs on its edge, or the arrow keys. Cards you've played leave an empty sleeve that says where they went.</li>
+    <li>Click a card in your binder. If both faces can be played, choose one on the binder's inside page. Then click the highlighted spots, cards or worlds, or use the buttons under the table. <b>Esc</b> or <b>Cancel</b> backs out.</li>
+    <li>Hover any card to see both faces on the binder's inside page. The symbols under a card on the table are its affinities <i>right now</i>, after every effect; an outline means they've changed.</li>
   </ul>
   <h3>How the computer reads open rules</h3>
   <ul>
@@ -144,6 +149,8 @@ function startContest() {
   const bm = binders[choice.mine], bt = binders[choice.theirs];
   s = R.newContest(bm.cards, bt.cards, Math.random() < 0.5 ? ME : AI, ["You", "Computer"]);
   s.binderNames = [bm.name.replace(/^Binder \w, /, ""), bt.name.replace(/^Binder \w, /, "")];
+  s.order = [bm.cards.slice(), bt.cards.slice()]; // pockets keep their cards' places all contest
+  page = 0; hover = null;
   sel = null; lastTs = 0;
   s.log.push({ r: 1, P: null, text: `Round 1. ${s.opener === ME ? "You open." : "The computer opens."}` });
   R.advance(s);
@@ -257,7 +264,7 @@ function render() {
   bar($("oppBar"), AI, sc); bar($("myBar"), ME, sc);
   worlds($("oppWorlds"), AI, v, sc); worlds($("myWorlds"), ME, v, sc);
   inplay(sc);
-  hand(); prompt(); log();
+  binder(); prompt(); log();
   highlight();
 }
 function bar(box, P, sc) {
@@ -342,22 +349,163 @@ function inplay(sc) {
     <span>Computer</span><span>${sc[AI].pts}</span><span>${sc[AI].tie}</span>`;
   box.append(g);
 }
-function hand() {
-  const box = $("hand"); box.innerHTML = "";
-  const ms = myMoves();
-  const playable = new Set(ms.map((m) => m.id));
-  const seen = new Set();
-  for (const id of s.p[ME].binder) {
-    if (seen.has(id)) continue; seen.add(id);
-    const node = face(id, "permanence", { size: "token" });
-    node.classList.add("own-0");
-    if (!playable.has(id)) node.classList.add("unplayable");
-    if (sel && sel.id === id) node.classList.add("chosen");
-    node.onclick = () => clickCard(id);
-    box.append(node);
-  }
-  if (!seen.size) box.append(el("div", "", `<span style="color:var(--muted)">Your binder is empty.</span>`));
+// ------------------------------------------------------------------ the binder
+const PER = 9; // a nine-pocket page
+let page = 0;
+let flipping = false;
+const pageCount = () => Math.max(1, Math.ceil(s.order[ME].length / PER));
+function whereIs(id) {
+  if (s.p[ME].binder.includes(id)) return "binder";
+  if (Object.values(s.inst).some((i) => i.card === id && i.owner === ME)) return "table";
+  if (s.p[ME].void.includes(id)) return "void";
+  return "gone";
 }
+// fit the open binder to the right half: pocket scale and preview scale
+function fit() {
+  const r = $("right").getBoundingClientRect();
+  const W = r.width - 36 - 30, H = r.height - 28;
+  const sc = Math.max(0.2, Math.min((W - 190) / 1536, (H - 226) / 1344, 0.5));
+  const pageW = 3 * (320 * sc + 8) + 20 + 36;
+  const insideW = Math.round(pageW * 0.6);
+  const contentH = 104 + 1344 * sc;
+  const pv = Math.max(0.2, Math.min((insideW - 36) / 320, (contentH - 210) / 2 / 448));
+  const b = $("binder");
+  b.style.setProperty("--s", sc.toFixed(3));
+  b.style.setProperty("--pv", pv.toFixed(3));
+  return { insideW, pageH: contentH + 36 };
+}
+const FLOURISH = `<svg class="flourish" viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C40 1 70 9 100 5 S160 1 198 6" stroke="#8a6a40" stroke-width="1.2" fill="none"/><circle cx="100" cy="5" r="1.6" fill="#8a6a40"/></svg>`;
+function spineSvg(h) {
+  let d = "", holes = "";
+  const n = Math.max(6, Math.round(h / 70));
+  for (let k = 0; k <= n; k++) {
+    const y = 20 + ((h - 40) * k) / n;
+    holes += `<circle cx="15" cy="${y.toFixed(1)}" r="2.6" fill="#140a04"/>`;
+    if (k < n) { const y2 = 20 + ((h - 40) * (k + 1)) / n; d += `M15 ${y.toFixed(1)} C4 ${((y + y2) / 2).toFixed(1)} 26 ${((y + y2) / 2).toFixed(1)} 15 ${y2.toFixed(1)} `; }
+  }
+  return `<svg viewBox="0 0 30 ${h}" preserveAspectRatio="none" aria-hidden="true">${holes}<path d="${d}" stroke="#1a0e06" stroke-width="3.2" fill="none" transform="translate(0.8 1)"/><path d="${d}" stroke="#b58a52" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>`;
+}
+function pagesLeaf(pg, playable) {
+  const leaf = el("div", "leaf pages");
+  const slots = s.order[ME].slice(pg * PER, pg * PER + PER);
+  leaf.append(el("div", "phead", `<span>${esc(s.binderNames[ME])}</span><span>leaf ${pg + 1}</span>`));
+  const grid = el("div", "pockets");
+  for (let k = 0; k < PER; k++) {
+    const id = slots[k];
+    const pocket = el("div", "pocket");
+    if (!id) { pocket.classList.add("blank"); grid.append(pocket); continue; }
+    const at = whereIs(id);
+    if (at === "binder") {
+      const node = face(id, "permanence");
+      if (!playable.has(id)) node.classList.add("unplayable");
+      if (sel && sel.id === id) pocket.classList.add("sel");
+      node.onclick = () => clickCard(id);
+      pocket.append(node);
+    } else {
+      const d = R.C[id];
+      pocket.append(el("div", "gone", `<span><b>${esc(d.name)}</b>${at === "table" ? "on the table" : at === "void" ? "in the void" : "taken"}</span>`));
+      pocket.onmouseenter = () => preview(id, "permanence");
+    }
+    grid.append(pocket);
+  }
+  leaf.append(grid);
+  leaf.append(el("div", "pfoot", String(pg + 1)));
+  return leaf;
+}
+function insidePage(leaf) {
+  leaf = leaf || document.querySelector("#binder .leaf.inside");
+  if (!leaf || !s) return;
+  leaf.innerHTML = "";
+  leaf.append(el("div", "owner", "This binder belongs to you"));
+  leaf.append(el("div", "bname", esc(s.binderNames[ME])));
+  leaf.insertAdjacentHTML("beforeend", FLOURISH);
+  const pv = el("div", "pv");
+  const show = sel ? { id: sel.id, face: sel.face === "force" ? "force" : "permanence" } : hover;
+  if (show && byId.get(show.id)) {
+    const c = byId.get(show.id);
+    const faces = c.meta ? ["meta"] : show.face === "force" ? ["force", "permanence"] : ["permanence", "force"];
+    const choosing = sel && !sel.face && sel.id === show.id;
+    const legal = choosing ? new Set(sel.moves.map((m) => m.face)) : new Set();
+    for (const f of faces) {
+      const row = el("div", "pvrow");
+      row.append(renderFace(c, f, { size: "token" }));
+      if (choosing) {
+        const fk = f === "permanence" ? "perm" : f;
+        const b = el("button", "", f === "meta" ? "Play it" : f === "permanence" ? "Play the permanence" : "Play the force");
+        b.disabled = !legal.has(fk);
+        b.onclick = () => chooseFace(fk);
+        row.append(b);
+      }
+      pv.append(row);
+    }
+  } else pv.append(el("div", "hint", "Hover a card to look at it closely.<br>Click one to play it."));
+  leaf.append(pv);
+  const counts = { binder: 0, table: 0, void: 0 };
+  for (const id of s.order[ME]) { const w = whereIs(id); if (counts[w] !== undefined) counts[w]++; }
+  leaf.append(el("div", "notes", `<b>${counts.binder}</b> in the binder · <b>${counts.table}</b> on the table · <b>${counts.void}</b> in the void<br>Played this round: <b>${s.p[ME].played}</b> of ${s.cap}`));
+}
+let binderDue = false; // a redraw asked for while a leaf was turning
+function binder() {
+  if (flipping) { binderDue = true; return; }
+  binderDue = false;
+  const box = $("binder"); box.innerHTML = "";
+  const { insideW, pageH } = fit();
+  page = Math.min(page, pageCount() - 1);
+  const playable = new Set(myMoves().map((m) => m.id));
+  const cover = el("div", "cover");
+  const inside = el("div", "leaf inside"); inside.style.width = insideW + "px";
+  insidePage(inside);
+  const spine = el("div", "spine", spineSvg(Math.round(pageH)));
+  const pages = pagesLeaf(page, playable);
+  const tabs = el("div", "ptabs");
+  for (let k = 0; k < pageCount(); k++) {
+    const t = el("button", k === page ? "on" : "", String(k + 1));
+    t.title = `Leaf ${k + 1}`;
+    t.onclick = () => flipTo(k);
+    tabs.append(t);
+  }
+  cover.append(inside, spine, pages, tabs);
+  box.append(cover);
+  const nav = el("div", "bnav");
+  const prev = el("button", "", "‹"); prev.title = "Previous leaf (←)"; prev.disabled = page === 0; prev.onclick = () => flipTo(page - 1);
+  const next = el("button", "", "›"); next.title = "Next leaf (→)"; next.disabled = page >= pageCount() - 1; next.onclick = () => flipTo(page + 1);
+  nav.append(prev, el("span", "", `Leaf ${page + 1} of ${pageCount()}`), next, el("span", "keys", "← → to turn"));
+  box.append(nav);
+}
+// turn the leaf: the page lifts from the right and swings over the spine (or back)
+function flipTo(k) {
+  if (flipping || k < 0 || k >= pageCount() || k === page) return;
+  const cover = document.querySelector("#binder .cover"), cur = cover && cover.querySelector(".leaf.pages");
+  if (!cur) { page = k; binder(); return; }
+  const fwd = k > page;
+  const playable = new Set(myMoves().map((m) => m.id));
+  const front = fwd ? cur.cloneNode(true) : pagesLeaf(k, playable);
+  const rect = { left: cur.offsetLeft, top: cur.offsetTop, width: cur.offsetWidth, height: cur.offsetHeight };
+  const make = () => {
+    const sheet = el("div", "sheet");
+    Object.assign(sheet.style, { left: rect.left + "px", top: rect.top + "px", width: rect.width + "px", height: rect.height + "px" });
+    const f = el("div", "side front"); front.style.height = "100%"; f.append(front);
+    const b = el("div", "side back"); b.append(el("div", "leaf inside blankback"));
+    sheet.append(f, b);
+    return sheet;
+  };
+  if (fwd) {
+    page = k; binder();
+    flipping = true;
+    const sheet = make();
+    document.querySelector("#binder .cover").append(sheet);
+    requestAnimationFrame(() => requestAnimationFrame(() => { sheet.style.transform = "rotateY(-180deg)"; }));
+    setTimeout(() => { sheet.remove(); flipping = false; if (binderDue) binder(); }, 620);
+  } else {
+    flipping = true;
+    const sheet = make();
+    sheet.style.transition = "none"; sheet.style.transform = "rotateY(-180deg)";
+    cover.append(sheet);
+    requestAnimationFrame(() => requestAnimationFrame(() => { sheet.style.transition = ""; sheet.style.transform = "rotateY(0deg)"; }));
+    setTimeout(() => { page = k; flipping = false; binder(); }, 620);
+  }
+}
+
 function prompt() {
   const box = $("prompt"); box.innerHTML = "";
   if (box.dataset.flash) box.append(el("span", "msg", esc(box.dataset.flash)));
@@ -385,7 +533,7 @@ function prompt() {
     }
     box.append(o);
   } else if (mine) {
-    box.append(el("span", "msg", s.extras.length ? `You may play another card${s.extras.includes("any") ? "" : " (a fire card)"}.` : "Your turn: click a card in your binder to play it."));
+    box.append(el("span", "msg", s.extras.length ? `You may play another card${s.extras.includes("any") ? "" : " (a fire card)"}.` : "Your turn: click a card in your binder, on the right, to play it."));
   } else if (s.phase === "turn") box.append(el("span", "msg", "The computer is playing…"));
   box.append(el("span", "spacer"));
   if (sel) { const c = el("button", "", "Cancel"); c.onclick = () => { sel = null; render(); }; box.append(c); }

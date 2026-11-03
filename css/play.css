@@ -41,13 +41,11 @@ button.warn { background: #4a3a2c; border-color: #6d5640; }
 
 #main {
   display: grid; min-height: 0;
-  grid-template-columns: minmax(0, 1fr) 340px;
-  grid-template-rows: 1fr auto;
-  grid-template-areas: "board side" "hand side";
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
-#board { grid-area: board; min-width: 0; overflow: auto; padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; background: radial-gradient(ellipse at 50% 50%, #22302b 0%, #1a2320 70%); }
-#side { grid-area: side; border-left: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; background: var(--panel); }
-#handArea { grid-area: hand; min-width: 0; border-top: 1px solid var(--line); background: #141917; padding: 8px 14px 10px; }
+#left { min-width: 0; min-height: 0; display: flex; flex-direction: column; border-right: 1px solid #0c0f0e; }
+#board { flex: 1; min-height: 0; overflow: auto; padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; background: radial-gradient(ellipse at 50% 50%, #22302b 0%, #1a2320 70%); }
+#right { min-width: 0; min-height: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 14px 18px; background: radial-gradient(ellipse at 50% 40%, #2a2420 0%, #171513 75%); }
 
 .pbar, .worlds, #inplay { flex: none; }
 .pbar { display: flex; align-items: center; gap: 14px; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
@@ -96,14 +94,12 @@ button.warn { background: #4a3a2c; border-color: #6d5640; }
 #inplay .score { margin-left: auto; font-family: "IBM Plex Mono", monospace; font-size: 12px; display: grid; grid-template-columns: auto auto auto; gap: 2px 12px; }
 #inplay .score .h { color: var(--muted); font-size: 10px; }
 
-#prompt { display: flex; align-items: center; gap: 10px; min-height: 32px; flex-wrap: wrap; margin-bottom: 6px; }
+#prompt { display: flex; align-items: center; gap: 10px; min-height: 48px; flex-wrap: wrap; padding: 8px 14px; border-top: 1px solid var(--line); background: #141917; }
 #prompt .msg { font-size: 14px; }
 #prompt .msg em { font-family: "Cormorant Garamond", Georgia, serif; font-size: 17px; font-style: italic; color: #efe7d2; }
 #prompt .opts { display: flex; gap: 6px; flex-wrap: wrap; }
 #prompt .opts button { font-size: 12px; padding: 3px 9px; }
 #prompt .spacer { flex: 1; }
-#hand { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 6px; --s: 0.3; min-height: 150px; }
-#hand .card.unplayable { filter: saturate(.3) brightness(.6); }
 
 .card {
   position: relative; width: calc(320px * var(--s)); height: calc(448px * var(--s)); border-radius: calc(14px * var(--s));
@@ -112,10 +108,9 @@ button.warn { background: #4a3a2c; border-color: #6d5640; }
 .card > .face { position: absolute; top: 0; left: 0; width: 320px; height: 448px; transform: scale(var(--s)); transform-origin: 0 0; pointer-events: none; }
 .card > .face > div { border-radius: 14px; }
 .card.full rect[filter^="url(#grain"] { display: block; }
-.worlds .card rect[filter^="url(#grain"], #hand .card rect[filter^="url(#grain"], #inplay .card rect[filter^="url(#grain"] { display: none; }
+.worlds .card rect[filter^="url(#grain"], .pocket .card rect[filter^="url(#grain"], #inplay .card rect[filter^="url(#grain"] { display: none; }
 .own-0 { box-shadow: 0 0 0 2px var(--me); }
 .own-1 { box-shadow: 0 0 0 2px var(--opp); }
-#hand .card { cursor: pointer; }
 .card.blank { filter: grayscale(.7) brightness(.7); }
 
 /* picking */
@@ -126,14 +121,14 @@ button.warn { background: #4a3a2c; border-color: #6d5640; }
 .lastplay { box-shadow: 0 0 0 2px var(--accent), 0 0 14px 3px rgba(226,197,126,.5); }
 @keyframes glow { 50% { outline-color: rgba(242,210,122,.45); } }
 
-#preview { padding: 10px; display: flex; gap: 8px; justify-content: center; border-bottom: 1px solid var(--line); min-height: 220px; --s: 0.46; }
-#preview:empty::before { content: "Hover a card to see both faces."; color: var(--muted); font-size: 12px; align-self: center; }
-#preview .card.small { --s: 0.46; }
-#log { flex: 1; overflow: auto; margin: 0; padding: 8px 12px 12px 30px; font-size: 12.5px; }
-#log li { margin: 4px 0; }
+#logbox { flex: none; border-top: 1px solid var(--line); background: var(--panel); }
+#logbox summary { cursor: pointer; padding: 5px 14px; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+#log { height: 128px; overflow: auto; margin: 0; padding: 0 12px 10px 34px; font-size: 12.5px; }
+#log li { margin: 3px 0; }
 #log li.p0::marker { color: var(--me); }
 #log li.p1::marker { color: var(--opp); }
 #log li.sys { color: var(--accent); list-style: none; margin-left: -18px; font-family: "IBM Plex Mono", monospace; font-size: 11px; }
+#peek { position: fixed; z-index: 60; pointer-events: none; display: flex; gap: 8px; padding: 8px; border-radius: 12px; background: #121615ee; border: 1px solid var(--line); box-shadow: 0 12px 30px #000a; --s: 0.5; }
 
 #overlay { position: fixed; inset: 0; z-index: 100; background: rgba(8,10,10,.72); display: flex; align-items: center; justify-content: center; padding: 20px; }
 .dialog { background: #1c2220; border: 1px solid #44524d; border-radius: 14px; padding: 22px 26px; max-width: 900px; width: 100%; max-height: 92vh; overflow: auto; box-shadow: 0 20px 60px #000c; }
@@ -155,3 +150,105 @@ button.warn { background: #4a3a2c; border-color: #6d5640; }
 .voidgrid { display: flex; flex-wrap: wrap; gap: 6px; --s: 0.22; }
 .facepick { display: flex; gap: 24px; justify-content: center; --s: 0.6; }
 .facepick .opt { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+/* ------------------------------------------------------------------ the binder: an old leather album */
+#binder { --s: 0.4; --pv: 0.5; --gap: 10px; position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; perspective: 2200px; }
+.cover {
+  position: relative; display: flex; padding: 18px; border-radius: 16px 20px 20px 16px; perspective: 2400px;
+  background-color: #4b2e1d;
+  background-image:
+    radial-gradient(ellipse at 18% 12%, rgba(255, 214, 160, .16), transparent 46%),
+    radial-gradient(ellipse at 85% 95%, rgba(0, 0, 0, .42), transparent 55%),
+    radial-gradient(circle at 0 0, rgba(25, 12, 6, .85) 0 26px, transparent 27px),
+    radial-gradient(circle at 100% 0, rgba(25, 12, 6, .85) 0 26px, transparent 27px),
+    radial-gradient(circle at 0 100%, rgba(25, 12, 6, .85) 0 26px, transparent 27px),
+    radial-gradient(circle at 100% 100%, rgba(25, 12, 6, .85) 0 26px, transparent 27px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .16 0 0 0 0 .09 0 0 0 0 .04 0 0 0 .7 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  box-shadow: inset 0 0 0 2px #24140b, inset 0 0 50px rgba(0, 0, 0, .55), inset 0 2px 0 rgba(255, 220, 170, .12), 0 24px 50px rgba(0, 0, 0, .7), 0 4px 0 #1d1008;
+}
+.cover::before { /* stitching */
+  content: ""; position: absolute; inset: 8px; border-radius: 11px 14px 14px 11px; pointer-events: none;
+  border: 2px dashed rgba(226, 192, 140, .42); box-shadow: 0 1px 0 rgba(0, 0, 0, .35);
+}
+.leaf {
+  position: relative; z-index: 1; padding: 18px; display: flex; flex-direction: column;
+  background-color: #e6d8b8;
+  background-image:
+    radial-gradient(circle at 78% 22%, rgba(150, 105, 40, .13) 0 10px, transparent 26px),
+    radial-gradient(circle at 18% 84%, rgba(150, 105, 40, .11) 0 6px, transparent 22px),
+    radial-gradient(circle at 60% 66%, rgba(150, 105, 40, .07) 0 3px, transparent 14px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='4' seed='9'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .32 0 0 0 0 .16 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  box-shadow: inset 0 0 42px rgba(120, 82, 30, .38), inset 0 0 6px rgba(90, 60, 20, .4);
+  color: #4a3720;
+}
+.leaf.inside { border-radius: 6px 2px 2px 6px; }
+.leaf.inside::after { content: ""; position: absolute; top: 0; bottom: 0; right: 0; width: 34px; background: linear-gradient(to left, rgba(60, 38, 12, .32), transparent); pointer-events: none; }
+.leaf.pages { border-radius: 2px 6px 6px 2px; }
+.leaf.pages::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 38px; background: linear-gradient(to right, rgba(60, 38, 12, .36), transparent); pointer-events: none; }
+.leaf.pages::before { /* the page edges stacked behind */
+  content: ""; position: absolute; top: 4px; bottom: 4px; right: -5px; width: 5px; border-radius: 0 3px 3px 0;
+  background: repeating-linear-gradient(to bottom, #d4c39c 0 2px, #b9a57c 2px 3px); box-shadow: 2px 0 3px rgba(0, 0, 0, .35); z-index: -1;
+}
+.spine {
+  position: relative; z-index: 2; width: 30px; margin: 0 -2px;
+  background: linear-gradient(to right, #2c190e, #4a2d1b 30%, #5a3822 50%, #4a2d1b 70%, #2c190e);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, .7);
+}
+.spine svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.hand-title { font-family: "IM Fell English", "Cormorant Garamond", Georgia, serif; }
+.inside .owner { font-family: "IM Fell English", Georgia, serif; font-style: italic; font-size: 14px; color: #7a6040; }
+.inside .bname { font-family: "IM Fell English", Georgia, serif; font-size: 34px; line-height: 1; color: #3d2a14; margin: 2px 0 2px; }
+.inside .flourish { height: 10px; margin: 2px 0 10px; }
+.inside .pv { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; --s: var(--pv); }
+.inside .pv .card { box-shadow: 0 6px 14px rgba(40, 25, 8, .45); }
+.inside .pv .pvrow { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.inside .pv .hint { font-family: "IM Fell English", Georgia, serif; font-style: italic; color: #8a7050; font-size: 15px; text-align: center; margin-top: 30%; line-height: 1.35; }
+.inside .pv button { font-family: "IM Fell English", Georgia, serif; font-size: 14px; color: #f3ead6; background: #5a3a24; border: 1px solid #3c2414; padding: 4px 12px; border-radius: 4px; box-shadow: 0 2px 0 #2c190e; }
+.inside .pv button:hover:not(:disabled) { background: #6b4630; }
+.inside .pv button:disabled { opacity: .4; }
+.inside .notes { font-family: "IM Fell English", Georgia, serif; font-size: 13.5px; color: #5c4528; line-height: 1.35; border-top: 1px solid rgba(110, 80, 40, .35); padding-top: 8px; margin-top: 8px; }
+.inside .notes b { font-weight: normal; color: #3d2a14; }
+
+.phead, .pfoot { font-family: "IM Fell English", Georgia, serif; font-style: italic; color: #7a6040; font-size: 14px; display: flex; justify-content: space-between; }
+.phead { margin-bottom: 8px; }
+.pfoot { margin-top: 8px; justify-content: flex-end; }
+.pockets { display: grid; grid-template-columns: repeat(3, auto); gap: var(--gap); }
+.pocket {
+  position: relative; width: calc(320px * var(--s) + 8px); height: calc(448px * var(--s) + 8px); padding: 4px; border-radius: 7px;
+  background: rgba(110, 80, 40, .1); box-shadow: inset 0 0 0 1px rgba(100, 72, 34, .3), inset 0 2px 5px rgba(80, 55, 20, .25);
+}
+.pocket::before { /* the sleeve's open lip */
+  content: ""; position: absolute; left: 1px; right: 1px; top: 0; height: 9px; border-radius: 6px 6px 3px 3px; z-index: 3; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255, 252, 240, .35), rgba(255, 252, 240, .08)); box-shadow: 0 1px 0 rgba(100, 72, 34, .3);
+}
+.pocket::after { /* sheen of the sleeve over the card */
+  content: ""; position: absolute; inset: 0; border-radius: 7px; z-index: 3; pointer-events: none;
+  background: linear-gradient(118deg, rgba(255, 255, 255, .22) 0%, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0) 72%, rgba(255, 255, 255, .08) 100%);
+}
+.pocket .card { cursor: pointer; transition: transform .16s ease, box-shadow .16s ease, filter .16s; box-shadow: 0 2px 4px rgba(40, 25, 8, .4); }
+.pocket .card:hover { transform: translateY(-4px); }
+.pocket .card.unplayable { filter: sepia(.55) saturate(.45) brightness(.78); cursor: default; }
+.pocket.sel .card { transform: translateY(-16px) rotate(-1.2deg); box-shadow: 0 16px 22px rgba(40, 25, 8, .55); outline: 3px solid #b0892f; outline-offset: 1px; z-index: 4; }
+.pocket .gone { position: absolute; inset: 4px; border-radius: 6px; border: 1.5px dashed rgba(110, 80, 40, .35); display: flex; align-items: center; justify-content: center; text-align: center; padding: 6px;
+  font-family: "IM Fell English", Georgia, serif; font-style: italic; color: #8a7050; font-size: 13px; line-height: 1.2; }
+.pocket .gone b { display: block; font-style: normal; color: #6b5233; font-size: 14px; }
+.pocket.blank { background: rgba(110, 80, 40, .05); }
+
+.ptabs { position: absolute; right: -26px; top: 46px; display: flex; flex-direction: column; gap: 6px; z-index: 0; }
+.ptabs button { width: 34px; height: 46px; padding: 0 0 0 8px; border-radius: 0 7px 7px 0; border: none; font-family: "IM Fell English", Georgia, serif; font-size: 15px; color: #5c4528;
+  background: linear-gradient(to right, #b9a57c, #d9c9a2); box-shadow: 2px 2px 4px rgba(0, 0, 0, .45); text-align: center; }
+.ptabs button.on { background: linear-gradient(to right, #d8c8a0, #efe3c4); color: #2e1f0e; }
+.ptabs button:hover { background: linear-gradient(to right, #ccb88e, #e9dcbb); }
+
+.bnav { display: flex; align-items: center; gap: 14px; font-family: "IM Fell English", Georgia, serif; color: #cdb892; font-size: 15px; }
+.bnav button { font-family: "IM Fell English", Georgia, serif; font-size: 18px; color: #f0e2c6; background: #4b2e1d; border: 1px solid #2c190e; border-radius: 18px; padding: 2px 14px; box-shadow: 0 2px 0 #1d1008; }
+.bnav button:hover:not(:disabled) { background: #5c3a25; }
+.bnav .keys { font-size: 12px; color: #8f7a58; font-style: italic; }
+
+/* the page turning */
+.sheet { position: absolute; z-index: 5; transform-origin: left center; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.4, .1, .25, 1); pointer-events: none; }
+.sheet > .side { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.sheet > .side.back { transform: rotateY(180deg); }
+.sheet .leaf { height: 100%; }
+.sheet .leaf.blankback { border-radius: 6px 2px 2px 6px; }

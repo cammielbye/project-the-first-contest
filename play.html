@@ -7,7 +7,7 @@
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=IM+Fell+English:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="css/play.css">
   <script type="module" src="js/play.js"></script>
 </head>
@@ -23,22 +23,25 @@
     </div>
   </header>
   <main id="main">
-    <section id="board" aria-label="Table">
-      <div id="oppBar" class="pbar"></div>
-      <div id="oppWorlds" class="worlds" aria-label="The computer's worlds"></div>
-      <div id="inplay" aria-label="Forces in play"></div>
-      <div id="myWorlds" class="worlds" aria-label="Your worlds"></div>
-      <div id="myBar" class="pbar"></div>
-    </section>
-    <aside id="side">
-      <div id="preview" aria-hidden="true"></div>
-      <ol id="log" aria-label="What happened"></ol>
-    </aside>
-    <section id="handArea" aria-label="Your binder">
+    <section id="left">
+      <div id="board" aria-label="Table">
+        <div id="oppBar" class="pbar"></div>
+        <div id="oppWorlds" class="worlds" aria-label="The computer's worlds"></div>
+        <div id="inplay" aria-label="Forces in play"></div>
+        <div id="myWorlds" class="worlds" aria-label="Your worlds"></div>
+        <div id="myBar" class="pbar"></div>
+      </div>
       <div id="prompt"></div>
-      <div id="hand"></div>
+      <details id="logbox" open>
+        <summary>What happened</summary>
+        <ol id="log"></ol>
+      </details>
+    </section>
+    <section id="right" aria-label="Your binder">
+      <div id="binder"></div>
     </section>
   </main>
+  <div id="peek" hidden aria-hidden="true"></div>
   <div id="overlay" hidden></div>
 </body>
 </html>

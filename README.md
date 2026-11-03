@@ -63,12 +63,16 @@ pool (the third pass) and its four test binders (Tides, Embers, Gales, Roots; no
 pinnacles, Origin or the Gap):
 
 1. Pick your binder and the computer's, then **Start the contest**. The opener is random.
-2. Click a card in your binder. If both faces can be played, choose one. Then click
-   the highlighted spot, card or world (or the matching button above your binder).
-   **Esc** or **Cancel** backs out. **Pass for the round** when you're done.
-3. Hover any card to see both faces on the right. The symbols under a card on the
-   table are its affinities right now, after every effect; an outline means they've
-   changed.
+2. Your binder sits open on the right: nine pockets a leaf, turned with ‹ ›, the tabs
+   on its edge, or the arrow keys. Cards keep their pockets all contest; a played card
+   leaves an empty sleeve that says where it went.
+3. Click a card in your binder. If both faces can be played, choose one on the
+   binder's inside page. Then click the highlighted spot, card or world (or the
+   matching button under the table). **Esc** or **Cancel** backs out. **Pass for the
+   round** when you're done.
+4. Hover any card to see both faces on the binder's inside page. The symbols under a
+   card on the table are its affinities right now, after every effect; an outline
+   means they've changed.
 
 The page counts everything: world points per world, the tie-break, the 10-card cap,
 round wins, and the Nov 2 test rule (a world worth 3 world points wins the contest at
