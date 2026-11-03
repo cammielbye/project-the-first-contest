@@ -221,7 +221,9 @@ export function createComputer(ctx) {
     const sub = sel.picks[0] && sel.picks[0].k === "void" ? R.C[sel.picks[0].card] : null;
     const name = sel.face === "force" ? d.fname : d.name;
     const text = sel.face === "force" ? d.ftext : sel.face === "meta" ? d.text : d.ptext;
-    return h("span", { class: "msg" }, h("b", { text: name }), text ? h("em", { text: ` ${text}` }) : null, sub ? ` → ${sub.name}` : "", ` · ${upper(what)}.`);
+    const em = text ? h("em") : null;
+    if (em) em.innerHTML = ` ${ctx.rulesHtml(text)}`;
+    return h("span", { class: "msg" }, h("b", { text: name }), em, sub ? ` → ${sub.name}` : "", ` · ${upper(what)}.`);
   }
 
   // ---------------------------------------------------------------- what the table shows

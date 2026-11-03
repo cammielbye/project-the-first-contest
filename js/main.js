@@ -1,5 +1,5 @@
 import { SEATS, GRID, other, cellKey, initialState, apply, findInst, capFor, playedIn } from "./state.js";
-import { renderFace, otherFace, setFaceArt } from "./cards.js";
+import { renderFace, otherFace, setFaceArt, rulesHtml } from "./cards.js";
 import { createNet, peerOptionsFromUrl } from "./net.js";
 import { createComputer } from "./computer.js";
 
@@ -1197,7 +1197,7 @@ async function init() {
 
   if (mode === "solo") {
     try {
-      cpu = createComputer({ h, renderFace, buildAlbum, goneSleeve, hidePreview, toast, store, $, ui, cardsJson, cardsById, cardOrder, binders, active: vsComputer, render: () => render() });
+      cpu = createComputer({ h, renderFace, rulesHtml, buildAlbum, goneSleeve, hidePreview, toast, store, $, ui, cardsJson, cardsById, cardOrder, binders, active: vsComputer, render: () => render() });
     } catch (err) {
       console.error("The computer opponent didn't start:", err);
       cpu = null;

@@ -131,9 +131,15 @@ Where a card's text leaves a question open, the engine picks one reading (marked
 - The eight conversion commons (Updraft, Brushfire, Shower, Current, Rockfall, Dust
   Devil, Riptide, Dry Wind) reach a permanence of any size showing the named element.
   Until the round ends it has a single affinity of the new element, however many it
-  printed: a three-affinity card becomes one earth. Every "A … permanence becomes X"
-  force works this way, Cloudburst and the one-affinity commons included. Flare-up
-  removes a common force from the table, ending its effect.
+  printed: a three-affinity card becomes one earth. Flare-up removes a common force
+  from the table, ending its effect.
+- "Becomes" always overwrites: whatever turns a permanence to an element leaves it a
+  single affinity of that element. That covers every force aimed at one permanence
+  (Cloudburst and the one-affinity commons too), the permanences that change their
+  neighbours (Lava Field, Shoal, Peak, Meadow) and the world-wide forces (Downpour,
+  Sandstorm, Waterspout, Dust Storm, and Firestorm and Tsunami, which turn every
+  permanence in the world to a single fire or water). Nothing changes every affinity
+  on a card unless its text says so.
 
 ## Updating the cards and binders
 

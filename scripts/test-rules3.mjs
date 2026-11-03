@@ -92,6 +92,16 @@ test("Lava Field turns adjacent earth to fire; Mirage copies its neighbours", ()
   const mi = put(s, 0, "Mirage", "Lava Field", 2);
   assert.deepEqual(R.view(s).tok[mi.id], [R.BIT.fire]);
 });
+test("every 'becomes' overwrites to one affinity: Lava Field's neighbour, Firestorm's world", () => {
+  const s = table([], []);
+  put(s, 0, "Lava Field"); const rc = put(s, 0, "Red Canyon", "Lava Field", 1);
+  assert.deepEqual(R.view(s).tok[rc.id], [R.BIT.fire]);
+  const t = table(["Red Canyon"], []);
+  const v = put(t, 1, "Volcano"); const hill = put(t, 1, "Hill", "Volcano", 1);
+  R.applyMove(t, 0, forceTargets(t, 0, "Firestorm").find((m) => m.w === v.w));
+  assert.deepEqual(R.view(t).tok[v.id], [R.BIT.fire]);
+  assert.deepEqual(R.view(t).tok[hill.id], [R.BIT.fire]);
+});
 test("Badlands loses its affinities next to water", () => {
   const s = table([], []);
   const b = put(s, 0, "Badlands"); put(s, 0, "Lagoon", "Badlands", 1);

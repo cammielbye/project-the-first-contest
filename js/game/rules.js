@@ -148,21 +148,22 @@ export function view(s) {
     tok[i.id] = [];
     for (const t of adjacent(s, i)) if (named(t) !== "Mirage") tok[i.id].push(...tok[t.id]);
   }
-  // element changes: permanence first, then lasting forces in the order they were played
+  // element changes: permanence first, then lasting forces in the order they were played.
+  // "Becomes X" overwrites: the permanence is left with a single X affinity, however many it
+  // had. Nothing changes every affinity on a card unless its text says so (Cam, Nov 2).
   for (const i of ps) {
     const sh = ADJ_SHIFT[named(i)]; if (!sh) continue;
-    for (const t of adjacent(s, i)) if (hasBit(tok[t.id], sh[0])) tok[t.id] = tok[t.id].map(() => sh[1]);
+    for (const t of adjacent(s, i)) if (hasBit(tok[t.id], sh[0])) tok[t.id] = [sh[1]];
   }
   for (const f of fs) {
     const n = fname(f);
-    // "A … permanence becomes X": overwritten to a single X affinity, whatever it had (Cam, Nov 2)
     if (SET_EL[n] !== undefined) { const i = s.inst[f.t]; if (i && applies(s, f, i)) tok[i.id] = [SET_EL[n]]; }
     else if (WORLD_SHIFT[n]) {
       const w = s.worlds[f.w]; if (!w) continue; const [x, y] = WORLD_SHIFT[n];
-      for (const i of permsIn(s, w)) if (applies(s, f, i) && hasBit(tok[i.id], x)) tok[i.id] = tok[i.id].map(() => y);
+      for (const i of permsIn(s, w)) if (applies(s, f, i) && hasBit(tok[i.id], x)) tok[i.id] = [y];
     } else if (WORLD_BECOMES[n] !== undefined) {
       const w = s.worlds[f.w]; if (!w) continue;
-      for (const i of permsIn(s, w)) if (applies(s, f, i)) tok[i.id] = tok[i.id].map(() => WORLD_BECOMES[n]);
+      for (const i of permsIn(s, w)) if (applies(s, f, i)) tok[i.id] = [WORLD_BECOMES[n]];
     }
   }
   // losing affinities
