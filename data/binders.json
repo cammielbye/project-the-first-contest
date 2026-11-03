@@ -1,6 +1,6 @@
 {
   "about": "Generated from data/card-pool.md by scripts/sync-cards.mjs. Edit the binders there, not here.",
-  "syncedAt": "2026-11-03T03:30:05.805Z",
+  "syncedAt": "2026-11-03T04:44:59.628Z",
   "binders": [
     {
       "id": "binder-a-tides",
@@ -8,15 +8,15 @@
       "note": "Water and air: moves, returns and Archipelago’s 8-water win.",
       "cards": [
         "78",
-        "80",
+        "70",
         "72",
         "77",
         "44",
         "50",
         "41",
         "45",
-        "62",
-        "58",
+        "47",
+        "46",
         "meta-echo",
         "8",
         "9",
@@ -42,13 +42,13 @@
       "cards": [
         "69",
         "75",
-        "82",
+        "71",
         "86",
         "43",
         "42",
         "49",
         "41",
-        "60",
+        "51",
         "66",
         "meta-calm",
         "1",
