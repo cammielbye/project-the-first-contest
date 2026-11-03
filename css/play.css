@@ -131,12 +131,12 @@ button.warn { background: #4a3a2c; border-color: #6d5640; }
 #peek { position: fixed; z-index: 60; pointer-events: none; display: flex; gap: 8px; padding: 8px; border-radius: 12px; background: #121615ee; border: 1px solid var(--line); box-shadow: 0 12px 30px #000a; --s: 0.5; }
 
 #overlay { position: fixed; inset: 0; z-index: 100; background: rgba(8,10,10,.6); display: flex; align-items: center; justify-content: center; padding: 20px; }
-.dialog { background: #1c2220; border: 1px solid #44524d; border-radius: 14px; padding: 22px 26px; max-width: 900px; width: 100%; max-height: 92vh; overflow: auto; box-shadow: 0 20px 60px #000c; }
+.dialog { background: #1c2220; border: 1px solid #44524d; border-radius: 14px; padding: 22px 26px; max-width: 1080px; width: 100%; max-height: 92vh; overflow: auto; box-shadow: 0 20px 60px #000c; }
 .dialog h2 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 30px; font-weight: 600; margin: 0 0 6px; }
 .dialog h3 { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 18px 0 8px; font-weight: 500; }
 .dialog p { margin: 6px 0; color: #d3d0c4; }
 .dialog .row { display: flex; gap: 10px; flex-wrap: wrap; }
-.binderpick { border: 1px solid #3b4a45; border-radius: 10px; padding: 10px 12px; width: 200px; cursor: pointer; background: #202826; }
+.binderpick { border: 1px solid #3b4a45; border-radius: 10px; padding: 10px 12px; width: 190px; cursor: pointer; background: #202826; }
 .binderpick:hover { border-color: #5e7069; }
 .binderpick.on { border-color: var(--accent); background: #2a2a20; }
 .binderpick b { font-family: "Cormorant Garamond", Georgia, serif; font-size: 20px; display: block; }
@@ -152,9 +152,9 @@ button.warn { background: #4a3a2c; border-color: #6d5640; }
 .facepick .opt { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 
 /* ------------------------------------------------------------------ the binder: an old leather album */
-#binder { --s: 0.4; --pv: 0.5; --gap: 10px; position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; perspective: 2200px; }
+#binder { --s: 0.3; --gap: 7px; position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .cover {
-  position: relative; display: flex; padding: 18px; border-radius: 16px 20px 20px 16px; perspective: 2400px;
+  position: relative; display: flex; padding: 18px; margin-top: 30px; border-radius: 18px;
   background-color: #4b2e1d;
   background-image:
     radial-gradient(ellipse at 18% 12%, rgba(255, 214, 160, .16), transparent 46%),
@@ -171,7 +171,7 @@ button.warn { background: #4a3a2c; border-color: #6d5640; }
   border: 2px dashed rgba(226, 192, 140, .42); box-shadow: 0 1px 0 rgba(0, 0, 0, .35);
 }
 .leaf {
-  position: relative; z-index: 1; padding: 18px; display: flex; flex-direction: column;
+  position: relative; z-index: 1; padding: 12px; display: flex; flex-direction: column;
   background-color: #e6d8b8;
   background-image:
     radial-gradient(circle at 78% 22%, rgba(150, 105, 40, .13) 0 10px, transparent 26px),
@@ -181,11 +181,15 @@ button.warn { background: #4a3a2c; border-color: #6d5640; }
   box-shadow: inset 0 0 42px rgba(120, 82, 30, .38), inset 0 0 6px rgba(90, 60, 20, .4);
   color: #4a3720;
 }
-.leaf.inside { border-radius: 6px 2px 2px 6px; }
-.leaf.inside::after { content: ""; position: absolute; top: 0; bottom: 0; right: 0; width: 34px; background: linear-gradient(to left, rgba(60, 38, 12, .32), transparent); pointer-events: none; }
-.leaf.pages { border-radius: 2px 6px 6px 2px; }
-.leaf.pages::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 38px; background: linear-gradient(to right, rgba(60, 38, 12, .36), transparent); pointer-events: none; }
-.leaf.pages::before { /* the page edges stacked behind */
+.leaf.left { border-radius: 6px 2px 2px 6px; }
+.leaf.left::after { content: ""; position: absolute; top: 0; bottom: 0; right: 0; width: 30px; background: linear-gradient(to left, rgba(60, 38, 12, .34), transparent); pointer-events: none; }
+.leaf.left::before { /* the page edges stacked behind, left */
+  content: ""; position: absolute; top: 4px; bottom: 4px; left: -5px; width: 5px; border-radius: 3px 0 0 3px;
+  background: repeating-linear-gradient(to bottom, #d4c39c 0 2px, #b9a57c 2px 3px); box-shadow: -2px 0 3px rgba(0, 0, 0, .35); z-index: -1;
+}
+.leaf.right { border-radius: 2px 6px 6px 2px; }
+.leaf.right::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 30px; background: linear-gradient(to right, rgba(60, 38, 12, .36), transparent); pointer-events: none; }
+.leaf.right::before { /* the page edges stacked behind */
   content: ""; position: absolute; top: 4px; bottom: 4px; right: -5px; width: 5px; border-radius: 0 3px 3px 0;
   background: repeating-linear-gradient(to bottom, #d4c39c 0 2px, #b9a57c 2px 3px); box-shadow: 2px 0 3px rgba(0, 0, 0, .35); z-index: -1;
 }
@@ -196,26 +200,13 @@ button.warn { background: #4a3a2c; border-color: #6d5640; }
 }
 .spine svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 
-.hand-title { font-family: "IM Fell English", "Cormorant Garamond", Georgia, serif; }
-.inside .owner { font-family: "IM Fell English", Georgia, serif; font-style: italic; font-size: 14px; color: #7a6040; }
-.inside .bname { font-family: "IM Fell English", Georgia, serif; font-size: 34px; line-height: 1; color: #3d2a14; margin: 2px 0 2px; }
-.inside .flourish { height: 10px; margin: 2px 0 10px; }
-.inside .pv { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; --s: var(--pv); }
-.inside .pv .card { box-shadow: 0 6px 14px rgba(40, 25, 8, .45); }
-.inside .pv .pvrow { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-.inside .pv .hint { font-family: "IM Fell English", Georgia, serif; font-style: italic; color: #8a7050; font-size: 15px; text-align: center; margin-top: 30%; line-height: 1.35; }
-.inside .pv button { font-family: "IM Fell English", Georgia, serif; font-size: 14px; color: #f3ead6; background: #5a3a24; border: 1px solid #3c2414; padding: 4px 12px; border-radius: 4px; box-shadow: 0 2px 0 #2c190e; }
-.inside .pv button:hover:not(:disabled) { background: #6b4630; }
-.inside .pv button:disabled { opacity: .4; }
-.inside .notes { font-family: "IM Fell English", Georgia, serif; font-size: 13.5px; color: #5c4528; line-height: 1.35; border-top: 1px solid rgba(110, 80, 40, .35); padding-top: 8px; margin-top: 8px; }
-.inside .notes b { font-weight: normal; color: #3d2a14; }
-
 .phead, .pfoot { font-family: "IM Fell English", Georgia, serif; font-style: italic; color: #7a6040; font-size: 14px; display: flex; justify-content: space-between; }
-.phead { margin-bottom: 8px; }
-.pfoot { margin-top: 8px; justify-content: flex-end; }
+.phead { margin-bottom: 6px; min-height: 20px; }
+.pfoot { margin-top: 6px; justify-content: flex-end; }
+.pfoot.left { justify-content: flex-start; }
 .pockets { display: grid; grid-template-columns: repeat(3, auto); gap: var(--gap); }
 .pocket {
-  position: relative; width: calc(320px * var(--s) + 8px); height: calc(448px * var(--s) + 8px); padding: 4px; border-radius: 7px;
+  position: relative; width: calc(320px * var(--s) + 6px); height: calc(448px * var(--s) + 6px); padding: 3px; border-radius: 7px;
   background: rgba(110, 80, 40, .1); box-shadow: inset 0 0 0 1px rgba(100, 72, 34, .3), inset 0 2px 5px rgba(80, 55, 20, .25);
 }
 .pocket::before { /* the sleeve's open lip */
@@ -230,13 +221,13 @@ button.warn { background: #4a3a2c; border-color: #6d5640; }
 .pocket .card:hover { transform: translateY(-4px); }
 .pocket .card.unplayable { filter: sepia(.55) saturate(.45) brightness(.78); cursor: default; }
 .pocket.sel .card { transform: translateY(-16px) rotate(-1.2deg); box-shadow: 0 16px 22px rgba(40, 25, 8, .55); outline: 3px solid #b0892f; outline-offset: 1px; z-index: 4; }
-.pocket .gone { position: absolute; inset: 4px; border-radius: 6px; border: 1.5px dashed rgba(110, 80, 40, .35); display: flex; align-items: center; justify-content: center; text-align: center; padding: 6px;
-  font-family: "IM Fell English", Georgia, serif; font-style: italic; color: #8a7050; font-size: 13px; line-height: 1.2; }
-.pocket .gone b { display: block; font-style: normal; color: #6b5233; font-size: 14px; }
+.pocket .gone { position: absolute; inset: 3px; border-radius: 6px; border: 1.5px dashed rgba(110, 80, 40, .35); display: flex; align-items: center; justify-content: center; text-align: center; padding: 6px;
+  font-family: "IM Fell English", Georgia, serif; font-style: italic; color: #8a7050; font-size: 12px; line-height: 1.2; }
+.pocket .gone b { display: block; font-style: normal; color: #6b5233; font-size: 13px; }
 .pocket.blank { background: rgba(110, 80, 40, .05); }
 
 .ptabs { position: absolute; right: -26px; top: 46px; display: flex; flex-direction: column; gap: 6px; z-index: 0; }
-.ptabs button { width: 34px; height: 46px; padding: 0 0 0 8px; border-radius: 0 7px 7px 0; border: none; font-family: "IM Fell English", Georgia, serif; font-size: 15px; color: #5c4528;
+.ptabs button { width: 34px; height: 54px; writing-mode: vertical-rl; font-size: 13px !important; padding: 0 0 0 8px; border-radius: 0 7px 7px 0; border: none; font-family: "IM Fell English", Georgia, serif; font-size: 15px; color: #5c4528;
   background: linear-gradient(to right, #b9a57c, #d9c9a2); box-shadow: 2px 2px 4px rgba(0, 0, 0, .45); text-align: center; }
 .ptabs button.on { background: linear-gradient(to right, #d8c8a0, #efe3c4); color: #2e1f0e; }
 .ptabs button:hover { background: linear-gradient(to right, #ccb88e, #e9dcbb); }
@@ -246,9 +237,11 @@ button.warn { background: #4a3a2c; border-color: #6d5640; }
 .bnav button:hover:not(:disabled) { background: #5c3a25; }
 .bnav .keys { font-size: 12px; color: #8f7a58; font-style: italic; }
 
-/* the page turning */
-.sheet { position: absolute; z-index: 5; transform-origin: left center; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.4, .1, .25, 1); pointer-events: none; }
-.sheet > .side { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-.sheet > .side.back { transform: rotateY(180deg); }
-.sheet .leaf { height: 100%; }
-.sheet .leaf.blankback { border-radius: 6px 2px 2px 6px; }
+
+/* the tabs along the top: which side of the cards shows */
+.stabs { position: absolute; top: -28px; left: 34px; display: flex; gap: 6px; z-index: 0; }
+.stabs button { height: 30px; padding: 0 14px 6px; border: none; border-radius: 8px 8px 0 0; font-family: "IM Fell English", Georgia, serif; font-size: 15px; color: #5c4528;
+  background: linear-gradient(to top, #b9a57c, #d9c9a2); box-shadow: 0 -2px 4px rgba(0, 0, 0, .35); }
+.stabs button.on { background: linear-gradient(to top, #d8c8a0, #efe3c4); color: #2e1f0e; height: 34px; margin-top: -4px; }
+.stabs button:hover { background: linear-gradient(to top, #ccb88e, #e9dcbb); }
+.bnav .keys { max-width: 360px; text-align: left; }

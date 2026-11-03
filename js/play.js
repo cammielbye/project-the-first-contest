@@ -32,6 +32,7 @@ async function boot() {
     if (!s || !$("overlay").hidden) return;
     if (e.key === "ArrowRight") flipTo(page + 1);
     if (e.key === "ArrowLeft") flipTo(page - 1);
+    if (e.key === "f" || e.key === "F") { side = side === "force" ? "permanence" : "force"; binder(); }
   });
   let rt = null;
   window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => s && binder(), 120); });
@@ -64,15 +65,27 @@ function face(id, faceName, extra = {}) {
   const node = renderFace(c, f, { size: extra.size || "token" });
   node.dataset.card = id;
   node.dataset.face = f;
-  node.addEventListener("mouseenter", () => preview(id, f));
+  node.addEventListener("mouseenter", () => preview(id, f, node));
+  node.addEventListener("mouseleave", unpeek);
   return node;
 }
-let hover = null; // { id, face } the card being looked at closely, on the binder's inside page
-function preview(id, f) {
-  if (sel && !sel.face) return; // the chosen card stays on the page until a face is picked
-  hover = { id, face: f };
-  insidePage();
+// hovering a card shows it larger beside the pointer, both faces
+let peekTimer = null;
+function preview(id, f, node) {
+  clearTimeout(peekTimer);
+  peekTimer = setTimeout(() => {
+    const box = $("peek"); box.innerHTML = "";
+    const c = byId.get(id);
+    const faces = c.meta ? ["meta"] : f === "force" ? ["force", "permanence"] : ["permanence", "force"];
+    faces.forEach((x, k) => { const n = renderFace(c, x, { size: "token" }); if (k) n.style.opacity = "0.85"; box.append(n); });
+    box.hidden = false;
+    const r = node.getBoundingClientRect(), w = box.offsetWidth, h = box.offsetHeight;
+    let left = r.right + 12; if (left + w > innerWidth - 8) left = r.left - w - 12; if (left < 8) left = 8;
+    let top = Math.min(Math.max(8, r.top + r.height / 2 - h / 2), innerHeight - h - 8);
+    box.style.left = left + "px"; box.style.top = top + "px";
+  }, 180);
 }
+function unpeek() { clearTimeout(peekTimer); $("peek").hidden = true; }
 
 // ------------------------------------------------------------------ start, rules, voids
 function binderCard(k, on, which) {
@@ -90,7 +103,7 @@ function previewContest() {
   s.phase = "preview";
   s.binderNames = [bm.name.replace(/^Binder \w, /, ""), bt.name.replace(/^Binder \w, /, "")];
   s.order = [bm.cards.slice(), bt.cards.slice()];
-  sel = null; hover = null; page = 0; busy = false;
+  sel = null; page = 0; busy = false;
   render();
 }
 function showStart() {
@@ -123,9 +136,9 @@ function showRules(back) {
   </ul>
   <h3>Playing a card</h3>
   <ul>
-    <li>Your binder is on the right. Turn its leaves with ‹ ›, the tabs on its edge, or the arrow keys. Cards you've played leave an empty sleeve that says where they went.</li>
-    <li>Click a card in your binder. If both faces can be played, choose one on the binder's inside page. Then click the highlighted spots, cards or worlds, or use the buttons under the table. <b>Esc</b> or <b>Cancel</b> backs out.</li>
-    <li>Hover any card to see both faces on the binder's inside page. The symbols under a card on the table are its affinities <i>right now</i>, after every effect; an outline means they've changed.</li>
+    <li>Your binder is on the right, open to two pages. Turn pages with ‹ ›, the tabs on its edge, or the arrow keys. The tabs on top (or <b>F</b>) turn every card over to its permanence side or its force side. Cards you've played leave an empty sleeve that says where they went.</li>
+    <li>Click a card in your binder to play the side it's showing. If only its other side can be played right now, you'll be offered that one. Then click the highlighted spots, cards or worlds, or use the buttons under the table. <b>Esc</b> or <b>Cancel</b> backs out.</li>
+    <li>Hover any card to see both faces larger. The symbols under a card on the table are its affinities <i>right now</i>, after every effect; an outline means they've changed.</li>
   </ul>
   <h3>How the computer reads open rules</h3>
   <ul>
@@ -161,7 +174,7 @@ function startContest() {
   s = R.newContest(bm.cards, bt.cards, Math.random() < 0.5 ? ME : AI, ["You", "Computer"]);
   s.binderNames = [bm.name.replace(/^Binder \w, /, ""), bt.name.replace(/^Binder \w, /, "")];
   s.order = [bm.cards.slice(), bt.cards.slice()]; // pockets keep their cards' places all contest
-  page = 0; hover = null;
+  page = 0;
   sel = null; lastTs = 0;
   s.log.push({ r: 1, P: null, text: `Round 1. ${s.opener === ME ? "You open." : "The computer opens."}` });
   R.advance(s);
@@ -219,7 +232,11 @@ function clickCard(id) {
   if (!ms.length) { flash(s.turn !== ME ? "It's the computer's turn." : `${R.C[id].name} has no legal play right now.`); return; }
   const faces = [...new Set(ms.map((m) => m.face))];
   sel = { id, face: null, moves: ms, picks: [], options: null };
-  if (faces.length === 1) chooseFace(faces[0]); else render();
+  unpeek();
+  const showing = side === "force" ? "force" : "perm";
+  if (R.C[id].meta) chooseFace("meta");
+  else if (faces.includes(showing)) chooseFace(showing); // play the side the binder shows
+  else { sel.note = `Its ${showing === "force" ? "force" : "permanence"} side can't be played right now.`; render(); }
 }
 function chooseFace(f) { sel.face = f; sel.moves = sel.moves.filter((m) => m.face === f); next(); }
 function next() {
@@ -361,31 +378,25 @@ function inplay(sc) {
   box.append(g);
 }
 // ------------------------------------------------------------------ the binder
-const PER = 9; // a nine-pocket page
-let page = 0;
-let flipping = false;
-const pageCount = () => Math.max(1, Math.ceil(s.order[ME].length / PER));
+// An old album open flat: two pages of nine pockets. The tabs on the right turn to a spread;
+// the tabs on top turn every card over, to its permanence side or its force side.
+const PER = 9;
+let page = 0;              // the spread showing: pages 2·page and 2·page + 1
+let side = "permanence";   // which face the cards show in their pockets
+const spreadCount = () => Math.max(1, Math.ceil(s.order[ME].length / (2 * PER)));
 function whereIs(id) {
   if (s.p[ME].binder.includes(id)) return "binder";
   if (Object.values(s.inst).some((i) => i.card === id && i.owner === ME)) return "table";
   if (s.p[ME].void.includes(id)) return "void";
   return "gone";
 }
-// fit the open binder to the right half: pocket scale and preview scale
-function fit() {
+function fit() { // pocket scale that fits two pages into the right half
   const r = $("right").getBoundingClientRect();
-  const W = r.width - 36 - 30, H = r.height - 28;
-  const sc = Math.max(0.2, Math.min((W - 190) / 1536, (H - 226) / 1344, 0.5));
-  const pageW = 3 * (320 * sc + 8) + 20 + 36;
-  const insideW = Math.round(pageW * 0.6);
-  const contentH = 104 + 1344 * sc;
-  const pv = Math.max(0.2, Math.min((insideW - 36) / 320, (contentH - 210) / 2 / 448));
-  const b = $("binder");
-  b.style.setProperty("--s", sc.toFixed(3));
-  b.style.setProperty("--pv", pv.toFixed(3));
-  return { insideW, pageH: contentH + 36 };
+  const W = r.width - 36 - 30, H = r.height - 28 - 40;
+  const sc = Math.max(0.18, Math.min((W - 174) / 1920, (H - 186) / 1344, 0.5));
+  $("binder").style.setProperty("--s", sc.toFixed(3));
+  return 12 + 28 + 1344 * sc + 3 * 6 + 2 * 7 + 24 + 24; // page height, for the spine
 }
-const FLOURISH = `<svg class="flourish" viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C40 1 70 9 100 5 S160 1 198 6" stroke="#8a6a40" stroke-width="1.2" fill="none"/><circle cx="100" cy="5" r="1.6" fill="#8a6a40"/></svg>`;
 function spineSvg(h) {
   let d = "", holes = "";
   const n = Math.max(6, Math.round(h / 70));
@@ -396,10 +407,10 @@ function spineSvg(h) {
   }
   return `<svg viewBox="0 0 30 ${h}" preserveAspectRatio="none" aria-hidden="true">${holes}<path d="${d}" stroke="#1a0e06" stroke-width="3.2" fill="none" transform="translate(0.8 1)"/><path d="${d}" stroke="#b58a52" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>`;
 }
-function pagesLeaf(pg, playable) {
-  const leaf = el("div", "leaf pages");
+function pageLeaf(pg, playable, which) {
+  const leaf = el("div", "leaf " + which);
   const slots = s.order[ME].slice(pg * PER, pg * PER + PER);
-  leaf.append(el("div", "phead", `<span>${esc(s.binderNames[ME])}</span><span>leaf ${pg + 1}</span>`));
+  leaf.append(el("div", "phead", which === "left" ? `<span>${esc(s.binderNames[ME])}</span><span></span>` : `<span></span><span>${side === "force" ? "force side" : "permanence side"}</span>`));
   const grid = el("div", "pockets");
   for (let k = 0; k < PER; k++) {
     const id = slots[k];
@@ -407,115 +418,53 @@ function pagesLeaf(pg, playable) {
     if (!id) { pocket.classList.add("blank"); grid.append(pocket); continue; }
     const at = whereIs(id);
     if (at === "binder") {
-      const node = face(id, "permanence");
+      const node = face(id, side);
       if (s.phase === "turn" && !playable.has(id)) node.classList.add("unplayable");
       if (sel && sel.id === id) pocket.classList.add("sel");
       node.onclick = () => clickCard(id);
       pocket.append(node);
     } else {
       const d = R.C[id];
-      pocket.append(el("div", "gone", `<span><b>${esc(d.name)}</b>${at === "table" ? "on the table" : at === "void" ? "in the void" : "taken"}</span>`));
-      pocket.onmouseenter = () => preview(id, "permanence");
+      pocket.append(el("div", "gone", `<span><b>${esc(side === "force" && d.fname ? d.fname : d.name)}</b>${at === "table" ? "on the table" : at === "void" ? "in the void" : "taken"}</span>`));
     }
     grid.append(pocket);
   }
   leaf.append(grid);
-  leaf.append(el("div", "pfoot", String(pg + 1)));
+  leaf.append(el("div", "pfoot " + which, String(pg + 1)));
   return leaf;
 }
-function insidePage(leaf) {
-  leaf = leaf || document.querySelector("#binder .leaf.inside");
-  if (!leaf || !s) return;
-  leaf.innerHTML = "";
-  leaf.append(el("div", "owner", "This binder belongs to you"));
-  leaf.append(el("div", "bname", esc(s.binderNames[ME])));
-  leaf.insertAdjacentHTML("beforeend", FLOURISH);
-  const pv = el("div", "pv");
-  const show = sel ? { id: sel.id, face: sel.face === "force" ? "force" : "permanence" } : hover;
-  if (show && byId.get(show.id)) {
-    const c = byId.get(show.id);
-    const faces = c.meta ? ["meta"] : show.face === "force" ? ["force", "permanence"] : ["permanence", "force"];
-    const choosing = sel && !sel.face && sel.id === show.id;
-    const legal = choosing ? new Set(sel.moves.map((m) => m.face)) : new Set();
-    for (const f of faces) {
-      const row = el("div", "pvrow");
-      row.append(renderFace(c, f, { size: "token" }));
-      if (choosing) {
-        const fk = f === "permanence" ? "perm" : f;
-        const b = el("button", "", f === "meta" ? "Play it" : f === "permanence" ? "Play the permanence" : "Play the force");
-        b.disabled = !legal.has(fk);
-        b.onclick = () => chooseFace(fk);
-        row.append(b);
-      }
-      pv.append(row);
-    }
-  } else pv.append(el("div", "hint", "Hover a card to look at it closely.<br>Click one to play it."));
-  leaf.append(pv);
-  const counts = { binder: 0, table: 0, void: 0 };
-  for (const id of s.order[ME]) { const w = whereIs(id); if (counts[w] !== undefined) counts[w]++; }
-  leaf.append(el("div", "notes", `<b>${counts.binder}</b> in the binder · <b>${counts.table}</b> on the table · <b>${counts.void}</b> in the void<br>Played this round: <b>${s.p[ME].played}</b> of ${s.cap}`));
-}
-let binderDue = false; // a redraw asked for while a leaf was turning
 function binder() {
-  if (flipping) { binderDue = true; return; }
-  binderDue = false;
   const box = $("binder"); box.innerHTML = "";
-  const { insideW, pageH } = fit();
-  page = Math.min(page, pageCount() - 1);
+  const pageH = fit();
+  page = Math.min(page, spreadCount() - 1);
   const playable = new Set(myMoves().map((m) => m.id));
   const cover = el("div", "cover");
-  const inside = el("div", "leaf inside"); inside.style.width = insideW + "px";
-  insidePage(inside);
-  const spine = el("div", "spine", spineSvg(Math.round(pageH)));
-  const pages = pagesLeaf(page, playable);
+  const sides = el("div", "stabs");
+  for (const [k, label] of [["permanence", "Permanence side"], ["force", "Force side"]]) {
+    const t = el("button", side === k ? "on" : "", label);
+    t.title = k === "force" ? "Turn every card to its force face (F)" : "Turn every card to its permanence face (F)";
+    t.onclick = () => { side = k; binder(); };
+    sides.append(t);
+  }
   const tabs = el("div", "ptabs");
-  for (let k = 0; k < pageCount(); k++) {
-    const t = el("button", k === page ? "on" : "", String(k + 1));
-    t.title = `Leaf ${k + 1}`;
+  for (let k = 0; k < spreadCount(); k++) {
+    const t = el("button", k === page ? "on" : "", `${2 * k + 1}–${2 * k + 2}`);
+    t.title = `Pages ${2 * k + 1} and ${2 * k + 2}`;
     t.onclick = () => flipTo(k);
     tabs.append(t);
   }
-  cover.append(inside, spine, pages, tabs);
+  cover.append(sides, pageLeaf(2 * page, playable, "left"), el("div", "spine", spineSvg(Math.round(pageH))), pageLeaf(2 * page + 1, playable, "right"), tabs);
   box.append(cover);
+  const counts = { binder: 0, table: 0, void: 0 };
+  for (const id of s.order[ME]) { const w = whereIs(id); if (counts[w] !== undefined) counts[w]++; }
   const nav = el("div", "bnav");
-  const prev = el("button", "", "‹"); prev.title = "Previous leaf (←)"; prev.disabled = page === 0; prev.onclick = () => flipTo(page - 1);
-  const next = el("button", "", "›"); next.title = "Next leaf (→)"; next.disabled = page >= pageCount() - 1; next.onclick = () => flipTo(page + 1);
-  nav.append(prev, el("span", "", `Leaf ${page + 1} of ${pageCount()}`), next, el("span", "keys", "← → to turn"));
+  const prev = el("button", "", "‹"); prev.title = "Previous pages (←)"; prev.disabled = page === 0; prev.onclick = () => flipTo(page - 1);
+  const next = el("button", "", "›"); next.title = "Next pages (→)"; next.disabled = page >= spreadCount() - 1; next.onclick = () => flipTo(page + 1);
+  nav.append(prev, el("span", "", `Pages ${2 * page + 1}–${2 * page + 2} of ${2 * spreadCount()}`), next,
+    el("span", "keys", `${counts.binder} in the binder · ${counts.table} on the table · ${counts.void} in the void`));
   box.append(nav);
 }
-// turn the leaf: the page lifts from the right and swings over the spine (or back)
-function flipTo(k) {
-  if (flipping || k < 0 || k >= pageCount() || k === page) return;
-  const cover = document.querySelector("#binder .cover"), cur = cover && cover.querySelector(".leaf.pages");
-  if (!cur) { page = k; binder(); return; }
-  const fwd = k > page;
-  const playable = new Set(myMoves().map((m) => m.id));
-  const front = fwd ? cur.cloneNode(true) : pagesLeaf(k, playable);
-  const rect = { left: cur.offsetLeft, top: cur.offsetTop, width: cur.offsetWidth, height: cur.offsetHeight };
-  const make = () => {
-    const sheet = el("div", "sheet");
-    Object.assign(sheet.style, { left: rect.left + "px", top: rect.top + "px", width: rect.width + "px", height: rect.height + "px" });
-    const f = el("div", "side front"); front.style.height = "100%"; f.append(front);
-    const b = el("div", "side back"); b.append(el("div", "leaf inside blankback"));
-    sheet.append(f, b);
-    return sheet;
-  };
-  if (fwd) {
-    page = k; binder();
-    flipping = true;
-    const sheet = make();
-    document.querySelector("#binder .cover").append(sheet);
-    requestAnimationFrame(() => requestAnimationFrame(() => { sheet.style.transform = "rotateY(-180deg)"; }));
-    setTimeout(() => { sheet.remove(); flipping = false; if (binderDue) binder(); }, 620);
-  } else {
-    flipping = true;
-    const sheet = make();
-    sheet.style.transition = "none"; sheet.style.transform = "rotateY(-180deg)";
-    cover.append(sheet);
-    requestAnimationFrame(() => requestAnimationFrame(() => { sheet.style.transition = ""; sheet.style.transform = "rotateY(0deg)"; }));
-    setTimeout(() => { page = k; flipping = false; binder(); }, 620);
-  }
-}
+function flipTo(k) { if (k < 0 || k >= spreadCount() || k === page) return; page = k; unpeek(); binder(); }
 
 function prompt() {
   const box = $("prompt"); box.innerHTML = "";
@@ -523,12 +472,13 @@ function prompt() {
   const mine = s.phase === "turn" && s.turn === ME && !busy;
   if (sel && !sel.face) {
     const d = R.C[sel.id];
-    box.append(el("span", "msg", `<b>${esc(d.name)}</b> · Play it as`));
+    box.append(el("span", "msg", `<b>${esc(d.name)}</b>${sel.note ? " · " + esc(sel.note) : ""} · Play it as`));
     const o = el("div", "opts");
     for (const f of [...new Set(sel.moves.map((m) => m.face))]) {
       const b = el("button", "primary", f === "perm" ? `the permanence, ${esc(d.name)}` : `the force, ${esc(d.fname)}`);
       b.onclick = () => chooseFace(f);
-      b.onmouseenter = () => preview(sel.id, f === "perm" ? "permanence" : "force");
+      b.onmouseenter = () => preview(sel.id, f === "perm" ? "permanence" : "force", b);
+      b.onmouseleave = unpeek;
       o.append(b);
     }
     box.append(o);
@@ -539,7 +489,7 @@ function prompt() {
     for (const pk of list) {
       const b = el("button", "", esc(R.describePick(s, pk, ME)).replace(/^./, (c) => c.toUpperCase()));
       b.onclick = () => pick(pk);
-      if (pk.card) b.onmouseenter = () => preview(pk.card, "permanence");
+      if (pk.card) { b.onmouseenter = () => preview(pk.card, "permanence", b); b.onmouseleave = unpeek; }
       o.append(b);
     }
     box.append(o);

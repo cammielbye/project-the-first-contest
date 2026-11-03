@@ -1,6 +1,6 @@
 {
   "about": "Generated from data/card-pool.md by scripts/sync-cards.mjs. Edit the binders there, not here.",
-  "syncedAt": "2026-11-02T23:33:20.273Z",
+  "syncedAt": "2026-11-03T00:47:13.829Z",
   "binders": [
     {
       "id": "binder-a-tides",
@@ -131,6 +131,39 @@
         "32",
         "39",
         "37"
+      ],
+      "originals": []
+    },
+    {
+      "id": "binder-e-compass",
+      "name": "Binder E, Compass",
+      "note": "Even across all four elements, with Cradle's 3-of-each win to aim at.",
+      "cards": [
+        "69",
+        "72",
+        "70",
+        "88",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "meta-echo",
+        "1",
+        "4",
+        "3",
+        "8",
+        "10",
+        "18",
+        "15",
+        "17",
+        "22",
+        "23",
+        "29",
+        "30",
+        "33",
+        "32"
       ],
       "originals": []
     }

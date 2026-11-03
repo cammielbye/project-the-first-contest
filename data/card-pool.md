@@ -210,12 +210,13 @@
 | --- | --- | --- |
 | Gap | 100 | Remove a world. |
 
-**Four test binders** of 25 (Nov 2), one of each card, for the table, the computer opponent and the simulator. Each follows a rarity gradient (14 commons, 7 uncommons, 4 rares, meta cards counted at their rarity) and leaves out the pinnacles, Origin and the Gap, which belong to the end game. Each leans on two elements but carries at least four of each of the other two, so worlds can complete sets.
+**Five test binders** of 25 (Nov 2), one of each card, for the table, the computer opponent and the simulator. Each follows a rarity gradient (14 commons, 7 uncommons, 4 rares, meta cards counted at their rarity) and leaves out the pinnacles, Origin and the Gap, which belong to the end game. The first four each lean on two elements but carry at least four of each of the other two, so worlds can complete sets; Compass, added at Cam's request, spreads its affinities evenly across all four.
 
 - **Binder A, Tides.** Water and air: moves, returns and Archipelago’s 8-water win. Archipelago, Cloud Sea, Rainforest, Misty Fjord, Cloud Forest, Waterfall, Hot Spring, Delta, Glacier, Mirage, Echo, Lagoon, Ice Floe, Spring, Snowfield, Eyrie, Peak, Bluff, Fumarole, Dune, Cinder Field, Hill, Grove, Sea Stack, Steam Vent.
 - **Binder B, Embers.** Fire and earth: removal, blanking, and Mountain Range for stacking earth. Caldera Lake, Lava Plain, Smoking Hills, Mountain Range, Volcano, Desert, Cinder Cone, Hot Spring, Obsidian, Hidden Valley, Calm, Cinder Field, Fumarole, Ashfield, Lava Field, Hill, Grove, Bedrock, Lagoon, Tide Pool, Ridge, Ledge, Flint, Scrubland, Hot Mud.
 - **Binder C, Gales.** Air and fire: moving and splitting worlds, and turning cards to fire. Geyser Basin, High Desert, Sand Sea, Stone Towers, Savanna, Sea Cliff, Cloud Forest, Lava Flow, Spire, Hanging Valley, Verge, Ledge, Ridge, Eyrie, Bluff, Dune, Badlands, Lava Field, Ice Floe, Lagoon, Hill, Grove, Scrubland, Sea Stack, Heath.
 - **Binder D, Roots.** Earth and water: protection and turtling, with Massif and Lull. Floodplain, Red Canyon, Massif, Lull, Delta, Mangrove, Plateau, Old Growth, Cavern, Canyon, Mud Pots, Grove, Stone Field, Bedrock, Thicket, Spring, Fen, Tide Pool, Cinder Field, Dune, Summit, Ridge, Marsh, Mudflat, Peat Bog.
+- **Binder E, Compass.** Even across all four elements, with Cradle's 3-of-each win to aim at. Caldera Lake, Rainforest, Geyser Basin, Cradle, Hot Spring, Desert, Volcano, Cloud Forest, Delta, Sea Cliff, Echo, Cinder Field, Ashfield, Fumarole, Lagoon, Spring, Summit, Ledge, Eyrie, Hill, Grove, Flint, Scrubland, Sea Stack, Marsh.
 
 ## Second pass: 50 cards plus 5 meta (Nov 1, 2026)
 

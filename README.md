@@ -59,20 +59,20 @@ Without a room, the page runs in **solo mode**: you play both seats and
 
 Open **`play.html`** (or **Play the computer** on the table's top bar). It plays one
 contest against a computer opponent with the rules enforced, using the newest card
-pool (the third pass) and its four test binders (Tides, Embers, Gales, Roots; no
+pool (the third pass) and its five test binders (Tides, Embers, Gales, Roots and the even Compass; no
 pinnacles, Origin or the Gap):
 
 1. Pick your binder and the computer's, then **Start the contest**. The opener is random.
-2. Your binder sits open on the right: nine pockets a leaf, turned with ‹ ›, the tabs
-   on its edge, or the arrow keys. Cards keep their pockets all contest; a played card
-   leaves an empty sleeve that says where it went.
-3. Click a card in your binder. If both faces can be played, choose one on the
-   binder's inside page. Then click the highlighted spot, card or world (or the
+2. Your binder sits open on the right, two pages of nine pockets. Turn pages with
+   ‹ ›, the tabs on its edge, or the arrow keys. The tabs on top (or **F**) turn every
+   card over to its permanence side or its force side. Cards keep their pockets all
+   contest; a played card leaves an empty sleeve that says where it went.
+3. Click a card to play the side it's showing (if only its other side can be played,
+   you're offered that one). Then click the highlighted spot, card or world (or the
    matching button under the table). **Esc** or **Cancel** backs out. **Pass for the
    round** when you're done.
-4. Hover any card to see both faces on the binder's inside page. The symbols under a
-   card on the table are its affinities right now, after every effect; an outline
-   means they've changed.
+4. Hover any card to see both faces larger. The symbols under a card on the table are
+   its affinities right now, after every effect; an outline means they've changed.
 
 The page counts everything: world points per world, the tie-break, the 10-card cap,
 round wins, and the Nov 2 test rule (a world worth 3 world points wins the contest at

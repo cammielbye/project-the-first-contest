@@ -1,7 +1,7 @@
 {
   "source": "data/card-pool.md",
   "pass": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
-  "syncedAt": "2026-11-02T23:33:20.273Z",
+  "syncedAt": "2026-11-03T00:47:13.829Z",
   "counts": {
     "cards": 101,
     "meta": 8,
