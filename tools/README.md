@@ -92,8 +92,21 @@ instead of running straight, their shape holds a little past the old corners
 (`REACH`), and the corners where they meet the rest of the coast are softer
 (`SOFT`). Everything else is Draft L.
 
+`towns_draft_M.py` draws the first twelve towns over Draft M
+(`drafts/draftM_today.png`) and writes `ow_towns_M.png`; the copy shown on the
+"Towns on Draft M" board is `drafts/towns_M.png`. Ports snap to the nearest coast,
+inland towns stay off the coast and off high ground, and number 7 is the port
+inside the hollow mountain.
+
 `gen_board.py` and `gen_pieces_board.py` write board HTML into
 `../worldsketch-out/project/`, the local copy of the World Sketch canvas.
+
+## places/: the hollow mountain (World Sketch)
+
+- `gen_hollow.py <out folder>`: the middle island as a hollow mountain (WORLD-13), in
+  the Hollis Games pixel-art pipeline (360×200, lit, dithered into a small palette,
+  scaled ×4): `hollow_outside.png` from the sea, `hollow_inside.png` the port inside.
+  The images on the board are saved in `places/out/`.
 
 ## shop/: Hollis Games (World Sketch)
 
