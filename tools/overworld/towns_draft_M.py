@@ -3,7 +3,8 @@
 
 Draws numbered town marks over drafts/draftM_today.png and writes ow_towns_M.png next to this script.
 Ports are snapped to the nearest coast; inland towns are kept off the coast and off high ground.
-The middle island's mark is the hollow mountain's port (see "The hollow mountain" board)."""
+The middle island is the hollow mountain (WORLD-13); its mark is the port inside, on the harbour hidden under
+the canopy (see "The hollow mountain" board)."""
 import pathlib
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -21,7 +22,7 @@ TOWNS = [
     (4, "town", 300, 640, "Crossroads town between the west coast and the southern hills"),
     (5, "town", 560, 712, "Highland town in the valley between the great range and the cut-off range"),
     (6, "port", 548, 818, "South port, near the sea stacks at the foot of the cliffs"),
-    (7, "hollow", 1012, 648, "The hollow mountain's port, inside the island's high ground"),
+    (7, "hollow", 1039, 780, "The hollow mountain's port, inside on the hidden harbour (the old lake); ships enter by the sea cave"),
     (8, "port", 1176, 700, "Strait port across the narrow strait from the hollow mountain"),
     (9, "port", 1262, 300, "North point, at the right continent's northern tip"),
     (10, "town", 1440, 560, "Lowland town in the open east"),

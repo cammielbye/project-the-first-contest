@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Draft M (locked in, Nov 4): Draft L with the left continent a bit rounder, its cliff side curved and its
-corners softened so the old fit is less obvious. Everything else is Draft L.
+"""Draft M (Nov 4), the working map: Draft L with the left continent a bit rounder, its cliff side curved and its
+corners softened so the old fit is less obvious. Revised the same day for the hollow mountain (WORLD-13): see HOLLOW.
 
 Draft L: Draft K with Cam's Nov 4 edits (the right continent turned back 30°, the middle island and the
 right continent close with the left continent farther off, and ranges laid out to mislead; see "Draft L").
@@ -46,6 +46,11 @@ Y1_IN, Y1_TURN, Y1_LEN = 55, 40, 210   # young range: straight run on the old li
 CURVE = 55          # how far the cliffs curve back at the ends of the old rift (today's px); 0 = Draft L's straight run
 SOFT = 22           # how round the corners are where the cliffs meet the rest of the coast (Draft L: 13)
 REACH = 1.6         # how far along the coast the cliffs' shape holds, in half-lengths of the old rift (Draft L: 1.25)
+# ---- The hollow mountain (WORLD-13, Cam, Nov 4): the whole middle island is one tall hollow mountain. Today's map draws it
+# as a plateau ringed by cliffs with forest on top; the lake Cam moved there in Draft K is hidden inside as the harbour, so
+# only the old map shows it; a sea cave on the coast nearest that lake, facing the narrow strait, lets ships in. Everything
+# off the island is drawn exactly as before. False gives Draft M as first drawn.
+HOLLOW = True
 
 
 def set_size(w, h):
@@ -657,14 +662,35 @@ for pts in sorted(mouths, key=lambda p: -rs_wide[min(MH - 1, int(p[-1][1] * MH))
 
 seats = {"earth": (seat[0] / MW, seat[1] / MH)} if seat else {}
 g.render(f"pg_now_{SEED}", np.where(dry, 1.0, -1.0), elev, SEED, 0, seats, riv)
+dry_r = dry
+if HOLLOW:   # draw the island a second time as the hollow mountain and paste it in, so nothing else on the map moves
+    from scipy.ndimage import binary_dilation as _dil
+    kMask = plates[kM]["dry_mask"]
+    hidden = lakes & kMask                                       # the old lake, now the harbour inside
+    lab_i, _n = label(dry | hidden)
+    keep_i = [j for j in np.unique(lab_i[kMask & (lab_i > 0)]) if (kMask[lab_i == j]).mean() > 0.5]
+    I = np.isin(lab_i, keep_i)
+    dry_r = dry | hidden
+    elev_r = elev.copy(); elev_r[I] = 0.5                        # a flat top: no peaks, no river springs
+    riv_r = [p for p in riv if not I[min(MH - 1, int(p[0][1] * MH)), min(MW - 1, int(p[0][0] * MW))]]
+    g.render(f"pg_hollow_{SEED}", np.where(dry_r, 1.0, -1.0), elev_r, SEED, 0, seats, riv_r)
+    base_ = np.asarray(Image.open(g.OUT / f"ow_pg_now_{SEED}.png").convert("RGB")).copy()
+    hol_ = np.asarray(Image.open(g.OUT / f"ow_pg_hollow_{SEED}.png").convert("RGB"))
+    region = _dil(I, iterations=12)
+    base_[region] = hol_[region]
+    Image.fromarray(base_).save(g.OUT / f"ow_pg_now_{SEED}.png")
+    hy_, hx_ = np.nonzero(hidden)
+    harbour = (float(hx_.mean()), float(hy_.mean())) if len(hx_) else None
+    print("hollow mountain: island", int(I.sum()), "px | harbour (hidden lake) at", [round(v) for v in harbour] if harbour else None,
+          "| rivers dropped", len(riv) - len(riv_r))
 
 # shelves: today's sea over old crust, lighter, with a dotted edge; sea stacks off the eroding coast
 im = Image.open(g.OUT / f"ow_pg_now_{SEED}.png").convert("RGB"); a = np.asarray(im).copy()
-shelf = crust & ~dry
+shelf = crust & ~dry_r
 a[shelf] = (a[shelf] * 0.55 + np.array([214, 220, 204]) * 0.45).astype(np.uint8)
 outer = crust & ~(edt(crust) > 1.5)
 dots = ((MX // 3 + MY // 3) % 3 == 0)
-a[outer & ~dry & dots] = (94, 112, 102)
+a[outer & ~dry_r & dots] = (94, 112, 102)
 im = Image.fromarray(a); d = ImageDraw.Draw(im)
 if True:
     Wc, nn = cliff["W"], cliff["n"]
@@ -689,8 +715,49 @@ for j in hr.sample(range(len(hx)), len(hx)):
         kept_h.append((x, y))
 for x, y in kept_h:
     w_ = hr.choice([5, 6, 7])
+    if HOLLOW and I[y, x]:
+        continue                                                 # no hills on the hollow mountain's flat top
     d.arc((x - w_, y - 4, x + w_, y + 5), 190, 350, fill=(58, 46, 34), width=2)
 print("worn hills drawn:", len(kept_h))
+if HOLLOW:
+    hr2 = random.Random(SEED + 720)
+    di = edt(I)
+    # forest on top: crowns packed on a jittered grid, clear of the rim
+    ys_, xs_ = np.nonzero(I)
+    for row, gy in enumerate(range(int(ys_.min()), int(ys_.max()) + 1, 9)):
+        for gx in range(int(xs_.min()) + (5 if row % 2 else 0), int(xs_.max()) + 1, 10):
+            x, y = gx + hr2.randint(-2, 2), gy + hr2.randint(-2, 2)
+            if 0 <= x < MW and 0 <= y < MH and di[y, x] > 13:
+                s_ = hr2.choice([3, 3, 4])
+                d.ellipse((x - s_, y - s_, x + s_, y + s_), outline=g.FOREST, width=1)
+                d.arc((x - s_ + 1, y - s_ + 1, x + s_ - 1, y + s_ - 1), 200, 300, fill=(92, 102, 70), width=1)
+    # the sea cave: on the coast nearest the hidden harbour, facing the narrow strait (east)
+    gsm = gaussian_filter(di.astype(float), 3); gyy, gxx = np.gradient(gsm)
+    cst = I & ~(di > 1.5)
+    cy_, cx_ = np.nonzero(cst)
+    nrm = np.hypot(gxx[cy_, cx_], gyy[cy_, cx_]) + 1e-6
+    inx, iny = gxx[cy_, cx_] / nrm, gyy[cy_, cx_] / nrm
+    cave = None
+    if harbour:
+        cand = np.nonzero(-inx > 0.45)[0]
+        j = cand[np.argmin((cx_[cand] - harbour[0]) ** 2 + (cy_[cand] - harbour[1]) ** 2)]
+        cave = (int(cx_[j]), int(cy_[j]), float(inx[j]), float(iny[j]))
+    # the cliffs: hachures all round the rim, pointing in, broken where the cave opens
+    kept_t = []
+    for j in hr2.sample(range(len(cx_)), len(cx_)):
+        x, y = int(cx_[j]), int(cy_[j])
+        if cave and (x - cave[0]) ** 2 + (y - cave[1]) ** 2 < 10 ** 2:
+            continue
+        if all((x - a) ** 2 + (y - b) ** 2 > 8 ** 2 for a, b in kept_t):
+            kept_t.append((x, y))
+            L_ = hr2.choice([6, 8, 9])
+            d.line([(x, y), (x + inx[j] * L_, y + iny[j] * L_)], fill=(58, 46, 34), width=2)
+    if cave:
+        x, y, nx_, ny_ = cave
+        cx0, cy0 = x + nx_ * 2.5, y + ny_ * 2.5
+        d.ellipse((cx0 - 5, cy0 - 5, cx0 + 5, cy0 + 5), fill=(58, 46, 34))
+        d.ellipse((cx0 - 2, cy0 - 2, cx0 + 2, cy0 + 2), fill=(26, 20, 16))
+    print("hollow mountain drawn: cliff hachures", len(kept_t), "| sea cave at", cave[:2] if cave else None)
 im.save(g.OUT / f"ow_pg_now_{SEED}.png")
 
 # ------------------------------------------------------------------ fit view (for us)

@@ -50,7 +50,7 @@ PNGs next to itself (`ow_*.png`, ignored by git).
 | `pangaea_draft_J.py` | Draft J (321): uneven sizes, rougher coasts, fewer ridge islands | |
 | `pangaea_draft_K.py` | Draft K (321): J plus Cam's edits | `python3 pangaea_draft_K.py 321` |
 | `pangaea_draft_L.py` | Draft L (321): K plus Cam's Nov 4 edits and misleading ranges | `python3 pangaea_draft_L.py 321` |
-| `pangaea_draft_M.py` | **Draft M (321), locked in Nov 4 (LORE-13, Decided)**: L with the left continent rounder | `python3 pangaea_draft_M.py 321` |
+| `pangaea_draft_M.py` | **Draft M (321), the working map**: L with the left continent rounder, and the middle island as the hollow mountain | `python3 pangaea_draft_M.py 321` |
 
 Each supercontinent run writes three images: `ow_pg_now_<seed>.png` (today's
 continents, 1704×1068), `ow_pg_old_<seed>.png` (the old map, 852×534) and
@@ -86,17 +86,25 @@ ink for the great range (dashed where worn), rust for the decoys (dashed for the
 young one). The earth seat stays off the cliffs, and a delta is drawn only where a
 river reaches a coast that faced a rift (none in L).
 
-Draft M (Nov 4) is the locked-in map. It is Draft L with the left continent a bit
+Draft M (Nov 4) is the working map: it gets adjusted where an idea needs it,
+not redrawn as new drafts. It is Draft L with the left continent a bit
 rounder: its cliffs curve back toward the ends of the old rift (`CURVE`, 55 px)
 instead of running straight, their shape holds a little past the old corners
 (`REACH`), and the corners where they meet the rest of the coast are softer
 (`SOFT`). Everything else is Draft L.
 
+`HOLLOW` (on) fits the hollow mountain (WORLD-13): the whole middle island is drawn
+as a plateau ringed by cliff hachures, with dense forest on top; its lake is hidden
+inside as the harbour (the old map still shows it); a sea cave marks the east coast
+nearest the harbour. The island is drawn in a second render and pasted in, so
+nothing off the island changes. `HOLLOW = False` gives Draft M as first drawn.
+`drafts/draftM_today.png` is the hollow version.
+
 `towns_draft_M.py` draws the first twelve towns over Draft M
 (`drafts/draftM_today.png`) and writes `ow_towns_M.png`; the copy shown on the
 "Towns on Draft M" board is `drafts/towns_M.png`. Ports snap to the nearest coast,
 inland towns stay off the coast and off high ground, and number 7 is the port
-inside the hollow mountain.
+inside the hollow mountain, on its hidden harbour.
 
 `gen_board.py` and `gen_pieces_board.py` write board HTML into
 `../worldsketch-out/project/`, the local copy of the World Sketch canvas.
