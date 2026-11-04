@@ -1,0 +1,18 @@
+BINDERS = [
+ ('A', 'Tides', 'Water and air: moves, returns and Archipelago’s 8-water win.',
+  ['Archipelago', 'Cloud Sea', 'Rainforest', 'Misty Fjord',
+   'Cloud Forest', 'Waterfall', 'Hot Spring', 'Delta', 'Glacier', 'Mirage', 'Echo',
+   'Lagoon', 'Ice Floe', 'Spring', 'Snowfield', 'Eyrie', 'Peak', 'Bluff', 'Fumarole', 'Dune', 'Cinder Field', 'Hill', 'Grove', 'Sea Stack', 'Steam Vent']),
+ ('B', 'Embers', 'Fire and earth: removal, blanking, and Mountain Range for stacking earth.',
+  ['Caldera Lake', 'Lava Plain', 'Smoking Hills', 'Mountain Range',
+   'Volcano', 'Desert', 'Cinder Cone', 'Hot Spring', 'Obsidian', 'Hidden Valley', 'Calm',
+   'Cinder Field', 'Fumarole', 'Ashfield', 'Lava Field', 'Hill', 'Grove', 'Bedrock', 'Lagoon', 'Tide Pool', 'Ridge', 'Ledge', 'Flint', 'Scrubland', 'Hot Mud']),
+ ('C', 'Gales', 'Air and fire: moving and splitting worlds, and turning cards to fire.',
+  ['Geyser Basin', 'High Desert', 'Sand Sea', 'Stone Towers',
+   'Savanna', 'Sea Cliff', 'Cloud Forest', 'Lava Flow', 'Spire', 'Hanging Valley', 'Verge',
+   'Ledge', 'Ridge', 'Eyrie', 'Bluff', 'Dune', 'Badlands', 'Lava Field', 'Ice Floe', 'Lagoon', 'Hill', 'Grove', 'Scrubland', 'Sea Stack', 'Heath']),
+ ('D', 'Roots', 'Earth and water: protection and turtling, with Massif and Lull.',
+  ['Floodplain', 'Red Canyon', 'Massif', 'Lull',
+   'Delta', 'Mangrove', 'Plateau', 'Old Growth', 'Cavern', 'Canyon', 'Mud Pots',
+   'Grove', 'Stone Field', 'Bedrock', 'Thicket', 'Spring', 'Fen', 'Tide Pool', 'Cinder Field', 'Dune', 'Summit', 'Ridge', 'Marsh', 'Mudflat', 'Peat Bog']),
+]
