@@ -49,12 +49,13 @@ PNGs next to itself (`ow_*.png`, ignored by git).
 | `pangaea_drafts_G-I.py` | Drafts G, H, I (313, 315, 318): three round pieces in a chain | |
 | `pangaea_draft_J.py` | Draft J (321): uneven sizes, rougher coasts, fewer ridge islands | |
 | `pangaea_draft_K.py` | Draft K (321): J plus Cam's edits | `python3 pangaea_draft_K.py 321` |
-| `pangaea_draft_L.py` | **Draft L (321), the latest**: K plus Cam's Nov 4 edits and misleading ranges | `python3 pangaea_draft_L.py 321` |
+| `pangaea_draft_L.py` | Draft L (321): K plus Cam's Nov 4 edits and misleading ranges | `python3 pangaea_draft_L.py 321` |
+| `pangaea_draft_M.py` | **Draft M (321), locked in Nov 4 (LORE-13, Decided)**: L with the left continent rounder | `python3 pangaea_draft_M.py 321` |
 
 Each supercontinent run writes three images: `ow_pg_now_<seed>.png` (today's
 continents, 1704×1068), `ow_pg_old_<seed>.png` (the old map, 852×534) and
-`ow_pg_fit_<seed>.png` (how the pieces fit, for us, not the player). Drafts K's
-and L's three are saved in `overworld/drafts/`.
+`ow_pg_fit_<seed>.png` (how the pieces fit, for us, not the player). Drafts K's,
+L's and M's three are saved in `overworld/drafts/`.
 
 How the supercontinent works (LORE-13): three lopsided round lobes are joined
 into one landmass and split along weighted borders, so the middle piece shares a
@@ -84,6 +85,12 @@ on the left continent that runs into an outer coast. The fit view marks them:
 ink for the great range (dashed where worn), rust for the decoys (dashed for the
 young one). The earth seat stays off the cliffs, and a delta is drawn only where a
 river reaches a coast that faced a rift (none in L).
+
+Draft M (Nov 4) is the locked-in map. It is Draft L with the left continent a bit
+rounder: its cliffs curve back toward the ends of the old rift (`CURVE`, 55 px)
+instead of running straight, their shape holds a little past the old corners
+(`REACH`), and the corners where they meet the rest of the coast are softer
+(`SOFT`). Everything else is Draft L.
 
 `gen_board.py` and `gen_pieces_board.py` write board HTML into
 `../worldsketch-out/project/`, the local copy of the World Sketch canvas.
