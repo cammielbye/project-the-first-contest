@@ -26,11 +26,13 @@
 
 **Counts.** 40 commons, 28 uncommons, 20 rares, 4 elemental pinnacles, 7 meta cards and the Gap, plus card 101. Affinities across the 100: fire 33, water 34, air 35, earth 36, plus 6 either-or capsules for each element and one wildcard. Rules text fits in two lines on the card. With Option A (below), 27 forces and Drift run to 8–10 words, shrunk to fit as needed; Archipelago and Cradle keep Cam's wording for their win conditions.
 
-**Keep me honest (CORE-07).** These could be fun for one player and miserable for the other, so they're the first to watch in testing: Great Uplift (Pangaea's force, your worlds ignore all forces for the round), Massif (your worlds ignore common forces, all the time), Calm (no forces for the round, Cam's test of a stronger version), Whiteout (no world grows until your next turn), the four element-wide protections on the two-of-the-same uncommons, and Lull. Each one either lasts a single round or turn, can itself be removed (Thaw removes a force), or applies to both players.
+**Keep me honest (CORE-07).** These could be fun for one player and miserable for the other, so they're the first to watch in testing: Uplift (Massif's force, a world ignores all forces for the round), Massif (your worlds ignore common forces, all the time), Calm (no forces for the round, Cam's test of a stronger version), Whiteout (no world grows until your next turn), the four element-wide protections on the two-of-the-same uncommons, and Lull. Each one either lasts a single round or turn, can itself be removed (Thaw removes a force), or applies to both players.
 
 **Changes after review (Nov 2, Cam).** Echo plays any card from your void; Calm lasts the round. Option A: the 23 common forces that aimed at "a [element] permanence" now reach only a permanence with one affinity, and so do the four uncommon removal forces (Scald, Lava Bomb, Hail, Landslide), so a common or uncommon force can't remove, blank, recolour or move a pinnacle or a three-affinity card. "One of yours" now reads "one of your permanences" (Vent, Snowfield, Bluff, Drift, Hanging Valley).
 
 **Changes after the first games (Nov 2, Cam).** The eight common forces that removed or moved a permanence with one affinity now last the round and turn a permanence of any size to the force's element instead (Brushfire: "An earth permanence becomes fire."). The permanence then has a single affinity of the new element, however many it printed: a three-affinity card becomes one fire. Every "becomes" force on one permanence works this way. Nothing at common removes or moves a permanence any more. Flare-up was pointless and now removes a common force. Equinox was far too strong (Cam brought back 17 cards in the third round) and now returns 3 cards from your void.
+
+**Pangaea's force (Nov 3, Cam).** Great Uplift is gone: Cam disliked the name, and a weaker version of its shield already sits lower in the pool as Massif's Uplift (a world ignores all forces for the round). Pangaea's force is now World Quake, "Every permanence becomes its own world," the supercontinent breaking apart (LORE-13); it can be buffed if it plays weak. That was Jet Stream's effect (Trade Winds), which needs a new one; until then the two read the same. Below them, Typhoon (A) breaks one world apart and Hurricane (A) one player's worlds.
 
 **Test rule (Nov 2, Cam).** A decisive win: if a player creates a world that scores 3 world points, they win the contest at once. The four test binders below leave out the pinnacles, Origin and the Gap, which are meant for the end game.
 
@@ -185,7 +187,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 96 | Core | S | 4 fire | — | Solar Flare | Once | Remove every ◯ permanence. |
 | 97 | Ocean | S | 4 water | — | Deluge | Lasts the round | Two worlds lose their affinities. |
-| 98 | Pangaea | S | 4 earth | — | Great Uplift | Lasts the round | Your worlds ignore all forces. |
+| 98 | Pangaea | S | 4 earth | — | World Quake | Once | Every permanence becomes its own world. |
 | 99 | Trade Winds | S | 4 air | — | Jet Stream | Once | Every permanence becomes its own world. |
 | 101 | Origin | S | 1 fire, 1 water, 1 air, 1 earth | — | Unmaking | Once | Remove every world. |
 

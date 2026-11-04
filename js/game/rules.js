@@ -106,7 +106,6 @@ function worldIgnores(s, wid, src) {
     const n = fname(f);
     if (n === "Uplift" && f.w === wid) return true;
     if (n === "Overgrowth" && f.w === wid && d.rarity === "C") return true;
-    if (n === "Great Uplift" && f.owner === P) return true;
     if (n === "Firebreak" && f.owner === P && d.el & F) return true;
     if (n === "Windbreak" && f.owner === P && d.el & A) return true;
   }
@@ -448,7 +447,7 @@ const CARD_LASTING_ANY = { Updraft: A, Brushfire: E, Shower: F, Current: E, Rock
 const OWN_WORLD_ONE = { Gust: A, Downdraft: F, Sinkhole: E };
 const CARD_LASTING_ONE = { Smolder: E, Drizzle: F, Dust: A, "Drying Wind": W, Spark: A, Kindling: E, Rain: F, Snowmelt: E, Breeze: W, Thermal: F, Silt: W, Dustfall: A };
 const WORLD_LASTING = new Set(["Freeze", "Tangle", "Fog", "Downpour", "Sandstorm", "Ashfall", "Dust Storm", "Scorch", "Waterspout", "Firestorm", "Eruption", "Tsunami", "Uplift"]);
-const GLOBAL_LASTING = new Set(["Firebreak", "Windbreak", "Heat Dome", "Ice Storm", "High Pressure", "Permafrost", "Bramble", "Whiteout", "Great Uplift"]);
+const GLOBAL_LASTING = new Set(["Firebreak", "Windbreak", "Heat Dome", "Ice Storm", "High Pressure", "Permafrost", "Bramble", "Whiteout"]);
 const REMOVE_KIND = { Drought: W, Wildfire: E, "Flash Flood": F, Avalanche: A };
 
 function forceMoves(s, P, id, out) {
@@ -540,6 +539,7 @@ function forceMoves(s, P, id, out) {
     case "Solar Flare": if (tp.some((i) => one(i) && canRemove(s, i, src))) mk({}); return;
     case "Deluge": for (let a = 0; a < tw.length; a++) for (let b = a + 1; b < tw.length; b++) mk({ w: tw[a].id, w2: tw[b].id }, [worldPick(tw[a].id), worldPick(tw[b].id)]); return;
     case "Jet Stream": if (Object.values(s.worlds).some((w) => worldSize(w) >= 2 && canSplit(s, w))) mk({}); return;
+    case "World Quake": if (Object.values(s.worlds).some((w) => worldSize(w) >= 2 && canSplit(s, w))) mk({}); return;
     case "Unmaking": if (tp.some((i) => canRemove(s, i, src))) mk({}); return;
     default: throw new Error("force not implemented: " + n);
   }
@@ -683,6 +683,7 @@ export function applyMove(s, P, m, fromVoid) {
     case "Equinox": for (const c of m.cards || []) if (removeOne(pl.void, c)) pl.binder.push(c); break;
     case "Solar Flare": for (const i of perms(s)) if (one(i) && !permIgnores(s, i, src) && canRemove(s, i, src)) gone(i, "void"); break;
     case "Jet Stream": for (const w of Object.values(s.worlds)) if (canSplit(s, w)) scatter(s, w, src); break;
+    case "World Quake": for (const w of Object.values(s.worlds)) if (canSplit(s, w)) scatter(s, w, src); break;
     case "Unmaking": for (const i of perms(s)) if (!permIgnores(s, i, src) && canRemove(s, i, src)) gone(i, "void"); break;
     default: throw new Error("once force not implemented: " + n);
   }

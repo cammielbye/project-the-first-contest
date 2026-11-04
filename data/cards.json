@@ -1,7 +1,7 @@
 {
   "source": "data/card-pool.md",
   "pass": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
-  "syncedAt": "2026-11-03T04:44:59.628Z",
+  "syncedAt": "2026-11-04T02:54:45.025Z",
   "counts": {
     "cards": 101,
     "meta": 8,
@@ -1776,9 +1776,9 @@
         "text": ""
       },
       "force": {
-        "name": "Great Uplift",
-        "duration": "Lasts the round",
-        "text": "Your worlds ignore all forces."
+        "name": "World Quake",
+        "duration": "Once",
+        "text": "Every permanence becomes its own world."
       }
     },
     {
