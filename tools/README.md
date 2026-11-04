@@ -48,12 +48,13 @@ PNGs next to itself (`ow_*.png`, ignored by git).
 | `pangaea_drafts_D-F.py` | Drafts D, E, F (47, 61, 104) | |
 | `pangaea_drafts_G-I.py` | Drafts G, H, I (313, 315, 318): three round pieces in a chain | |
 | `pangaea_draft_J.py` | Draft J (321): uneven sizes, rougher coasts, fewer ridge islands | |
-| `pangaea_draft_K.py` | **Draft K (321), the latest**: J plus Cam's edits | `python3 pangaea_draft_K.py 321` |
+| `pangaea_draft_K.py` | Draft K (321): J plus Cam's edits | `python3 pangaea_draft_K.py 321` |
+| `pangaea_draft_L.py` | **Draft L (321), the latest**: K plus Cam's Nov 4 edits and misleading ranges | `python3 pangaea_draft_L.py 321` |
 
 Each supercontinent run writes three images: `ow_pg_now_<seed>.png` (today's
 continents, 1704×1068), `ow_pg_old_<seed>.png` (the old map, 852×534) and
-`ow_pg_fit_<seed>.png` (how the pieces fit, for us, not the player). Draft K's
-three are saved in `overworld/drafts/`.
+`ow_pg_fit_<seed>.png` (how the pieces fit, for us, not the player). Drafts K's
+and L's three are saved in `overworld/drafts/`.
 
 How the supercontinent works (LORE-13): three lopsided round lobes are joined
 into one landmass and split along weighted borders, so the middle piece shares a
@@ -67,6 +68,22 @@ a straight run of eroding cliffs with sea stacks. Draft K's edits are
 hand-placed in the block marked "Cam's edits to Draft J": the right continent
 turned 90° clockwise, its lake moved to the bottom of the middle island, and the
 left piece taking a slice off the middle piece so its facing coast runs straight.
+
+Draft L (Nov 4) keeps every coast exactly as K drew it: each piece's coast is worn
+by noise carried along with the piece, so moving or turning a piece moves its
+coast instead of wearing a new one. Its knobs sit at the top of the script:
+`TURN_R` (the right continent turned 60° clockwise instead of 90°), `GAP_MR` and
+`GAP_LM` (coast-to-coast gaps in today's pixels: the middle island and the right
+continent 40 apart over one shared shelf, the left continent 190 off; K had 61
+and 122), and the range layout. The ranges are built to mislead: one great range
+crosses the old map; its high half still shows on the left continent and the
+middle island, cut short by the cliffs, and past a bend it is worn to low hills
+today (drawn as humps). Two decoys: a young range on the right continent on the
+high half's line across the narrow strait, not on the old map, and an old range
+on the left continent that runs into an outer coast. The fit view marks them:
+ink for the great range (dashed where worn), rust for the decoys (dashed for the
+young one). The earth seat stays off the cliffs, and a delta is drawn only where a
+river reaches a coast that faced a rift (none in L).
 
 `gen_board.py` and `gen_pieces_board.py` write board HTML into
 `../worldsketch-out/project/`, the local copy of the World Sketch canvas.
