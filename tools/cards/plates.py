@@ -23,7 +23,7 @@ from fontcss import local_fonts
 
 CARDS = ['Grove', 'Volcano', 'Cloud Sea', 'Ocean']        # one per rarity: common, uncommon, rare, pinnacle
 ENGRAVED_TOO = []                                         # cards also drawn cut-in (Cam chose raised, Nov 5)
-DRAW_METALS = ['bronze-weathered', 'bronze']        # Cam preferred bronze to steel (Nov 5); 'steel' stays in METAL
+DRAW_METALS = ['bronze']        # the current best (Cam, Nov 5); 'steel' and 'bronze-weathered' stay in METAL as options
 S = 2                                                      # render scale
 W, H = 320 * S, 448 * S
 METAL = {  # a ramp from shadow to highlight, and how the surface is finished
