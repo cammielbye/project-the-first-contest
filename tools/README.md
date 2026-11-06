@@ -31,12 +31,16 @@ The map scripts use the DejaVu fonts at `/usr/share/fonts/truetype/dejavu/`.
   `node scripts/sync-cards.mjs` (card-pool.md to data/cards.json and binders.json),
   then `node scripts/sync-card-art.mjs <folder>` (faces to data/card-faces.json),
   then bump the `?v=` cache version in `index.html`.
-- `plates.py <out folder>`: the plates, first draft (Nov 5, LORE-02). Renders a few
-  third-pass faces with Playwright (local fonts needed), mirrors them and turns them
-  into lit bronze with the drawing raised, or cut in for the cards in `ENGRAVED_TOO`.
-  It's a 2D trick: a height map from the drawing, then light, cast shadows and a
-  worked surface. `plates_board.py <project folder> plates_blobs.json` writes the
-  "Plates, first draft" board; `plates_blobs.json` maps each PNG to its uploaded asset.
+- `plates.py <out folder>`: the plates (Nov 5, LORE-02). Renders a few third-pass
+  faces with Playwright (local fonts needed), mirrors them and turns them into lit
+  metal with the drawing raised (Cam's pick), in each metal of `DRAW_METALS`: matte
+  brushed steel and the first draft's bronze. `METAL` holds each finish (colour ramp,
+  highlight, brushing). It's a 2D trick: a height map from the drawing, then light,
+  cast shadows and a worked surface. `plates_board.py <project folder> plates_blobs.json`
+  writes the "Plates, second draft" board; `plates_blobs.json` maps each PNG to its
+  uploaded asset.
+- The permanence affinity rings sit at top 277px, 7px below the art panel (Cam, Nov 5),
+  with the rules text box at 324px, 60px tall; every third-pass text still fits.
 - `pass2.py`, `cards.py`, `eitheror.py`, `measure*.py`: earlier passes and
   measuring helpers, kept for reference.
 

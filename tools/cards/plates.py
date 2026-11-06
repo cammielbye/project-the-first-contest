@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Plates, first draft (Nov 5): the metal stamp plates that press the cards (LORE-02).
 
-A plate carries its card's faces mirrored, the way a stamp does, and in metal relief. This renders a few
+A plate carries its card's faces mirrored, the way a stamp does, and in metal relief (Cam chose raised; steel
+added after the bronze looked too shiny, Nov 5). This renders a few
 third-pass faces with Playwright, mirrors them, and turns them into lit metal: the art lines, lettering,
 rings and footer stand up from the plate (RAISED, the way a stamp or printing block is cut), or are cut
 into it (ENGRAVED, the way an intaglio plate is), with a raised rim and a sunken art panel.
 
-  python3 tools/cards/plates.py <out folder>        # writes <name>-perm-plate.png, <name>-force-plate.png, ...
+  python3 tools/cards/plates.py <out folder>        # writes <name>-<perm|force>-plate-<metal>.png
 
 Needs the local fonts in tools/fonts/ (see tools/README.md, "cards/")."""
 import os, sys, json
@@ -21,11 +22,16 @@ import pass3
 from fontcss import local_fonts
 
 CARDS = ['Grove', 'Volcano', 'Cloud Sea', 'Ocean']        # one per rarity: common, uncommon, rare, pinnacle
-ENGRAVED_TOO = ['Volcano']                                 # also drawn cut-in, for comparison
+ENGRAVED_TOO = []                                         # cards also drawn cut-in (Cam chose raised, Nov 5)
+DRAW_METALS = ['steel', 'bronze']
 S = 2                                                      # render scale
 W, H = 320 * S, 448 * S
-METAL = {  # a ramp from shadow to highlight, plus the polish colour (bronze for this draft)
-    'bronze': [(28, 18, 10), (66, 44, 24), (112, 78, 42), (158, 114, 62), (198, 152, 88), (232, 196, 132), (252, 234, 188)],
+METAL = {  # a ramp from shadow to highlight, and how the surface is finished
+    'bronze': dict(ramp=[(28, 18, 10), (66, 44, 24), (112, 78, 42), (158, 114, 62), (198, 152, 88), (232, 196, 132), (252, 234, 188)],
+                   spec=(255, 236, 196), spec_amt=1.0, spec_pow=38, brushed=0.035, brush_len=5, hammer=0.06, sheen=0.08, polish=0.1, patina=(-16, -4, 6)),
+    # matte brushed steel (Cam, Nov 5: the bronze was too shiny): a soft, broad highlight, long fine brushing, no hammering
+    'steel': dict(ramp=[(20, 22, 25), (44, 48, 53), (76, 81, 87), (110, 115, 121), (142, 147, 152), (172, 176, 180), (200, 203, 206)],
+                  spec=(226, 230, 234), spec_amt=0.22, spec_pow=10, brushed=0.06, brush_len=14, hammer=0.0, sheen=0.04, polish=0.04, patina=(-6, -4, -2)),
 }
 
 
@@ -103,12 +109,13 @@ def make_plate(src, side, mode='raised', metal='bronze', seed=0):
     # worked surface: fine hammering on the field, a fine brushed grain over everything
     hammer = gaussian_filter(rng.standard_normal((H, W)), 1.6 * S)
     hammer = hammer / (np.abs(hammer).max() + 1e-6)
-    brushed = gaussian_filter(rng.standard_normal((H, W)), (0.35, 5 * S)) + 0.5 * gaussian_filter(rng.standard_normal((H, W)), (0.3, 1.5 * S))
+    M = METAL[metal]
+    brushed = gaussian_filter(rng.standard_normal((H, W)), (0.35, M['brush_len'] * S)) + 0.5 * gaussian_filter(rng.standard_normal((H, W)), (0.3, 1.5 * S))
     brushed = brushed / (np.abs(brushed).max() + 1e-6)
     if mode == 'raised':
-        Hm = field + 1.05 * lines + 0.06 * hammer * (1 - lines)
+        Hm = field + 1.05 * lines + M['hammer'] * hammer * (1 - lines)
     else:                                                              # engraved: the drawing is cut into the plate
-        Hm = field - 0.95 * lines + 0.06 * hammer * (1 - lines)
+        Hm = field - 0.95 * lines + M['hammer'] * hammer * (1 - lines)
     Hm = Hm * card
     # light from the upper left; normals from the height map
     k = 9.0
@@ -118,7 +125,7 @@ def make_plate(src, side, mode='raised', metal='bronze', seed=0):
     L = np.array([-0.55, -0.62, 0.56]); L /= np.linalg.norm(L)
     diff = np.clip(nx * L[0] + ny * L[1] + nz * L[2], 0, 1)
     Hv = L + np.array([0, 0, 1.0]); Hv /= np.linalg.norm(Hv)
-    spec = np.clip(nx * Hv[0] + ny * Hv[1] + nz * Hv[2], 0, 1) ** 38
+    spec = np.clip(nx * Hv[0] + ny * Hv[1] + nz * Hv[2], 0, 1) ** METAL[metal]['spec_pow']
     # cavities hold dark patina; tops are polished
     occl = gaussian_filter(Hm, 4 * S) - Hm
     ao = np.clip(1 - 2.4 * np.clip(occl, 0, None), 0.3, 1)
@@ -139,10 +146,10 @@ def make_plate(src, side, mode='raised', metal='bronze', seed=0):
     # a broad sheen across the plate, brighter toward the light, as on polished metal
     YY, XX = np.mgrid[0:H, 0:W]
     sheen = 0.5 + 0.5 * np.cos((XX / W * 0.9 + YY / H * 1.1) * np.pi * 1.1)
-    v = (0.1 + 0.7 * diff * ao + 0.035 * brushed + 0.1 * polish + 0.08 * sheen) * shade + 0.25 * lip
-    col = ramp(v, METAL[metal])
-    col += spec[..., None] * np.array([255, 236, 196]) * (0.45 + 0.55 * polish[..., None])
-    patina = np.clip(occl * 3, 0, 1)[..., None] * np.array([-16, -4, 6])
+    v = (0.1 + 0.7 * diff * ao + M['brushed'] * brushed + M['polish'] * polish + M['sheen'] * sheen) * shade + 0.25 * lip
+    col = ramp(v, M['ramp'])
+    col += spec[..., None] * np.array(M['spec']) * M['spec_amt'] * (0.45 + 0.55 * polish[..., None])
+    patina = np.clip(occl * 3, 0, 1)[..., None] * np.array(M['patina'])
     col = np.clip(col + patina, 0, 255)
     alpha = (gaussian_filter(card.astype(float), 0.6) * 255).astype(np.uint8)
     return Image.fromarray(np.dstack([col.astype(np.uint8), alpha]), 'RGBA')
@@ -155,8 +162,9 @@ def main(out):
     made = []
     for (n, side), f in srcs.items():
         slug = n.lower().replace(' ', '-')
-        make_plate(f, side, 'raised', seed=hash(n) % 1000).save(os.path.join(out, f'{slug}-{side}-plate.png'))
-        made.append(f'{slug}-{side}-plate.png')
+        for m in DRAW_METALS:
+            make_plate(f, side, 'raised', metal=m, seed=hash(n) % 1000).save(os.path.join(out, f'{slug}-{side}-plate-{m}.png'))
+            made.append(f'{slug}-{side}-plate-{m}.png')
         if n in ENGRAVED_TOO:
             make_plate(f, side, 'engraved', seed=hash(n) % 1000).save(os.path.join(out, f'{slug}-{side}-plate-engraved.png'))
             made.append(f'{slug}-{side}-plate-engraved.png')
