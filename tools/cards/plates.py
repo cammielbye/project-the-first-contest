@@ -23,13 +23,17 @@ from fontcss import local_fonts
 
 CARDS = ['Grove', 'Volcano', 'Cloud Sea', 'Ocean']        # one per rarity: common, uncommon, rare, pinnacle
 ENGRAVED_TOO = []                                         # cards also drawn cut-in (Cam chose raised, Nov 5)
-DRAW_METALS = ['steel', 'bronze']
+DRAW_METALS = ['bronze-weathered', 'bronze']        # Cam preferred bronze to steel (Nov 5); 'steel' stays in METAL
 S = 2                                                      # render scale
 W, H = 320 * S, 448 * S
 METAL = {  # a ramp from shadow to highlight, and how the surface is finished
     'bronze': dict(ramp=[(28, 18, 10), (66, 44, 24), (112, 78, 42), (158, 114, 62), (198, 152, 88), (232, 196, 132), (252, 234, 188)],
                    spec=(255, 236, 196), spec_amt=1.0, spec_pow=38, brushed=0.035, brush_len=5, hammer=0.06, sheen=0.08, polish=0.1, patina=(-16, -4, 6)),
     # matte brushed steel (Cam, Nov 5: the bronze was too shiny): a soft, broad highlight, long fine brushing, no hammering
+    # bronze with weathering (Cam, Nov 5: too monochromatic): same finish, then weather() adds grime, tarnish and ink
+    'bronze-weathered': dict(ramp=[(28, 18, 10), (66, 44, 24), (112, 78, 42), (158, 114, 62), (198, 152, 88), (232, 196, 132), (252, 234, 188)],
+                   spec=(255, 236, 196), spec_amt=0.75, spec_pow=30, brushed=0.035, brush_len=5, hammer=0.06, sheen=0.06, polish=0.12, patina=(-16, -4, 6),
+                   weather=True),
     'steel': dict(ramp=[(20, 22, 25), (44, 48, 53), (76, 81, 87), (110, 115, 121), (142, 147, 152), (172, 176, 180), (200, 203, 206)],
                   spec=(226, 230, 234), spec_amt=0.22, spec_pow=10, brushed=0.06, brush_len=14, hammer=0.0, sheen=0.04, polish=0.04, patina=(-6, -4, -2)),
 }
@@ -151,8 +155,72 @@ def make_plate(src, side, mode='raised', metal='bronze', seed=0):
     col += spec[..., None] * np.array(M['spec']) * M['spec_amt'] * (0.45 + 0.55 * polish[..., None])
     patina = np.clip(occl * 3, 0, 1)[..., None] * np.array(M['patina'])
     col = np.clip(col + patina, 0, 255)
+    if M.get('weather'):
+        col = weather(col, Hm, lines, panel, card, top, seed)
     alpha = (gaussian_filter(card.astype(float), 0.6) * 255).astype(np.uint8)
     return Image.fromarray(np.dstack([col.astype(np.uint8), alpha]), 'RGBA')
+
+
+def blob_field(rng, shape, sigma, thresh):
+    n = gaussian_filter(rng.standard_normal(shape), sigma)
+    n = (n - n.mean()) / (n.std() + 1e-9)
+    return np.clip((n - thresh) * 1.5, 0, 1)
+
+
+def weather(col, Hm, lines, panel, card, top, seed):
+    """Age a plate: grime packed into the crevices, a mottled tarnish, worn bright high points, and old ink:
+    residue gathered around the raised work and a few dried stains with darker rims."""
+    rng = np.random.default_rng(seed + 77)
+    col = col.copy()
+    # crevices: where the surface sits below its surroundings, at two scales
+    cav = np.clip(gaussian_filter(Hm, 2.5 * S) - Hm, 0, None) + 0.6 * np.clip(gaussian_filter(Hm, 9 * S) - Hm, 0, None)
+    cav = np.clip(cav / (np.percentile(cav[card], 99) + 1e-6), 0, 1) ** 0.8
+    grime = np.array([34, 22, 13], float)
+    g = (0.72 * cav)[..., None]
+    col = col * (1 - g) + grime * g
+    # a touch of green-brown corrosion in the deepest, patchiest crevices
+    verd = (cav ** 1.5) * blob_field(rng, Hm.shape, 5 * S, 0.4) * 0.45
+    col = col * (1 - verd[..., None]) + np.array([70, 92, 66], float) * verd[..., None]
+    # mottled tarnish: broad patches darker and browner, others warmer
+    mott = gaussian_filter(rng.standard_normal(Hm.shape), 26 * S); mott = mott / (np.abs(mott).max() + 1e-9)
+    col = col * (1 + 0.16 * mott[..., None] * np.array([1.0, 0.92, 0.75])) * (0.94 + 0.06 * (mott[..., None] > 0))
+    spots = blob_field(rng, Hm.shape, 3 * S, 1.6) * (1 - lines) * 0.35
+    col = col * (1 - spots[..., None]) + np.array([62, 40, 22], float) * spots[..., None]
+    # handling wear: the highest points rubbed bright
+    wear = np.clip(top * 4, 0, 1) * (0.5 + 0.5 * blob_field(rng, Hm.shape, 8 * S, -0.3))
+    col = col + wear[..., None] * np.array([46, 36, 20])
+    # ink: residue gathered at the foot of the raised work, patchy
+    from scipy.ndimage import binary_dilation
+    foot = np.clip(gaussian_filter(lines, 1.6 * S) - lines, 0, None)
+    foot = np.clip(foot * 3.2, 0, 1) * blob_field(rng, Hm.shape, 4 * S, -0.2)
+    ink = np.array([22, 22, 30], float)
+    col = col * (1 - 0.55 * foot[..., None]) + ink * 0.55 * foot[..., None]
+    # ink: a few dried stains, darker at the rim, mostly near the edges and corners
+    H_, W_ = Hm.shape
+    YY, XX = np.mgrid[0:H_, 0:W_]
+    for _ in range(int(rng.integers(3, 6))):
+        if rng.random() < 0.7:
+            cx = rng.choice([rng.uniform(0.04, 0.22), rng.uniform(0.78, 0.96)]) * W_; cy = rng.uniform(0.05, 0.95) * H_
+        else:
+            cx = rng.uniform(0.2, 0.8) * W_; cy = rng.uniform(0.62, 0.9) * H_
+        rx = rng.uniform(10, 34) * S; ry = rx * rng.uniform(0.55, 1.1)
+        d = np.sqrt(((XX - cx) / rx) ** 2 + ((YY - cy) / ry) ** 2)
+        wob = gaussian_filter(rng.standard_normal((H_, W_)), 5 * S); wob /= (np.abs(wob).max() + 1e-9)
+        d = d + 0.35 * wob
+        inside = np.clip((1 - d) * 6, 0, 1)
+        rim = np.exp(-((d - 0.97) / 0.06) ** 2)
+        a = (0.16 + 0.1 * rng.random()) * inside + 0.32 * rim * (d < 1.15)
+        a = a * card
+        col = col * (1 - a[..., None]) + ink * a[..., None]
+    # a couple of thin smears, as if wiped with a rag
+    for _ in range(2):
+        y0 = rng.uniform(0.1, 0.9) * H_; x0 = rng.uniform(0.1, 0.6) * W_; L = rng.uniform(60, 160) * S
+        ang = rng.uniform(-0.25, 0.25)
+        u = (XX - x0) * np.cos(ang) + (YY - y0) * np.sin(ang); v = -(XX - x0) * np.sin(ang) + (YY - y0) * np.cos(ang)
+        sm = np.exp(-(v / (3 * S)) ** 2) * np.clip(u / L, 0, 1) * np.clip((L - u) / (0.3 * L), 0, 1)
+        sm = sm * (0.5 + 0.5 * blob_field(rng, Hm.shape, (0.6 * S, 10 * S), -0.5)) * 0.22 * card
+        col = col * (1 - sm[..., None]) + ink * sm[..., None]
+    return np.clip(col, 0, 255)
 
 
 def main(out):
