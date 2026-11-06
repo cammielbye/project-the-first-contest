@@ -105,13 +105,13 @@ def elements_of(affs):
 def perm_face(i, c):
     no, name, rar, affs, ptxt, *_ = c
     fn, vb = perm_art(name)
-    rings = ''.join(ringed(a, 44, 0.9) for a in affs) if affs else NO_AFF  # bigger affinity rings (Cam, Nov 3)
+    rings = ''.join(ringed(a, 44, 0.9) for a in affs) if affs else NO_AFF  # bigger affinity rings (Cam, Nov 3), moved down from the art (Nov 5)
     label = affinity_label(affs) if affs else 'none'
     return (f'<div class="face perm" style="position: relative; width: 320px; height: 448px; flex: none; border-radius: 14px; background: #353A35; '
             f'box-shadow: 0 14px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -4px 10px rgba(0,0,0,0.45)">'
             + grain(i) + title(name) + panel(i, name, PH, fn, vb)
-            + f'<div role="img" aria-label="Affinity: {label}" style="position: absolute; top: 271px; left: 16px; width: 288px; height: 44px; display: flex; align-items: center; justify-content: center; gap: 10px">{rings}</div>'
-            + textbox(ptxt, SIZES.get('p:' + name, 28), True, 316, 64)
+            + f'<div role="img" aria-label="Affinity: {label}" style="position: absolute; top: 277px; left: 16px; width: 288px; height: 44px; display: flex; align-items: center; justify-content: center; gap: 10px">{rings}</div>'
+            + textbox(ptxt, SIZES.get("p:" + name, 28), True, 324, 60)
             + DIVIDER + footer(no, rar) + '</div>')
 
 FORCE_BG = '#2A2F32'
