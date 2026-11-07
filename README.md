@@ -205,6 +205,16 @@ To run it locally: `python3 -m http.server 8080`, then open
 <http://localhost:8080>. Adding `?peerhost=127.0.0.1&peerport=9000` points the
 page at a local PeerJS broker for testing.
 
+### The claude.ai copy
+
+The "First Contest Playtest" page on claude.ai is a copy of this table, and this
+repo is its source: never change the claude.ai page by hand. After the table
+changes on `main`, republish these files to that page as they are on GitHub:
+`index.html`, `css/style.css`, `js/main.js`, `js/state.js`, `js/cards.js`,
+`js/net.js`, `js/computer.js`, `js/game/rules.js`, `js/game/ai.js`,
+`data/cards.json`, `data/binders.json`, `data/card-faces.json`,
+`vendor/peerjs.min.js`. Last republished from `e965823` (Nov 7).
+
 ## Simulating contests
 
 For the current cards, use `node scripts/sim3.mjs` (above). The older `sim/`
