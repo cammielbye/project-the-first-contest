@@ -1,7 +1,7 @@
 {
   "source": "data/card-pool.md",
   "pass": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
-  "syncedAt": "2026-11-07T08:22:03.097Z",
+  "syncedAt": "2026-11-07T21:20:20.890Z",
   "counts": {
     "cards": 101,
     "meta": 8,
@@ -1449,7 +1449,7 @@
           "water",
           "earth"
         ],
-        "text": "At the end of your turn, if you have 8 water, you win the round."
+        "text": "At the start of your turn, if you have 10 water, you win the round."
       },
       "force": {
         "name": "Tsunami",

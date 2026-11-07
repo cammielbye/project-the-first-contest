@@ -99,7 +99,7 @@ A_ = [
  (75, 'Lava Plain', 'A', [F, F, E], '', 'Wildfire', O, "Remove a world's earth permanences."),
  (76, 'Boiling Lake', 'A', [W, W, F], '', 'Flash Flood', O, "Remove a world's fire permanences."),
  (77, 'Misty Fjord', 'A', [W, W, A], '', 'Whiteout', R, "Worlds can't grow until your next turn."),
- (78, 'Archipelago', 'A', [W, W, E], "At the end of your turn, if you have 8 water, you win the round.", 'Tsunami', R, "A world becomes water."),
+ (78, 'Archipelago', 'A', [W, W, E], "At the start of your turn, if you have 10 water, you win the round.", 'Tsunami', R, "A world becomes water."),
  (79, 'High Desert', 'A', [A, A, F], '', 'Tornado', O, "Return two permanences."),
  (80, 'Cloud Sea', 'A', [A, A, W], '', 'Hurricane', O, "Rearrange a player's worlds."),
  (81, 'Stone Towers', 'A', [A, A, E], '', 'Gale Force', O, "Move three permanences to other worlds."),

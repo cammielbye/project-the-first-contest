@@ -137,7 +137,7 @@ export function makeAI(opts = {}) {
       if (wv.k === R.DECISIVE_POINTS - 1) pot += 0.12 * wv.cov; // closing in on the 3-point world
     }
     const owns = (n) => R.perms(s).some((i) => i.owner === P && C()[i.card].name === n);
-    if (owns("Archipelago")) pot += Math.max(0, sc[P].water - 4) * 0.18;
+    if (owns("Archipelago")) pot += Math.max(0, sc[P].water - (R.ARCHIPELAGO_WATER - 4)) * 0.18;
     if (owns("Mountain Range")) pot += (sc[P].earth % 4) * 0.12;
     return Math.min(pot, (s.cap - pl.played) * 0.35);
   }
@@ -157,8 +157,8 @@ export function makeAI(opts = {}) {
     for (const Q of [0, 1]) if (sc[Q].worlds.some((w) => w.k >= R.DECISIVE_POINTS)) return Q === P ? 1.5 : -0.5;
     return 1 / (1 + Math.exp(-o.k * x(s, P, sc)));
   }
-  // X's turn ends on this table with Archipelago's 8 water: X wins the round (checked at the end of the turn)
-  const archWin = (s, X, sc) => !s.extras.length && R.archipelagoWins(s, X, sc);
+  // X has Archipelago's 10 water on this table: X wins the round when X's next turn starts, unless it's broken first
+  const archWin = (s, X, sc) => R.archipelagoWins(s, X, sc);
   const mustWin = (s, P) => s.r >= last(s) || s.p[1 - P].wins >= 1;
   const roundWeight = (s) => (s.p[0].wins + s.p[1].wins >= 1 && s.r < last(s) ? 1.5 : 1);
   function costFactor(s, P) {
@@ -233,9 +233,8 @@ export function makeAI(opts = {}) {
     const sc0 = R.score(sv);
     const now = R.outcome(sc0, P);
     const tried = tryAll(sv, P, pool, s);
-    // a move that wins the contest outright, then one that ends the turn with Archipelago's round win
+    // a move that wins the contest outright
     for (const r of tried) if (r.sc[P].worlds.some((w) => w.k >= R.DECISIVE_POINTS)) return r.m;
-    for (const r of tried) if (archWin(r.s2, P, r.sc)) return r.m;
     if (opp.passed) {
       if (now === 1) return null;
       const ch = chase(sv, P, o.chaseSteps + 3, plan);
@@ -255,7 +254,8 @@ export function makeAI(opts = {}) {
       const qs = moves(s2, Q, false); if (!qs.length) return null;
       let best = null, bv = Wt * wp(s2, Q, sc2);
       for (const r of tryAll(s2, Q, qs)) {
-        const v = Wt * (archWin(r.s2, Q, r.sc) ? 1.2 : wp(r.s2, Q, r.sc)) - cost(s2, Q, r.m);
+        // P still holding Archipelago's water wins when P's turn starts; Q reaching it threatens the same, with P to answer
+        const v = Wt * (archWin(r.s2, P, r.sc) ? -0.2 : archWin(r.s2, Q, r.sc) ? 0.9 : wp(r.s2, Q, r.sc)) - cost(s2, Q, r.m);
         if (v > bv) { bv = v; best = r; }
       }
       return best;
@@ -263,11 +263,12 @@ export function makeAI(opts = {}) {
     const after = (s2, sc2) => {
       const q = s2.p[Q];
       if (sc2[P].worlds.some((w) => w.k >= R.DECISIVE_POINTS)) return 1.5;
-      if (archWin(s2, P, sc2)) return 1.2;
-      if (o.ply < 2 || q.passed || q.skip || q.played >= s2.cap) return wp(s2, P, sc2);
+      if (o.ply < 2 || q.passed || q.skip || q.played >= s2.cap) return archWin(s2, P, sc2) ? 1.2 : wp(s2, P, sc2);
       const r = reply(s2, sc2);
-      if (r && archWin(r.s2, Q, r.sc)) return -0.2;
-      return r ? wp(r.s2, P, r.sc) : wp(s2, P, sc2);
+      if (!r) return archWin(s2, P, sc2) ? 1.2 : wp(s2, P, sc2);
+      if (archWin(r.s2, P, r.sc)) return 1.2; // still there when P's turn starts
+      if (archWin(r.s2, Q, r.sc)) return 0.15; // Q wins at its next turn unless P breaks it
+      return wp(r.s2, P, r.sc);
     };
     const base = Wt * after(sv, sc0);
     const res = tried.map((r) => Object.assign(r, { v1: Wt * wp(r.s2, P, r.sc) - cost(sv, P, r.m, plan) }));

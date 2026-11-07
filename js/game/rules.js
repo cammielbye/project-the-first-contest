@@ -747,29 +747,22 @@ export function advance(s) {
       for (const f of forces(s)) if (fname(f) === "Whiteout" && f.until === P) { delete s.inst[f.id]; toPile(s, f, "void"); dirty(s); say(s, "Whiteout ends.", P); }
       const sc = score(s);
       if (ownsPerm(s, P, "Cradle") && hasEach(sc[P].all, 3)) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} 3 of each affinity: Cradle wins the contest.`, P); endContest(s, P, "Cradle"); return; }
-      if (pl.skip) { pl.skip = false; say(s, `${pl.name} ${verb(pl.name, "skips", "skip")} this turn (Lull).`, P); if (turnEnds(s, P)) return; endTurn(s); continue; }
+      if (archipelagoWins(s, P, sc)) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} ${ARCHIPELAGO_WATER} water: Archipelago wins the round.`, P); endRound(s, P, "Archipelago"); return; }
+      if (pl.skip) { pl.skip = false; say(s, `${pl.name} ${verb(pl.name, "skips", "skip")} this turn (Lull).`, P); endTurn(s); continue; }
     }
     if (pl.played >= s.cap || !legalMoves(s, P).length) {
-      if (s.extras.length) { if (turnEnds(s, P)) return; endTurn(s); continue; }
-      say(s, `${pl.name} ${verb(pl.name, "passes", "pass")}${pl.played >= s.cap ? " (at the cap)" : " (nothing to play)"}.`, P);
-      if (turnEnds(s, P)) return;
-      pl.passed = true; endTurn(s); continue;
+      if (s.extras.length) { endTurn(s); continue; }
+      pl.passed = true; say(s, `${pl.name} ${verb(pl.name, "passes", "pass")}${pl.played >= s.cap ? " (at the cap)" : " (nothing to play)"}.`, P);
+      endTurn(s); continue;
     }
     return; // waiting for P
   }
 }
 export function endTurn(s) { s.extras = []; s.turn = 1 - s.turn; s.turnStarted = false; }
-// what happens as P's turn ends (Cam, Nov 7: Archipelago is checked at the end of its owner's turn, not the start);
-// true when that ended the round
-function turnEnds(s, P) {
-  if (ownsPerm(s, P, "Archipelago") && score(s)[P].water >= 8) {
-    say(s, `${s.p[P].name} ${verb(s.p[P].name, "has", "have")} 8 water: Archipelago wins the round.`, P);
-    endRound(s, P, "Archipelago");
-    return true;
-  }
-  return false;
-}
-export const archipelagoWins = (s, P, sc) => ownsPerm(s, P, "Archipelago") && sc[P].water >= 8;
+// Archipelago: checked at the start of its owner's turn, at 10 water (Cam, Nov 7, for the uncapped one-round test;
+// earlier the same day it was the end of the turn at 8, and before that the start of the turn at 8)
+export const ARCHIPELAGO_WATER = 10;
+export const archipelagoWins = (s, P, sc) => ownsPerm(s, P, "Archipelago") && sc[P].water >= ARCHIPELAGO_WATER;
 // P plays m; returns the move's record
 export function play(s, P, m) {
   const text = describe(s, P, m);
@@ -782,15 +775,14 @@ export function play(s, P, m) {
     say(s, `${s.p[Q].name} ${verb(s.p[Q].name, "has", "have")} a world worth ${DECISIVE_POINTS} world points and ${verb(s.p[Q].name, "wins", "win")} the contest.`, Q);
     s.decisive = Q; endContest(s, Q, "3-point world"); return ev;
   }
-  if (!(s.extras.length && s.p[P].played < s.cap)) { if (turnEnds(s, P)) return ev; endTurn(s); }
+  if (!(s.extras.length && s.p[P].played < s.cap)) endTurn(s);
   advance(s);
   return ev;
 }
 export function pass(s, P) {
-  if (s.extras.length) { say(s, `${s.p[P].name} ${verb(s.p[P].name, "ends their", "end your")} turn.`, P); if (turnEnds(s, P)) return; endTurn(s); advance(s); return; }
-  say(s, `${s.p[P].name} ${verb(s.p[P].name, "passes", "pass")}.`, P);
-  if (turnEnds(s, P)) return;
-  s.p[P].passed = true; endTurn(s); advance(s);
+  if (s.extras.length) { say(s, `${s.p[P].name} ${verb(s.p[P].name, "ends their", "end your")} turn.`, P); endTurn(s); advance(s); return; }
+  s.p[P].passed = true; say(s, `${s.p[P].name} ${verb(s.p[P].name, "passes", "pass")}.`, P);
+  endTurn(s); advance(s);
 }
 function endRound(s, forced, why) {
   const sc = score(s);

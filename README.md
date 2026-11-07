@@ -143,9 +143,8 @@ Where a card's text leaves a question open, the engine picks one reading (marked
   rest of the round. Whiteout lasts until its player's next turn starts.
 - Ebb removes the most recent common the opponent played this round that's still on
   the table, a lasting force included.
-- Archipelago is checked at the end of its owner's turn (Cam, Nov 7), including the turn
-  they pass on or skip. Cradle is checked at the start of its owner's turn, so not after
-  they pass. A drawn round counts for both players; openers alternate.
+- Archipelago (10 water since Nov 7) and Cradle are checked at the start of their owner's
+  turns, so not after they pass. A drawn round counts for both players; openers alternate.
 - One round and no cap (the simulator's `--bo1` and `--nocap`, Nov 7): the round's winner
   wins the contest, and a player can play down to their last card. Passing stays, as a way
   to stop (a concession, in effect). With no cap the computer never passes just because

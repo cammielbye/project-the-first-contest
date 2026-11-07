@@ -107,29 +107,22 @@ test("Badlands loses its affinities next to water", () => {
   const b = put(s, 0, "Badlands"); put(s, 0, "Lagoon", "Badlands", 1);
   assert.deepEqual(R.view(s).tok[b.id], []);
 });
-test("Archipelago wins the round at the end of its owner's turn with 8 water (Nov 7)", () => {
+test("Archipelago wins the round at the start of its owner's turn with 10 water (Nov 7)", () => {
   const s = table(["Hill", "Ridge"], ["Hill"]);
-  put(s, 0, "Archipelago"); put(s, 0, "Ocean"); put(s, 0, "Misty Fjord");
-  R.play(s, 0, R.legalMoves(s, 0).find((m) => m.face === "perm")); // P0's turn ends: checked now
+  put(s, 0, "Archipelago"); put(s, 0, "Ocean"); put(s, 0, "Misty Fjord"); put(s, 0, "Deep Lake");
+  R.play(s, 0, R.legalMoves(s, 0).find((m) => m.face === "perm")); // not yet: P1 gets a turn
+  assert.equal(s.rounds.length, 0);
+  R.play(s, 1, R.legalMoves(s, 1)[0]); // then P0's turn starts
   assert.equal(s.rounds.length, 1);
   assert.equal(s.rounds[0].why, "Archipelago");
   assert.equal(s.rounds[0].winner, 0);
 });
-test("Archipelago isn't checked when the other player's turn ends", () => {
+test("Archipelago doesn't win with 8 water", () => {
   const s = table(["Hill", "Ridge"], ["Hill", "Ridge"]);
-  put(s, 1, "Archipelago"); put(s, 1, "Ocean"); put(s, 1, "Misty Fjord");
-  R.play(s, 0, R.legalMoves(s, 0).find((m) => m.face === "perm"));
-  assert.equal(s.rounds.length, 0);
-  R.play(s, 1, R.legalMoves(s, 1).find((m) => m.face === "perm"));
-  assert.equal(s.rounds.length, 1);
-  assert.equal(s.rounds[0].winner, 1);
-});
-test("Archipelago is checked when its owner passes", () => {
-  const s = table(["Hill"], ["Hill"]);
   put(s, 0, "Archipelago"); put(s, 0, "Ocean"); put(s, 0, "Misty Fjord");
-  R.pass(s, 0);
-  assert.equal(s.rounds.length, 1);
-  assert.equal(s.rounds[0].why, "Archipelago");
+  R.play(s, 0, R.legalMoves(s, 0).find((m) => m.face === "perm"));
+  R.play(s, 1, R.legalMoves(s, 1).find((m) => m.face === "perm"));
+  assert.equal(s.rounds.length, 0);
 });
 test("Open worlds (simulator switch) grow past four cards; a one-card world offers one cell", () => {
   const names = ["Hill", "Ridge", "Ledge", "Flint", "Bedrock", "Lagoon"];
