@@ -20,7 +20,7 @@
 
 **The elemental cycle (Claude's proposal, not adopted).** Each element presses on one other: water douses fire, fire burns earth, earth blocks air, air dries water. At common, removal and "loses its affinities" follow it (fire removes or blanks earth, water fire, earth air, air water); uncommons reach two elements or two cards; rares reach any permanence or a whole world. The same cycle sets which forces a single-affinity common ignores (its predator's: "Ashfield ignores water forces"), which neighbor it turns to its own element ("Lava Field turns adjacent earth to fire"), and which neighbor it can't stand ("Badlands loses its affinities if adjacent to water"). Conversion forces are looser: each element has one that follows the cycle and one that doesn't.
 
-**What's new from the brief.** All 16 three-affinity rares (four with three different elements, twelve two-and-one splits); one cycle of two-of-the-same uncommons; a wildcard uncommon (Wilderness); twelve either-or commons, six of them ignoring the forces of the two elements they lack; one cycle of commons that return to the binder at round end (Fumarole, Spring, Eyrie, Grove); returns only for several cards, a whole world, or your own card as bait; more moves, mostly air; removal climbing by element; Archipelago at 8 water, checked at the start of your turn; Cradle, which wins the contest with 3 of each affinity; Mirage copying every adjacent card with no affinity of its own; Lull at rare; Echo playing any card from your void (Cam's change, Nov 2); Ebb limited to commons; Horizon as a binder discard.
+**What's new from the brief.** All 16 three-affinity rares (four with three different elements, twelve two-and-one splits); one cycle of two-of-the-same uncommons; a wildcard uncommon (Wilderness); twelve either-or commons, six of them ignoring the forces of the two elements they lack; one cycle of commons that return to the binder at round end (Fumarole, Spring, Eyrie, Grove); returns only for several cards, a whole world, or your own card as bait; more moves, mostly air; removal climbing by element; Archipelago at 8 water, checked at your turn (the end of it since Nov 7); Cradle, which wins the contest with 3 of each affinity; Mirage copying every adjacent card with no affinity of its own; Lull at rare; Echo playing any card from your void (Cam's change, Nov 2); Ebb limited to commons; Horizon as a binder discard.
 
 **Gone from the second pass.** Permanence played on another card (Snowfield, Glacier and Salt Flat's old faces), Petrified Forest, "also counts as" forces, Shimmer and Haze, and counting double toward affinity.
 
@@ -33,6 +33,8 @@
 **Changes after the first games (Nov 2, Cam).** The eight common forces that removed or moved a permanence with one affinity now last the round and turn a permanence of any size to the force's element instead (Brushfire: "An earth permanence becomes fire."). The permanence then has a single affinity of the new element, however many it printed: a three-affinity card becomes one fire. Every "becomes" force on one permanence works this way. Nothing at common removes or moves a permanence any more. Flare-up was pointless and now removes a common force. Equinox was far too strong (Cam brought back 17 cards in the third round) and now returns 3 cards from your void.
 
 **Pangaea's force (Nov 3, Cam).** Great Uplift is gone: Cam disliked the name, and a weaker version of its shield already sits lower in the pool as Massif's Uplift (a world ignores all forces for the round). Pangaea's force is now World Quake, "Every permanence becomes its own world," the supercontinent breaking apart (LORE-13); it can be buffed if it plays weak. That was Jet Stream's effect (Trade Winds), which needs a new one; until then the two read the same. Below them, Typhoon (A) breaks one world apart and Hurricane (A) one player's worlds.
+
+**Archipelago (Nov 7, Cam).** The start-of-turn check was a flawed design, so Archipelago is now checked at the end of your turn: "At the end of your turn, if you have 8 water, you win the round." Cradle keeps its start-of-turn check.
 
 **Test rule (Nov 2, Cam).** A decisive win: if a player creates a world that scores 3 world points, they win the contest at once. The four test binders below leave out the pinnacles, Origin and the Gap, which are meant for the end game.
 
@@ -164,7 +166,7 @@
 | 75 | Lava Plain | A | 2 fire, 1 earth | — | Wildfire | Once | Remove a world's earth permanences. |
 | 76 | Boiling Lake | A | 2 water, 1 fire | — | Flash Flood | Once | Remove a world's fire permanences. |
 | 77 | Misty Fjord | A | 2 water, 1 air | — | Whiteout | Lasts the round | Worlds can't grow until your next turn. |
-| 78 | Archipelago | A | 2 water, 1 earth | At the start of your turn, if you have 8 water, you win the round. | Tsunami | Lasts the round | A world becomes water. |
+| 78 | Archipelago | A | 2 water, 1 earth | At the end of your turn, if you have 8 water, you win the round. | Tsunami | Lasts the round | A world becomes water. |
 | 79 | High Desert | A | 2 air, 1 fire | — | Tornado | Once | Return two permanences. |
 | 80 | Cloud Sea | A | 2 air, 1 water | — | Hurricane | Once | Rearrange a player's worlds. |
 | 81 | Stone Towers | A | 2 air, 1 earth | — | Gale Force | Once | Move three permanences to other worlds. |

@@ -88,6 +88,10 @@ once). A contest survives a reload, and switching to **Friend** and back keeps b
 tables. Everything runs in your browser; nothing is sent anywhere. (The old
 `play.html` link now opens this.)
 
+The computer doesn't see your binder (since Nov 7): it knows how many cards are in it and
+every card you've shown, and guesses the rest. At the start of each round it sets a card
+budget for the round and holds some of its strong cards back for later rounds.
+
 The rules live in `js/game/rules.js` and the opponent in `js/game/ai.js`. The same
 files run in node:
 
@@ -98,7 +102,10 @@ node scripts/sim3.mjs 1 --log    # and print one contest per pairing, play by pl
 node scripts/sim3-pair.mjs 500 --a Tides --b Embers --seed 1107 --json out.json
                                  # one pairing, random opener: wins, how contests end,
                                  # cards left in each binder, plays and the cap by round,
-                                 # and how often each card gets played, by round
+                                 # world sizes, and how often each card gets played, by round
+node scripts/sim3-pair.mjs 500 --open             # open worlds: no cap on world size
+node scripts/sim3-pair.mjs 150 --aiB plan=0       # one side's computer without the round plan
+                                 # (hidden=0: sees the other binder, as before Nov 7)
 ```
 
 ### Rule readings
@@ -128,8 +135,13 @@ Where a card's text leaves a question open, the engine picks one reading (marked
   rest of the round. Whiteout lasts until its player's next turn starts.
 - Ebb removes the most recent common the opponent played this round that's still on
   the table, a lasting force included.
-- Archipelago and Cradle are checked at the start of their owner's turns, so not after
+- Archipelago is checked at the end of its owner's turn (Cam, Nov 7), including the turn
+  they pass on or skip. Cradle is checked at the start of its owner's turn, so not after
   they pass. A drawn round counts for both players; openers alternate.
+- Open worlds (the simulator's `--open`, Nov 7; the table keeps 2×2): a world is any
+  connected shape of cards, lines included, on an 11×11 grid with no size cap. A split
+  cuts the shape's bounding box down the middle. Placing offers one cell per set of
+  neighbours the card would touch, the one nearest the world's middle.
 - Equinox returns three cards of your choice from your void (all of them if there are
   three or fewer); it goes to the void itself afterwards.
 - The eight conversion commons (Updraft, Brushfire, Shower, Current, Rockfall, Dust

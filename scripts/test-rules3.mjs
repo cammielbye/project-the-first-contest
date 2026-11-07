@@ -107,14 +107,48 @@ test("Badlands loses its affinities next to water", () => {
   const b = put(s, 0, "Badlands"); put(s, 0, "Lagoon", "Badlands", 1);
   assert.deepEqual(R.view(s).tok[b.id], []);
 });
-test("Archipelago wins the round at the start of its owner's turn with 8 water", () => {
+test("Archipelago wins the round at the end of its owner's turn with 8 water (Nov 7)", () => {
   const s = table(["Hill", "Ridge"], ["Hill"]);
   put(s, 0, "Archipelago"); put(s, 0, "Ocean"); put(s, 0, "Misty Fjord");
-  R.play(s, 0, R.legalMoves(s, 0).find((m) => m.face === "perm")); // then P1 plays, then P0's turn starts
-  R.play(s, 1, R.legalMoves(s, 1)[0]);
+  R.play(s, 0, R.legalMoves(s, 0).find((m) => m.face === "perm")); // P0's turn ends: checked now
   assert.equal(s.rounds.length, 1);
   assert.equal(s.rounds[0].why, "Archipelago");
   assert.equal(s.rounds[0].winner, 0);
+});
+test("Archipelago isn't checked when the other player's turn ends", () => {
+  const s = table(["Hill", "Ridge"], ["Hill", "Ridge"]);
+  put(s, 1, "Archipelago"); put(s, 1, "Ocean"); put(s, 1, "Misty Fjord");
+  R.play(s, 0, R.legalMoves(s, 0).find((m) => m.face === "perm"));
+  assert.equal(s.rounds.length, 0);
+  R.play(s, 1, R.legalMoves(s, 1).find((m) => m.face === "perm"));
+  assert.equal(s.rounds.length, 1);
+  assert.equal(s.rounds[0].winner, 1);
+});
+test("Archipelago is checked when its owner passes", () => {
+  const s = table(["Hill"], ["Hill"]);
+  put(s, 0, "Archipelago"); put(s, 0, "Ocean"); put(s, 0, "Misty Fjord");
+  R.pass(s, 0);
+  assert.equal(s.rounds.length, 1);
+  assert.equal(s.rounds[0].why, "Archipelago");
+});
+test("Open worlds (simulator switch) grow past four cards; a one-card world offers one cell", () => {
+  const names = ["Hill", "Ridge", "Ledge", "Flint", "Bedrock", "Lagoon"];
+  const s = R.newContest(names.map(id), ["Hill"].map(id), 0, ["A", "B"], { openWorlds: true }); R.advance(s);
+  R.applyMove(s, 0, { id: id("Hill"), face: "perm", w: "new", cell: 0 });
+  const w = Object.values(s.worlds)[0];
+  assert.equal(R.movesFor(s, 0, false).filter((m) => m.face === "perm" && m.id === id("Ridge") && m.w === w.id).length, 1);
+  for (const nm of names.slice(1)) R.applyMove(s, 0, R.movesFor(s, 0, false).find((m) => m.face === "perm" && m.id === id(nm) && m.w === w.id));
+  assert.equal(R.worldSize(s.worlds[w.id]), 6);
+  assert.ok(R.canGrow(s, s.worlds[w.id]));
+});
+test("The square stays capped at four", () => {
+  const names = ["Hill", "Ridge", "Ledge", "Flint", "Bedrock"];
+  const s = table(names, ["Hill"]);
+  R.applyMove(s, 0, { id: id("Hill"), face: "perm", w: "new", cell: 0 });
+  const w = Object.values(s.worlds)[0];
+  for (const nm of names.slice(1, 4)) R.applyMove(s, 0, R.movesFor(s, 0, false).find((m) => m.face === "perm" && m.id === id(nm) && m.w === w.id));
+  assert.equal(R.worldSize(s.worlds[w.id]), 4);
+  assert.equal(R.movesFor(s, 0, false).filter((m) => m.face === "perm" && m.w === w.id).length, 0);
 });
 test("Calm stops force faces for the round", () => {
   const s = table(["Calm", "Lagoon"], []);

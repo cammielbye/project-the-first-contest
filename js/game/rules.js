@@ -1,7 +1,7 @@
 // The First Contest: rules engine for the third-pass cards (Nov 2, 2026).
 //
 // Runs in the browser (the table's Computer mode, js/computer.js) and in node (scripts/sim3.mjs, scripts/test-rules3.mjs).
-// It enforces the current loop: worlds of up to 2x2, one world point per complete set of the
+// It enforces the current loop: worlds of up to 2x2 (open worlds, uncapped, as a simulator switch), one world point per complete set of the
 // four elements in a world, the highest single-element count as the tie-break, best of three
 // rounds, Gwent-style passing, 10 cards a round, and the test rule from Nov 2: a player who
 // makes a world worth 3 world points wins the contest at once.
@@ -15,6 +15,21 @@ export const ELS = ["fire", "water", "air", "earth"];
 const F = 1, W = 2, A = 4, E = 8, ANY = 15;
 const POP = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
 const ADJ = [[1, 2], [0, 3], [0, 3], [1, 2]]; // cells 0 1 / 2 3; diagonals aren't adjacent
+// World geometry. The table plays worlds of up to 2x2 (the square). The simulator can switch on open
+// worlds (newContest(..., { openWorlds: true })): an 11x11 grid with no size cap, starting in the middle.
+// A world's geometry follows from the length of its cells array, so a world carries it wherever it goes.
+const SQUARE = { n: 4, cols: 2, adj: ADJ, cap: 4, start: 0, open: false };
+const OPEN = (() => {
+  const G = 11, adj = [];
+  for (let c = 0; c < G * G; c++) {
+    const x = c % G, y = (c / G) | 0, a = [];
+    if (x > 0) a.push(c - 1); if (x < G - 1) a.push(c + 1); if (y > 0) a.push(c - G); if (y < G - 1) a.push(c + G);
+    adj.push(a);
+  }
+  return { n: G * G, cols: G, adj, cap: Infinity, start: (G >> 1) * G + (G >> 1), open: true };
+})();
+const geoOf = (w) => (w.cells.length === SQUARE.n ? SQUARE : OPEN);
+const geo = (s) => (s.open ? OPEN : SQUARE);
 export const CELL_NAMES = ["top left", "top right", "bottom left", "bottom right"];
 export const DEFAULT_CAP = 10;
 export const DECISIVE_POINTS = 3; // Nov 2 test rule
@@ -49,9 +64,9 @@ const one = (i) => C[i.card].aff.length === 1; // "with one affinity": one ring 
 function newPlayer(ids, name) {
   return { name, binder: ids.slice(), void: [], played: 0, passed: false, skip: false, wins: 0, commons: [] };
 }
-export function newContest(idsA, idsB, opener, names = ["You", "Computer"]) {
+export function newContest(idsA, idsB, opener, names = ["You", "Computer"], opts = {}) {
   const s = {
-    r: 1, cap: DEFAULT_CAP, turn: opener, opener, p: [newPlayer(idsA, names[0]), newPlayer(idsB, names[1])],
+    r: 1, cap: DEFAULT_CAP, turn: opener, opener, p: [newPlayer(idsA, names[0]), newPlayer(idsB, names[1])], open: !!opts.openWorlds,
     inst: {}, worlds: {}, nid: 1, ts: 1, extras: [], calm: false, phase: "turn", winner: null, rounds: [], log: [], decisive: null,
   };
   return s;
@@ -62,7 +77,7 @@ export function clone(s) {
   const worlds = {};
   for (const k in s.worlds) { const w = s.worlds[k]; worlds[k] = { id: w.id, owner: w.owner, cells: w.cells.slice(), n: w.n }; }
   return {
-    r: s.r, cap: s.cap, turn: s.turn, opener: s.opener, nid: s.nid, ts: s.ts, inst, worlds, extras: s.extras.slice(), calm: s.calm,
+    r: s.r, cap: s.cap, turn: s.turn, opener: s.opener, open: s.open, nid: s.nid, ts: s.ts, inst, worlds, extras: s.extras.slice(), calm: s.calm,
     phase: s.phase, winner: s.winner, rounds: s.rounds, log: [], decisive: s.decisive, turnStarted: s.turnStarted, why: s.why,
     p: s.p.map((x) => ({ name: x.name, binder: x.binder.slice(), void: x.void.slice(), played: x.played, passed: x.passed, skip: x.skip, wins: x.wins, commons: x.commons.slice() })),
   };
@@ -77,10 +92,10 @@ export const worldSize = (w) => w.cells.reduce((n, c) => n + (c !== null ? 1 : 0
 export function adjacent(s, i) {
   const w = s.worlds[i.w]; const o = [];
   if (!w) return o;
-  for (const c of ADJ[i.cell]) if (w.cells[c] !== null) o.push(s.inst[w.cells[c]]);
+  for (const c of geoOf(w).adj[i.cell]) if (w.cells[c] !== null) o.push(s.inst[w.cells[c]]);
   return o;
 }
-const isAdj = (a, b) => a.w === b.w && ADJ[a.cell].includes(b.cell);
+const isAdj = (s, a, b) => a.w === b.w && !!s.worlds[a.w] && geoOf(s.worlds[a.w]).adj[a.cell].includes(b.cell);
 const permsIn = (s, w) => w.cells.filter((c) => c !== null).map((id) => s.inst[id]);
 const ownPerms = (s, P) => perms(s).filter((i) => i.owner === P);
 const named = (i) => C[i.card].name;
@@ -225,7 +240,7 @@ export function canMove(s, i, src) {
   return true;
 }
 export function canGrow(s, w) {
-  if (worldSize(w) >= 4) return false;
+  if (worldSize(w) >= geoOf(w).cap) return false;
   for (const f of forces(s)) {
     const n = fname(f);
     if ((n === "Fog" || n === "Mire" || n === "Steam") && f.w === w.id && appliesW(s, f, w.id)) return false;
@@ -235,10 +250,25 @@ export function canGrow(s, w) {
 }
 const canSplit = (s, w) => !permsIn(s, w).some((i) => named(i) === "Canyon");
 export function openCells(w) {
-  const n = worldSize(w); const o = [];
-  if (n === 0) return [0];
-  for (let c = 0; c < 4; c++) if (w.cells[c] === null && ADJ[c].some((a) => w.cells[a] !== null)) o.push(c);
+  const g = geoOf(w); const o = [];
+  if (worldSize(w) === 0) return [g.start];
+  for (let c = 0; c < g.n; c++) if (w.cells[c] === null && g.adj[c].some((a) => w.cells[a] !== null)) o.push(c);
   return o;
+}
+// Open worlds have many open cells; the moves offer one cell per set of neighbours it would touch
+// (the one nearest the world's middle), since adjacency is all a cell decides.
+function cellChoices(w) {
+  const cells = openCells(w), g = geoOf(w);
+  if (!g.open || cells.length <= 1) return cells;
+  let sx = 0, sy = 0, k = 0;
+  for (let c = 0; c < g.n; c++) if (w.cells[c] !== null) { sx += c % g.cols; sy += (c / g.cols) | 0; k++; }
+  const cx = sx / k, cy = sy / k, best = new Map();
+  for (const c of cells) {
+    const key = g.adj[c].filter((a) => w.cells[a] !== null).map((a) => w.cells[a]).sort().join(",");
+    const d = (c % g.cols - cx) ** 2 + (((c / g.cols) | 0) - cy) ** 2;
+    const b = best.get(key); if (!b || d < b.d) best.set(key, { c, d });
+  }
+  return [...best.values()].map((b) => b.c).sort((a, b) => a - b);
 }
 
 // ---------------------------------------------------------------- table changes
@@ -251,7 +281,7 @@ function newInst(s, P, cardId, kind, extra) {
 function newWorld(s, P) {
   const id = "w" + s.nid++;
   const n = 1 + Math.max(0, ...worldsOf(s, P).map((w) => w.n));
-  s.worlds[id] = { id, owner: P, cells: [null, null, null, null], n };
+  s.worlds[id] = { id, owner: P, cells: new Array(geo(s).n).fill(null), n };
   return s.worlds[id];
 }
 function toPile(s, i, where) { const pl = s.p[i.owner]; (where === "binder" ? pl.binder : pl.void).push(i.card); }
@@ -276,13 +306,13 @@ export function leave(s, i, where) { // a permanence or lasting force leaves the
 }
 function fixWorld(s, wid) {
   const w = s.worlds[wid]; if (!w) return;
-  const occ = []; for (let c = 0; c < 4; c++) if (w.cells[c] !== null) occ.push(c);
+  const g = geoOf(w); const occ = []; for (let c = 0; c < g.n; c++) if (w.cells[c] !== null) occ.push(c);
   if (!occ.length) { delete s.worlds[wid]; dropForcesOnWorld(s, wid); return; }
   const seen = new Set(), comps = [];
   for (const c0 of occ) {
     if (seen.has(c0)) continue;
     const comp = [], st = [c0]; seen.add(c0);
-    while (st.length) { const c = st.pop(); comp.push(c); for (const a of ADJ[c]) if (w.cells[a] !== null && !seen.has(a)) { seen.add(a); st.push(a); } }
+    while (st.length) { const c = st.pop(); comp.push(c); for (const a of g.adj[c]) if (w.cells[a] !== null && !seen.has(a)) { seen.add(a); st.push(a); } }
     comps.push(comp);
   }
   if (comps.length === 1) return;
@@ -293,8 +323,8 @@ function fixWorld(s, wid) {
   }
 }
 function put(s, i, w, cell) { i.w = w.id; i.cell = cell; w.cells[cell] = i.id; dirty(s); }
-function moveTo(s, i, w2, cell) { lift(s, i); if (s.worlds[w2.id] && w2.cells[cell] === null) put(s, i, w2, cell); else put(s, i, newWorld(s, i.owner), 0); }
-function ownWorld(s, i) { lift(s, i); put(s, i, newWorld(s, i.owner), 0); }
+function moveTo(s, i, w2, cell) { lift(s, i); if (s.worlds[w2.id] && w2.cells[cell] === null) put(s, i, w2, cell); else { const nw = newWorld(s, i.owner); put(s, i, nw, geoOf(nw).start); } }
+function ownWorld(s, i) { lift(s, i); const nw = newWorld(s, i.owner); put(s, i, nw, geoOf(nw).start); }
 function swap(s, a, b) {
   const wa = s.worlds[a.w], wb = s.worlds[b.w], ca = a.cell, cb = b.cell;
   wa.cells[ca] = b.id; wb.cells[cb] = a.id; a.w = wb.id; a.cell = cb; b.w = wa.id; b.cell = ca;
@@ -306,6 +336,15 @@ function scatter(s, w, src) { // every movable permanence of w becomes its own w
   for (const i of list.slice(1)) if (s.inst[i.id] && (!src || canMove(s, i, src))) ownWorld(s, i);
 }
 function splitParts(w) { // READING: a split cuts a world down its middle, left from right (or top from bottom)
+  const g = geoOf(w);
+  if (g.open) { // open worlds: cut the occupied cells' bounding box down its middle (a middle column or row goes left or top)
+    const occ = []; for (let c = 0; c < g.n; c++) if (w.cells[c] !== null) occ.push(c);
+    const xs = occ.map((c) => c % g.cols), ys = occ.map((c) => (c / g.cols) | 0);
+    const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+    if (x1 > x0) { const mid = (x0 + x1 + 1) / 2; return [occ.filter((c) => c % g.cols < mid), occ.filter((c) => c % g.cols >= mid)]; }
+    if (y1 > y0) { const mid = (y0 + y1 + 1) / 2; return [occ.filter((c) => ((c / g.cols) | 0) < mid), occ.filter((c) => ((c / g.cols) | 0) >= mid)]; }
+    return null;
+  }
   const left = [0, 2].filter((c) => w.cells[c] !== null), right = [1, 3].filter((c) => w.cells[c] !== null);
   if (left.length && right.length) return [left, right];
   const top = [0, 1].filter((c) => w.cells[c] !== null), bot = [2, 3].filter((c) => w.cells[c] !== null);
@@ -397,14 +436,14 @@ const worldPick = (id) => ({ k: "world", id });
 
 function placements(s, P) {
   const out = [{ w: "new", cell: 0 }];
-  for (const w of worldsOf(s, P)) { if (!canGrow(s, w)) continue; for (const cell of openCells(w)) out.push({ w: w.id, cell }); }
+  for (const w of worldsOf(s, P)) { if (!canGrow(s, w)) continue; for (const cell of cellChoices(w)) out.push({ w: w.id, cell }); }
   return out;
 }
 function destinations(s, i, canonical) { // other worlds of its owner it can move into
   const out = [];
   for (const w of worldsOf(s, i.owner)) {
     if (w.id === i.w || !canGrow(s, w)) continue;
-    const cells = openCells(w);
+    const cells = cellChoices(w);
     for (const cell of canonical ? cells.slice(0, 1) : cells) out.push({ w2: w.id, cell });
   }
   return out;
@@ -436,7 +475,7 @@ function permMoves(s, P, id, out, base) {
 function placeFresh(s, P, id, pl) {
   const i = newInst(s, P, id, "perm");
   const w = pl.w === "new" ? newWorld(s, P) : s.worlds[pl.w];
-  put(s, i, w, pl.w === "new" ? 0 : pl.cell);
+  put(s, i, w, pl.w === "new" ? geoOf(w).start : pl.cell);
   return i;
 }
 
@@ -489,7 +528,7 @@ function forceMoves(s, P, id, out) {
     case "Steam": for (const w of tw) if (worldSize(w) === 3) mk({ w: w.id }, [worldPick(w.id)]); return;
     case "Tremor": for (const w of tw) if (worldSize(w) === 2 && canSplit(s, w) && permsIn(s, w).some((i) => canMove(s, i, src))) mk({ w: w.id }, [worldPick(w.id)]); return;
     case "Heatwave": pairs(tp.filter((i) => shows(s, i, E))); return;
-    case "Flood": pairs(tp, (a, b) => isAdj(a, b)); return;
+    case "Flood": pairs(tp, (a, b) => isAdj(s, a, b)); return;
     case "Gale": {
       const mv = tp.filter((i) => canMove(s, i, src));
       for (let a = 0; a < mv.length; a++) for (let b = a + 1; b < mv.length; b++) {
@@ -521,11 +560,11 @@ function forceMoves(s, P, id, out) {
     case "Thaw": for (const f of forces(s)) mk({ f: f.id }, [{ k: "force", id: f.id }]); return;
     case "Whirlwind": pairs(tp.filter((i) => big(i) && canMove(s, i, src))); return;
     case "Squall": forT(tp.filter((i) => big(i) && canMove(s, i, src))); return;
-    case "Cave-in": pairs(tp.filter((i) => one(i) && canRemove(s, i, src)), (a, b) => isAdj(a, b)); return;
+    case "Cave-in": pairs(tp.filter((i) => one(i) && canRemove(s, i, src)), (a, b) => isAdj(s, a, b)); return;
     case "Collapse": forT(tp.filter((i) => canRemove(s, i, src))); return;
     case "Typhoon": for (const w of tw) if (worldSize(w) >= 2 && canSplit(s, w)) mk({ w: w.id }, [worldPick(w.id)]); return;
     case "Monsoon": if (tp.some((i) => isLone(s, i))) mk({}); return;
-    case "Steam Explosion": pairs(tp, (a, b) => isAdj(a, b)); return;
+    case "Steam Explosion": pairs(tp, (a, b) => isAdj(s, a, b)); return;
     case "Tornado": pairs(tp); return;
     case "Hurricane": for (const Q of [0, 1]) if (worldsOf(s, Q).some((w) => worldSize(w) >= 2 && canSplit(s, w))) mk({ P2: Q }, [{ k: "player", P: Q }]); return;
     case "Earthquake": for (const Q of [0, 1]) if (worldsOf(s, Q).some((w) => worldSize(w) >= 2 && canSplit(s, w))) mk({ P2: Q }, [{ k: "player", P: Q }]); return;
@@ -662,13 +701,13 @@ export function applyMove(s, P, m, fromVoid) {
     case "Flood": case "Tornado": gone(T, "binder"); gone(T2, "binder"); break;
     case "Gale": {
       if (T && s.worlds[m.w2] && s.worlds[m.w2].cells[m.cell] === null) { moveTo(s, T, s.worlds[m.w2], m.cell); ev.moved++; }
-      const w3 = s.worlds[m.w3]; if (T2 && w3) { const c = w3.cells[m.cell3] === null ? m.cell3 : openCells(w3)[0]; if (c !== undefined && worldSize(w3) < 4) { moveTo(s, T2, w3, c); ev.moved++; } }
+      const w3 = s.worlds[m.w3]; if (T2 && w3) { const c = w3.cells[m.cell3] === null ? m.cell3 : openCells(w3)[0]; if (c !== undefined && worldSize(w3) < geoOf(w3).cap) { moveTo(s, T2, w3, c); ev.moved++; } }
       break;
     }
     case "Gale Force":
       m.ts.forEach((iid, k) => {
         const i = s.inst[iid], w2 = s.worlds[m.ds[k].w2];
-        if (!i || !w2 || worldSize(w2) >= 4) return;
+        if (!i || !w2 || worldSize(w2) >= geoOf(w2).cap) return;
         const c = w2.cells[m.ds[k].cell] === null ? m.ds[k].cell : openCells(w2)[0];
         if (c !== undefined) { moveTo(s, i, w2, c); ev.moved++; }
       });
@@ -706,18 +745,29 @@ export function advance(s) {
       for (const f of forces(s)) if (fname(f) === "Whiteout" && f.until === P) { delete s.inst[f.id]; toPile(s, f, "void"); dirty(s); say(s, "Whiteout ends.", P); }
       const sc = score(s);
       if (ownsPerm(s, P, "Cradle") && hasEach(sc[P].all, 3)) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} 3 of each affinity: Cradle wins the contest.`, P); endContest(s, P, "Cradle"); return; }
-      if (ownsPerm(s, P, "Archipelago") && sc[P].water >= 8) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} 8 water: Archipelago wins the round.`, P); endRound(s, P, "Archipelago"); return; }
-      if (pl.skip) { pl.skip = false; say(s, `${pl.name} ${verb(pl.name, "skips", "skip")} this turn (Lull).`, P); endTurn(s); continue; }
+      if (pl.skip) { pl.skip = false; say(s, `${pl.name} ${verb(pl.name, "skips", "skip")} this turn (Lull).`, P); if (turnEnds(s, P)) return; endTurn(s); continue; }
     }
     if (pl.played >= s.cap || !legalMoves(s, P).length) {
-      if (s.extras.length) { endTurn(s); continue; }
-      pl.passed = true; say(s, `${pl.name} ${verb(pl.name, "passes", "pass")}${pl.played >= s.cap ? " (at the cap)" : " (nothing to play)"}.`, P);
-      endTurn(s); continue;
+      if (s.extras.length) { if (turnEnds(s, P)) return; endTurn(s); continue; }
+      say(s, `${pl.name} ${verb(pl.name, "passes", "pass")}${pl.played >= s.cap ? " (at the cap)" : " (nothing to play)"}.`, P);
+      if (turnEnds(s, P)) return;
+      pl.passed = true; endTurn(s); continue;
     }
     return; // waiting for P
   }
 }
 export function endTurn(s) { s.extras = []; s.turn = 1 - s.turn; s.turnStarted = false; }
+// what happens as P's turn ends (Cam, Nov 7: Archipelago is checked at the end of its owner's turn, not the start);
+// true when that ended the round
+function turnEnds(s, P) {
+  if (ownsPerm(s, P, "Archipelago") && score(s)[P].water >= 8) {
+    say(s, `${s.p[P].name} ${verb(s.p[P].name, "has", "have")} 8 water: Archipelago wins the round.`, P);
+    endRound(s, P, "Archipelago");
+    return true;
+  }
+  return false;
+}
+export const archipelagoWins = (s, P, sc) => ownsPerm(s, P, "Archipelago") && sc[P].water >= 8;
 // P plays m; returns the move's record
 export function play(s, P, m) {
   const text = describe(s, P, m);
@@ -730,14 +780,15 @@ export function play(s, P, m) {
     say(s, `${s.p[Q].name} ${verb(s.p[Q].name, "has", "have")} a world worth ${DECISIVE_POINTS} world points and ${verb(s.p[Q].name, "wins", "win")} the contest.`, Q);
     s.decisive = Q; endContest(s, Q, "3-point world"); return ev;
   }
-  if (!(s.extras.length && s.p[P].played < s.cap)) endTurn(s);
+  if (!(s.extras.length && s.p[P].played < s.cap)) { if (turnEnds(s, P)) return ev; endTurn(s); }
   advance(s);
   return ev;
 }
 export function pass(s, P) {
-  if (s.extras.length) { say(s, `${s.p[P].name} ${verb(s.p[P].name, "ends their", "end your")} turn.`, P); endTurn(s); advance(s); return; }
-  s.p[P].passed = true; say(s, `${s.p[P].name} ${verb(s.p[P].name, "passes", "pass")}.`, P);
-  endTurn(s); advance(s);
+  if (s.extras.length) { say(s, `${s.p[P].name} ${verb(s.p[P].name, "ends their", "end your")} turn.`, P); if (turnEnds(s, P)) return; endTurn(s); advance(s); return; }
+  say(s, `${s.p[P].name} ${verb(s.p[P].name, "passes", "pass")}.`, P);
+  if (turnEnds(s, P)) return;
+  s.p[P].passed = true; endTurn(s); advance(s);
 }
 function endRound(s, forced, why) {
   const sc = score(s);
@@ -779,7 +830,7 @@ export function worldLabel(s, wid, me) {
 function permLabel(s, iid) { const i = s.inst[iid]; return i ? C[i.card].name : "a permanence"; }
 export function describePick(s, pk, me) {
   switch (pk.k) {
-    case "cell": return pk.w === "new" ? "a new world" : `${worldLabel(s, pk.w, me)}, ${CELL_NAMES[pk.cell]}`;
+    case "cell": return pk.w === "new" ? "a new world" : `${worldLabel(s, pk.w, me)}, ${CELL_NAMES[pk.cell] || "cell " + pk.cell}`;
     case "perm": { const i = s.inst[pk.id]; return i ? `${C[i.card].name} (${worldLabel(s, i.w, me)})` : "?"; }
     case "world": return worldLabel(s, pk.id, me);
     case "player": return pk.P === me ? "you" : s.p[pk.P].name;
