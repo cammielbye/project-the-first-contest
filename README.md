@@ -95,6 +95,10 @@ files run in node:
 node scripts/test-rules3.mjs     # rule checks on hand-built tables
 node scripts/sim3.mjs 4          # computer v computer, every pairing of the five binders
 node scripts/sim3.mjs 1 --log    # and print one contest per pairing, play by play
+node scripts/sim3-pair.mjs 500 --a Tides --b Embers --seed 1107 --json out.json
+                                 # one pairing, random opener: wins, how contests end,
+                                 # cards left in each binder, plays and the cap by round,
+                                 # and how often each card gets played, by round
 ```
 
 ### Rule readings
