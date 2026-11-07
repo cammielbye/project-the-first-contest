@@ -108,6 +108,10 @@ node scripts/sim3-pair.mjs 41 --seed 1108 --open --show 40   # replay one contes
 node scripts/sim3-pair.mjs 250 --bo1 --nocap --open --aiA bigWorld=2 --aiB bigWorld=2
                                  # one round, no card cap, open worlds, computers aiming
                                  # for the 3-point world (Nov 7)
+node scripts/sim3-field.mjs 250 --bo1 --nocap --open --ai bigWorld=2 --json a.json
+                                 # a field: each side picks a binder at random every
+                                 # contest (Tides, Embers, Gales, Roots; --binders to change);
+                                 # --from a.json,b.json summarizes saved runs together
 node scripts/sim3-pair.mjs 150 --aiB plan=0       # one side's computer without the round plan
                                  # (hidden=0: sees the other binder, as before Nov 7)
 ```
