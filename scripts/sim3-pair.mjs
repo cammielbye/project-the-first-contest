@@ -1,6 +1,7 @@
 // One pairing, computer vs computer, with how each binder gets used up.
 // Usage: node scripts/sim3-pair.mjs [contests] [--a Tides] [--b Embers] [--seed n] [--json out.json]
 //        [--open]                 open worlds: no cap on world size (the table keeps 2x2)
+//        [--bo1] [--nocap]        one round instead of best of three; no limit on cards a round
 //        [--aiA k=v,k=v] [--aiB …] options for each side's computer, e.g. plan=0,hidden=0 for the Nov 1 player
 //        [--show k]               print contest k (counting from 0) play by play
 // The opener of round 1 is random in every contest (R.nextRound alternates it after that).
@@ -22,14 +23,14 @@ const find = (n) => binders.find((b) => short(b).toLowerCase() === n.toLowerCase
 const A = find(opt("--a", "Tides")), B = find(opt("--b", "Embers"));
 if (!A || !B) throw new Error("binder not found: " + binders.map(short).join(", "));
 const names = [short(A), short(B)];
-const open = args.includes("--open");
+const open = args.includes("--open"), bo1 = args.includes("--bo1"), nocap = args.includes("--nocap");
 const aiOpts = (k) => Object.fromEntries((opt(k, "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, b === "0" || b === "false" ? false : b === "1" || b === "true" ? true : Number(b)]; }));
 const optsA = aiOpts("--aiA"), optsB = aiOpts("--aiB");
 const show = Number(opt("--show", -1));
 
 function contest(k) {
   const opener = rng() < 0.5 ? 0 : 1;
-  const s = R.newContest(A.cards, B.cards, opener, names, { openWorlds: open });
+  const s = R.newContest(A.cards, B.cards, opener, names, { openWorlds: open, bestOf: bo1 ? 1 : 3, noCap: nocap });
   const ai = [makeAI(Object.assign({ rng }, optsA)), makeAI(Object.assign({ rng }, optsB))];
   const rounds = []; // per round: { start: [binder sizes], moves: [n, n], ids: [[...], [...]] }
   const begin = () => rounds.push({ r: s.r, start: [s.p[0].binder.length, s.p[1].binder.length], moves: [0, 0], ids: [[], []] });
@@ -46,7 +47,8 @@ function contest(k) {
   // worlds at each round's end (and on the table when a 3-point world ends the contest): [player][world] = { cards, k }
   const worlds = s.rounds.map((r) => r.score.map((x) => x.worlds.map((w) => ({ cards: w.cards, k: w.k }))));
   if (s.why === "3-point world") worlds.push(R.score(s).map((x) => x.worlds.map((w) => ({ cards: w.cards, k: w.k }))));
-  return { opener, winner: s.winner, why: s.why, rounds, left: [s.p[0].binder.length, s.p[1].binder.length], roundWins: s.rounds.map((r) => r.winner), roundWhy: s.rounds.map((r) => r.why), roundPts: s.rounds.map((r) => r.score.map((x) => x.pts)), worlds };
+  const stopped = names.map((n) => s.log.some((l) => l.text === `${n} passes.`)); // passed (stopped, conceding in effect) with cards left to play
+  return { stopped, opener, winner: s.winner, why: s.why, rounds, left: [s.p[0].binder.length, s.p[1].binder.length], roundWins: s.rounds.map((r) => r.winner), roundWhy: s.rounds.map((r) => r.why), roundPts: s.rounds.map((r) => r.score.map((x) => x.pts)), worlds };
 }
 
 const t0 = Date.now();
@@ -62,13 +64,14 @@ const wins = [0, 0]; let draws = 0, openerWins = 0;
 const ends = {};
 for (const c of out) {
   if (c.winner === null) draws++; else { wins[c.winner]++; if (c.winner === c.opener) openerWins++; }
-  const shape = c.why === "rounds" ? `${c.rounds.length} rounds` : `${c.why} in round ${c.rounds.length}`;
+  const shape = c.why === "rounds" ? (bo1 ? "on the count at the end of the round" : `${c.rounds.length} rounds`) : `${c.why} in round ${c.rounds.length}`;
   ends[shape] = (ends[shape] || 0) + 1;
 }
-console.log(`${N} contests, ${names[0]} v ${names[1]}, random opener, ${open ? "open worlds" : "worlds of up to 4"}, computer ${JSON.stringify(optsA)} v ${JSON.stringify(optsB)} (${secs}s)`);
+console.log(`${N} contests, ${names[0]} v ${names[1]}, random opener, ${bo1 ? "one round" : "best of three"}, ${nocap ? "no card cap" : "cap of 10"}, ${open ? "open worlds" : "worlds of up to 4"}, computer ${JSON.stringify(optsA)} v ${JSON.stringify(optsB)} (${secs}s)`);
 console.log(`wins: ${names[0]} ${wins[0]} (${pct(wins[0], N)}), ${names[1]} ${wins[1]} (${pct(wins[1], N)}), drawn ${draws}`);
 console.log(`the round-1 opener won ${openerWins} of ${N - draws} decided contests (${pct(openerWins, N - draws)})`);
 console.log(`how contests ended: ${Object.entries(ends).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(", ")}`);
+console.log(`stopped with cards still playable (passed): ${names[0]} ${pct(out.filter((c) => c.stopped[0]).length, N)}, ${names[1]} ${pct(out.filter((c) => c.stopped[1]).length, N)}`);
 for (const P of [0, 1]) {
   const left = out.map((c) => c.left[P]);
   console.log(`${names[P]}: cards left in binder at the end — mean ${mean(left).toFixed(1)}, ≤5 in ${pct(left.filter((v) => v <= 5).length, N)}; spread ${hist(left)}`);

@@ -9,6 +9,11 @@
 //   cards are in it and every card that player has shown, and fills the rest with a guess from the card pool,
 //   leaning toward the elements that player has shown and the usual make-up of a binder (14 commons,
 //   6 uncommons, 4 rares, 1 meta). A card it has seen go back into the binder counts as known.
+// - Big-world style (opts.bigWorld, off by default; the simulator's test of the 3-point world): values its best world's
+//   progress toward 3 world points, squared, so one big world counts for more than the same points spread out,
+//   and the other player's big world is a threat to answer.
+// - In a best-of-one contest with no card cap there's nothing to save, so it never passes just because it's ahead;
+//   it stops (a concession, in effect) only when no play helps.
 // - A plan for the rounds (opts.plan, on by default): at the start of each round it sets a card budget for the
 //   round and shares its strong cards (uncommons, rares, meta) out across the rounds still to come. Playing a
 //   card held back for a later round, or going over the round's budget, costs extra, so it does it only for a
@@ -24,11 +29,13 @@ const power = (d) => (d.meta ? 1.4 : POWER[d.rarity] + 0.15 * (d.aff ? d.aff.len
 const TEMPLATE = { C: 14, B: 6, A: 4, meta: 1 }; // the test binders' make-up
 const rkey = (d) => (d.meta ? "meta" : d.rarity);
 const BITS = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
+const last = (s) => s.bestOf || 3; // the contest's last possible round
 
 export function makeAI(opts = {}) {
   const o = Object.assign({
     k: 2.0, noise: 0.02, chaseSteps: 5, rng: Math.random, top: 8, sample: 40, ply: 2,
     hidden: true, plan: true, reserveK: 0.08, overK: 0.08, weights: [1, 1, 0.75],
+    bigWorld: 0, // big-world style (Nov 7): > 0 values a player's best world growing toward the 3-point world
   }, opts);
   const C = () => R.C;
   const mem = new WeakMap(); // per contest (keyed on the real state): what each player has shown, and round plans
@@ -95,7 +102,7 @@ export function makeAI(opts = {}) {
     const hit = M.plans.get(key); if (hit) return hit;
     const pl = s.p[P], mine = pl.wins, theirs = s.p[1 - P].wins;
     let wts;
-    if (s.r === 3 || (mine >= 1 && theirs >= 1)) wts = [1]; // the last round
+    if (s.r >= last(s) || (mine >= 1 && theirs >= 1)) wts = [1]; // the last round
     else if (theirs >= 1) wts = [1, 1]; // behind: this round and the next must both be won
     else if (mine >= 1) wts = [0.85, 1.15]; // ahead: one more win needed; keep a little more for the last round
     else wts = o.weights.slice(); // round 1, level: a third round isn't certain
@@ -134,9 +141,13 @@ export function makeAI(opts = {}) {
     if (owns("Mountain Range")) pot += (sc[P].earth % 4) * 0.12;
     return Math.min(pot, (s.cap - pl.played) * 0.35);
   }
+  // how far a player's best world has got toward 3 world points (complete sets, plus a quarter per element covered toward the next)
+  const progress = (R) => { let best = 0; for (const w of R.worlds) { const p = w.k + 0.25 * w.cov; if (p > best) best = p; } return Math.min(best, R_DEC()); };
+  const R_DEC = () => R.DECISIVE_POINTS;
   function x(s, P, sc) {
     const Q = 1 - P, a = sc[P], b = sc[Q];
     let v = a.pts - b.pts;
+    if (o.bigWorld) v += (o.bigWorld * (progress(a) ** 2 - progress(b) ** 2)) / (R_DEC() ** 2); // convex: one big world beats several small ones
     if (a.pts === b.pts) v += 0.4 * Math.sign(a.tie - b.tie);
     v += 0.02 * Math.max(-5, Math.min(5, a.tie - b.tie));
     return v + potential(s, P, sc) - potential(s, Q, sc);
@@ -148,11 +159,11 @@ export function makeAI(opts = {}) {
   }
   // X's turn ends on this table with Archipelago's 8 water: X wins the round (checked at the end of the turn)
   const archWin = (s, X, sc) => !s.extras.length && R.archipelagoWins(s, X, sc);
-  const mustWin = (s, P) => s.r === 3 || s.p[1 - P].wins >= 1;
-  const roundWeight = (s) => (s.p[0].wins + s.p[1].wins >= 1 && s.r < 3 ? 1.5 : 1);
+  const mustWin = (s, P) => s.r >= last(s) || s.p[1 - P].wins >= 1;
+  const roundWeight = (s) => (s.p[0].wins + s.p[1].wins >= 1 && s.r < last(s) ? 1.5 : 1);
   function costFactor(s, P) {
-    if (s.r === 3) return 0;
-    const future = (3 - s.r) * s.cap, left = s.p[P].binder.length - 1;
+    if (s.r >= last(s)) return 0;
+    const future = (last(s) - s.r) * s.cap, left = s.p[P].binder.length - 1;
     return (s.r === 1 ? 1 : 0.8) * (left >= future ? 0.15 : 1);
   }
   function cost(s, P, m, plan) {
@@ -233,10 +244,11 @@ export function makeAI(opts = {}) {
       if (now === -1 && ch.draw && mustWin(s, P)) return ch.draw.first;
       return null;
     }
-    if (now === 1 && !s.extras.length) {
+    // Gwent's pass when ahead: only with a card cap, which limits what the other player can add after the pass
+    if (now === 1 && !s.extras.length && s.cap < 100) {
       const och = chase(sv, Q, o.chaseSteps);
       if (!och.win) return null;
-      if (s.r < 3 && och.cards >= 3) return null;
+      if (s.r < last(s) && och.cards >= 3) return null;
     }
     const Wt = roundWeight(s);
     const reply = (s2, sc2) => {

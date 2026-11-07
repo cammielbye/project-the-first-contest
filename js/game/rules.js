@@ -64,9 +64,11 @@ const one = (i) => C[i.card].aff.length === 1; // "with one affinity": one ring 
 function newPlayer(ids, name) {
   return { name, binder: ids.slice(), void: [], played: 0, passed: false, skip: false, wins: 0, commons: [] };
 }
+// opts (simulator switches; the table uses none): openWorlds (no cap on world size), bestOf (1 or 3 rounds, default 3),
+// noCap (no limit on cards a round: whole binders can be played)
 export function newContest(idsA, idsB, opener, names = ["You", "Computer"], opts = {}) {
   const s = {
-    r: 1, cap: DEFAULT_CAP, turn: opener, opener, p: [newPlayer(idsA, names[0]), newPlayer(idsB, names[1])], open: !!opts.openWorlds,
+    r: 1, cap: opts.noCap ? 1e9 : DEFAULT_CAP, bestOf: opts.bestOf || 3, turn: opener, opener, p: [newPlayer(idsA, names[0]), newPlayer(idsB, names[1])], open: !!opts.openWorlds,
     inst: {}, worlds: {}, nid: 1, ts: 1, extras: [], calm: false, phase: "turn", winner: null, rounds: [], log: [], decisive: null,
   };
   return s;
@@ -77,7 +79,7 @@ export function clone(s) {
   const worlds = {};
   for (const k in s.worlds) { const w = s.worlds[k]; worlds[k] = { id: w.id, owner: w.owner, cells: w.cells.slice(), n: w.n }; }
   return {
-    r: s.r, cap: s.cap, turn: s.turn, opener: s.opener, open: s.open, nid: s.nid, ts: s.ts, inst, worlds, extras: s.extras.slice(), calm: s.calm,
+    r: s.r, cap: s.cap, bestOf: s.bestOf, turn: s.turn, opener: s.opener, open: s.open, nid: s.nid, ts: s.ts, inst, worlds, extras: s.extras.slice(), calm: s.calm,
     phase: s.phase, winner: s.winner, rounds: s.rounds, log: [], decisive: s.decisive, turnStarted: s.turnStarted, why: s.why,
     p: s.p.map((x) => ({ name: x.name, binder: x.binder.slice(), void: x.void.slice(), played: x.played, passed: x.passed, skip: x.skip, wins: x.wins, commons: x.commons.slice() })),
   };
@@ -808,7 +810,8 @@ function endRound(s, forced, why) {
   s.worlds = {}; s.calm = false; s.extras = []; dirty(s);
   for (const pl of s.p) { pl.played = 0; pl.passed = false; pl.skip = false; pl.commons = []; }
   const [a, b] = [s.p[0].wins, s.p[1].wins];
-  if (a >= 2 || b >= 2 || s.r >= 3) { endContest(s, a > b ? 0 : b > a ? 1 : null, "rounds"); return; }
+  const bestOf = s.bestOf || 3, need = Math.ceil(bestOf / 2);
+  if (a >= need || b >= need || s.r >= bestOf) { endContest(s, a > b ? 0 : b > a ? 1 : null, "rounds"); return; }
   s.phase = "roundOver";
 }
 export function nextRound(s) {

@@ -105,6 +105,9 @@ node scripts/sim3-pair.mjs 500 --a Tides --b Embers --seed 1107 --json out.json
                                  # world sizes, and how often each card gets played, by round
 node scripts/sim3-pair.mjs 500 --open             # open worlds: no cap on world size
 node scripts/sim3-pair.mjs 41 --seed 1108 --open --show 40   # replay one contest, play by play
+node scripts/sim3-pair.mjs 250 --bo1 --nocap --open --aiA bigWorld=2 --aiB bigWorld=2
+                                 # one round, no card cap, open worlds, computers aiming
+                                 # for the 3-point world (Nov 7)
 node scripts/sim3-pair.mjs 150 --aiB plan=0       # one side's computer without the round plan
                                  # (hidden=0: sees the other binder, as before Nov 7)
 ```
@@ -139,6 +142,10 @@ Where a card's text leaves a question open, the engine picks one reading (marked
 - Archipelago is checked at the end of its owner's turn (Cam, Nov 7), including the turn
   they pass on or skip. Cradle is checked at the start of its owner's turn, so not after
   they pass. A drawn round counts for both players; openers alternate.
+- One round and no cap (the simulator's `--bo1` and `--nocap`, Nov 7): the round's winner
+  wins the contest, and a player can play down to their last card. Passing stays, as a way
+  to stop (a concession, in effect). With no cap the computer never passes just because
+  it's ahead.
 - Open worlds (the simulator's `--open`, Nov 7; the table keeps 2×2): a world is any
   connected shape of cards, lines included, on an 11×11 grid with no size cap. A split
   cuts the shape's bounding box down the middle. Placing offers one cell per set of
