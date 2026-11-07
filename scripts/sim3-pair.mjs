@@ -2,6 +2,7 @@
 // Usage: node scripts/sim3-pair.mjs [contests] [--a Tides] [--b Embers] [--seed n] [--json out.json]
 //        [--open]                 open worlds: no cap on world size (the table keeps 2x2)
 //        [--aiA k=v,k=v] [--aiB …] options for each side's computer, e.g. plan=0,hidden=0 for the Nov 1 player
+//        [--show k]               print contest k (counting from 0) play by play
 // The opener of round 1 is random in every contest (R.nextRound alternates it after that).
 import { readFileSync, writeFileSync } from "node:fs";
 import * as R from "../js/game/rules.js";
@@ -24,8 +25,9 @@ const names = [short(A), short(B)];
 const open = args.includes("--open");
 const aiOpts = (k) => Object.fromEntries((opt(k, "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, b === "0" || b === "false" ? false : b === "1" || b === "true" ? true : Number(b)]; }));
 const optsA = aiOpts("--aiA"), optsB = aiOpts("--aiB");
+const show = Number(opt("--show", -1));
 
-function contest() {
+function contest(k) {
   const opener = rng() < 0.5 ? 0 : 1;
   const s = R.newContest(A.cards, B.cards, opener, names, { openWorlds: open });
   const ai = [makeAI(Object.assign({ rng }, optsA)), makeAI(Object.assign({ rng }, optsB))];
@@ -39,6 +41,7 @@ function contest() {
     if (m) { const cur = rounds[rounds.length - 1]; cur.moves[P]++; cur.ids[P].push(m.id); R.play(s, P, m); } else R.pass(s, P);
   }
   if (s.phase !== "contestOver") throw new Error("contest did not finish");
+  if (k === show) { console.log(`contest ${k}:`); for (const l of s.log) console.log(`  R${l.r} ${l.text}`); }
   for (const l of s.log) if (/\(at the cap\)/.test(l.text)) { const rr = rounds.find((x) => x.r === l.r); const P = names.findIndex((n) => l.text.startsWith(n)); if (rr && P >= 0) (rr.cap ||= [false, false])[P] = true; }
   // worlds at each round's end (and on the table when a 3-point world ends the contest): [player][world] = { cards, k }
   const worlds = s.rounds.map((r) => r.score.map((x) => x.worlds.map((w) => ({ cards: w.cards, k: w.k }))));
@@ -48,7 +51,7 @@ function contest() {
 
 const t0 = Date.now();
 const out = [];
-for (let k = 0; k < N; k++) out.push(contest());
+for (let k = 0; k < N; k++) out.push(contest(k));
 const secs = ((Date.now() - t0) / 1000).toFixed(1);
 
 // ---- summary

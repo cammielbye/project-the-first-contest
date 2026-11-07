@@ -104,6 +104,7 @@ node scripts/sim3-pair.mjs 500 --a Tides --b Embers --seed 1107 --json out.json
                                  # cards left in each binder, plays and the cap by round,
                                  # world sizes, and how often each card gets played, by round
 node scripts/sim3-pair.mjs 500 --open             # open worlds: no cap on world size
+node scripts/sim3-pair.mjs 41 --seed 1108 --open --show 40   # replay one contest, play by play
 node scripts/sim3-pair.mjs 150 --aiB plan=0       # one side's computer without the round plan
                                  # (hidden=0: sees the other binder, as before Nov 7)
 ```
