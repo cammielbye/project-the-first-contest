@@ -193,6 +193,21 @@ Cards and test binders both come from `data/card-pool.md`, a copy of
 node scripts/sync-cards.mjs   # card-pool.md -> data/cards.json + data/binders.json
 ```
 
+**For now the table plays the saved third pass (Nov 8).** The newest pass, the
+fourth (the pool restructured by ring count, from `tools/cards/pass4.py`), has no
+binders yet and new permanence text the engine doesn't know, so `data/cards.json`,
+`data/binders.json` and the card faces still come from the saved copy. Until new
+binders are written, sync from it instead:
+
+```sh
+node scripts/sync-cards.mjs data/versions/card-pool-2026-11-08-third-pass.md
+```
+
+**Saving a version.** Before each change to the card pool, the version being
+replaced is copied to `data/versions/` with the date, and its commit is pushed
+to a `saved/card-pool-<date>-<name>` branch (this proxy doesn't allow tags).
+See `data/versions/README.md`.
+
 How it reads the file:
 
 - **Only the most recent pass is used.** The card pool puts its newest pass at
