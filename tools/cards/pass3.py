@@ -1,4 +1,4 @@
-# Third pass: the full pool (101 cards), text-first. Data + checks + markdown.
+# Third pass: the full pool (100 cards since Nov 8: Gap cut, Origin moved from #101 to #100), text-first. Data + checks + markdown.
 import collections, re, sys
 
 # (no, name, rarity, affinities, permanence text, force name, duration, force text)
@@ -128,7 +128,7 @@ S_ = [
  (99, 'Trade Winds', 'S', [A] * 4, '', 'Jet Stream', O, "Every permanence becomes its own world."),
 ]
 # Gap (#100, the meta pinnacle, "Remove a world.") was cut on Nov 8 (Cam: didn't like the name or the effect); #100 is open.
-ORIGIN = (101, 'Origin', 'S', [F, W, A, E], '', 'Unmaking', O, "Remove every world.")
+ORIGIN = (100, 'Origin', 'S', [F, W, A, E], '', 'Unmaking', O, "Remove every world.")  # #101 until Nov 8; no card 101 for now
 
 ALL = C_ + B_ + A_ + S_ + [ORIGIN]
 EXCEPTIONS = {'Archipelago', 'Cradle'}  # Cam's own wording for the alternate wins (CARD-23 exceptions)
@@ -171,7 +171,7 @@ def check():
     for m in META:
         if words(m[3]) >= 8: probs.append(('8+ words', m[1], m[3]))
     nums = sorted([c[0] for c in ALL] + [m[0] for m in META])
-    want = [n for n in range(1, 102) if n != 100]  # #100 open since Gap was cut
+    want = list(range(1, 101))  # Origin at #100 since Nov 8; no card 101 for now
     if nums != want: probs.append(('numbering', [n for n in want if n not in nums]))
     for c in ALL:
         if c[2] == 'C' and len(c[3]) != 1: probs.append(('common must have one affinity', c[1]))
@@ -182,7 +182,6 @@ def check():
 def tally():
     t = collections.Counter()
     for c in ALL:
-        if c[0] == 101: continue
         for a in c[3]:
             if '|' in a:
                 for x in a.split('|'): t[x + ' (either-or)'] += 1
@@ -196,12 +195,12 @@ if __name__ == '__main__':
     t = tally()
     for e in [F, W, A, E]: print(e, t[e], '+', t[e + ' (either-or)'], 'either-or')
     print('any', t['any'])
-    rc = collections.Counter(c[2] for c in ALL if c[0] != 101)
+    rc = collections.Counter(c[2] for c in ALL)
     print('rarity', dict(rc), 'meta', len(META))
     fam = collections.Counter((c[2], family(c[7])) for c in ALL)
     for r in 'CBAS':
         print(r, {k[1]: v for k, v in fam.items() if k[0] == r})
     others = [(c[1], c[5], c[7]) for c in ALL if family(c[7]) == 'Other']
     print('other:', others)
-    ntext = collections.Counter(c[2] for c in ALL if not c[4] and c[0] != 101)
+    ntext = collections.Counter(c[2] for c in ALL if not c[4])
     print('no permanence text by rarity', dict(ntext))

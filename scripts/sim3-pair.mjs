@@ -1,10 +1,11 @@
 // One pairing, computer vs computer, with how each binder gets used up.
 // Usage: node scripts/sim3-pair.mjs [contests] [--a Tides] [--b Embers] [--seed n] [--json out.json]
-//        [--open]                 open worlds: no cap on world size (the table keeps 2x2)
-//        [--bo1] [--nocap]        one round instead of best of three; no limit on cards a round
+//        [--bo3] [--cap] [--square]  best of three, a cap of 10 a round, worlds of up to 4 (the defaults since Nov 8
+//                                 are one round, no cap and open worlds; see lib/rule-flags.mjs)
 //        [--aiA k=v,k=v] [--aiB …] options for each side's computer, e.g. plan=0,hidden=0 for the Nov 1 player
 //        [--show k]               print contest k (counting from 0) play by play
 // The opener of round 1 is random in every contest (R.nextRound alternates it after that).
+import { ruleFlags } from "./lib/rule-flags.mjs";
 import { readFileSync, writeFileSync } from "node:fs";
 import * as R from "../js/game/rules.js";
 import { makeAI } from "../js/game/ai.js";
@@ -23,7 +24,7 @@ const find = (n) => binders.find((b) => short(b).toLowerCase() === n.toLowerCase
 const A = find(opt("--a", "Tides")), B = find(opt("--b", "Embers"));
 if (!A || !B) throw new Error("binder not found: " + binders.map(short).join(", "));
 const names = [short(A), short(B)];
-const open = args.includes("--open"), bo1 = args.includes("--bo1"), nocap = args.includes("--nocap");
+const { open, bo1, nocap } = ruleFlags(args);
 const aiOpts = (k) => Object.fromEntries((opt(k, "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, b === "false" ? false : b === "true" ? true : isNaN(Number(b)) ? b : Number(b)]; }));
 const optsA = aiOpts("--aiA"), optsB = aiOpts("--aiB");
 const show = Number(opt("--show", -1));

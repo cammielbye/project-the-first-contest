@@ -1,10 +1,12 @@
 // Computer vs computer on the third-pass rules engine (js/game/rules.js), for checking the
-// rules and seeing trends. Usage: node scripts/sim3.mjs [contests per pairing] [--seed n] [--log]
+// rules and seeing trends. Usage: node scripts/sim3.mjs [contests per pairing] [--seed n] [--log] [--bo3] [--cap] [--square]
+import { ruleFlags, contestOpts } from "./lib/rule-flags.mjs";
 import { readFileSync } from "node:fs";
 import * as R from "../js/game/rules.js";
 import { makeAI } from "../js/game/ai.js";
 
 const args = process.argv.slice(2);
+const FLAGS = ruleFlags(args);
 const N = Number(args.find((a) => /^\d+$/.test(a)) || 4);
 const seedArg = args.indexOf("--seed");
 let seed = seedArg >= 0 ? Number(args[seedArg + 1]) : 1;
@@ -16,7 +18,7 @@ R.loadCards(JSON.parse(readFileSync(new URL("data/cards.json", root), "utf8")));
 const binders = JSON.parse(readFileSync(new URL("data/binders.json", root), "utf8")).binders;
 
 function contest(bA, bB) {
-  const s = R.newContest(bA.cards, bB.cards, rng() < 0.5 ? 0 : 1, [bA.name.replace(/^Binder \w, /, ""), bB.name.replace(/^Binder \w, /, "")]);
+  const s = R.newContest(bA.cards, bB.cards, rng() < 0.5 ? 0 : 1, [bA.name.replace(/^Binder \w, /, ""), bB.name.replace(/^Binder \w, /, "")], contestOpts(FLAGS));
   const ai = [makeAI({ rng }), makeAI({ rng })];
   const plays = [0, 0];
   R.advance(s);

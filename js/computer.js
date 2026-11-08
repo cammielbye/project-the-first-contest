@@ -6,6 +6,10 @@
 import * as R from "./game/rules.js";
 import { makeAI } from "./game/ai.js";
 
+// The table's rules (Nov 8, Cam: the game is one round again): one round, no card cap. Worlds stay 2x2 here; the
+// simulator plays open worlds, which this table can't draw yet.
+const TABLE_RULES = { bestOf: 1, noCap: true };
+
 const ME = 0, AI = 1;
 const SEAT = ["p1", "p2"]; // you sit where player 1 sits at the friend table
 const SAVE = "tfc:cpu:contest";
@@ -85,7 +89,7 @@ export function createComputer(ctx) {
   const pockets = (b) => [...new Set(b.cards)].filter((id) => cardsById.has(id)).sort(byPool);
   function start() {
     const bm = binders[choice.mine], bt = binders[choice.theirs];
-    s = R.newContest(bm.cards, bt.cards, Math.random() < 0.5 ? ME : AI, ["You", "Computer"]);
+    s = R.newContest(bm.cards, bt.cards, Math.random() < 0.5 ? ME : AI, ["You", "Computer"], TABLE_RULES);
     s.binderNames = [short(bm.name), short(bt.name)];
     s.order = [pockets(bm), pockets(bt)];
     s.log.push({ r: 1, P: null, text: `Round 1. ${s.opener === ME ? "You open." : "The computer opens."}` });
@@ -152,7 +156,7 @@ export function createComputer(ctx) {
     if (s.phase === "contestOver") return `Contest over · ${s.winner === null ? "a draw" : s.winner === ME ? "you won" : "the computer won"} · ${score}`;
     if (s.phase === "roundOver") return `Round ${s.r} over · ${score}`;
     const t = s.turn === ME ? (s.extras.length ? "your turn, one more card" : "your turn") : busy ? "the computer is thinking…" : "the computer's turn";
-    return `Round ${s.r} of 3 · ${score} · ${t}`;
+    return `Round ${s.r} of ${s.bestOf || 3} · ${score} · ${t}`;
   }
 
   // ---------------------------------------------------------------- playing a card
@@ -308,7 +312,7 @@ export function createComputer(ctx) {
       h("h2", { class: "binder-pick-title", text: "Play the computer" }),
       h("p", {
         class: "hint",
-        text: "The page applies every card's rules and the computer plays the other seat. Best of three rounds, 10 cards a round; a world worth 3 world points wins the contest on the spot.",
+        text: "The page applies every card's rules and the computer plays the other seat. One round, with no limit on cards: play down to your last card. Worlds go up to 2×2. A world worth 3 world points wins the contest on the spot.",
       })
     );
     for (const [which, title] of [["mine", "Your binder"], ["theirs", "The computer's binder"]]) {
@@ -465,7 +469,7 @@ export function createComputer(ctx) {
         pl.skip ? h("span", { class: "badge passed", text: "skips next turn" }) : null,
         h("span", { class: "muted small", text: `${pl.binder.length} left` })
       ),
-      stat("Played", `${pl.played}/${s.cap}`, `played ${pl.played >= s.cap ? "full" : ""}`),
+      stat("Played", s.cap >= 1e6 ? String(pl.played) : `${pl.played}/${s.cap}`, `played ${pl.played >= s.cap ? "full" : ""}`),
       stat("World pts", String(sc[P].pts)),
       stat("Tie-break", String(sc[P].tie), "", "Breaks a tie in world points: the most of any one element across all their permanences"),
       stat("Rounds", String(pl.wins)),
@@ -482,7 +486,7 @@ export function createComputer(ctx) {
         h("button", { "data-act": "cpu-pass", title: s.extras.length ? "End your turn" : "You're out for the rest of the round" }, s.extras.length ? "End turn" : "Pass for the round")
       );
     } else acts = h("span", { class: "turn-acts small own-p2", text: s.turn === ME ? "" : busy ? "Computer thinking…" : "Computer to play" });
-    return h("div", { class: "shared" }, stat("Round", `${s.r}/3`), stat("Cap", String(s.cap), "", "Most cards each player can play this round"), acts);
+    return h("div", { class: "shared" }, stat("Round", `${s.r}/${s.bestOf || 3}`), stat("Cap", s.cap >= 1e6 ? "none" : String(s.cap), "", "Most cards each player can play this round"), acts);
   }
   function scoreboard(sc, picks) {
     const parts = [scoreRow(AI, sc), shared(), scoreRow(ME, sc)];

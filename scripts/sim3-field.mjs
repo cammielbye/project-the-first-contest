@@ -1,8 +1,9 @@
 // A field of binders, computer vs computer: each contest, each side picks a binder at random (mirror matches allowed).
 // Usage: node scripts/sim3-field.mjs [contests] [--binders Tides,Embers,Gales,Roots] [--seed n] [--json out.json]
-//        [--open] [--bo1] [--nocap]   the rule switches, as in sim3-pair.mjs
+//        [--bo3] [--cap] [--square]   the rule switches, as in sim3-pair.mjs (default: one round, no cap, open worlds)
 //        [--ai k=v,k=v]               options for both computers, e.g. bigWorld=2
 //        [--from a.json,b.json]       skip playing: summarize saved runs together
+import { ruleFlags } from "./lib/rule-flags.mjs";
 import { readFileSync, writeFileSync } from "node:fs";
 import * as R from "../js/game/rules.js";
 import { makeAI } from "../js/game/ai.js";
@@ -12,7 +13,7 @@ const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] :
 const N = Number(args.find((a, i) => /^\d+$/.test(a) && !args[i - 1]?.startsWith("--")) || 500);
 let seed = Number(opt("--seed", 1));
 const rng = () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
-const open = args.includes("--open"), bo1 = args.includes("--bo1"), nocap = args.includes("--nocap");
+const { open, bo1, nocap } = ruleFlags(args);
 const aiOpts = Object.fromEntries((opt("--ai", "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, b === "false" ? false : b === "true" ? true : isNaN(Number(b)) ? b : Number(b)]; }));
 
 const root = new URL("..", import.meta.url);

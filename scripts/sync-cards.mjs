@@ -189,7 +189,7 @@ for (let i = 0; i < lines.length; i++) {
         text: text(r[c.ptext]),
         source: section,
       });
-      if (clean(r[c.force])) {
+      if (text(r[c.force])) { // "—": no force for the moment
         forceDefs.push({
           no,
           permName: clean(r[c.perm]),

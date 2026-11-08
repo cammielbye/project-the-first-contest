@@ -26,7 +26,10 @@ const META_WORTH = 0.05;
 const RETURNS = /^Returns at round end/;
 const POWER = { C: 1, B: 1.5, A: 2.2, S: 3 }; // how strong a card is, for planning the rounds
 const power = (d) => (d.meta ? 1.4 : POWER[d.rarity] + 0.15 * (d.aff ? d.aff.length : 0));
-const TEMPLATE = { C: 14, B: 6, A: 4, meta: 1 }; // the test binders' make-up
+// a binder's make-up, for guessing hidden cards: the third-pass test binders (25) and, since Nov 8, the simulator's
+// 15-card binders (8 commons, 4 uncommons, 3 rares, meta cards among them); scaled to the binder's size
+const TEMPLATES = { 25: { C: 14, B: 6, A: 4, meta: 1 }, 15: { C: 8, B: 3, A: 3, meta: 1 } };
+const templateFor = (n) => { const t = TEMPLATES[n > 20 ? 25 : 15], k = n > 20 ? 25 : 15, out = {}; for (const r in t) out[r] = Math.round((t[r] * n) / k); return out; };
 const rkey = (d) => (d.meta ? "meta" : d.rarity);
 const BITS = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
 const last = (s) => s.bestOf || 3; // the contest's last possible round
@@ -68,9 +71,11 @@ export function makeAI(opts = {}) {
       M.now[Q] = now;
     }
   }
-  let POOL = null, POOL_C = null;
+  let POOL = null, POOL_C = null, POOL_SPLIT = -1;
   const pool = () => {
-    if (POOL_C !== R.C) { POOL_C = R.C; POOL = Object.values(R.C).filter((d) => d.rarity !== "S"); }
+    // (with the simulator's one-sided cards in play, the two-sided originals they were split from aren't in any binder)
+    const sp = R.C.__split || 0;
+    if (POOL_C !== R.C || POOL_SPLIT !== sp) { POOL_C = R.C; POOL_SPLIT = sp; POOL = Object.values(R.C).filter((d) => d.rarity !== "S" && !d.split); }
     return POOL;
   };
   // a guess at Q's binder: the cards known to be in it, then unseen cards from the pool
@@ -79,7 +84,7 @@ export function makeAI(opts = {}) {
     const known = [];
     for (const [c, n] of seen) { const k = n - (now.get(c) || 0); for (let j = 0; j < k; j++) known.push(c); }
     if (known.length >= need) return known.slice(0, need);
-    const left = Object.assign({}, TEMPLATE); let shown = 0;
+    const TEMPLATE = templateFor(s.p[Q].size || 25), left = Object.assign({}, TEMPLATE); let shown = 0;
     for (const [c] of seen) { const d = C()[c]; left[rkey(d)] = (left[rkey(d)] || 0) - 1; shown |= d.el || 0; }
     const keys = Object.keys(TEMPLATE);
     let q = keys.map((r) => Math.max(0, left[r] || 0));
@@ -152,10 +157,14 @@ export function makeAI(opts = {}) {
       pot += PV[wv.cov] * (avail === 15 ? 1 : 0.6);
       if (wv.k === sc[P].pw - 1) pot += 0.12 * wv.cov; // closing in on the Perfect World
     }
-    const owns = (n) => R.perms(s).some((i) => i.owner === P && C()[i.card].name === n);
-    if (owns("Archipelago")) pot += o.winCardW * Math.max(0, sc[P].water - (R.knob(s, "archipelagoWater") - 4)) * 0.18;
-    if (owns("Mountain Range")) pot += o.winCardW * (sc[P].earth % R.knob(s, "mountainPer")) * 0.12;
-    if (o.winCardW !== 1 && owns("Cradle")) pot += o.winCardW * 0.06 * Math.min(3, ...sc[P].tot); // toward 3 of each
+    // progress toward the win and scoring cards P has down, read from their text (Archipelago, Mountain Range's cycle, Cradle)
+    for (const i of R.perms(s)) {
+      if (i.owner !== P) continue;
+      const e = C()[i.card].pe || {};
+      if (e.winHave) { const need = s.knobs && s.knobs.archipelagoWater !== undefined ? s.knobs.archipelagoWater : e.winHave.n; pot += o.winCardW * Math.max(0, sc[P].tot[Math.log2(e.winHave.el)] - (need - 4)) * 0.18; }
+      if (e.score) { const per = s.knobs && s.knobs.mountainPer !== undefined ? s.knobs.mountainPer : e.score.per; pot += o.winCardW * (sc[P].tot[Math.log2(e.score.el)] % per) * 0.12; }
+      if (e.cradle && o.winCardW !== 1) pot += o.winCardW * 0.06 * Math.min(3, ...sc[P].tot); // toward 3 of each
+    }
     return Math.min(pot, (s.cap - pl.played) * 0.35);
   }
   // how far a player's best world has got toward 3 world points (complete sets, plus a quarter per element covered toward the next)

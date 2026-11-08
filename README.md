@@ -100,7 +100,11 @@ every card you've shown, and guesses the rest. At the start of each round it set
 budget for the round and holds some of its strong cards back for later rounds.
 
 The rules live in `js/game/rules.js` and the opponent in `js/game/ai.js`. The same
-files run in node:
+files run in node. Since Nov 8 the simulator plays one round with no card cap and open
+worlds by default (Cam: the game is one round again), and its random binders hold 15
+cards (8 commons, 4 uncommons, 3 rares); `--bo3`, `--cap` and `--square` switch back to
+the table's rules (best of three, a cap of 10, 2×2 worlds). The table itself still plays
+those rules, with the third pass's 25-card test binders.
 
 ```sh
 node scripts/test-rules3.mjs     # rule checks on hand-built tables
@@ -110,21 +114,25 @@ node scripts/sim3-pair.mjs 500 --a Tides --b Embers --seed 1107 --json out.json
                                  # one pairing, random opener: wins, how contests end,
                                  # cards left in each binder, plays and the cap by round,
                                  # world sizes, and how often each card gets played, by round
-node scripts/sim3-pair.mjs 500 --open             # open worlds: no cap on world size
-node scripts/sim3-pair.mjs 41 --seed 1108 --open --show 40   # replay one contest, play by play
-node scripts/sim3-pair.mjs 250 --bo1 --nocap --open --aiA bigWorld=2 --aiB bigWorld=2
-                                 # one round, no card cap, open worlds, computers aiming
-                                 # for the 3-point world (Nov 7)
-node scripts/sim3-rate.mjs 4000 --bo1 --nocap --open --quick --json r.json --csv r.csv
-                                 # card ratings (Nov 8): random legal binders (14/7/4, leaning
+node scripts/sim3-pair.mjs 500 --bo3 --cap --square   # the table's rules: best of three, a cap of 10, 2x2 worlds
+node scripts/sim3-pair.mjs 41 --seed 1108 --show 40   # replay one contest, play by play
+node scripts/sim3-pair.mjs 250 --aiA bigWorld=2 --aiB bigWorld=2
+                                 # computers aiming for the 3-point world (Nov 7)
+node scripts/sim3-rate.mjs 4000 --quick --json r.json --csv r.csv
+                                 # card ratings (Nov 8): random legal binders (15 cards: 8/4/3, leaning
                                  # none, one or two elements), computer styles drawn at random,
                                  # every card rated against an average card of its rarity, plus
                                  # results by lean, element and style; uses every processor
-node scripts/sim3-sweep.mjs --knob archipelagoWater=8,10,12 --bo1 --nocap --open --quick
+node scripts/sim3-rate.mjs 20000 --faces --quick --csv sides.csv
+                                 # each side of a card rated alone (Nov 8): every two-sided
+                                 # card splits into a permanence-only and a force-only card
+                                 # ("discard the other side"), drawn into binders separately;
+                                 # compare forces with forces and permanences with permanences
+node scripts/sim3-sweep.mjs --knob archipelagoWater=8,10,12 --quick
                                  # one win-condition number over a few values on the same
                                  # contests, stopping once each is known to ±3 points
                                  # (knobs: archipelagoWater, mountainPer, cradleEach, perfectWorld)
-node scripts/sim3-field.mjs 250 --bo1 --nocap --open --ai bigWorld=2 --json a.json
+node scripts/sim3-field.mjs 250 --ai bigWorld=2 --json a.json
                                  # a field: each side picks a binder at random every
                                  # contest (Tides, Embers, Gales, Roots; --binders to change);
                                  # --from a.json,b.json summarizes saved runs together
@@ -161,11 +169,11 @@ Where a card's text leaves a question open, the engine picks one reading (marked
   the table, a lasting force included.
 - Archipelago (10 water since Nov 7) and Cradle are checked at the start of their owner's
   turns, so not after they pass. A drawn round counts for both players; openers alternate.
-- One round and no cap (the simulator's `--bo1` and `--nocap`, Nov 7): the round's winner
+- One round and no cap (Nov 7; the simulator's default since Nov 8, `--bo3` and `--cap` to switch back): the round's winner
   wins the contest, and a player can play down to their last card. Passing stays, as a way
   to stop (a concession, in effect). With no cap the computer never passes just because
   it's ahead.
-- Open worlds (the simulator's `--open`, Nov 7; the table keeps 2×2): a world is any
+- Open worlds (Nov 7; the simulator's default since Nov 8, `--square` for 2×2; the table keeps 2×2): a world is any
   connected shape of cards, lines included, on an 11×11 grid with no size cap. A split
   cuts the shape's bounding box down the middle. Placing offers one cell per set of
   neighbours the card would touch, the one nearest the world's middle.
@@ -192,6 +200,21 @@ Cards and test binders both come from `data/card-pool.md`, a copy of
 ```sh
 node scripts/sync-cards.mjs   # card-pool.md -> data/cards.json + data/binders.json
 ```
+
+**For now the table plays the saved third pass (Nov 8).** The newest pass, the
+fourth (the pool restructured by ring count, from `tools/cards/pass4.py`), has no
+binders yet and new permanence text the engine doesn't know, so `data/cards.json`,
+`data/binders.json` and the card faces still come from the saved copy. Until new
+binders are written, sync from it instead:
+
+```sh
+node scripts/sync-cards.mjs data/versions/card-pool-2026-11-08-third-pass.md
+```
+
+**Saving a version.** Before each change to the card pool, the version being
+replaced is copied to `data/versions/` with the date, and its commit is pushed
+to a `saved/card-pool-<date>-<name>` branch (this proxy doesn't allow tags).
+See `data/versions/README.md`.
 
 How it reads the file:
 
@@ -256,7 +279,7 @@ changes on `main`, republish these files to that page as they are on GitHub:
 `index.html`, `css/style.css`, `js/main.js`, `js/state.js`, `js/cards.js`,
 `js/net.js`, `js/computer.js`, `js/game/rules.js`, `js/game/ai.js`,
 `data/cards.json`, `data/binders.json`, `data/card-faces.json`,
-`vendor/peerjs.min.js`. Last republished from `9ecc3d2` (Nov 7).
+`vendor/peerjs.min.js`. Last republished from `ab0bdc5` (Nov 8).
 
 ## Simulating contests
 

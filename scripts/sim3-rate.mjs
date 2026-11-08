@@ -1,20 +1,24 @@
 // Card ratings from random binders (Nov 8). Each contest, each side gets a random legal binder: one of each card,
-// 14 commons, 7 uncommons and 4 rares (meta cards counted at their rarity), no pinnacles or Origin, leaning toward
+// 15 cards since Nov 8 (8 commons, 4 uncommons and 3 rares; meta cards counted at their rarity), no pinnacles or Origin, leaning toward
 // none, one or two elements. Every card is then rated by how much having it in a binder changes the chance of
-// winning, against an average card of its rarity, with the other 24 cards accounted for (a logistic regression).
+// winning, against an average card of its rarity, with the other 14 cards accounted for (a logistic regression).
 //
-// Usage: node scripts/sim3-rate.mjs [contests] [--bo1] [--nocap] [--open] [--seed n] [--workers n] [--json out.json]
+// Usage: node scripts/sim3-rate.mjs [contests] [--bo3] [--cap] [--square] [--seed n] [--workers n] [--json out.json]
+//        (rules default to one round, no card cap, open worlds: see lib/rule-flags.mjs)
 //        [--quick]                     the quick computer (no reply lookahead), about 6x faster, for wide screens
 //        [--styles plain,builder,…]    styles to draw from for each side, each contest (default: all six);
 //                                      --styles builder for one style
 //        [--ai k=v,…]                  extra computer settings for both sides
 //        [--knobs archipelagoWater=12,…] win-condition numbers (perfectWorld, archipelagoWater, mountainPer, cradleEach)
 //        [--first k]                   start at contest k of the run (to split one run across machines)
+//        [--faces]                     rate each side of a card alone (Cam, Nov 8): every two-sided card splits into a
+//                                      permanence-only and a force-only card, drawn into binders separately
 //        [--from a.json,b.json]        summarize saved runs together instead of playing
 //        [--csv out.csv]               the card ratings as a table
+import { ruleFlags } from "./lib/rule-flags.mjs";
 import { readFileSync, writeFileSync } from "node:fs";
 import { cpus } from "node:os";
-import { C, ELS, STYLES, runField } from "./lib/field.mjs";
+import { C, ELS, STYLES, runField, addFaceCards, sideLabel } from "./lib/field.mjs";
 
 const args = process.argv.slice(2);
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
@@ -26,20 +30,21 @@ if (from) {
   rows = runs.flatMap((r) => r.contests); label = runs[0].label + ` (${runs.length} runs merged)`;
 } else {
   const cfg = {
-    bo1: args.includes("--bo1"), nocap: args.includes("--nocap"), open: args.includes("--open"), quick: args.includes("--quick"),
+    ...ruleFlags(args), quick: args.includes("--quick"), faces: args.includes("--faces"),
     styles: (opt("--styles", Object.keys(STYLES).join(","))).split(","),
     ai: Object.fromEntries((opt("--ai", "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, b === "false" ? false : b === "true" ? true : isNaN(Number(b)) ? b : Number(b)]; })),
     knobs: Object.fromEntries((opt("--knobs", "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, Number(b)]; })),
   };
   for (const st of cfg.styles) if (!STYLES[st]) throw new Error("unknown style " + st);
   const seed = Number(opt("--seed", 1)), first = Number(opt("--first", 0));
-  label = `${cfg.bo1 ? "one round" : "best of three"}, ${cfg.nocap ? "no card cap" : "cap of 10"}, ${cfg.open ? "uncapped worlds" : "worlds of up to 4"}; ${cfg.quick ? "quick" : "full"} computer, styles ${cfg.styles.join("/")}${Object.keys(cfg.ai).length ? " " + JSON.stringify(cfg.ai) : ""}${Object.keys(cfg.knobs).length ? "; " + JSON.stringify(cfg.knobs) : ""}; seed ${seed}`;
+  label = `${cfg.bo1 ? "one round" : "best of three"}, ${cfg.nocap ? "no card cap" : "cap of 10"}, ${cfg.open ? "uncapped worlds" : "worlds of up to 4"}; ${cfg.quick ? "quick" : "full"} computer, styles ${cfg.styles.join("/")}${Object.keys(cfg.ai).length ? " " + JSON.stringify(cfg.ai) : ""}${Object.keys(cfg.knobs).length ? "; " + JSON.stringify(cfg.knobs) : ""}${cfg.faces ? "; each side of a card rated alone" : ""}; seed ${seed}`;
   const t0 = Date.now();
   rows = await runField(first, N, seed, cfg, Number(opt("--workers", cpus().length)));
   console.log(`${rows.length} contests in ${((Date.now() - t0) / 1000).toFixed(0)}s`);
   const j = opt("--json", null);
   if (j) writeFileSync(j, JSON.stringify({ label, contests: rows }));
 }
+if (rows.some((r) => r.a.some((id) => id >= 10000))) addFaceCards(); // one-sided cards (--faces)
 report(rows, label, opt("--csv", null));
 
 // ---------------------------------------------------------------- analysis
@@ -111,17 +116,24 @@ function report(rows, label, csv) {
   const out = ids.map((id) => {
     const c = col.get(id), d = C[id], x = st[c];
     return {
-      no: d.no, card: d.meta ? d.name : d.name, rarity: { C: "common", B: "uncommon", A: "rare" }[d.rarity] + (d.meta ? " (meta)" : ""),
+      no: d.no, card: sideLabel(d), side: d.meta ? "meta" : d.only === "perm" ? "permanence" : d.only === "force" ? "force" : "both", rarity: { C: "common", B: "uncommon", A: "rare" }[d.rarity] + (d.meta ? " (meta)" : ""),
       rating: 25 * (beta[c] - mean[d.rarity]), ci: 25 * 1.96 / Math.sqrt(info[c]),
       binders: x.n, score: x.s / x.n, playRate: x.pn / x.n, scoreWhenPlayed: x.pn ? x.ps / x.pn : null,
     };
   }).sort((a, b) => b.rating - a.rating);
   console.log(`\nfirst-player effect in the model: ${(25 * gam).toFixed(1)} points`);
-  const line = (r) => `  ${(r.rating >= 0 ? "+" : "") + r.rating.toFixed(1).padStart(5)} ±${r.ci.toFixed(1)}  ${r.card.padEnd(16)} ${r.rarity.padEnd(16)} in ${String(r.binders).padStart(4)} binders, played ${(100 * r.playRate).toFixed(0).padStart(3)}%, scored ${(100 * r.score).toFixed(0)}%`;
+  const line = (r) => `  ${(r.rating >= 0 ? "+" : "") + r.rating.toFixed(1).padStart(5)} ±${r.ci.toFixed(1)}  ${r.card.padEnd(r.side === "both" || r.side === "meta" ? 16 : 34)} ${r.rarity.padEnd(16)} in ${String(r.binders).padStart(4)} binders, played ${(100 * r.playRate).toFixed(0).padStart(3)}%, scored ${(100 * r.score).toFixed(0)}%`;
   console.log("\ncard ratings: points of win chance against an average card of the same rarity (± is the 95% range)");
   console.log(" strongest:"); out.slice(0, 15).forEach((r) => console.log(line(r)));
   console.log(" weakest:"); out.slice(-15).forEach((r) => console.log(line(r)));
+  if (out.some((r) => r.side === "force")) {
+    console.log("\naverage by side, within each rarity (points against the rarity's average card):");
+    for (const [rr, word] of [["C", "common"], ["B", "uncommon"], ["A", "rare"]]) {
+      const parts = ["permanence", "force", "meta"].map((sd) => { const xs = out.filter((r) => r.rarity.startsWith(word) && r.side === sd); return xs.length ? `${sd} ${(xs.reduce((a, r) => a + r.rating, 0) / xs.length >= 0 ? "+" : "")}${(xs.reduce((a, r) => a + r.rating, 0) / xs.length).toFixed(1)} (${xs.length})` : null; }).filter(Boolean);
+      console.log(`  ${word.padEnd(9)} ${parts.join(", ")}`);
+    }
+  }
   const clear = out.filter((r) => Math.abs(r.rating) > r.ci);
   console.log(`\n${clear.length} of ${out.length} cards are clearly above or below average at this sample size`);
-  if (csv) writeFileSync(csv, "no,card,rarity,rating,ci95,binders,score,play_rate,score_when_played\n" + out.map((r) => [r.no, `"${r.card}"`, r.rarity, r.rating.toFixed(2), r.ci.toFixed(2), r.binders, r.score.toFixed(3), r.playRate.toFixed(3), r.scoreWhenPlayed === null ? "" : r.scoreWhenPlayed.toFixed(3)].join(",")).join("\n") + "\n");
+  if (csv) writeFileSync(csv, "no,card,side,rarity,rating,ci95,binders,score,play_rate,score_when_played\n" + out.map((r) => [r.no, `"${r.card}"`, r.side, r.rarity, r.rating.toFixed(2), r.ci.toFixed(2), r.binders, r.score.toFixed(3), r.playRate.toFixed(3), r.scoreWhenPlayed === null ? "" : r.scoreWhenPlayed.toFixed(3)].join(",")).join("\n") + "\n");
 }

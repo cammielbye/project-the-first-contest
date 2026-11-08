@@ -1174,7 +1174,10 @@ async function init() {
         .then((r) => (r.ok ? r.json() : null))
         .catch(() => null),
     ]);
-    setFaceArt(facesJson?.faces);
+    // drawn faces only fit the pass they were drawn for (the canvas has the third pass; the fourth renumbered and
+    // rewrote cards), so other passes use the plain faces built from the card data
+    const ord = (p) => ((String(p || "").match(/^(\w+) pass/i) || [])[1] || "").toLowerCase();
+    setFaceArt(facesJson && ord(facesJson.pass) === ord(cardsJson.pass) ? facesJson.faces : null);
     cardsById = new Map(cardsJson.cards.map((c) => [c.id, c]));
     cardOrder = new Map(cardsJson.cards.map((c, i) => [c.id, i]));
     binders = bindersJson.binders || [];

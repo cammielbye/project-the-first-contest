@@ -34,7 +34,7 @@ groups = [
  ('Uncommons with one affinity', [c for c in B_ if c[0] >= 59]),
  ('Rares with three affinities', [c for c in A_ if c[0] <= 84]),
  ('Rares with a special permanence', [c for c in A_ if c[0] >= 85]),
- ('Pinnacles, and card 101', S_ + [ORIGIN]),
+ ('Pinnacles', S_ + [ORIGIN]),
 ]
 binA = ('Binder A, Tides', 'Water and air, built around Ocean, with Archipelago as its alternate win.',
   ['Ocean', 'Archipelago', 'Cloud Sea', 'Rainforest', 'Geyser Basin', 'Cloud Forest', 'Waterfall', 'Delta', 'Hot Spring', 'Glacier', 'Mirage', 'Deep Lake', 'Sky Isle',
