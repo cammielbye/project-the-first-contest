@@ -19,9 +19,13 @@ const SYM = {
   4: { color: "#D5D8CC", d: "M12 3.5 L20.5 19 H3.5 Z M3 12.5 H21" },
   8: { color: "#A88F6B", d: "M3.5 5 H20.5 L12 20.5 Z M3 11.5 H21" },
 };
+// Affinities always read water, earth, fire, air from left to right (Cam, Nov 8), inside an either-or too.
+const ORDER = [2, 8, 1, 4];
+const rankOf = (mask) => (mask === 15 ? 9 : Math.min(...ORDER.map((b, k) => (mask & b ? k : 9))));
+const inOrder = (masks) => masks.slice().sort((a, b) => rankOf(a) - rankOf(b));
 function chipSvg(mask) {
   if (mask === 15) return `<svg viewBox="0 0 24 24" fill="none" stroke="#C2C5B8" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/></svg>`;
-  return [1, 2, 4, 8]
+  return ORDER
     .filter((b) => mask & b)
     .map((b) => `<svg viewBox="0 0 24 24" fill="none" stroke="${SYM[b].color}" stroke-width="2.2" stroke-linejoin="round"><path d="${SYM[b].d}"/></svg>`)
     .join('<span class="or">/</span>');
@@ -36,7 +40,7 @@ const elementLine = (ids) => {
       if (m !== 15) bits.forEach((b) => (t[[1, 2, 4, 8].indexOf(b)] += bits.length > 1 ? 0.5 : 1));
     }
   }
-  return `fire ${t[0]} · water ${t[1]} · air ${t[2]} · earth ${t[3]}`;
+  return `water ${t[1]} · earth ${t[3]} · fire ${t[0]} · air ${t[2]}`;
 };
 const short = (name) => name.replace(/^Binder \w, /, "");
 const upper = (t) => String(t).replace(/^./, (c) => c.toUpperCase());
@@ -412,7 +416,7 @@ export function createComputer(ctx) {
     const now = v.tok[i.id] || [], printed = R.C[i.card].aff;
     if (blank || now.length !== printed.length || now.some((t, k) => t !== printed[k])) {
       const chips = h("div", { class: "echips", title: "Its affinities right now" });
-      chips.innerHTML = blank || !now.length ? '<span class="none">no affinities</span>' : now.map(chipSvg).join("");
+      chips.innerHTML = blank || !now.length ? '<span class="none">no affinities</span>' : inOrder(now).map(chipSvg).join("");
       cell.append(chips);
     }
     return cell;

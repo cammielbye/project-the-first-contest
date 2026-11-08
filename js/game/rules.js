@@ -87,8 +87,22 @@ export function clone(s) {
 const dirty = (s) => { s._v = null; };
 
 // ---------------------------------------------------------------- queries
-export function perms(s) { const o = []; for (const k in s.inst) if (s.inst[k].kind === "perm") o.push(s.inst[k]); return o.sort((a, b) => a.ts - b.ts); }
-export function forces(s) { const o = []; for (const k in s.inst) if (s.inst[k].kind === "force") o.push(s.inst[k]); return o.sort((a, b) => a.ts - b.ts); }
+// The permanence and force lists, in play order, cached on the table (not saved with it). Instances are only added
+// (newInst) or deleted (drop), and both bump s._g, so s._g says when the lists are stale.
+// Callers get the cached arrays: treat them as read-only.
+const drop = (s, id) => { delete s.inst[id]; s._g = (s._g || 0) + 1; };
+function lists(s) {
+  const sig = s._g || 0;
+  if (s._l && s._l.sig === sig) return s._l;
+  const ps = [], fs = [], owns = new Set();
+  for (const k in s.inst) { const i = s.inst[k]; if (i.kind === "perm") ps.push(i); else if (i.kind === "force") fs.push(i); }
+  ps.sort((a, b) => a.ts - b.ts); fs.sort((a, b) => a.ts - b.ts);
+  for (const i of ps) owns.add(i.owner + "|" + C[i.card].name);
+  Object.defineProperty(s, "_l", { value: { sig, perms: ps, forces: fs, owns }, writable: true, configurable: true, enumerable: false });
+  return s._l;
+}
+export function perms(s) { return lists(s).perms; }
+export function forces(s) { return lists(s).forces; }
 export function worldsOf(s, P) { const o = []; for (const k in s.worlds) if (s.worlds[k].owner === P) o.push(s.worlds[k]); return o.sort((a, b) => a.n - b.n); }
 export const worldSize = (w) => w.cells.reduce((n, c) => n + (c !== null ? 1 : 0), 0);
 export function adjacent(s, i) {
@@ -102,7 +116,7 @@ const permsIn = (s, w) => w.cells.filter((c) => c !== null).map((id) => s.inst[i
 const ownPerms = (s, P) => perms(s).filter((i) => i.owner === P);
 const named = (i) => C[i.card].name;
 const fname = (f) => C[f.card].fname;
-const ownsPerm = (s, P, name) => perms(s).some((i) => i.owner === P && named(i) === name);
+const ownsPerm = (s, P, name) => lists(s).owns.has(P + "|" + name);
 export const isLone = (s, i) => worldSize(s.worlds[i.w]) === 1;
 
 // ---------------------------------------------------------------- ignoring forces
@@ -277,6 +291,7 @@ function cellChoices(w) {
 function newInst(s, P, cardId, kind, extra) {
   const id = "i" + s.nid++;
   s.inst[id] = Object.assign({ id, card: cardId, owner: P, kind, w: null, cell: null, ts: s.ts++ }, extra || {});
+  s._g = (s._g || 0) + 1;
   dirty(s);
   return s.inst[id];
 }
@@ -288,10 +303,10 @@ function newWorld(s, P) {
 }
 function toPile(s, i, where) { const pl = s.p[i.owner]; (where === "binder" ? pl.binder : pl.void).push(i.card); }
 function dropForcesOn(s, iid) {
-  for (const f of forces(s)) if (f.t === iid || f.t2 === iid || f.src === iid) { delete s.inst[f.id]; toPile(s, f, "void"); }
+  for (const f of forces(s)) if (f.t === iid || f.t2 === iid || f.src === iid) { drop(s, f.id); toPile(s, f, "void"); }
 }
 function dropForcesOnWorld(s, wid) {
-  for (const f of forces(s)) if (f.w === wid || f.w2 === wid) { delete s.inst[f.id]; toPile(s, f, "void"); }
+  for (const f of forces(s)) if (f.w === wid || f.w2 === wid) { drop(s, f.id); toPile(s, f, "void"); }
 }
 function lift(s, i) { // take a permanence out of its world (it stays an instance)
   const w = s.worlds[i.w]; if (!w) return;
@@ -302,7 +317,7 @@ function lift(s, i) { // take a permanence out of its world (it stays an instanc
 export function leave(s, i, where) { // a permanence or lasting force leaves the table
   if (!s.inst[i.id]) return;
   if (i.kind === "perm") { dropForcesOn(s, i.id); lift(s, i); }
-  delete s.inst[i.id];
+  drop(s, i.id);
   toPile(s, i, where);
   dirty(s);
 }
@@ -744,7 +759,7 @@ export function advance(s) {
     if (pl.passed) { s.turn = 1 - P; continue; }
     if (!s.turnStarted) {
       s.turnStarted = true;
-      for (const f of forces(s)) if (fname(f) === "Whiteout" && f.until === P) { delete s.inst[f.id]; toPile(s, f, "void"); dirty(s); say(s, "Whiteout ends.", P); }
+      for (const f of forces(s)) if (fname(f) === "Whiteout" && f.until === P) { drop(s, f.id); toPile(s, f, "void"); dirty(s); say(s, "Whiteout ends.", P); }
       const sc = score(s);
       if (ownsPerm(s, P, "Cradle") && hasEach(sc[P].all, 3)) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} 3 of each affinity: Cradle wins the contest.`, P); endContest(s, P, "Cradle"); return; }
       if (archipelagoWins(s, P, sc)) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} ${ARCHIPELAGO_WATER} water: Archipelago wins the round.`, P); endRound(s, P, "Archipelago"); return; }
@@ -797,7 +812,7 @@ function endRound(s, forced, why) {
   // round end: permanence that returns goes to the binder; everything else to the void
   for (const i of Object.values(s.inst)) {
     const back = i.kind === "perm" && /^Returns at round end/.test(C[i.card].ptext || "");
-    delete s.inst[i.id]; toPile(s, i, back ? "binder" : "void");
+    drop(s, i.id); toPile(s, i, back ? "binder" : "void");
   }
   s.worlds = {}; s.calm = false; s.extras = []; dirty(s);
   for (const pl of s.p) { pl.played = 0; pl.passed = false; pl.skip = false; pl.commons = []; }

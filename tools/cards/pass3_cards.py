@@ -94,18 +94,25 @@ def small_glyph(el, size=17):
     d, c = GLYPH[el]
     return (f'<svg width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">'
             f'<g transform="translate(0.8 0.8)" stroke="#0D0F0D"><path d="{d}"></path></g><g stroke="{c}"><path d="{d}"></path></g></svg>')
+# Affinities always read water, earth, fire, air from left to right (Cam, Nov 8), inside an either-or capsule too;
+# the wildcard comes last. Force faces show their elements in the same order.
+AFF_ORDER = ['water', 'earth', 'fire', 'air']
+def _rank(e): return AFF_ORDER.index(e) if e in AFF_ORDER else len(AFF_ORDER)
+def ordered(affs):
+    out = ['|'.join(sorted(a.split('|'), key=_rank)) if '|' in a else a for a in affs]
+    return sorted(out, key=lambda a: min(_rank(e) for e in a.split('|')))
 def elements_of(affs):
     out = []
     for a in affs:
         for e in a.split('|'):
             if e != 'any' and e not in out: out.append(e)
-    return [e for e in ['fire', 'water', 'air', 'earth'] if e in out]
+    return [e for e in AFF_ORDER if e in out]
 
 # ---------- faces ----------
 def perm_face(i, c):
     no, name, rar, affs, ptxt, *_ = c
     fn, vb = perm_art(name)
-    rings = ''.join(ringed(a, 44, 0.9) for a in affs) if affs else NO_AFF  # bigger affinity rings (Cam, Nov 3), moved down from the art (Nov 5)
+    rings = ''.join(ringed(a, 44, 0.9) for a in ordered(affs)) if affs else NO_AFF  # bigger affinity rings (Cam, Nov 3), moved down from the art (Nov 5)
     label = affinity_label(affs) if affs else 'none'
     return (f'<div class="face perm" style="position: relative; width: 320px; height: 448px; flex: none; border-radius: 14px; background: #353A35; '
             f'box-shadow: 0 14px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -4px 10px rgba(0,0,0,0.45)">'
