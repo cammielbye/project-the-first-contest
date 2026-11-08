@@ -119,9 +119,12 @@ for k in NUM_ORDER:
         n += 1; c['no'] = n
 META_NO = {m[0]: 75 + i for i, m in enumerate(META)}
 # placeholders (Cam, Nov 8): some cards aren't part of a cycle; at least 3 per element whose effects have no equivalent in another element
-UNIQUE_NOTE = "Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come."
+UNIQUE_NOTE = "Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come."
+UNNAMED_NOTE = "Not part of a cycle: its effect has no equivalent in another element. Rings, rarity, effect and name to come."
+# names from the cut third-pass cards, matched to the element (Cam, Nov 8: "might inspire ideas"); fire has only two free fire names
+PH_NAMES = {W: ['Ice Floe', 'Shoal', 'Fen'], E: ['Hill', 'Meadow', 'Cavern'], F: ['Dune', 'Barrens', None], A: ['Ledge', 'Ridge', 'Eyrie']}
 _free = list(range(75 + len(META), 96))
-PLACEHOLDERS = [(_free[i * 3 + k], e) for i, e in enumerate(ORDER) for k in range(3)]
+PLACEHOLDERS = [(_free[i * 3 + k], e, PH_NAMES[e][k]) for i, e in enumerate(ORDER) for k in range(3)]
 OPEN = _free[len(PLACEHOLDERS):]
 for i, c in enumerate(G['s']): c['no'] = 96 + i
 ALL = [c for k, t, b, cs in GROUPS for c in cs]
@@ -130,6 +133,9 @@ ALL = [c for k, t, b, cs in GROUPS for c in cs]
 PLACED = {c['name'] for c in ALL} | {m[0] for m in META}
 CUT = [c for c in pass3.ALL if c[1] not in PLACED]
 
+PH_USED = [p[2] for p in PLACEHOLDERS if p[2]]
+FREE_NAMES = [c[1] for c in CUT if c[1] not in PH_USED and c[1] not in ('Massif', 'Cradle')]
+
 def words(t): return len(t.split())
 
 def check():
@@ -137,6 +143,9 @@ def check():
     names = collections.Counter([c['name'] for c in ALL] + [m[0] for m in META])
     probs += [('duplicate name', k) for k, v in names.items() if v > 1]
     nums = sorted([c['no'] for c in ALL] + list(META_NO.values()) + [p[0] for p in PLACEHOLDERS] + OPEN)
+    phn = [p[2] for p in PLACEHOLDERS if p[2]]
+    if set(phn) - {c[1] for c in CUT}: probs.append(('placeholder name not from a cut card', set(phn) - {c[1] for c in CUT}))
+    if set(phn) & ({c['name'] for c in ALL} | {m[0] for m in META}): probs.append(('placeholder name in use', set(phn) & {c['name'] for c in ALL}))
     if nums != list(range(1, 101)): probs.append(('numbering', nums))
     for c in ALL:
         rings = len(c['affinities'])
@@ -196,7 +205,7 @@ def markdown():
 
 **Changed in place.** {'; '.join('%s (%s)' % (c['name'], c['note']) for c in changed)}.
 
-**Cut.** {len(CUT)} third-pass cards have no place: {', '.join(c[1] for c in CUT)}. Their names are free for the open slots.
+**Cut.** {len(CUT)} third-pass cards have no place: {', '.join(c[1] for c in CUT)}. {len(PH_USED)} of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: {', '.join(FREE_NAMES)}.
 
 **Counts.** {rc['C']} commons, {rc['B']} uncommons, {rc['A']} rares, {rc['S']} pinnacles and {len(META)} meta cards: {len(ALL) + len(META)} cards, {len(PLACEHOLDERS)} placeholders (numbers {PLACEHOLDERS[0][0]}–{PLACEHOLDERS[-1][0]}) and {len(OPEN)} open {'slot' if len(OPEN) == 1 else 'slots'} ({', '.join(map(str, OPEN))}). Rings across the pool: water {t[W]}, earth {t[E]}, fire {t[F]}, air {t[A]}, plus {t[W + ' (either-or)']} either-or capsules for each element and {t[ANY]} any.
 
@@ -210,7 +219,7 @@ def markdown():
     md += '**Fifth-pillar meta cards, no rarity (%d).** One face, usable by either player.\n\n| Card | No. | Text |\n| --- | --- | --- |\n' % len(META)
     md += '\n'.join('| %s | %d | %s |' % (m[0], META_NO[m[0]], m[1]) for m in META) + '\n\n'
     md += '**Placeholders: unique to one element (%d).** Cam (Nov 8): there should be some cards that aren\'t part of a cycle; ironically, a cycle of at least 3 cards in each element whose effects have no equivalent in other elements.\n\n| No. | Placeholder | Element | What it\'s for |\n| --- | --- | --- | --- |\n' % len(PLACEHOLDERS)
-    md += '\n'.join('| %d | Unique %s %d | %s | %s |' % (no, e, k % 3 + 1, e, UNIQUE_NOTE) for k, (no, e) in enumerate(PLACEHOLDERS)) + '\n\n'
+    md += '\n'.join('| %d | %s | %s | %s |' % (no, nm or 'Unique %s %d' % (e, k % 3 + 1), e, UNIQUE_NOTE if nm else UNNAMED_NOTE) for k, (no, e, nm) in enumerate(PLACEHOLDERS)) + '\n\n'
     md += '**Open %s (%d).** %s. Cam (Nov 8): the slots this opens should go to more multi-affinity cards.\n' % ('slot' if len(OPEN) == 1 else 'slots', len(OPEN), 'Number ' + str(OPEN[0]) if len(OPEN) == 1 else 'Numbers %d–%d' % (OPEN[0], OPEN[-1]))
     return md
 

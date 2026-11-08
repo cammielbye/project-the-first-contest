@@ -87,15 +87,16 @@ legend_marks = ''.join(f'<span class="key">{lib.ringed(e, 20)}{e}</span>' for e 
 legend_marks += f'<span class="key">{lib.ringed("water|fire", 20)}either-or</span><span class="key">{lib.ringed("any", 20)}any</span>'
 legend_rar = ''.join(f'<span class="key">{rarity(r)}{RWORD[r]}</span>' for r in 'CBAS')
 open_slots = ''.join(f'<li>{n}</li>' for n in pass4.OPEN)
-def ph_row(no, e, k):
+def ph_row(no, e, k, nm):
+    note = pass4.UNIQUE_NOTE if nm else pass4.UNNAMED_NOTE
     return f'''<li class="card card-ph">
   <span class="no">{no:02d}<small>/100</small></span>
-  <span class="name"><b>Unique {e} {k}</b><span class="tag tag-ph">placeholder</span></span>
+  <span class="name"><b>{esc(nm or f'Unique {e} {k}')}</b><span class="tag tag-ph">placeholder</span>{'<span class="tag" title="The name of a cut third-pass card">reused name</span>' if nm else ''}</span>
   <span class="plate" role="img" aria-label="At least one {e} ring">{lib.ringed(e, 24)}<span class="more">+?</span></span>
   <span class="rar rar-none" aria-label="Rarity to come">tbd</span>
-  <span class="text"><span class="perm">{esc(pass4.UNIQUE_NOTE)}</span></span>
+  <span class="text"><span class="perm">{esc(note)}</span></span>
 </li>'''
-ph_subs = ''.join(sub(f'{e.capitalize()}', '', [ph_row(no, ee, k % 3 + 1) for k, (no, ee) in enumerate(pass4.PLACEHOLDERS) if ee == e], 3) for e in ORDER)
+ph_subs = ''.join(sub(f'{e.capitalize()}', '', [ph_row(no, ee, k % 3 + 1, nm) for k, (no, ee, nm) in enumerate(pass4.PLACEHOLDERS) if ee == e], 3) for e in ORDER)
 
 page = f'''<title>Fourth Pass Card Pool</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -194,7 +195,7 @@ page = f'''<title>Fourth Pass Card Pool</title>
     <section class="group open" aria-labelledby="open-slots">
       <h2 id="open-slots"><span>{'Open slot' if len(pass4.OPEN) == 1 else 'Open slots'}</span><span class="count">{len(pass4.OPEN)}</span></h2>
       <ol>{open_slots}</ol>
-      <p>For more multi-affinity cards (Cam, Nov 8). Names free from cut cards: {esc(', '.join(c[1] for c in pass4.CUT if c[1] not in ('Massif', 'Cradle')))}.</p>
+      <p>For more multi-affinity cards (Cam, Nov 8). Name still free from a cut card: {esc(', '.join(pass4.FREE_NAMES))}.</p>
     </section>
   </main>
 

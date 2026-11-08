@@ -12,7 +12,7 @@
 
 **Changed in place.** Glacier (was uncommon; "Ignores air forces." dropped to fit the cycle); Spire (was uncommon; "Ignores earth forces." dropped to fit the cycle); Tide Pool (ignored air); Stone Field (ignored fire); Lava Flow (was uncommon); Mudflat (text removed); Hot Mud (text removed); Spray Coast (text removed); Peat Bog (text removed); Foothills (text removed); Heath (text removed); Wilderness (was uncommon); Mountain Range (was rare).
 
-**Cut.** 14 third-pass cards have no place: Dune, Barrens, Ice Floe, Shoal, Fen, Ledge, Ridge, Eyrie, Hill, Meadow, Hanging Valley, Cavern, Massif, Cradle. Their names are free for the open slots.
+**Cut.** 14 third-pass cards have no place: Dune, Barrens, Ice Floe, Shoal, Fen, Ledge, Ridge, Eyrie, Hill, Meadow, Hanging Valley, Cavern, Massif, Cradle. 11 of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: Hanging Valley.
 
 **Counts.** 25 commons, 25 uncommons, 24 rares, 5 pinnacles and 8 meta cards: 87 cards, 12 placeholders (numbers 83–94) and 1 open slot (95). Rings across the pool: water 34, earth 34, fire 35, air 35, plus 6 either-or capsules for each element and 7 any.
 
@@ -194,18 +194,18 @@
 
 | No. | Placeholder | Element | What it's for |
 | --- | --- | --- | --- |
-| 83 | Unique water 1 | water | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
-| 84 | Unique water 2 | water | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
-| 85 | Unique water 3 | water | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
-| 86 | Unique earth 1 | earth | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
-| 87 | Unique earth 2 | earth | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
-| 88 | Unique earth 3 | earth | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
-| 89 | Unique fire 1 | fire | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
-| 90 | Unique fire 2 | fire | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
-| 91 | Unique fire 3 | fire | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
-| 92 | Unique air 1 | air | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
-| 93 | Unique air 2 | air | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
-| 94 | Unique air 3 | air | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
+| 83 | Ice Floe | water | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
+| 84 | Shoal | water | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
+| 85 | Fen | water | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
+| 86 | Hill | earth | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
+| 87 | Meadow | earth | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
+| 88 | Cavern | earth | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
+| 89 | Dune | fire | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
+| 90 | Barrens | fire | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
+| 91 | Unique fire 3 | fire | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity, effect and name to come. |
+| 92 | Ledge | air | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
+| 93 | Ridge | air | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
+| 94 | Eyrie | air | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
 
 **Open slot (1).** Number 95. Cam (Nov 8): the slots this opens should go to more multi-affinity cards.
 ## Third pass: the full pool (Nov 2, 2026), saved separately
