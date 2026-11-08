@@ -6,8 +6,10 @@
 // rounds, Gwent-style passing, 10 cards a round, and the test rule from Nov 2: a player who
 // makes a world worth 3 world points wins the contest at once.
 //
-// Every card effect is written by hand below, keyed by card name. Where a card's text leaves
-// a question open, the engine picks one reading; each is marked READING and listed in
+// Permanence effects are read from the permanence's text (permEffects below), so a card keeps working when its
+// name or text changes (Nov 8, the fourth pass). Force and meta effects are written by hand, keyed by name, except
+// the element-wide protections, read from their text. Text the engine doesn't know is listed in C.__unknown.
+// Where a card's text leaves a question open, the engine picks one reading; each is marked READING and listed in
 // README.md under "Rule readings".
 
 export const BIT = { fire: 1, water: 2, air: 4, earth: 8 };
@@ -41,9 +43,48 @@ const maskOf = (tok) => (tok === "any" ? ANY : tok.includes("|") ? tok.split("|"
 const hasBit = (toks, b) => toks.some((t) => t & b);
 
 // ---------------------------------------------------------------- cards
+// A permanence's effects, read from its text. Each pattern is one wording used in the card pool.
+const ELW = { fire: F, water: W, air: A, earth: E };
+const NUMW = { two: 2, three: 3, four: 4, five: 5, six: 6 };
+export function permEffects(t) {
+  const pe = {}; let m; let hit = false;
+  const has = (rx) => { const r = t.match(rx); if (r) hit = true; return r; };
+  if (!t) return pe;
+  if (has(/(?:^|\. )Can't be moved\./)) pe.unmovable = true;
+  if ((m = has(/(?:^|\. )Ignores (fire|water|air|earth)(?: and (fire|water|air|earth))? forces\./))) pe.ignoreEl = ELW[m[1]] | (m[2] ? ELW[m[2]] : 0);
+  if ((m = has(/^Ignores common( and uncommon)? forces\./))) pe.ignoreTiers = m[1] ? "CB" : "C";
+  if ((m = has(/^Your adjacent permanences ignore (fire|water|air|earth) forces\./))) pe.adjIgnore = ELW[m[1]];
+  if ((m = has(/^Your (fire|water|air|earth) permanences ignore (fire|water|air|earth) forces\./))) pe.kindIgnore = [ELW[m[1]], ELW[m[2]]];
+  if ((m = has(/^Adjacent (fire|water|air|earth) permanences become (fire|water|air|earth)\./))) pe.adjShift = [ELW[m[1]], ELW[m[2]]];
+  if ((m = has(/^Loses its affinities if adjacent to (fire|water|air|earth)\./))) pe.drawback = ELW[m[1]];
+  if ((m = has(/^(Fire|Water|Air|Earth) permanences lose their affinities\./))) pe.blankAll = ELW[m[1].toLowerCase()];
+  if ((m = has(/^Score a point per (\w+) (fire|water|air|earth) affinities\./))) pe.score = { el: ELW[m[2]], per: NUMW[m[1]] || Number(m[1]) || 4 };
+  if ((m = has(/if you have (\d+) (fire|water|air|earth), you win the round/))) pe.winHave = { el: ELW[m[2]], n: Number(m[1]) };
+  if (has(/if you have 3 of each affinity, you win the contest/)) pe.cradle = true;
+  if (has(/^Your worlds ignore common forces\./)) pe.worldsIgnoreCommon = true;
+  if (has(/^Your adjacent permanences can't be moved\./)) pe.adjUnmovable = true;
+  if (has(/^Its world's permanences can't be moved\./)) pe.worldUnmovable = true;
+  if (has(/^Its world can't be split\./)) pe.noSplit = true;
+  if (has(/^Copies every adjacent permanence's affinities\./)) pe.mirage = true;
+  if (has(/^Returns at round end/)) pe.returns = true;
+  if (has(/^When played, return one of your permanences\./)) pe.played = "return";
+  if (has(/^When played, move one of your permanences\./)) pe.played = "move";
+  if (has(/^When played, swap two of your permanences\./)) pe.played = "swap";
+  if ((m = has(/^When played, play another (fire|water|air|earth) card\./))) { pe.played = "another"; pe.another = m[1]; }
+  if (has(/^When played, remove a common force\./)) pe.played = "removeCommon";
+  if (!hit) pe.unknown = true;
+  return pe;
+}
+// force texts the engine reads instead of the force's name (Nov 8: Ice Storm and Permafrost went from "can't be moved" to "can't be removed")
+function forceEffects(t) {
+  let m;
+  if ((m = (t || "").match(/^(Fire|Water|Air|Earth) permanences can't be (removed|moved)\.$/))) return { protect: ELW[m[1].toLowerCase()], from: m[2] };
+  return {};
+}
 export let C = {};
 export function loadCards(json) {
   C = {};
+  const unknown = [];
   for (const c of json.cards) {
     if (c.meta) {
       C[c.id] = { id: c.id, no: c.no, meta: true, name: c.meta.name, rarity: c.rarity, text: c.meta.text, aff: null, el: 0, fireCard: false };
@@ -57,7 +98,11 @@ export function loadCards(json) {
       fname: c.force ? c.force.name : null, fdur: c.force && /once/i.test(c.force.duration) ? "once" : "round",
       ftext: c.force ? c.force.text : "", el, fireCard: aff.some((t) => t & F),
     };
+    C[c.id].pe = permEffects(C[c.id].ptext || "");
+    C[c.id].fe = forceEffects(C[c.id].ftext);
+    if (C[c.id].pe.unknown) unknown.push(`${C[c.id].name}: "${C[c.id].ptext}"`);
   }
+  Object.defineProperty(C, "__unknown", { value: unknown, enumerable: false });
   return C;
 }
 export const card = (id) => C[id];
@@ -100,7 +145,7 @@ function lists(s) {
   const ps = [], fs = [], owns = new Set();
   for (const k in s.inst) { const i = s.inst[k]; if (i.kind === "perm") ps.push(i); else if (i.kind === "force") fs.push(i); }
   ps.sort((a, b) => a.ts - b.ts); fs.sort((a, b) => a.ts - b.ts);
-  for (const i of ps) owns.add(i.owner + "|" + C[i.card].name);
+  for (const i of ps) { const d = C[i.card]; owns.add(i.owner + "|" + d.name); for (const k in d.pe) owns.add(i.owner + "|pe:" + k); }
   Object.defineProperty(s, "_l", { value: { sig, perms: ps, forces: fs, owns }, writable: true, configurable: true, enumerable: false });
   return s._l;
 }
@@ -120,21 +165,18 @@ const ownPerms = (s, P) => perms(s).filter((i) => i.owner === P);
 const named = (i) => C[i.card].name;
 const fname = (f) => C[f.card].fname;
 const ownsPerm = (s, P, name) => lists(s).owns.has(P + "|" + name);
+const ownsEffect = (s, P, key) => lists(s).owns.has(P + "|pe:" + key);
+const pe = (i) => C[i.card].pe || {};
 export const isLone = (s, i) => worldSize(s.worlds[i.w]) === 1;
 
 // ---------------------------------------------------------------- ignoring forces
 // src: { card, caster, fid } — the force's card, who played it, and its instance (lasting forces).
-const SELF_IGNORE = {
-  Ashfield: { el: W }, Barrens: { tiers: "C" }, "Tide Pool": { el: A }, Summit: { el: E }, "Stone Field": { el: F },
-  "Hot Mud": { el: A | E }, Heath: { el: W | E }, "Peat Bog": { el: W | A }, "Spray Coast": { el: F | E }, Mudflat: { el: F | A },
-  Foothills: { el: F | W }, Glacier: { el: A }, Spire: { el: E }, Cavern: { tiers: "CB" },
-};
-const ADJ_IGNORE = { "Mud Pots": A, Savanna: W, "Cinder Cone": F, Waterfall: E }; // your adjacent permanences ignore …
-const KIND_IGNORE = { Obsidian: [F, W], "Tidal Flat": [W, A], "Sky Isle": [A, E], "Hidden Valley": [E, F] }; // your X permanences ignore Y forces
+// (from the permanence text: "Ignores X forces.", "Ignores common forces.", "Your adjacent permanences ignore X forces.",
+// "Your X permanences ignore Y forces.", "Your worlds ignore common forces.")
 function worldIgnores(s, wid, src) {
   const w = s.worlds[wid]; if (!w) return false;
   const d = C[src.card]; const P = w.owner;
-  if (d.rarity === "C" && ownsPerm(s, P, "Massif")) return true;
+  if (d.rarity === "C" && ownsEffect(s, P, "worldsIgnoreCommon")) return true;
   for (const f of forces(s)) {
     if (f.id === src.fid) continue;
     const n = fname(f);
@@ -146,12 +188,11 @@ function worldIgnores(s, wid, src) {
   return false;
 }
 export function permIgnores(s, i, src) {
-  const d = C[src.card]; const n = named(i);
-  const si = SELF_IGNORE[n];
-  if (si && ((si.el && d.el & si.el) || (si.tiers && si.tiers.includes(d.rarity)))) return true;
-  for (const t of adjacent(s, i)) { const el = ADJ_IGNORE[named(t)]; if (el && t.owner === i.owner && d.el & el) return true; }
+  const d = C[src.card]; const me = pe(i);
+  if ((me.ignoreEl && d.el & me.ignoreEl) || (me.ignoreTiers && me.ignoreTiers.includes(d.rarity))) return true;
+  for (const t of adjacent(s, i)) { const el = pe(t).adjIgnore; if (el && t.owner === i.owner && d.el & el) return true; }
   const printed = C[i.card].aff.reduce((m, t) => m | t, 0);
-  for (const o of ownPerms(s, i.owner)) { const k = KIND_IGNORE[named(o)]; if (k && printed & k[0] && d.el & k[1]) return true; }
+  for (const o of ownPerms(s, i.owner)) { const k = pe(o).kindIgnore; if (k && printed & k[0] && d.el & k[1]) return true; }
   return worldIgnores(s, i.w, src);
 }
 const applies = (s, f, i) => !permIgnores(s, i, { card: f.card, caster: f.owner, fid: f.id });
@@ -165,8 +206,6 @@ const WORLD_BECOMES = { Firestorm: F, Tsunami: W };
 const CARD_BLANK = new Set(["Smolder", "Drizzle", "Dust", "Drying Wind", "Ember"]);
 const PAIR_BLANK = new Set(["Heatwave", "Steam Explosion"]);
 const WORLD_BLANK_KIND = { Ashfall: A, Scorch: E };
-const ADJ_SHIFT = { "Lava Field": [E, F], Shoal: [F, W], Peak: [W, A], Meadow: [A, E] }; // adjacent X permanences become Y
-const DRAWBACK = { Badlands: W, Fen: A, "Wind Gap": E, Moor: F }; // loses its affinities if adjacent to X
 export function view(s) {
   if (s._v) return s._v;
   const ps = perms(s), fs = forces(s);
@@ -177,15 +216,15 @@ export function view(s) {
     const i = s.inst[f.t], src = s.inst[f.src];
     if (i && src && applies(s, f, i)) tok[i.id] = C[src.card].aff.slice(); // READING: copies the printed affinities
   }
-  for (const i of ps) if (named(i) === "Mirage") {
+  for (const i of ps) if (pe(i).mirage) {
     tok[i.id] = [];
-    for (const t of adjacent(s, i)) if (named(t) !== "Mirage") tok[i.id].push(...tok[t.id]);
+    for (const t of adjacent(s, i)) if (!pe(t).mirage) tok[i.id].push(...tok[t.id]);
   }
   // element changes: permanence first, then lasting forces in the order they were played.
   // "Becomes X" overwrites: the permanence is left with a single X affinity, however many it
   // had. Nothing changes every affinity on a card unless its text says so (Cam, Nov 2).
   for (const i of ps) {
-    const sh = ADJ_SHIFT[named(i)]; if (!sh) continue;
+    const sh = pe(i).adjShift; if (!sh) continue;
     for (const t of adjacent(s, i)) if (hasBit(tok[t.id], sh[0])) tok[t.id] = [sh[1]];
   }
   for (const f of fs) {
@@ -211,9 +250,12 @@ export function view(s) {
       for (const wid of [f.w, f.w2]) { const w = s.worlds[wid]; if (!w) continue; for (const i of permsIn(s, w)) if (applies(s, f, i)) blank[i.id] = true; }
     }
   }
-  if (ps.some((i) => named(i) === "Ice Sheet")) for (const i of ps) if (hasBit(tok[i.id], F)) blank[i.id] = true; // READING: both players
+  // "X permanences lose their affinities." (Ice Sheet and its cycle): both players' (READING); the blanking card's own
+  // text keeps working even if another one blanks it (READING), so all of them are read from the table before blanking
+  const blankEls = ps.reduce((m, i) => m | (pe(i).blankAll || 0), 0);
+  if (blankEls) for (const i of ps) if (hasBit(tok[i.id], blankEls)) blank[i.id] = true;
   for (const i of ps) {
-    const x = DRAWBACK[named(i)];
+    const x = pe(i).drawback;
     if (x && adjacent(s, i).some((t) => !blank[t.id] && hasBit(tok[t.id], x))) blank[i.id] = true;
   }
   const cur = {};
@@ -235,26 +277,25 @@ export function canRemove(s, i, src) {
     const n = fname(f);
     if (n === "Shelter" && f.t === i.id) return false;
     if (n === "Freeze" && f.w === i.w && shows(s, i, W)) return false;
-    if (n === "Heat Dome" && shows(s, i, F)) return false;
-    if (n === "High Pressure" && shows(s, i, A)) return false;
+    const fe = C[f.card].fe; // "X permanences can't be removed." (Heat Dome, High Pressure, Ice Storm, Permafrost)
+    if (fe.protect && fe.from === "removed" && shows(s, i, fe.protect)) return false;
   }
   return true;
 }
-const UNMOVABLE = new Set(["Bedrock", "Mangrove", "Glacier", "Spire"]);
 export function canMove(s, i, src) {
-  if (UNMOVABLE.has(named(i))) return false;
+  if (pe(i).unmovable) return false;
   if (src && permIgnores(s, i, src)) return false;
-  for (const t of adjacent(s, i)) if (t.owner === i.owner && named(t) === "Thicket") return false;
+  for (const t of adjacent(s, i)) if (t.owner === i.owner && pe(t).adjUnmovable) return false;
   const w = s.worlds[i.w];
-  if (w && permsIn(s, w).some((t) => named(t) === "Old Growth")) return false;
+  if (w && permsIn(s, w).some((t) => pe(t).worldUnmovable)) return false;
   for (const f of forces(s)) {
     if (!applies(s, f, i)) continue;
     const n = fname(f);
     if (n === "Shelter" && f.t === i.id) return false;
     if (n === "Tangle" && f.w === i.w) return false;
     if (n === "Bramble" && f.owner === i.owner) return false;
-    if (n === "Ice Storm" && shows(s, i, W)) return false;
-    if (n === "Permafrost" && shows(s, i, E)) return false;
+    const fe = C[f.card].fe;
+    if (fe.protect && fe.from === "moved" && shows(s, i, fe.protect)) return false;
   }
   return true;
 }
@@ -267,7 +308,7 @@ export function canGrow(s, w) {
   }
   return true;
 }
-const canSplit = (s, w) => !permsIn(s, w).some((i) => named(i) === "Canyon");
+const canSplit = (s, w) => !permsIn(s, w).some((i) => pe(i).noSplit);
 export function openCells(w) {
   const g = geoOf(w); const o = [];
   if (worldSize(w) === 0) return [g.start];
@@ -434,7 +475,9 @@ export function score(s) {
   for (const P of [0, 1]) {
     const R = res[P];
     R.tie = Math.max(...R.tot);
-    if (ownsPerm(s, P, "Mountain Range")) { R.mtn = Math.floor(R.earth / knob(s, "mountainPer")); R.pts += R.mtn; }
+    // "Score a point per four X affinities." (Mountain Range's cycle): X counted as in R.tot, either-or and any included
+    // (READING); the simulator's mountainPer knob sets the number for all of them
+    for (const i of ownPerms(s, P)) { const sp = pe(i).score; if (!sp) continue; const per = s.knobs && s.knobs.mountainPer !== undefined ? s.knobs.mountainPer : sp.per; const k = Math.floor(R.tot[Math.log2(sp.el)] / per); R.mtn += k; R.pts += k; }
     R.worlds.sort((a, b) => a.n - b.n);
   }
   return res;
@@ -470,19 +513,23 @@ function destinations(s, i, canonical) { // other worlds of its owner it can mov
   return out;
 }
 function permMoves(s, P, id, out, base) {
-  const n = C[id].name; const mk = (m) => out.push(Object.assign({ id, face: "perm" }, base || {}, m));
+  const n = C[id].pe.played; const mk = (m) => out.push(Object.assign({ id, face: "perm" }, base || {}, m));
   for (const pl of placements(s, P)) {
     const picks = [cellPick(pl.w, pl.cell)];
-    if (n === "Snowfield" || n === "Bluff" || n === "Hanging Valley") {
+    if (n === "removeCommon") { // "When played, remove a common force." (READING: either player's, any force from a common card)
+      let any = false;
+      for (const f of forces(s)) if (C[f.card].rarity === "C") { any = true; mk({ w: pl.w, cell: pl.cell, f: f.id, picks: picks.concat([{ k: "force", id: f.id }]) }); }
+      if (!any) mk({ w: pl.w, cell: pl.cell, picks });
+    } else if (n === "return" || n === "move" || n === "swap") {
       // the "when played" choice is made on the table as it stands once the card is down
       const s2 = clone(s); const me = placeFresh(s2, P, id, pl);
       const mine = ownPerms(s2, P).filter((i) => i.id !== me.id);
       const srcP = null; let any = false;
-      if (n === "Snowfield") for (const i of mine) { any = true; mk({ w: pl.w, cell: pl.cell, t: i.id, picks: picks.concat([permPick(i.id)]) }); }
-      if (n === "Bluff") for (const i of mine) if (canMove(s2, i, srcP)) for (const d of destinations(s2, i)) {
+      if (n === "return") for (const i of mine) { any = true; mk({ w: pl.w, cell: pl.cell, t: i.id, picks: picks.concat([permPick(i.id)]) }); }
+      if (n === "move") for (const i of mine) if (canMove(s2, i, srcP)) for (const d of destinations(s2, i)) {
         any = true; mk({ w: pl.w, cell: pl.cell, t: i.id, w2: d.w2, cell2: d.cell, picks: picks.concat([permPick(i.id), cellPick(d.w2, d.cell)]) });
       }
-      if (n === "Hanging Valley") {
+      if (n === "swap") {
         const all = ownPerms(s2, P).filter((i) => canMove(s2, i, null));
         for (let a = 0; a < all.length; a++) for (let b = a + 1; b < all.length; b++) {
           any = true; mk({ w: pl.w, cell: pl.cell, t: all[a].id, t2: all[b].id, picks: picks.concat([permPick(all[a].id), permPick(all[b].id)]) });
@@ -626,6 +673,13 @@ function metaMoves(s, P, id, out, inEcho) {
     case "Hollow": { const seen = new Set(); for (const v of pl.void) if (!seen.has(v)) { seen.add(v); mk({ card: v }, [{ k: "void", card: v }]); } return; }
     case "Calm": if (!s.calm) mk({}); return;
     case "Lull": if (!opp.passed && !opp.skip) mk({}); return;
+    case "Equinox": { // a meta card since Nov 8 (Cradle's force face before): return 3 cards from your void, chosen in any order
+      const v = [...new Set(pl.void)];
+      if (!v.length) return;
+      if (v.length <= 3) { mk({ cards: v }, v.map((c) => ({ k: "void", card: c }))); return; }
+      for (const a of v) for (const b of v) for (const c of v) if (a !== b && a !== c && b !== c) mk({ cards: [a, b, c] }, [{ k: "void", card: a }, { k: "void", card: b }, { k: "void", card: c }]);
+      return;
+    }
     case "Gap": for (const w of Object.values(s.worlds)) if (permsIn(s, w).some((i) => canRemove(s, i, null))) mk({ w: w.id }, [worldPick(w.id)]); return;
     default: throw new Error("meta not implemented: " + n);
   }
@@ -676,11 +730,12 @@ export function applyMove(s, P, m, fromVoid) {
   const gone = (i, where) => { if (!i || !s.inst[i.id]) return; (where === "void" ? ev.removed : ev.returned).push(i.card); leave(s, i, where); };
   if (m.face === "perm") {
     const i = placeFresh(s, P, m.id, m); noteCommon(i.id);
-    const n = d.name;
-    if (n === "Snowfield" && m.t && s.inst[m.t]) gone(s.inst[m.t], "binder");
-    if (n === "Bluff" && m.t && s.inst[m.t] && s.worlds[m.w2]) { moveTo(s, s.inst[m.t], s.worlds[m.w2], m.cell2); ev.moved++; }
-    if (n === "Hanging Valley" && m.t && s.inst[m.t] && s.inst[m.t2]) swap(s, s.inst[m.t], s.inst[m.t2]);
-    if (n === "Lava Flow") s.extras.push("fire");
+    const n = d.pe.played;
+    if (n === "return" && m.t && s.inst[m.t]) gone(s.inst[m.t], "binder");
+    if (n === "move" && m.t && s.inst[m.t] && s.worlds[m.w2]) { moveTo(s, s.inst[m.t], s.worlds[m.w2], m.cell2); ev.moved++; }
+    if (n === "swap" && m.t && s.inst[m.t] && s.inst[m.t2]) swap(s, s.inst[m.t], s.inst[m.t2]);
+    if (n === "removeCommon" && m.f && s.inst[m.f]) gone(s.inst[m.f], "void");
+    if (n === "another" && d.pe.another === "fire") s.extras.push("fire"); // READING: only fire has such a card; extras track fire
     dirty(s);
     return ev;
   }
@@ -694,6 +749,7 @@ export function applyMove(s, P, m, fromVoid) {
       case "Hollow": if (removeOne(pl.void, m.card)) pl.binder.push(m.card); break;
       case "Calm": s.calm = true; break;
       case "Lull": opp.skip = true; break;
+      case "Equinox": for (const c of m.cards || []) if (removeOne(pl.void, c)) pl.binder.push(c); break;
       case "Gap": { const w = s.worlds[m.w]; if (w) for (const i of permsIn(s, w)) if (canRemove(s, i, null)) gone(i, "void"); break; }
     }
     dirty(s);
@@ -766,8 +822,9 @@ export function advance(s) {
       s.turnStarted = true;
       for (const f of forces(s)) if (fname(f) === "Whiteout" && f.until === P) { drop(s, f.id); toPile(s, f, "void"); dirty(s); say(s, "Whiteout ends.", P); }
       const sc = score(s);
-      if (ownsPerm(s, P, "Cradle") && hasEach(sc[P].all, knob(s, "cradleEach"))) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} ${knob(s, "cradleEach")} of each affinity: Cradle wins the contest.`, P); endContest(s, P, "Cradle"); return; }
-      if (archipelagoWins(s, P, sc)) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} ${knob(s, "archipelagoWater")} water: Archipelago wins the round.`, P); endRound(s, P, "Archipelago"); return; }
+      if (ownsEffect(s, P, "cradle") && hasEach(sc[P].all, knob(s, "cradleEach"))) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} ${knob(s, "cradleEach")} of each affinity: Cradle wins the contest.`, P); endContest(s, P, "Cradle"); return; }
+      const wc = winCard(s, P, sc);
+      if (wc) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} ${wc.n} ${ELS[Math.log2(wc.el)]}: ${wc.name} wins the round.`, P); endRound(s, P, wc.name); return; }
       if (pl.skip) { pl.skip = false; say(s, `${pl.name} ${verb(pl.name, "skips", "skip")} this turn (Lull).`, P); endTurn(s); continue; }
     }
     if (pl.played >= s.cap || !legalMoves(s, P).length) {
@@ -782,7 +839,18 @@ export function endTurn(s) { s.extras = []; s.turn = 1 - s.turn; s.turnStarted =
 // Archipelago: checked at the start of its owner's turn, at 10 water (Cam, Nov 7, for the uncapped one-round test;
 // earlier the same day it was the end of the turn at 8, and before that the start of the turn at 8)
 export const ARCHIPELAGO_WATER = KNOBS.archipelagoWater; // kept for older imports
-export const archipelagoWins = (s, P, sc) => ownsPerm(s, P, "Archipelago") && sc[P].water >= knob(s, "archipelagoWater");
+// "At the start of your turn, if you have N X, you win the round." (Archipelago until Nov 8): the card that wins for P now, if any.
+// The simulator's archipelagoWater knob sets N for all of them.
+export function winCard(s, P, sc) {
+  if (!ownsEffect(s, P, "winHave")) return null;
+  for (const i of ownPerms(s, P)) {
+    const wh = pe(i).winHave; if (!wh) continue;
+    const n = s.knobs && s.knobs.archipelagoWater !== undefined ? s.knobs.archipelagoWater : wh.n;
+    if (sc[P].tot[Math.log2(wh.el)] >= n) return { name: C[i.card].name, el: wh.el, n };
+  }
+  return null;
+}
+export const archipelagoWins = (s, P, sc) => !!winCard(s, P, sc);
 // P plays m; returns the move's record
 export function play(s, P, m) {
   const text = describe(s, P, m);
@@ -859,13 +927,16 @@ export function describe(s, P, m) {
   const d = C[m.id]; const who = s.p[P].name;
   if (m.face === "perm") {
     let t = `${who} played ${d.name} into ${m.w === "new" ? "a new world" : worldLabel(s, m.w, -1)}`;
-    if (d.name === "Snowfield" && m.t) t += `, returning ${permLabel(s, m.t)}`;
-    if (d.name === "Bluff" && m.t) t += `, moving ${permLabel(s, m.t)} to ${worldLabel(s, m.w2, -1)}`;
-    if (d.name === "Hanging Valley" && m.t) t += `, swapping ${permLabel(s, m.t)} and ${permLabel(s, m.t2)}`;
+    const pl = d.pe.played;
+    if (pl === "return" && m.t) t += `, returning ${permLabel(s, m.t)}`;
+    if (pl === "move" && m.t) t += `, moving ${permLabel(s, m.t)} to ${worldLabel(s, m.w2, -1)}`;
+    if (pl === "swap" && m.t) t += `, swapping ${permLabel(s, m.t)} and ${permLabel(s, m.t2)}`;
+    if (pl === "removeCommon" && m.f && s.inst[m.f]) t += `, removing ${fname(s.inst[m.f])}`;
     return t + ".";
   }
   if (m.face === "meta") {
     if (d.name === "Echo") return `${who} played Echo: ${describe(s, P, m.sub).replace(who + " played ", "")}`.replace(/\.$/, "") + " from the void.";
+    if (m.cards) return `${who} played ${d.name}, returning ${m.cards.map((c) => C[c].name).join(", ")} to their binder.`;
     const extra = m.card ? ` (${C[m.card].name})` : m.w ? ` on ${worldLabel(s, m.w, -1)}` : m.t ? ` on ${permLabel(s, m.t)}` : "";
     return `${who} played ${d.name}${extra}.`;
   }

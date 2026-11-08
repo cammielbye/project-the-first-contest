@@ -1,497 +1,68 @@
 {
   "source": "data/card-pool.md",
-  "pass": "Third pass: the full pool (Nov 2, 2026)",
-  "syncedAt": "2026-11-08T08:22:19.327Z",
+  "pass": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+  "syncedAt": "2026-11-08T11:30:38.126Z",
   "counts": {
-    "cards": 100,
-    "meta": 7,
-    "withForceFace": 93,
+    "cards": 87,
+    "meta": 8,
+    "withForceFace": 72,
     "byRarity": {
-      "C": 40,
-      "B": 34,
-      "A": 21,
+      "C": 25,
+      "B": 33,
+      "A": 24,
       "S": 5
     },
     "fromSection": {
-      "Third pass: the full pool (Nov 2, 2026)": 100
+      "Fourth pass: the pool by ring count (Nov 8, 2026)": 87
     }
   },
-  "missingNumbers": [],
-  "warnings": [],
+  "missingNumbers": [
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95
+  ],
+  "warnings": [
+    "Fourth pass: the pool by ring count (Nov 8, 2026): table skipped (header: no. | placeholder | element | what it's for)",
+    "Binder A, Water: no force face yet for Archipelago",
+    "Binder B, Earth: no force face yet for Lava Plain",
+    "Binder C, Fire: no force face yet for Sand Sea",
+    "Binder D, Air: no force face yet for Sand Sea",
+    "Binder E, Even: no force face yet for Archipelago, Boiling Lake"
+  ],
   "cards": [
     {
       "id": "1",
       "no": 1,
       "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
-        "name": "Cinder Field",
+        "name": "Glacier",
         "affinities": [
-          "fire"
+          "water"
         ],
-        "text": ""
+        "text": "Can't be moved."
       },
       "force": {
-        "name": "Smolder",
-        "duration": "Lasts the round",
-        "text": "An earth permanence with one affinity loses it."
+        "name": "Thaw",
+        "duration": "Once",
+        "text": "Remove a force."
       }
     },
     {
       "id": "2",
       "no": 2,
       "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Dune",
-        "affinities": [
-          "fire"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Updraft",
-        "duration": "Lasts the round",
-        "text": "An air permanence becomes fire."
-      }
-    },
-    {
-      "id": "3",
-      "no": 3,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Fumarole",
-        "affinities": [
-          "fire"
-        ],
-        "text": "Returns at round end."
-      },
-      "force": {
-        "name": "Flare-up",
-        "duration": "Once",
-        "text": "Remove a common force."
-      }
-    },
-    {
-      "id": "4",
-      "no": 4,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Ashfield",
-        "affinities": [
-          "fire"
-        ],
-        "text": "Ignores water forces."
-      },
-      "force": {
-        "name": "Brushfire",
-        "duration": "Lasts the round",
-        "text": "An earth permanence becomes fire."
-      }
-    },
-    {
-      "id": "5",
-      "no": 5,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Lava Field",
-        "affinities": [
-          "fire"
-        ],
-        "text": "Adjacent earth permanences become fire."
-      },
-      "force": {
-        "name": "Spark",
-        "duration": "Lasts the round",
-        "text": "An air permanence with one affinity becomes fire."
-      }
-    },
-    {
-      "id": "6",
-      "no": 6,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Badlands",
-        "affinities": [
-          "fire"
-        ],
-        "text": "Loses its affinities if adjacent to water."
-      },
-      "force": {
-        "name": "Ember",
-        "duration": "Lasts the round",
-        "text": "A lone permanence loses its affinities."
-      }
-    },
-    {
-      "id": "7",
-      "no": 7,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Barrens",
-        "affinities": [
-          "fire"
-        ],
-        "text": "Ignores common forces."
-      },
-      "force": {
-        "name": "Kindling",
-        "duration": "Lasts the round",
-        "text": "An earth permanence with one affinity becomes fire."
-      }
-    },
-    {
-      "id": "8",
-      "no": 8,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Lagoon",
-        "affinities": [
-          "water"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Shower",
-        "duration": "Lasts the round",
-        "text": "A fire permanence becomes water."
-      }
-    },
-    {
-      "id": "9",
-      "no": 9,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Ice Floe",
-        "affinities": [
-          "water"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Current",
-        "duration": "Lasts the round",
-        "text": "An earth permanence becomes water."
-      }
-    },
-    {
-      "id": "10",
-      "no": 10,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Spring",
-        "affinities": [
-          "water"
-        ],
-        "text": "Returns at round end."
-      },
-      "force": {
-        "name": "Low Tide",
-        "duration": "Once",
-        "text": "Return one of your worlds."
-      }
-    },
-    {
-      "id": "11",
-      "no": 11,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Tide Pool",
-        "affinities": [
-          "water"
-        ],
-        "text": "Ignores air forces."
-      },
-      "force": {
-        "name": "Drizzle",
-        "duration": "Lasts the round",
-        "text": "A fire permanence with one affinity loses it."
-      }
-    },
-    {
-      "id": "12",
-      "no": 12,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Shoal",
-        "affinities": [
-          "water"
-        ],
-        "text": "Adjacent fire permanences become water."
-      },
-      "force": {
-        "name": "Rain",
-        "duration": "Lasts the round",
-        "text": "A fire permanence with one affinity becomes water."
-      }
-    },
-    {
-      "id": "13",
-      "no": 13,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Fen",
-        "affinities": [
-          "water"
-        ],
-        "text": "Loses its affinities if adjacent to air."
-      },
-      "force": {
-        "name": "Snowmelt",
-        "duration": "Lasts the round",
-        "text": "An earth permanence with one affinity becomes water."
-      }
-    },
-    {
-      "id": "14",
-      "no": 14,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Snowfield",
-        "affinities": [
-          "water"
-        ],
-        "text": "When played, return one of your permanences."
-      },
-      "force": {
-        "name": "Freeze",
-        "duration": "Lasts the round",
-        "text": "A world's water permanences can't be removed."
-      }
-    },
-    {
-      "id": "15",
-      "no": 15,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Ledge",
-        "affinities": [
-          "air"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Gust",
-        "duration": "Once",
-        "text": "An air permanence with one affinity becomes its own world."
-      }
-    },
-    {
-      "id": "16",
-      "no": 16,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Ridge",
-        "affinities": [
-          "air"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Breeze",
-        "duration": "Lasts the round",
-        "text": "A water permanence with one affinity becomes air."
-      }
-    },
-    {
-      "id": "17",
-      "no": 17,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Eyrie",
-        "affinities": [
-          "air"
-        ],
-        "text": "Returns at round end."
-      },
-      "force": {
-        "name": "Drift",
-        "duration": "Once",
-        "text": "Move one of your permanences to another world."
-      }
-    },
-    {
-      "id": "18",
-      "no": 18,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Summit",
-        "affinities": [
-          "air"
-        ],
-        "text": "Ignores earth forces."
-      },
-      "force": {
-        "name": "Crosswind",
-        "duration": "Once",
-        "text": "Swap two permanences between worlds."
-      }
-    },
-    {
-      "id": "19",
-      "no": 19,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Peak",
-        "affinities": [
-          "air"
-        ],
-        "text": "Adjacent water permanences become air."
-      },
-      "force": {
-        "name": "Thermal",
-        "duration": "Lasts the round",
-        "text": "A fire permanence with one affinity becomes air."
-      }
-    },
-    {
-      "id": "20",
-      "no": 20,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Wind Gap",
-        "affinities": [
-          "air"
-        ],
-        "text": "Loses its affinities if adjacent to earth."
-      },
-      "force": {
-        "name": "Downdraft",
-        "duration": "Once",
-        "text": "A fire permanence with one affinity becomes its own world."
-      }
-    },
-    {
-      "id": "21",
-      "no": 21,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Bluff",
-        "affinities": [
-          "air"
-        ],
-        "text": "When played, move one of your permanences."
-      },
-      "force": {
-        "name": "Eddy",
-        "duration": "Once",
-        "text": "Swap two permanences in a world."
-      }
-    },
-    {
-      "id": "22",
-      "no": 22,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Hill",
-        "affinities": [
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Rockfall",
-        "duration": "Lasts the round",
-        "text": "An air permanence becomes earth."
-      }
-    },
-    {
-      "id": "23",
-      "no": 23,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Grove",
-        "affinities": [
-          "earth"
-        ],
-        "text": "Returns at round end."
-      },
-      "force": {
-        "name": "Overgrowth",
-        "duration": "Lasts the round",
-        "text": "One of your worlds ignores common forces."
-      }
-    },
-    {
-      "id": "24",
-      "no": 24,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Stone Field",
-        "affinities": [
-          "earth"
-        ],
-        "text": "Ignores fire forces."
-      },
-      "force": {
-        "name": "Dust",
-        "duration": "Lasts the round",
-        "text": "An air permanence with one affinity loses it."
-      }
-    },
-    {
-      "id": "25",
-      "no": 25,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Meadow",
-        "affinities": [
-          "earth"
-        ],
-        "text": "Adjacent air permanences become earth."
-      },
-      "force": {
-        "name": "Silt",
-        "duration": "Lasts the round",
-        "text": "A water permanence with one affinity becomes earth."
-      }
-    },
-    {
-      "id": "26",
-      "no": 26,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Moor",
-        "affinities": [
-          "earth"
-        ],
-        "text": "Loses its affinities if adjacent to fire."
-      },
-      "force": {
-        "name": "Dustfall",
-        "duration": "Lasts the round",
-        "text": "An air permanence with one affinity becomes earth."
-      }
-    },
-    {
-      "id": "27",
-      "no": 27,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Bedrock",
         "affinities": [
@@ -506,82 +77,190 @@
       }
     },
     {
-      "id": "28",
-      "no": 28,
+      "id": "3",
+      "no": 3,
       "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
-        "name": "Thicket",
+        "name": "Lava Field",
+        "affinities": [
+          "fire"
+        ],
+        "text": "Can't be moved."
+      },
+      "force": {
+        "name": "Spark",
+        "duration": "Lasts the round",
+        "text": "An air permanence with one affinity becomes fire."
+      }
+    },
+    {
+      "id": "4",
+      "no": 4,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Spire",
+        "affinities": [
+          "air"
+        ],
+        "text": "Can't be moved."
+      },
+      "force": {
+        "name": "Whirlwind",
+        "duration": "Once",
+        "text": "Two permanences become separate worlds."
+      }
+    },
+    {
+      "id": "5",
+      "no": 5,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Tide Pool",
+        "affinities": [
+          "water"
+        ],
+        "text": "Ignores fire forces."
+      },
+      "force": {
+        "name": "Drizzle",
+        "duration": "Lasts the round",
+        "text": "A fire permanence with one affinity loses it."
+      }
+    },
+    {
+      "id": "6",
+      "no": 6,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Stone Field",
         "affinities": [
           "earth"
         ],
-        "text": "Your adjacent permanences can't be moved."
+        "text": "Ignores air forces."
       },
       "force": {
-        "name": "Shelter",
+        "name": "Dust",
         "duration": "Lasts the round",
-        "text": "A permanence can't be moved or removed."
+        "text": "An air permanence with one affinity loses it."
       }
     },
     {
-      "id": "29",
-      "no": 29,
+      "id": "7",
+      "no": 7,
       "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
-        "name": "Flint",
+        "name": "Ashfield",
         "affinities": [
-          "fire|earth"
+          "fire"
         ],
-        "text": ""
+        "text": "Ignores water forces."
       },
       "force": {
-        "name": "Sinkhole",
-        "duration": "Once",
-        "text": "An earth permanence with one affinity becomes its own world."
-      }
-    },
-    {
-      "id": "30",
-      "no": 30,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Scrubland",
-        "affinities": [
-          "fire|air"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Dust Devil",
+        "name": "Brushfire",
         "duration": "Lasts the round",
-        "text": "An earth permanence becomes air."
+        "text": "An earth permanence becomes fire."
       }
     },
     {
-      "id": "31",
-      "no": 31,
+      "id": "8",
+      "no": 8,
       "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
-        "name": "Steam Vent",
+        "name": "Summit",
         "affinities": [
-          "fire|water"
+          "air"
         ],
-        "text": ""
+        "text": "Ignores earth forces."
       },
       "force": {
-        "name": "Vent",
+        "name": "Crosswind",
         "duration": "Once",
-        "text": "Return one of your permanences."
+        "text": "Swap two permanences between worlds."
       }
     },
     {
-      "id": "32",
-      "no": 32,
+      "id": "9",
+      "no": 9,
       "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Snowfield",
+        "affinities": [
+          "water"
+        ],
+        "text": "When played, return one of your permanences."
+      },
+      "force": {
+        "name": "Freeze",
+        "duration": "Lasts the round",
+        "text": "A world's water permanences can't be removed."
+      }
+    },
+    {
+      "id": "10",
+      "no": 10,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Grove",
+        "affinities": [
+          "earth"
+        ],
+        "text": "When played, remove a common force."
+      },
+      "force": {
+        "name": "Overgrowth",
+        "duration": "Lasts the round",
+        "text": "One of your worlds ignores common forces."
+      }
+    },
+    {
+      "id": "11",
+      "no": 11,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Lava Flow",
+        "affinities": [
+          "fire"
+        ],
+        "text": "When played, play another fire card."
+      },
+      "force": {
+        "name": "Lightning",
+        "duration": "Once",
+        "text": "Remove a lone permanence."
+      }
+    },
+    {
+      "id": "12",
+      "no": 12,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Bluff",
+        "affinities": [
+          "air"
+        ],
+        "text": "When played, move one of your permanences."
+      },
+      "force": {
+        "name": "Eddy",
+        "duration": "Once",
+        "text": "Swap two permanences in a world."
+      }
+    },
+    {
+      "id": "13",
+      "no": 13,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Marsh",
         "affinities": [
@@ -596,10 +275,64 @@
       }
     },
     {
-      "id": "33",
-      "no": 33,
+      "id": "14",
+      "no": 14,
       "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Mudflat",
+        "affinities": [
+          "water|earth"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Tremor",
+        "duration": "Once",
+        "text": "A world of two splits apart."
+      }
+    },
+    {
+      "id": "15",
+      "no": 15,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Steam Vent",
+        "affinities": [
+          "water|fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Vent",
+        "duration": "Once",
+        "text": "Return one of your permanences."
+      }
+    },
+    {
+      "id": "16",
+      "no": 16,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Hot Mud",
+        "affinities": [
+          "water|fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Steam",
+        "duration": "Lasts the round",
+        "text": "A world of three can't grow."
+      }
+    },
+    {
+      "id": "17",
+      "no": 17,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Sea Stack",
         "affinities": [
@@ -614,14 +347,68 @@
       }
     },
     {
-      "id": "34",
-      "no": 34,
+      "id": "18",
+      "no": 18,
       "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Spray Coast",
+        "affinities": [
+          "water|air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Drying Wind",
+        "duration": "Lasts the round",
+        "text": "A water permanence with one affinity loses it."
+      }
+    },
+    {
+      "id": "19",
+      "no": 19,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Flint",
+        "affinities": [
+          "earth|fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Sinkhole",
+        "duration": "Once",
+        "text": "An earth permanence with one affinity becomes its own world."
+      }
+    },
+    {
+      "id": "20",
+      "no": 20,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Peat Bog",
+        "affinities": [
+          "earth|fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Firebreak",
+        "duration": "Lasts the round",
+        "text": "Your worlds ignore fire forces."
+      }
+    },
+    {
+      "id": "21",
+      "no": 21,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Pass",
         "affinities": [
-          "air|earth"
+          "earth|air"
         ],
         "text": ""
       },
@@ -632,106 +419,16 @@
       }
     },
     {
-      "id": "35",
-      "no": 35,
+      "id": "22",
+      "no": 22,
       "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Hot Mud",
-        "affinities": [
-          "fire|water"
-        ],
-        "text": "Ignores air and earth forces."
-      },
-      "force": {
-        "name": "Steam",
-        "duration": "Lasts the round",
-        "text": "A world of three can't grow."
-      }
-    },
-    {
-      "id": "36",
-      "no": 36,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Heath",
-        "affinities": [
-          "fire|air"
-        ],
-        "text": "Ignores water and earth forces."
-      },
-      "force": {
-        "name": "Dry Wind",
-        "duration": "Lasts the round",
-        "text": "A water permanence becomes air."
-      }
-    },
-    {
-      "id": "37",
-      "no": 37,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Peat Bog",
-        "affinities": [
-          "fire|earth"
-        ],
-        "text": "Ignores water and air forces."
-      },
-      "force": {
-        "name": "Firebreak",
-        "duration": "Lasts the round",
-        "text": "Your worlds ignore fire forces."
-      }
-    },
-    {
-      "id": "38",
-      "no": 38,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Spray Coast",
-        "affinities": [
-          "water|air"
-        ],
-        "text": "Ignores fire and earth forces."
-      },
-      "force": {
-        "name": "Drying Wind",
-        "duration": "Lasts the round",
-        "text": "A water permanence with one affinity loses it."
-      }
-    },
-    {
-      "id": "39",
-      "no": 39,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Mudflat",
-        "affinities": [
-          "water|earth"
-        ],
-        "text": "Ignores fire and air forces."
-      },
-      "force": {
-        "name": "Tremor",
-        "duration": "Once",
-        "text": "A world of two splits apart."
-      }
-    },
-    {
-      "id": "40",
-      "no": 40,
-      "rarity": "C",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Foothills",
         "affinities": [
-          "air|earth"
+          "earth|air"
         ],
-        "text": "Ignores fire and water forces."
+        "text": ""
       },
       "force": {
         "name": "Windbreak",
@@ -740,86 +437,64 @@
       }
     },
     {
-      "id": "41",
-      "no": 41,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "id": "23",
+      "no": 23,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
-        "name": "Hot Spring",
+        "name": "Scrubland",
         "affinities": [
-          "fire",
-          "water"
+          "fire|air"
         ],
         "text": ""
       },
       "force": {
-        "name": "Scald",
-        "duration": "Once",
-        "text": "Remove a fire or earth permanence with one affinity."
-      }
-    },
-    {
-      "id": "42",
-      "no": 42,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Desert",
-        "affinities": [
-          "fire",
-          "air"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Heatwave",
+        "name": "Dust Devil",
         "duration": "Lasts the round",
-        "text": "Two earth permanences lose their affinities."
+        "text": "An earth permanence becomes air."
       }
     },
     {
-      "id": "43",
-      "no": 43,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "id": "24",
+      "no": 24,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
-        "name": "Volcano",
+        "name": "Heath",
         "affinities": [
-          "fire",
-          "earth"
+          "fire|air"
         ],
         "text": ""
       },
       "force": {
-        "name": "Lava Bomb",
-        "duration": "Once",
-        "text": "Remove an earth or air permanence with one affinity."
-      }
-    },
-    {
-      "id": "44",
-      "no": 44,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Cloud Forest",
-        "affinities": [
-          "water",
-          "air"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Fog",
+        "name": "Dry Wind",
         "duration": "Lasts the round",
-        "text": "A world can't grow."
+        "text": "A water permanence becomes air."
       }
     },
     {
-      "id": "45",
-      "no": 45,
+      "id": "25",
+      "no": 25,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Wilderness",
+        "affinities": [
+          "any"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Thunderstorm",
+        "duration": "Once",
+        "text": "Remove a ◯ permanence."
+      }
+    },
+    {
+      "id": "26",
+      "no": 26,
       "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Delta",
         "affinities": [
@@ -835,15 +510,72 @@
       }
     },
     {
-      "id": "46",
-      "no": 46,
+      "id": "27",
+      "no": 27,
       "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Hot Spring",
+        "affinities": [
+          "water",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Scald",
+        "duration": "Once",
+        "text": "Remove a fire or earth permanence with one affinity."
+      }
+    },
+    {
+      "id": "28",
+      "no": 28,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Cloud Forest",
+        "affinities": [
+          "water",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Fog",
+        "duration": "Lasts the round",
+        "text": "A world can't grow."
+      }
+    },
+    {
+      "id": "29",
+      "no": 29,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Volcano",
+        "affinities": [
+          "earth",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Lava Bomb",
+        "duration": "Once",
+        "text": "Remove an earth or air permanence with one affinity."
+      }
+    },
+    {
+      "id": "30",
+      "no": 30,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Sea Cliff",
         "affinities": [
-          "air",
-          "earth"
+          "earth",
+          "air"
         ],
         "text": ""
       },
@@ -854,86 +586,29 @@
       }
     },
     {
-      "id": "47",
-      "no": 47,
+      "id": "31",
+      "no": 31,
       "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
-        "name": "Mud Pots",
-        "affinities": [
-          "fire",
-          "water"
-        ],
-        "text": "Your adjacent permanences ignore air forces."
-      },
-      "force": {
-        "name": "Downpour",
-        "duration": "Lasts the round",
-        "text": "A world's fire permanences become water."
-      }
-    },
-    {
-      "id": "48",
-      "no": 48,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Savanna",
+        "name": "Desert",
         "affinities": [
           "fire",
           "air"
         ],
-        "text": "Your adjacent permanences ignore water forces."
+        "text": ""
       },
       "force": {
-        "name": "Sandstorm",
+        "name": "Heatwave",
         "duration": "Lasts the round",
-        "text": "A world's earth permanences become fire."
+        "text": "Two earth permanences lose their affinities."
       }
     },
     {
-      "id": "49",
-      "no": 49,
+      "id": "32",
+      "no": 32,
       "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Cinder Cone",
-        "affinities": [
-          "fire",
-          "earth"
-        ],
-        "text": "Your adjacent permanences ignore fire forces."
-      },
-      "force": {
-        "name": "Ashfall",
-        "duration": "Lasts the round",
-        "text": "A world's air permanences lose their affinities."
-      }
-    },
-    {
-      "id": "50",
-      "no": 50,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Waterfall",
-        "affinities": [
-          "water",
-          "air"
-        ],
-        "text": "Your adjacent permanences ignore earth forces."
-      },
-      "force": {
-        "name": "Cloudburst",
-        "duration": "Lasts the round",
-        "text": "A permanence becomes water."
-      }
-    },
-    {
-      "id": "51",
-      "no": 51,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Mangrove",
         "affinities": [
@@ -949,15 +624,72 @@
       }
     },
     {
-      "id": "52",
-      "no": 52,
+      "id": "33",
+      "no": 33,
       "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Mud Pots",
+        "affinities": [
+          "water",
+          "fire"
+        ],
+        "text": "Your adjacent permanences ignore air forces."
+      },
+      "force": {
+        "name": "Downpour",
+        "duration": "Lasts the round",
+        "text": "A world's fire permanences become water."
+      }
+    },
+    {
+      "id": "34",
+      "no": 34,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Waterfall",
+        "affinities": [
+          "water",
+          "air"
+        ],
+        "text": "Your adjacent permanences ignore earth forces."
+      },
+      "force": {
+        "name": "Cloudburst",
+        "duration": "Lasts the round",
+        "text": "A permanence becomes water."
+      }
+    },
+    {
+      "id": "35",
+      "no": 35,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Cinder Cone",
+        "affinities": [
+          "earth",
+          "fire"
+        ],
+        "text": "Your adjacent permanences ignore fire forces."
+      },
+      "force": {
+        "name": "Ashfall",
+        "duration": "Lasts the round",
+        "text": "A world's air permanences lose their affinities."
+      }
+    },
+    {
+      "id": "36",
+      "no": 36,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Canyon",
         "affinities": [
-          "air",
-          "earth"
+          "earth",
+          "air"
         ],
         "text": "Its world can't be split."
       },
@@ -968,10 +700,215 @@
       }
     },
     {
-      "id": "53",
-      "no": 53,
+      "id": "37",
+      "no": 37,
       "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Savanna",
+        "affinities": [
+          "fire",
+          "air"
+        ],
+        "text": "Your adjacent permanences ignore water forces."
+      },
+      "force": {
+        "name": "Sandstorm",
+        "duration": "Lasts the round",
+        "text": "A world's earth permanences become fire."
+      }
+    },
+    {
+      "id": "38",
+      "no": 38,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Spring",
+        "affinities": [
+          "water",
+          "fire"
+        ],
+        "text": "Score a point per four water affinities."
+      },
+      "force": {
+        "name": "Low Tide",
+        "duration": "Once",
+        "text": "Return one of your worlds."
+      }
+    },
+    {
+      "id": "39",
+      "no": 39,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Mountain Range",
+        "affinities": [
+          "earth",
+          "air"
+        ],
+        "text": "Score a point per four earth affinities."
+      },
+      "force": null
+    },
+    {
+      "id": "40",
+      "no": 40,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Fumarole",
+        "affinities": [
+          "fire",
+          "air"
+        ],
+        "text": "Score a point per four fire affinities."
+      },
+      "force": {
+        "name": "Flare-up",
+        "duration": "Once",
+        "text": "Remove a common force."
+      }
+    },
+    {
+      "id": "41",
+      "no": 41,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Sky Isle",
+        "affinities": [
+          "air",
+          "any"
+        ],
+        "text": "Score a point per four air affinities."
+      },
+      "force": {
+        "name": "Waterspout",
+        "duration": "Lasts the round",
+        "text": "A world's water permanences become air."
+      }
+    },
+    {
+      "id": "42",
+      "no": 42,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Tidal Flat",
+        "affinities": [
+          "water",
+          "any"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Hail",
+        "duration": "Once",
+        "text": "Remove a fire or air permanence with one affinity."
+      }
+    },
+    {
+      "id": "43",
+      "no": 43,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Old Growth",
+        "affinities": [
+          "earth",
+          "any"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Bramble",
+        "duration": "Lasts the round",
+        "text": "Your worlds' permanences can't be moved."
+      }
+    },
+    {
+      "id": "44",
+      "no": 44,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Obsidian",
+        "affinities": [
+          "fire",
+          "any"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Scorch",
+        "duration": "Lasts the round",
+        "text": "A world's earth permanences lose their affinities."
+      }
+    },
+    {
+      "id": "45",
+      "no": 45,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Hidden Valley",
+        "affinities": [
+          "any",
+          "any"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Landslide",
+        "duration": "Once",
+        "text": "Remove an air or water permanence with one affinity."
+      }
+    },
+    {
+      "id": "46",
+      "no": 46,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Deep Lake",
+        "affinities": [
+          "water",
+          "water"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Ice Storm",
+        "duration": "Lasts the round",
+        "text": "Water permanences can't be removed."
+      }
+    },
+    {
+      "id": "47",
+      "no": 47,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Plateau",
+        "affinities": [
+          "earth",
+          "earth"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Permafrost",
+        "duration": "Lasts the round",
+        "text": "Earth permanences can't be removed."
+      }
+    },
+    {
+      "id": "48",
+      "no": 48,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Lava Lake",
         "affinities": [
@@ -987,29 +924,10 @@
       }
     },
     {
-      "id": "54",
-      "no": 54,
+      "id": "49",
+      "no": 49,
       "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Deep Lake",
-        "affinities": [
-          "water",
-          "water"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Ice Storm",
-        "duration": "Lasts the round",
-        "text": "Water permanences can't be moved."
-      }
-    },
-    {
-      "id": "55",
-      "no": 55,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Twin Peaks",
         "affinities": [
@@ -1025,47 +943,10 @@
       }
     },
     {
-      "id": "56",
-      "no": 56,
+      "id": "50",
+      "no": 50,
       "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Plateau",
-        "affinities": [
-          "earth",
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Permafrost",
-        "duration": "Lasts the round",
-        "text": "Earth permanences can't be moved."
-      }
-    },
-    {
-      "id": "57",
-      "no": 57,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Wilderness",
-        "affinities": [
-          "any"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Thunderstorm",
-        "duration": "Once",
-        "text": "Remove a ◯ permanence."
-      }
-    },
-    {
-      "id": "58",
-      "no": 58,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Mirage",
         "affinities": [],
@@ -1078,196 +959,16 @@
       }
     },
     {
-      "id": "59",
-      "no": 59,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Lava Flow",
-        "affinities": [
-          "fire"
-        ],
-        "text": "When played, play another fire card."
-      },
-      "force": {
-        "name": "Lightning",
-        "duration": "Once",
-        "text": "Remove a lone permanence."
-      }
-    },
-    {
-      "id": "60",
-      "no": 60,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Obsidian",
-        "affinities": [
-          "fire"
-        ],
-        "text": "Your fire permanences ignore water forces."
-      },
-      "force": {
-        "name": "Scorch",
-        "duration": "Lasts the round",
-        "text": "A world's earth permanences lose their affinities."
-      }
-    },
-    {
-      "id": "61",
-      "no": 61,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Tidal Flat",
-        "affinities": [
-          "water"
-        ],
-        "text": "Your water permanences ignore air forces."
-      },
-      "force": {
-        "name": "Hail",
-        "duration": "Once",
-        "text": "Remove a fire or air permanence with one affinity."
-      }
-    },
-    {
-      "id": "62",
-      "no": 62,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Glacier",
-        "affinities": [
-          "water"
-        ],
-        "text": "Can't be moved. Ignores air forces."
-      },
-      "force": {
-        "name": "Thaw",
-        "duration": "Once",
-        "text": "Remove a force."
-      }
-    },
-    {
-      "id": "63",
-      "no": 63,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Spire",
-        "affinities": [
-          "air"
-        ],
-        "text": "Can't be moved. Ignores earth forces."
-      },
-      "force": {
-        "name": "Whirlwind",
-        "duration": "Once",
-        "text": "Two permanences become separate worlds."
-      }
-    },
-    {
-      "id": "64",
-      "no": 64,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Hanging Valley",
-        "affinities": [
-          "air"
-        ],
-        "text": "When played, swap two of your permanences."
-      },
-      "force": {
-        "name": "Squall",
-        "duration": "Once",
-        "text": "A permanence becomes its own world."
-      }
-    },
-    {
-      "id": "65",
-      "no": 65,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Sky Isle",
-        "affinities": [
-          "air"
-        ],
-        "text": "Your air permanences ignore earth forces."
-      },
-      "force": {
-        "name": "Waterspout",
-        "duration": "Lasts the round",
-        "text": "A world's water permanences become air."
-      }
-    },
-    {
-      "id": "66",
-      "no": 66,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Hidden Valley",
-        "affinities": [
-          "earth"
-        ],
-        "text": "Your earth permanences ignore fire forces."
-      },
-      "force": {
-        "name": "Landslide",
-        "duration": "Once",
-        "text": "Remove an air or water permanence with one affinity."
-      }
-    },
-    {
-      "id": "67",
-      "no": 67,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Old Growth",
-        "affinities": [
-          "earth"
-        ],
-        "text": "Its world's permanences can't be moved."
-      },
-      "force": {
-        "name": "Bramble",
-        "duration": "Lasts the round",
-        "text": "Your worlds' permanences can't be moved."
-      }
-    },
-    {
-      "id": "68",
-      "no": 68,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Cavern",
-        "affinities": [
-          "earth"
-        ],
-        "text": "Ignores common and uncommon forces."
-      },
-      "force": {
-        "name": "Cave-in",
-        "duration": "Once",
-        "text": "Remove two adjacent ◯ permanences."
-      }
-    },
-    {
-      "id": "69",
-      "no": 69,
+      "id": "51",
+      "no": 51,
       "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Caldera Lake",
         "affinities": [
-          "fire",
           "water",
-          "earth"
+          "earth",
+          "fire"
         ],
         "text": ""
       },
@@ -1278,15 +979,35 @@
       }
     },
     {
-      "id": "70",
-      "no": 70,
+      "id": "52",
+      "no": 52,
       "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Rainforest",
+        "affinities": [
+          "water",
+          "earth",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Monsoon",
+        "duration": "Once",
+        "text": "Return every lone permanence."
+      }
+    },
+    {
+      "id": "53",
+      "no": 53,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Geyser Basin",
         "affinities": [
-          "fire",
           "water",
+          "fire",
           "air"
         ],
         "text": ""
@@ -1298,110 +1019,42 @@
       }
     },
     {
-      "id": "71",
-      "no": 71,
+      "id": "54",
+      "no": 54,
       "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Red Canyon",
         "affinities": [
-          "fire",
-          "air",
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Firestorm",
-        "duration": "Lasts the round",
-        "text": "A world becomes fire."
-      }
-    },
-    {
-      "id": "72",
-      "no": 72,
-      "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Rainforest",
-        "affinities": [
-          "water",
-          "air",
-          "earth"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Monsoon",
-        "duration": "Once",
-        "text": "Return every lone permanence."
-      }
-    },
-    {
-      "id": "73",
-      "no": 73,
-      "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Lava Coast",
-        "affinities": [
-          "fire",
-          "fire",
-          "water"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Steam Explosion",
-        "duration": "Lasts the round",
-        "text": "Two adjacent permanences lose their affinities."
-      }
-    },
-    {
-      "id": "74",
-      "no": 74,
-      "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Sand Sea",
-        "affinities": [
-          "fire",
+          "earth",
           "fire",
           "air"
         ],
         "text": ""
       },
-      "force": {
-        "name": "Drought",
-        "duration": "Once",
-        "text": "Remove a world's water permanences."
-      }
+      "force": null
     },
     {
-      "id": "75",
-      "no": 75,
+      "id": "55",
+      "no": 55,
       "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
-        "name": "Lava Plain",
+        "name": "Archipelago",
         "affinities": [
-          "fire",
-          "fire",
+          "water",
+          "water",
           "earth"
         ],
         "text": ""
       },
-      "force": {
-        "name": "Wildfire",
-        "duration": "Once",
-        "text": "Remove a world's earth permanences."
-      }
+      "force": null
     },
     {
-      "id": "76",
-      "no": 76,
+      "id": "56",
+      "no": 56,
       "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Boiling Lake",
         "affinities": [
@@ -1411,17 +1064,13 @@
         ],
         "text": ""
       },
-      "force": {
-        "name": "Flash Flood",
-        "duration": "Once",
-        "text": "Remove a world's fire permanences."
-      }
+      "force": null
     },
     {
-      "id": "77",
-      "no": 77,
+      "id": "57",
+      "no": 57,
       "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Misty Fjord",
         "affinities": [
@@ -1438,90 +1087,30 @@
       }
     },
     {
-      "id": "78",
-      "no": 78,
+      "id": "58",
+      "no": 58,
       "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
-        "name": "Archipelago",
+        "name": "Floodplain",
         "affinities": [
           "water",
-          "water",
-          "earth"
-        ],
-        "text": "At the start of your turn, if you have 10 water, you win the round."
-      },
-      "force": {
-        "name": "Tsunami",
-        "duration": "Lasts the round",
-        "text": "A world becomes water."
-      }
-    },
-    {
-      "id": "79",
-      "no": 79,
-      "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "High Desert",
-        "affinities": [
-          "air",
-          "air",
-          "fire"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Tornado",
-        "duration": "Once",
-        "text": "Return two permanences."
-      }
-    },
-    {
-      "id": "80",
-      "no": 80,
-      "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Cloud Sea",
-        "affinities": [
-          "air",
-          "air",
-          "water"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Hurricane",
-        "duration": "Once",
-        "text": "Rearrange a player's worlds."
-      }
-    },
-    {
-      "id": "81",
-      "no": 81,
-      "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Stone Towers",
-        "affinities": [
-          "air",
-          "air",
+          "earth",
           "earth"
         ],
         "text": ""
       },
       "force": {
-        "name": "Gale Force",
+        "name": "Mudflow",
         "duration": "Once",
-        "text": "Move three permanences to other worlds."
+        "text": "Return a world of three."
       }
     },
     {
-      "id": "82",
-      "no": 82,
+      "id": "59",
+      "no": 59,
       "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Smoking Hills",
         "affinities": [
@@ -1538,30 +1127,10 @@
       }
     },
     {
-      "id": "83",
-      "no": 83,
+      "id": "60",
+      "no": 60,
       "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Floodplain",
-        "affinities": [
-          "earth",
-          "earth",
-          "water"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Mudflow",
-        "duration": "Once",
-        "text": "Return a world of three."
-      }
-    },
-    {
-      "id": "84",
-      "no": 84,
-      "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Highlands",
         "affinities": [
@@ -1578,10 +1147,202 @@
       }
     },
     {
-      "id": "85",
-      "no": 85,
+      "id": "61",
+      "no": 61,
       "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Lava Coast",
+        "affinities": [
+          "water",
+          "fire",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Steam Explosion",
+        "duration": "Lasts the round",
+        "text": "Two adjacent permanences lose their affinities."
+      }
+    },
+    {
+      "id": "62",
+      "no": 62,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Lava Plain",
+        "affinities": [
+          "earth",
+          "fire",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": null
+    },
+    {
+      "id": "63",
+      "no": 63,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Sand Sea",
+        "affinities": [
+          "fire",
+          "fire",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": null
+    },
+    {
+      "id": "64",
+      "no": 64,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Cloud Sea",
+        "affinities": [
+          "water",
+          "air",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Hurricane",
+        "duration": "Once",
+        "text": "Rearrange a player's worlds."
+      }
+    },
+    {
+      "id": "65",
+      "no": 65,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Stone Towers",
+        "affinities": [
+          "earth",
+          "air",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Gale Force",
+        "duration": "Once",
+        "text": "Move three permanences to other worlds."
+      }
+    },
+    {
+      "id": "66",
+      "no": 66,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "High Desert",
+        "affinities": [
+          "fire",
+          "air",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Tornado",
+        "duration": "Once",
+        "text": "Return two permanences."
+      }
+    },
+    {
+      "id": "67",
+      "no": 67,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Lagoon",
+        "affinities": [
+          "water",
+          "water",
+          "water"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Flash Flood",
+        "duration": "Once",
+        "text": "Remove a world's fire permanences."
+      }
+    },
+    {
+      "id": "68",
+      "no": 68,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Moor",
+        "affinities": [
+          "earth",
+          "earth",
+          "earth"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Avalanche",
+        "duration": "Once",
+        "text": "Remove a world's air permanences."
+      }
+    },
+    {
+      "id": "69",
+      "no": 69,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Cinder Field",
+        "affinities": [
+          "fire",
+          "fire",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Wildfire",
+        "duration": "Once",
+        "text": "Remove a world's earth permanences."
+      }
+    },
+    {
+      "id": "70",
+      "no": 70,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Peak",
+        "affinities": [
+          "air",
+          "air",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Drought",
+        "duration": "Once",
+        "text": "Remove a world's water permanences."
+      }
+    },
+    {
+      "id": "71",
+      "no": 71,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Ice Sheet",
         "affinities": [
@@ -1596,154 +1357,144 @@
       }
     },
     {
-      "id": "86",
-      "no": 86,
+      "id": "72",
+      "no": 72,
       "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
-        "name": "Mountain Range",
-        "affinities": [
-          "air",
-          "earth"
-        ],
-        "text": "Score a point per four earth affinities."
-      },
-      "force": {
-        "name": "Avalanche",
-        "duration": "Once",
-        "text": "Remove a world's air permanences."
-      }
-    },
-    {
-      "id": "87",
-      "no": 87,
-      "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Massif",
+        "name": "Thicket",
         "affinities": [
           "earth"
         ],
-        "text": "Your worlds ignore common forces."
+        "text": "Air permanences lose their affinities."
       },
       "force": {
-        "name": "Uplift",
+        "name": "Shelter",
         "duration": "Lasts the round",
-        "text": "A world ignores all forces."
+        "text": "A permanence can't be moved or removed."
       }
     },
     {
-      "id": "88",
-      "no": 88,
+      "id": "73",
+      "no": 73,
       "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
-        "name": "Cradle",
-        "affinities": [],
-        "text": "At the start of your turn, if you have 3 of each affinity, you win the contest."
+        "name": "Badlands",
+        "affinities": [
+          "fire"
+        ],
+        "text": "Water permanences lose their affinities."
       },
       "force": {
-        "name": "Equinox",
+        "name": "Ember",
+        "duration": "Lasts the round",
+        "text": "A lone permanence loses its affinities."
+      }
+    },
+    {
+      "id": "74",
+      "no": 74,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Wind Gap",
+        "affinities": [
+          "air"
+        ],
+        "text": "Earth permanences lose their affinities."
+      },
+      "force": {
+        "name": "Downdraft",
         "duration": "Once",
-        "text": "Return 3 cards from your void."
+        "text": "A fire permanence with one affinity becomes its own world."
       }
     },
     {
       "id": "meta-echo",
-      "no": 89,
+      "no": 75,
       "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "meta": {
         "name": "Echo",
         "text": "Play a card from your void."
       }
     },
     {
-      "id": "meta-ebb",
-      "no": 90,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "meta": {
-        "name": "Ebb",
-        "text": "Remove your opponent's last common."
-      }
-    },
-    {
-      "id": "meta-verge",
-      "no": 91,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "meta": {
-        "name": "Verge",
-        "text": "Play two more cards this turn."
-      }
-    },
-    {
-      "id": "meta-horizon",
-      "no": 92,
-      "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "meta": {
-        "name": "Horizon",
-        "text": "Remove a card from your opponent's binder."
-      }
-    },
-    {
       "id": "meta-hollow",
-      "no": 93,
+      "no": 76,
       "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "meta": {
         "name": "Hollow",
         "text": "Return a card from your void."
       }
     },
     {
-      "id": "meta-calm",
-      "no": 94,
+      "id": "meta-equinox",
+      "no": 77,
       "rarity": "B",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "meta": {
-        "name": "Calm",
-        "text": "No forces this round."
+        "name": "Equinox",
+        "text": "Return 3 cards from your void."
+      }
+    },
+    {
+      "id": "meta-verge",
+      "no": 78,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "meta": {
+        "name": "Verge",
+        "text": "Play two more cards this turn."
       }
     },
     {
       "id": "meta-lull",
-      "no": 95,
-      "rarity": "A",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "no": 79,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "meta": {
         "name": "Lull",
         "text": "Your opponent skips their next turn."
       }
     },
     {
-      "id": "96",
-      "no": 96,
-      "rarity": "S",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
-      "permanence": {
-        "name": "Core",
-        "affinities": [
-          "fire",
-          "fire",
-          "fire",
-          "fire"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Solar Flare",
-        "duration": "Once",
-        "text": "Remove every ◯ permanence."
+      "id": "meta-ebb",
+      "no": 80,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "meta": {
+        "name": "Ebb",
+        "text": "Remove your opponent's last common."
       }
     },
     {
-      "id": "97",
-      "no": 97,
+      "id": "meta-horizon",
+      "no": 81,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "meta": {
+        "name": "Horizon",
+        "text": "Remove a card from your opponent's binder."
+      }
+    },
+    {
+      "id": "meta-calm",
+      "no": 82,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "meta": {
+        "name": "Calm",
+        "text": "No forces this round."
+      }
+    },
+    {
+      "id": "96",
+      "no": 96,
       "rarity": "S",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Ocean",
         "affinities": [
@@ -1755,16 +1506,16 @@
         "text": ""
       },
       "force": {
-        "name": "Deluge",
+        "name": "Tsunami",
         "duration": "Lasts the round",
-        "text": "Two worlds lose their affinities."
+        "text": "A world's permanences become water."
       }
     },
     {
-      "id": "98",
-      "no": 98,
+      "id": "97",
+      "no": 97,
       "rarity": "S",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Pangaea",
         "affinities": [
@@ -1782,10 +1533,31 @@
       }
     },
     {
+      "id": "98",
+      "no": 98,
+      "rarity": "S",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Core",
+        "affinities": [
+          "fire",
+          "fire",
+          "fire",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Firestorm",
+        "duration": "Lasts the round",
+        "text": "A world's permanences become fire."
+      }
+    },
+    {
       "id": "99",
       "no": 99,
       "rarity": "S",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Trade Winds",
         "affinities": [
@@ -1806,22 +1578,18 @@
       "id": "100",
       "no": 100,
       "rarity": "S",
-      "source": "Third pass: the full pool (Nov 2, 2026)",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
         "name": "Origin",
         "affinities": [
-          "fire",
           "water",
-          "air",
-          "earth"
+          "earth",
+          "fire",
+          "air"
         ],
         "text": ""
       },
-      "force": {
-        "name": "Unmaking",
-        "duration": "Once",
-        "text": "Remove every world."
-      }
+      "force": null
     }
   ]
 }

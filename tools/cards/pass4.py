@@ -172,6 +172,17 @@ CUT = [c for c in pass3.ALL if c[1] not in PLACED]
 PH_USED = [p[2] for p in PLACEHOLDERS if p[2]]
 FREE_NAMES = [c[1] for c in CUT if c[1] not in PH_USED and c[1] not in ('Massif', 'Cradle')]
 
+# Provisional test binders (Claude, Nov 8), for the table and the simulator's named-binder runs until Cam builds binders
+# from this pool: drawn the way the simulator draws random binders (15 cards: 8 commons, 4 uncommons with meta cards among
+# them, 3 rares; no pinnacles), four leaning on one element and one even. Fixed seeds, so they don't change on a resync.
+PROVISIONAL_BINDERS = [
+ ('Water', 'Leans water, loosely (drawn at random)', ["Ashfield","Heath","Snowfield","Wilderness","Marsh","Stone Field","Lava Field","Glacier","Sea Cliff","Plateau","Hollow","Deep Lake","Ice Sheet","Stone Towers","Archipelago"]),
+ ('Earth', 'Leans earth, loosely (drawn at random)', ["Steam Vent","Mudflat","Grove","Heath","Stone Field","Foothills","Peat Bog","Flint","Spring","Canyon","Sea Cliff","Hot Spring","Lava Plain","Smoking Hills","Geyser Basin"]),
+ ('Fire', 'Leans fire, loosely (drawn at random)', ["Stone Field","Heath","Summit","Lava Flow","Tide Pool","Scrubland","Ashfield","Steam Vent","Hidden Valley","Twin Peaks","Delta","Tidal Flat","Badlands","Caldera Lake","Sand Sea"]),
+ ('Air', 'Leans air, loosely (drawn at random)', ["Stone Field","Sea Stack","Tide Pool","Lava Field","Glacier","Wilderness","Heath","Summit","Savanna","Twin Peaks","Equinox","Desert","Sand Sea","Peak","Rainforest"]),
+ ('Even', 'No lean (drawn at random)', ["Spire","Summit","Ashfield","Bedrock","Snowfield","Bluff","Scrubland","Wilderness","Savanna","Horizon","Cloud Forest","Old Growth","Archipelago","Boiling Lake","Highlands"]),
+]
+
 def words(t): return len(t.split())
 
 def check():
@@ -179,6 +190,9 @@ def check():
     names = collections.Counter([c['name'] for c in ALL] + [m[0] for m in META])
     probs += [('duplicate name', k) for k, v in names.items() if v > 1]
     nums = sorted([c['no'] for c in ALL] + list(META_NO.values()) + [p[0] for p in PLACEHOLDERS] + OPEN)
+    known = {c['name'] for c in ALL} | {m[0] for m in META}
+    for bn, _d, cs in PROVISIONAL_BINDERS:
+        if len(cs) != 15 or len(set(cs)) != 15 or set(cs) - known: probs.append(('binder', bn, len(cs), set(cs) - known))
     phn = [p[2] for p in PLACEHOLDERS if p[2]]
     if set(phn) - {c[1] for c in CUT}: probs.append(('placeholder name not from a cut card', set(phn) - {c[1] for c in CUT}))
     if set(phn) & ({c['name'] for c in ALL} | {m[0] for m in META}): probs.append(('placeholder name in use', set(phn) & {c['name'] for c in ALL}))
@@ -261,6 +275,8 @@ def markdown():
     md += '**Placeholders: unique to one element (%d).** Cam (Nov 8): there should be some cards that aren\'t part of a cycle; ironically, a cycle of at least 3 cards in each element whose effects have no equivalent in other elements.\n\n| No. | Placeholder | Element | What it\'s for |\n| --- | --- | --- | --- |\n' % len(PLACEHOLDERS)
     md += '\n'.join('| %d | %s | %s | %s |' % (no, nm or 'Unique %s %d' % (e, k % 3 + 1), e, UNIQUE_NOTE if nm else UNNAMED_NOTE) for k, (no, e, nm) in enumerate(PLACEHOLDERS)) + '\n\n'
     md += '**Open %s (%d).** %s. Cam (Nov 8): the slots this opens should go to more multi-affinity cards.\n' % ('slot' if len(OPEN) == 1 else 'slots', len(OPEN), 'Number ' + str(OPEN[0]) if len(OPEN) == 1 else 'Numbers %d–%d' % (OPEN[0], OPEN[-1]))
+    md += '\n**Provisional test binders (Claude, Nov 8), %d.** For the playtest table and the simulator until Cam builds binders from this pool: 15 cards each (Cam, Nov 8: smaller binders), drawn the way the simulator draws random binders (8 commons, 4 uncommons with meta cards among them, 3 rares; no pinnacles), four leaning loosely on one element and one even. Not designed: swap them out freely.\n\n' % len(PROVISIONAL_BINDERS)
+    md += ''.join('- **Binder %s, %s.** %s. %s.\n' % (chr(65 + k), bn, d, ', '.join(cs)) for k, (bn, d, cs) in enumerate(PROVISIONAL_BINDERS))
     return md
 
 if __name__ == '__main__':

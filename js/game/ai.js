@@ -157,10 +157,14 @@ export function makeAI(opts = {}) {
       pot += PV[wv.cov] * (avail === 15 ? 1 : 0.6);
       if (wv.k === sc[P].pw - 1) pot += 0.12 * wv.cov; // closing in on the Perfect World
     }
-    const owns = (n) => R.perms(s).some((i) => i.owner === P && C()[i.card].name === n);
-    if (owns("Archipelago")) pot += o.winCardW * Math.max(0, sc[P].water - (R.knob(s, "archipelagoWater") - 4)) * 0.18;
-    if (owns("Mountain Range")) pot += o.winCardW * (sc[P].earth % R.knob(s, "mountainPer")) * 0.12;
-    if (o.winCardW !== 1 && owns("Cradle")) pot += o.winCardW * 0.06 * Math.min(3, ...sc[P].tot); // toward 3 of each
+    // progress toward the win and scoring cards P has down, read from their text (Archipelago, Mountain Range's cycle, Cradle)
+    for (const i of R.perms(s)) {
+      if (i.owner !== P) continue;
+      const e = C()[i.card].pe || {};
+      if (e.winHave) { const need = s.knobs && s.knobs.archipelagoWater !== undefined ? s.knobs.archipelagoWater : e.winHave.n; pot += o.winCardW * Math.max(0, sc[P].tot[Math.log2(e.winHave.el)] - (need - 4)) * 0.18; }
+      if (e.score) { const per = s.knobs && s.knobs.mountainPer !== undefined ? s.knobs.mountainPer : e.score.per; pot += o.winCardW * (sc[P].tot[Math.log2(e.score.el)] % per) * 0.12; }
+      if (e.cradle && o.winCardW !== 1) pot += o.winCardW * 0.06 * Math.min(3, ...sc[P].tot); // toward 3 of each
+    }
     return Math.min(pot, (s.cap - pl.played) * 0.35);
   }
   // how far a player's best world has got toward 3 world points (complete sets, plus a quarter per element covered toward the next)

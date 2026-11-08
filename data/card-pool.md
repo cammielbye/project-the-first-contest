@@ -210,6 +210,14 @@
 | 94 | Eyrie | air | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
 
 **Open slot (1).** Number 95. Cam (Nov 8): the slots this opens should go to more multi-affinity cards.
+
+**Provisional test binders (Claude, Nov 8), 5.** For the playtest table and the simulator until Cam builds binders from this pool: 15 cards each (Cam, Nov 8: smaller binders), drawn the way the simulator draws random binders (8 commons, 4 uncommons with meta cards among them, 3 rares; no pinnacles), four leaning loosely on one element and one even. Not designed: swap them out freely.
+
+- **Binder A, Water.** Leans water, loosely (drawn at random). Ashfield, Heath, Snowfield, Wilderness, Marsh, Stone Field, Lava Field, Glacier, Sea Cliff, Plateau, Hollow, Deep Lake, Ice Sheet, Stone Towers, Archipelago.
+- **Binder B, Earth.** Leans earth, loosely (drawn at random). Steam Vent, Mudflat, Grove, Heath, Stone Field, Foothills, Peat Bog, Flint, Spring, Canyon, Sea Cliff, Hot Spring, Lava Plain, Smoking Hills, Geyser Basin.
+- **Binder C, Fire.** Leans fire, loosely (drawn at random). Stone Field, Heath, Summit, Lava Flow, Tide Pool, Scrubland, Ashfield, Steam Vent, Hidden Valley, Twin Peaks, Delta, Tidal Flat, Badlands, Caldera Lake, Sand Sea.
+- **Binder D, Air.** Leans air, loosely (drawn at random). Stone Field, Sea Stack, Tide Pool, Lava Field, Glacier, Wilderness, Heath, Summit, Savanna, Twin Peaks, Equinox, Desert, Sand Sea, Peak, Rainforest.
+- **Binder E, Even.** No lean (drawn at random). Spire, Summit, Ashfield, Bedrock, Snowfield, Bluff, Scrubland, Wilderness, Savanna, Horizon, Cloud Forest, Old Growth, Archipelago, Boiling Lake, Highlands.
 ## Third pass: the full pool (Nov 2, 2026), saved separately
 
 The third pass, as it stood on Nov 8 before the restructure (100 cards, five test binders, and the notes and changes since Nov 2), is saved in the playtest repo at `data/versions/card-pool-2026-11-08-third-pass.md` and on the branch `saved/card-pool-2026-11-08-third-pass`. The playtest table and the simulator still use it.
