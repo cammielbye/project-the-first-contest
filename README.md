@@ -88,6 +88,13 @@ once). A contest survives a reload, and switching to **Friend** and back keeps b
 tables. Everything runs in your browser; nothing is sent anywhere. (The old
 `play.html` link now opens this.)
 
+Computer styles for the simulator (Nov 8, `STYLES` in `js/game/ai.js`): plain (the table's
+computer), builder (one big world, toward the Perfect World), stacker (the tie-break), breaker
+(tears down the other side), turtle (builds its own; crude, since it doesn't value protection
+itself) and chaser (its win and scoring cards). `--quick` drops the reply lookahead, about 6x
+faster, for wide screens. The win-condition numbers can be changed per contest
+(`newContest(..., { knobs })`; the table uses the defaults in `KNOBS`).
+
 The computer doesn't see your binder (since Nov 7): it knows how many cards are in it and
 every card you've shown, and guesses the rest. At the start of each round it sets a card
 budget for the round and holds some of its strong cards back for later rounds.
@@ -108,6 +115,15 @@ node scripts/sim3-pair.mjs 41 --seed 1108 --open --show 40   # replay one contes
 node scripts/sim3-pair.mjs 250 --bo1 --nocap --open --aiA bigWorld=2 --aiB bigWorld=2
                                  # one round, no card cap, open worlds, computers aiming
                                  # for the 3-point world (Nov 7)
+node scripts/sim3-rate.mjs 4000 --bo1 --nocap --open --quick --json r.json --csv r.csv
+                                 # card ratings (Nov 8): random legal binders (14/7/4, leaning
+                                 # none, one or two elements), computer styles drawn at random,
+                                 # every card rated against an average card of its rarity, plus
+                                 # results by lean, element and style; uses every processor
+node scripts/sim3-sweep.mjs --knob archipelagoWater=8,10,12 --bo1 --nocap --open --quick
+                                 # one win-condition number over a few values on the same
+                                 # contests, stopping once each is known to ±3 points
+                                 # (knobs: archipelagoWater, mountainPer, cradleEach, perfectWorld)
 node scripts/sim3-field.mjs 250 --bo1 --nocap --open --ai bigWorld=2 --json a.json
                                  # a field: each side picks a binder at random every
                                  # contest (Tides, Embers, Gales, Roots; --binders to change);

@@ -31,12 +31,28 @@ const rkey = (d) => (d.meta ? "meta" : d.rarity);
 const BITS = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
 const last = (s) => s.bestOf || 3; // the contest's last possible round
 
+// Styles (Nov 8, for the simulator): presets over a few weights. plain is the table's computer.
+//   oppW      weight on the other player's points and prospects (above 1 plays to break, below 1 to build)
+//   tieW      weight on the affinity tie-break
+//   winCardW  weight on progress toward a card's own win or score (Archipelago, Mountain Range, Cradle)
+//   bigWorld  weight on one world growing toward the Perfect World (3 world points)
+export const STYLES = {
+  plain: {},
+  builder: { bigWorld: 2 }, // one big world, toward the Perfect World
+  stacker: { tieW: 3 }, // piles one element for the tie-break
+  breaker: { oppW: 1.6 }, // tears down the other player's worlds
+  turtle: { oppW: 0.6, bigWorld: 1 }, // builds its own and mostly ignores the other side (crude: it doesn't value protection itself)
+  chaser: { winCardW: 3, bigWorld: 1 }, // goes for its win and scoring cards
+};
+
 export function makeAI(opts = {}) {
+  if (opts.style && !STYLES[opts.style]) throw new Error("unknown computer style: " + opts.style);
   const o = Object.assign({
     k: 2.0, noise: 0.02, chaseSteps: 5, rng: Math.random, top: 8, sample: 40, ply: 2,
     hidden: true, plan: true, reserveK: 0.08, overK: 0.08, weights: [1, 1, 0.75],
     bigWorld: 0, // big-world style (Nov 7): > 0 values a player's best world growing toward the 3-point world
-  }, opts);
+    oppW: 1, tieW: 1, winCardW: 1,
+  }, opts.style ? STYLES[opts.style] : {}, opts);
   const C = () => R.C;
   const mem = new WeakMap(); // per contest (keyed on the real state): what each player has shown, and round plans
   const memOf = (s) => { let m = mem.get(s); if (!m) { m = { seen: [new Map(), new Map()], now: [null, null], plans: new Map() }; mem.set(s, m); } return m; };
@@ -134,27 +150,27 @@ export function makeAI(opts = {}) {
       const w = s.worlds[wv.id];
       if (!w || !R.canGrow(s, w)) continue;
       pot += PV[wv.cov] * (avail === 15 ? 1 : 0.6);
-      if (wv.k === R.DECISIVE_POINTS - 1) pot += 0.12 * wv.cov; // closing in on the 3-point world
+      if (wv.k === sc[P].pw - 1) pot += 0.12 * wv.cov; // closing in on the Perfect World
     }
     const owns = (n) => R.perms(s).some((i) => i.owner === P && C()[i.card].name === n);
-    if (owns("Archipelago")) pot += Math.max(0, sc[P].water - (R.ARCHIPELAGO_WATER - 4)) * 0.18;
-    if (owns("Mountain Range")) pot += (sc[P].earth % 4) * 0.12;
+    if (owns("Archipelago")) pot += o.winCardW * Math.max(0, sc[P].water - (R.knob(s, "archipelagoWater") - 4)) * 0.18;
+    if (owns("Mountain Range")) pot += o.winCardW * (sc[P].earth % R.knob(s, "mountainPer")) * 0.12;
+    if (o.winCardW !== 1 && owns("Cradle")) pot += o.winCardW * 0.06 * Math.min(3, ...sc[P].tot); // toward 3 of each
     return Math.min(pot, (s.cap - pl.played) * 0.35);
   }
   // how far a player's best world has got toward 3 world points (complete sets, plus a quarter per element covered toward the next)
-  const progress = (R) => { let best = 0; for (const w of R.worlds) { const p = w.k + 0.25 * w.cov; if (p > best) best = p; } return Math.min(best, R_DEC()); };
-  const R_DEC = () => R.DECISIVE_POINTS;
+  const progress = (X) => { let best = 0; for (const w of X.worlds) { const p = w.k + 0.25 * w.cov; if (p > best) best = p; } return Math.min(best, X.pw); };
   function x(s, P, sc) {
     const Q = 1 - P, a = sc[P], b = sc[Q];
-    let v = a.pts - b.pts;
-    if (o.bigWorld) v += (o.bigWorld * (progress(a) ** 2 - progress(b) ** 2)) / (R_DEC() ** 2); // convex: one big world beats several small ones
-    if (a.pts === b.pts) v += 0.4 * Math.sign(a.tie - b.tie);
-    v += 0.02 * Math.max(-5, Math.min(5, a.tie - b.tie));
-    return v + potential(s, P, sc) - potential(s, Q, sc);
+    let v = a.pts - o.oppW * b.pts;
+    if (o.bigWorld) v += (o.bigWorld * (progress(a) ** 2 - o.oppW * progress(b) ** 2)) / (a.pw ** 2); // convex: one big world beats several small ones
+    if (a.pts === b.pts) v += 0.4 * o.tieW * Math.sign(a.tie - b.tie);
+    v += 0.02 * o.tieW * Math.max(-5, Math.min(5, a.tie - b.tie));
+    return v + potential(s, P, sc) - o.oppW * potential(s, Q, sc);
   }
   // chance P wins this round from here (1.5 / -0.5 for a contest the move decides)
   function wp(s, P, sc) {
-    for (const Q of [0, 1]) if (sc[Q].worlds.some((w) => w.k >= R.DECISIVE_POINTS)) return Q === P ? 1.5 : -0.5;
+    for (const Q of [0, 1]) if (sc[Q].worlds.some((w) => w.perfect)) return Q === P ? 1.5 : -0.5;
     return 1 / (1 + Math.exp(-o.k * x(s, P, sc)));
   }
   // X has Archipelago's 10 water on this table: X wins the round when X's next turn starts, unless it's broken first
@@ -208,7 +224,7 @@ export function makeAI(opts = {}) {
       if (!res.length) break;
       let win = null, best = null, bv = -Infinity;
       for (const r of res) {
-        if (r.sc[X].worlds.some((w) => w.k >= R.DECISIVE_POINTS) || R.outcome(r.sc, X) === 1 || archWin(r.s2, X, r.sc)) { const c = cost(s1, X, r.m, plan); if (!win || c < win.c) win = { r, c }; }
+        if (r.sc[X].worlds.some((w) => w.perfect) || R.outcome(r.sc, X) === 1 || archWin(r.s2, X, r.sc)) { const c = cost(s1, X, r.m, plan); if (!win || c < win.c) win = { r, c }; }
         const v = wp(r.s2, X, r.sc) - cost(s1, X, r.m, plan);
         if (v > bv) { bv = v; best = r; }
       }
@@ -234,7 +250,7 @@ export function makeAI(opts = {}) {
     const now = R.outcome(sc0, P);
     const tried = tryAll(sv, P, pool, s);
     // a move that wins the contest outright
-    for (const r of tried) if (r.sc[P].worlds.some((w) => w.k >= R.DECISIVE_POINTS)) return r.m;
+    for (const r of tried) if (r.sc[P].worlds.some((w) => w.perfect)) return r.m;
     if (opp.passed) {
       if (now === 1) return null;
       const ch = chase(sv, P, o.chaseSteps + 3, plan);
@@ -262,7 +278,7 @@ export function makeAI(opts = {}) {
     };
     const after = (s2, sc2) => {
       const q = s2.p[Q];
-      if (sc2[P].worlds.some((w) => w.k >= R.DECISIVE_POINTS)) return 1.5;
+      if (sc2[P].worlds.some((w) => w.perfect)) return 1.5;
       if (o.ply < 2 || q.passed || q.skip || q.played >= s2.cap) return archWin(s2, P, sc2) ? 1.2 : wp(s2, P, sc2);
       const r = reply(s2, sc2);
       if (!r) return archWin(s2, P, sc2) ? 1.2 : wp(s2, P, sc2);

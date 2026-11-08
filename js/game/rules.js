@@ -32,7 +32,10 @@ const geoOf = (w) => (w.cells.length === SQUARE.n ? SQUARE : OPEN);
 const geo = (s) => (s.open ? OPEN : SQUARE);
 export const CELL_NAMES = ["top left", "top right", "bottom left", "bottom right"];
 export const DEFAULT_CAP = 10;
-export const DECISIVE_POINTS = 3; // Nov 2 test rule
+export const DECISIVE_POINTS = 3; // Nov 2 test rule: the Perfect World
+// Win-condition numbers a simulation can change per contest (newContest opts.knobs); the table uses these.
+export const KNOBS = { perfectWorld: DECISIVE_POINTS, archipelagoWater: 10, mountainPer: 4, cradleEach: 3 };
+export const knob = (s, k) => (s.knobs && s.knobs[k] !== undefined ? s.knobs[k] : KNOBS[k]);
 
 const maskOf = (tok) => (tok === "any" ? ANY : tok.includes("|") ? tok.split("|").reduce((m, e) => m | BIT[e], 0) : BIT[tok]);
 const hasBit = (toks, b) => toks.some((t) => t & b);
@@ -68,7 +71,7 @@ function newPlayer(ids, name) {
 // noCap (no limit on cards a round: whole binders can be played)
 export function newContest(idsA, idsB, opener, names = ["You", "Computer"], opts = {}) {
   const s = {
-    r: 1, cap: opts.noCap ? 1e9 : DEFAULT_CAP, bestOf: opts.bestOf || 3, turn: opener, opener, p: [newPlayer(idsA, names[0]), newPlayer(idsB, names[1])], open: !!opts.openWorlds,
+    r: 1, cap: opts.noCap ? 1e9 : DEFAULT_CAP, bestOf: opts.bestOf || 3, knobs: opts.knobs || null, turn: opener, opener, p: [newPlayer(idsA, names[0]), newPlayer(idsB, names[1])], open: !!opts.openWorlds,
     inst: {}, worlds: {}, nid: 1, ts: 1, extras: [], calm: false, phase: "turn", winner: null, rounds: [], log: [], decisive: null,
   };
   return s;
@@ -79,7 +82,7 @@ export function clone(s) {
   const worlds = {};
   for (const k in s.worlds) { const w = s.worlds[k]; worlds[k] = { id: w.id, owner: w.owner, cells: w.cells.slice(), n: w.n }; }
   return {
-    r: s.r, cap: s.cap, bestOf: s.bestOf, turn: s.turn, opener: s.opener, open: s.open, nid: s.nid, ts: s.ts, inst, worlds, extras: s.extras.slice(), calm: s.calm,
+    r: s.r, cap: s.cap, bestOf: s.bestOf, knobs: s.knobs, turn: s.turn, opener: s.opener, open: s.open, nid: s.nid, ts: s.ts, inst, worlds, extras: s.extras.slice(), calm: s.calm,
     phase: s.phase, winner: s.winner, rounds: s.rounds, log: [], decisive: s.decisive, turnStarted: s.turnStarted, why: s.why,
     p: s.p.map((x) => ({ name: x.name, binder: x.binder.slice(), void: x.void.slice(), played: x.played, passed: x.passed, skip: x.skip, wins: x.wins, commons: x.commons.slice() })),
   };
@@ -418,19 +421,20 @@ export function setsOf(tokens) {
 const hasEach = (tokens, n) => { const { c, flex } = split(tokens); return feasible(c, flex, [n, n, n, n]); };
 export function score(s) {
   const v = view(s);
-  const res = [0, 1].map(() => ({ pts: 0, tie: 0, tot: [0, 0, 0, 0], water: 0, earth: 0, worlds: [], all: [], mtn: 0 }));
+  const pw = knob(s, "perfectWorld");
+  const res = [0, 1].map(() => ({ pts: 0, tie: 0, tot: [0, 0, 0, 0], water: 0, earth: 0, worlds: [], all: [], mtn: 0, pw }));
   for (const k in s.worlds) {
     const w = s.worlds[k], R = res[w.owner], toks = [];
     for (const iid of w.cells) if (iid !== null) toks.push(...v.tok[iid]);
     const st = setsOf(toks);
-    R.pts += st.k; R.worlds.push({ id: w.id, n: w.n, k: st.k, cov: st.cov, cards: worldSize(w) });
+    R.pts += st.k; R.worlds.push({ id: w.id, n: w.n, k: st.k, cov: st.cov, cards: worldSize(w), perfect: st.k >= pw });
     R.all.push(...toks);
     for (const t of toks) { for (let e = 0; e < 4; e++) if (t & (1 << e)) R.tot[e]++; if (t & W) R.water++; if (t & E) R.earth++; }
   }
   for (const P of [0, 1]) {
     const R = res[P];
     R.tie = Math.max(...R.tot);
-    if (ownsPerm(s, P, "Mountain Range")) { R.mtn = Math.floor(R.earth / 4); R.pts += R.mtn; }
+    if (ownsPerm(s, P, "Mountain Range")) { R.mtn = Math.floor(R.earth / knob(s, "mountainPer")); R.pts += R.mtn; }
     R.worlds.sort((a, b) => a.n - b.n);
   }
   return res;
@@ -442,7 +446,7 @@ export function outcome(sc, P) {
   if (a.tie !== b.tie) return a.tie > b.tie ? 1 : -1;
   return 0;
 }
-const decisiveWorld = (sc, P) => sc[P].worlds.some((w) => w.k >= DECISIVE_POINTS);
+const decisiveWorld = (sc, P) => sc[P].worlds.some((w) => w.perfect);
 
 // ---------------------------------------------------------------- move generation
 // A move: { id, face: "perm" | "force" | "meta", ...targets, picks: [...] }. picks lists the
@@ -761,8 +765,8 @@ export function advance(s) {
       s.turnStarted = true;
       for (const f of forces(s)) if (fname(f) === "Whiteout" && f.until === P) { drop(s, f.id); toPile(s, f, "void"); dirty(s); say(s, "Whiteout ends.", P); }
       const sc = score(s);
-      if (ownsPerm(s, P, "Cradle") && hasEach(sc[P].all, 3)) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} 3 of each affinity: Cradle wins the contest.`, P); endContest(s, P, "Cradle"); return; }
-      if (archipelagoWins(s, P, sc)) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} ${ARCHIPELAGO_WATER} water: Archipelago wins the round.`, P); endRound(s, P, "Archipelago"); return; }
+      if (ownsPerm(s, P, "Cradle") && hasEach(sc[P].all, knob(s, "cradleEach"))) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} ${knob(s, "cradleEach")} of each affinity: Cradle wins the contest.`, P); endContest(s, P, "Cradle"); return; }
+      if (archipelagoWins(s, P, sc)) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} ${knob(s, "archipelagoWater")} water: Archipelago wins the round.`, P); endRound(s, P, "Archipelago"); return; }
       if (pl.skip) { pl.skip = false; say(s, `${pl.name} ${verb(pl.name, "skips", "skip")} this turn (Lull).`, P); endTurn(s); continue; }
     }
     if (pl.played >= s.cap || !legalMoves(s, P).length) {
@@ -776,8 +780,8 @@ export function advance(s) {
 export function endTurn(s) { s.extras = []; s.turn = 1 - s.turn; s.turnStarted = false; }
 // Archipelago: checked at the start of its owner's turn, at 10 water (Cam, Nov 7, for the uncapped one-round test;
 // earlier the same day it was the end of the turn at 8, and before that the start of the turn at 8)
-export const ARCHIPELAGO_WATER = 10;
-export const archipelagoWins = (s, P, sc) => ownsPerm(s, P, "Archipelago") && sc[P].water >= ARCHIPELAGO_WATER;
+export const ARCHIPELAGO_WATER = KNOBS.archipelagoWater; // kept for older imports
+export const archipelagoWins = (s, P, sc) => ownsPerm(s, P, "Archipelago") && sc[P].water >= knob(s, "archipelagoWater");
 // P plays m; returns the move's record
 export function play(s, P, m) {
   const text = describe(s, P, m);
@@ -787,7 +791,7 @@ export function play(s, P, m) {
   const dw = [0, 1].filter((Q) => decisiveWorld(sc, Q));
   if (dw.length) {
     const Q = dw.includes(P) ? P : dw[0];
-    say(s, `${s.p[Q].name} ${verb(s.p[Q].name, "has", "have")} a world worth ${DECISIVE_POINTS} world points and ${verb(s.p[Q].name, "wins", "win")} the contest.`, Q);
+    say(s, `${s.p[Q].name} ${verb(s.p[Q].name, "has", "have")} a world worth ${knob(s, "perfectWorld")} world points and ${verb(s.p[Q].name, "wins", "win")} the contest.`, Q);
     s.decisive = Q; endContest(s, Q, "3-point world"); return ev;
   }
   if (!(s.extras.length && s.p[P].played < s.cap)) endTurn(s);
