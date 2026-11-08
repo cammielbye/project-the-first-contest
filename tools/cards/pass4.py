@@ -82,7 +82,7 @@ group('b-none', 'No rings, uncommon', "No ring of its own, so the ring rule does
 group('a-three', 'Three rings, rare: three different elements', "", [
  card(n, 'A', a, '', 'kept') for n, a in [('Caldera Lake', [W, E, F]), ('Rainforest', [W, E, A]), ('Geyser Basin', [W, F, A]), ('Red Canyon', [E, F, A])]])
 group('a-two-one', 'Three rings, rare: two of one element and one of another', "", [
- card(n, 'A', a, P3[n][4], 'kept') for n, a in [
+ card(n, 'A', a, '', 'changed', 'win condition removed for now') if n == 'Archipelago' else card(n, 'A', a, P3[n][4], 'kept') for n, a in [
   ('Archipelago', [W, W, E]), ('Boiling Lake', [W, W, F]), ('Misty Fjord', [W, W, A]),
   ('Floodplain', [E, E, W]), ('Smoking Hills', [E, E, F]), ('Highlands', [E, E, A]),
   ('Lava Coast', [F, F, W]), ('Lava Plain', [F, F, E]), ('Sand Sea', [F, F, A]),
@@ -97,11 +97,14 @@ group('s', 'Four rings, pinnacle', "", [
  card(n, 'S', a, '', 'kept') for n, a in [('Ocean', [W] * 4), ('Pangaea', [E] * 4), ('Core', [F] * 4), ('Trade Winds', [A] * 4), ('Origin', [W, E, F, A])]])
 
 # force text changed in this pass (Cam, Nov 8): "X permanences can't be moved" becomes "can't be removed", stronger and clearer to him
-FORCE_CHANGES = {'Deep Lake': "Water permanences can't be removed.", 'Plateau': "Earth permanences can't be removed."}
+# (new text, Cam's reason if he gave one)
+FORCE_CHANGES = {'Deep Lake': ("Water permanences can't be removed.", "stronger, and makes more sense to him"),
+                 'Plateau': ("Earth permanences can't be removed.", "stronger, and makes more sense to him"),
+                 'Red Canyon': ("A world's permanences become fire.", "")}
 for _k, _t, _b, _cs in GROUPS:
     for _c in _cs:
         if _c['name'] in FORCE_CHANGES:
-            _c['force_was'] = _c['force_text']; _c['force_text'] = FORCE_CHANGES[_c['name']]
+            _c['force_was'] = _c['force_text']; _c['force_text'], _c['force_why'] = FORCE_CHANGES[_c['name']]
 
 # meta cards: one face, no rarity (Cam, Nov 8). Equinox was Cradle's force face; Cradle's permanence is removed.
 META = [
@@ -212,7 +215,7 @@ def markdown():
 
 **Changed in place.** {'; '.join('%s (%s)' % (c['name'], c['note']) for c in changed)}.
 
-**Forces changed (Cam, Nov 8).** {'; '.join('%s (%s) now reads "%s" (was "%s")' % (c['force'], c['name'], c['force_text'], c['force_was']) for c in ALL if 'force_was' in c)}: "can't be removed" is stronger and makes more sense to him. Every other force is carried over from the third pass unchanged.
+**Forces changed (Cam, Nov 8).** {'; '.join('%s (%s) now reads "%s" (was "%s"%s)' % (c['force'], c['name'], c['force_text'], c['force_was'], ': ' + c['force_why'] if c['force_why'] else '') for c in ALL if 'force_was' in c)}. Every other force is carried over from the third pass unchanged.
 
 **Cut.** {len(CUT)} third-pass cards have no place: {', '.join(c[1] for c in CUT)}. {len(PH_USED)} of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: {', '.join(FREE_NAMES)}.
 

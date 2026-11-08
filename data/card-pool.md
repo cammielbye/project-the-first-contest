@@ -10,9 +10,9 @@
 
 **Reclaimed slots (Cam: reuse the existing names).** 16 cards take the name, art and force face of a cut third-pass card and get a new permanence: Lava Field, Grove, Thicket, Badlands, Wind Gap, Spring, Fumarole, Sky Isle, Tidal Flat, Old Growth, Obsidian, Hidden Valley, Lagoon, Moor, Cinder Field, Peak. Claude picked which name went where, by landform; Grove's text ("When played, remove a common force.") is Claude's draft, since earth had no when-played card.
 
-**Changed in place.** Glacier (was uncommon; "Ignores air forces." dropped to fit the cycle); Spire (was uncommon; "Ignores earth forces." dropped to fit the cycle); Tide Pool (ignored air); Stone Field (ignored fire); Lava Flow (was uncommon); Mudflat (text removed); Hot Mud (text removed); Spray Coast (text removed); Peat Bog (text removed); Foothills (text removed); Heath (text removed); Wilderness (was uncommon); Mountain Range (was rare).
+**Changed in place.** Glacier (was uncommon; "Ignores air forces." dropped to fit the cycle); Spire (was uncommon; "Ignores earth forces." dropped to fit the cycle); Tide Pool (ignored air); Stone Field (ignored fire); Lava Flow (was uncommon); Mudflat (text removed); Hot Mud (text removed); Spray Coast (text removed); Peat Bog (text removed); Foothills (text removed); Heath (text removed); Wilderness (was uncommon); Mountain Range (was rare); Archipelago (win condition removed for now).
 
-**Forces changed (Cam, Nov 8).** Ice Storm (Deep Lake) now reads "Water permanences can't be removed." (was "Water permanences can't be moved."); Permafrost (Plateau) now reads "Earth permanences can't be removed." (was "Earth permanences can't be moved."): "can't be removed" is stronger and makes more sense to him. Every other force is carried over from the third pass unchanged.
+**Forces changed (Cam, Nov 8).** Ice Storm (Deep Lake) now reads "Water permanences can't be removed." (was "Water permanences can't be moved.": stronger, and makes more sense to him); Permafrost (Plateau) now reads "Earth permanences can't be removed." (was "Earth permanences can't be moved.": stronger, and makes more sense to him); Firestorm (Red Canyon) now reads "A world's permanences become fire." (was "A world becomes fire."). Every other force is carried over from the third pass unchanged.
 
 **Cut.** 14 third-pass cards have no place: Dune, Barrens, Ice Floe, Shoal, Fen, Ledge, Ridge, Eyrie, Hill, Meadow, Hanging Valley, Cavern, Massif, Cradle. 11 of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: Hanging Valley.
 
@@ -132,13 +132,13 @@
 | 51 | Caldera Lake | A | 1 water, 1 earth, 1 fire | — | Collapse | Once | Remove a permanence. |
 | 52 | Rainforest | A | 1 water, 1 earth, 1 air | — | Monsoon | Once | Return every lone permanence. |
 | 53 | Geyser Basin | A | 1 water, 1 fire, 1 air | — | Typhoon | Once | A world's permanences become separate worlds. |
-| 54 | Red Canyon | A | 1 earth, 1 fire, 1 air | — | Firestorm | Lasts the round | A world becomes fire. |
+| 54 | Red Canyon | A | 1 earth, 1 fire, 1 air | — | Firestorm | Lasts the round | A world's permanences become fire. |
 
 **Three rings, rare: two of one element and one of another (12).**
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 55 | Archipelago | A | 2 water, 1 earth | At the start of your turn, if you have 10 water, you win the round. | Tsunami | Lasts the round | A world becomes water. |
+| 55 | Archipelago | A | 2 water, 1 earth | — | Tsunami | Lasts the round | A world becomes water. |
 | 56 | Boiling Lake | A | 2 water, 1 fire | — | Flash Flood | Once | Remove a world's fire permanences. |
 | 57 | Misty Fjord | A | 2 water, 1 air | — | Whiteout | Lasts the round | Worlds can't grow until your next turn. |
 | 58 | Floodplain | A | 1 water, 2 earth | — | Mudflow | Once | Return a world of three. |
