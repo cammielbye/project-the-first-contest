@@ -1,7 +1,7 @@
 {
   "source": "data/card-pool.md",
-  "pass": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
-  "syncedAt": "2026-11-08T07:38:45.283Z",
+  "pass": "Third pass: the full pool (Nov 2, 2026)",
+  "syncedAt": "2026-11-08T08:22:19.327Z",
   "counts": {
     "cards": 100,
     "meta": 7,
@@ -13,19 +13,17 @@
       "S": 5
     },
     "fromSection": {
-      "Third pass: the full pool, 101 cards (Nov 2, 2026)": 100
+      "Third pass: the full pool (Nov 2, 2026)": 100
     }
   },
-  "missingNumbers": [
-    100
-  ],
+  "missingNumbers": [],
   "warnings": [],
   "cards": [
     {
       "id": "1",
       "no": 1,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Cinder Field",
         "affinities": [
@@ -43,7 +41,7 @@
       "id": "2",
       "no": 2,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Dune",
         "affinities": [
@@ -61,7 +59,7 @@
       "id": "3",
       "no": 3,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Fumarole",
         "affinities": [
@@ -79,7 +77,7 @@
       "id": "4",
       "no": 4,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Ashfield",
         "affinities": [
@@ -97,7 +95,7 @@
       "id": "5",
       "no": 5,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Lava Field",
         "affinities": [
@@ -115,7 +113,7 @@
       "id": "6",
       "no": 6,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Badlands",
         "affinities": [
@@ -133,7 +131,7 @@
       "id": "7",
       "no": 7,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Barrens",
         "affinities": [
@@ -151,7 +149,7 @@
       "id": "8",
       "no": 8,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Lagoon",
         "affinities": [
@@ -169,7 +167,7 @@
       "id": "9",
       "no": 9,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Ice Floe",
         "affinities": [
@@ -187,7 +185,7 @@
       "id": "10",
       "no": 10,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Spring",
         "affinities": [
@@ -205,7 +203,7 @@
       "id": "11",
       "no": 11,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Tide Pool",
         "affinities": [
@@ -223,7 +221,7 @@
       "id": "12",
       "no": 12,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Shoal",
         "affinities": [
@@ -241,7 +239,7 @@
       "id": "13",
       "no": 13,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Fen",
         "affinities": [
@@ -259,7 +257,7 @@
       "id": "14",
       "no": 14,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Snowfield",
         "affinities": [
@@ -277,7 +275,7 @@
       "id": "15",
       "no": 15,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Ledge",
         "affinities": [
@@ -295,7 +293,7 @@
       "id": "16",
       "no": 16,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Ridge",
         "affinities": [
@@ -313,7 +311,7 @@
       "id": "17",
       "no": 17,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Eyrie",
         "affinities": [
@@ -331,7 +329,7 @@
       "id": "18",
       "no": 18,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Summit",
         "affinities": [
@@ -349,7 +347,7 @@
       "id": "19",
       "no": 19,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Peak",
         "affinities": [
@@ -367,7 +365,7 @@
       "id": "20",
       "no": 20,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Wind Gap",
         "affinities": [
@@ -385,7 +383,7 @@
       "id": "21",
       "no": 21,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Bluff",
         "affinities": [
@@ -403,7 +401,7 @@
       "id": "22",
       "no": 22,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Hill",
         "affinities": [
@@ -421,7 +419,7 @@
       "id": "23",
       "no": 23,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Grove",
         "affinities": [
@@ -439,7 +437,7 @@
       "id": "24",
       "no": 24,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Stone Field",
         "affinities": [
@@ -457,7 +455,7 @@
       "id": "25",
       "no": 25,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Meadow",
         "affinities": [
@@ -475,7 +473,7 @@
       "id": "26",
       "no": 26,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Moor",
         "affinities": [
@@ -493,7 +491,7 @@
       "id": "27",
       "no": 27,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Bedrock",
         "affinities": [
@@ -511,7 +509,7 @@
       "id": "28",
       "no": 28,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Thicket",
         "affinities": [
@@ -529,7 +527,7 @@
       "id": "29",
       "no": 29,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Flint",
         "affinities": [
@@ -547,7 +545,7 @@
       "id": "30",
       "no": 30,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Scrubland",
         "affinities": [
@@ -565,7 +563,7 @@
       "id": "31",
       "no": 31,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Steam Vent",
         "affinities": [
@@ -583,7 +581,7 @@
       "id": "32",
       "no": 32,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Marsh",
         "affinities": [
@@ -601,7 +599,7 @@
       "id": "33",
       "no": 33,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Sea Stack",
         "affinities": [
@@ -619,7 +617,7 @@
       "id": "34",
       "no": 34,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Pass",
         "affinities": [
@@ -637,7 +635,7 @@
       "id": "35",
       "no": 35,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Hot Mud",
         "affinities": [
@@ -655,7 +653,7 @@
       "id": "36",
       "no": 36,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Heath",
         "affinities": [
@@ -673,7 +671,7 @@
       "id": "37",
       "no": 37,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Peat Bog",
         "affinities": [
@@ -691,7 +689,7 @@
       "id": "38",
       "no": 38,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Spray Coast",
         "affinities": [
@@ -709,7 +707,7 @@
       "id": "39",
       "no": 39,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Mudflat",
         "affinities": [
@@ -727,7 +725,7 @@
       "id": "40",
       "no": 40,
       "rarity": "C",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Foothills",
         "affinities": [
@@ -745,7 +743,7 @@
       "id": "41",
       "no": 41,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Hot Spring",
         "affinities": [
@@ -764,7 +762,7 @@
       "id": "42",
       "no": 42,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Desert",
         "affinities": [
@@ -783,7 +781,7 @@
       "id": "43",
       "no": 43,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Volcano",
         "affinities": [
@@ -802,7 +800,7 @@
       "id": "44",
       "no": 44,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Cloud Forest",
         "affinities": [
@@ -821,7 +819,7 @@
       "id": "45",
       "no": 45,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Delta",
         "affinities": [
@@ -840,7 +838,7 @@
       "id": "46",
       "no": 46,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Sea Cliff",
         "affinities": [
@@ -859,7 +857,7 @@
       "id": "47",
       "no": 47,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Mud Pots",
         "affinities": [
@@ -878,7 +876,7 @@
       "id": "48",
       "no": 48,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Savanna",
         "affinities": [
@@ -897,7 +895,7 @@
       "id": "49",
       "no": 49,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Cinder Cone",
         "affinities": [
@@ -916,7 +914,7 @@
       "id": "50",
       "no": 50,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Waterfall",
         "affinities": [
@@ -935,7 +933,7 @@
       "id": "51",
       "no": 51,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Mangrove",
         "affinities": [
@@ -954,7 +952,7 @@
       "id": "52",
       "no": 52,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Canyon",
         "affinities": [
@@ -973,7 +971,7 @@
       "id": "53",
       "no": 53,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Lava Lake",
         "affinities": [
@@ -992,7 +990,7 @@
       "id": "54",
       "no": 54,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Deep Lake",
         "affinities": [
@@ -1011,7 +1009,7 @@
       "id": "55",
       "no": 55,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Twin Peaks",
         "affinities": [
@@ -1030,7 +1028,7 @@
       "id": "56",
       "no": 56,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Plateau",
         "affinities": [
@@ -1049,7 +1047,7 @@
       "id": "57",
       "no": 57,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Wilderness",
         "affinities": [
@@ -1067,7 +1065,7 @@
       "id": "58",
       "no": 58,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Mirage",
         "affinities": [],
@@ -1083,7 +1081,7 @@
       "id": "59",
       "no": 59,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Lava Flow",
         "affinities": [
@@ -1101,7 +1099,7 @@
       "id": "60",
       "no": 60,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Obsidian",
         "affinities": [
@@ -1119,7 +1117,7 @@
       "id": "61",
       "no": 61,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Tidal Flat",
         "affinities": [
@@ -1137,7 +1135,7 @@
       "id": "62",
       "no": 62,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Glacier",
         "affinities": [
@@ -1155,7 +1153,7 @@
       "id": "63",
       "no": 63,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Spire",
         "affinities": [
@@ -1173,7 +1171,7 @@
       "id": "64",
       "no": 64,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Hanging Valley",
         "affinities": [
@@ -1191,7 +1189,7 @@
       "id": "65",
       "no": 65,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Sky Isle",
         "affinities": [
@@ -1209,7 +1207,7 @@
       "id": "66",
       "no": 66,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Hidden Valley",
         "affinities": [
@@ -1227,7 +1225,7 @@
       "id": "67",
       "no": 67,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Old Growth",
         "affinities": [
@@ -1245,7 +1243,7 @@
       "id": "68",
       "no": 68,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Cavern",
         "affinities": [
@@ -1263,7 +1261,7 @@
       "id": "69",
       "no": 69,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Caldera Lake",
         "affinities": [
@@ -1283,7 +1281,7 @@
       "id": "70",
       "no": 70,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Geyser Basin",
         "affinities": [
@@ -1303,7 +1301,7 @@
       "id": "71",
       "no": 71,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Red Canyon",
         "affinities": [
@@ -1323,7 +1321,7 @@
       "id": "72",
       "no": 72,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Rainforest",
         "affinities": [
@@ -1343,7 +1341,7 @@
       "id": "73",
       "no": 73,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Lava Coast",
         "affinities": [
@@ -1363,7 +1361,7 @@
       "id": "74",
       "no": 74,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Sand Sea",
         "affinities": [
@@ -1383,7 +1381,7 @@
       "id": "75",
       "no": 75,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Lava Plain",
         "affinities": [
@@ -1403,7 +1401,7 @@
       "id": "76",
       "no": 76,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Boiling Lake",
         "affinities": [
@@ -1423,7 +1421,7 @@
       "id": "77",
       "no": 77,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Misty Fjord",
         "affinities": [
@@ -1443,7 +1441,7 @@
       "id": "78",
       "no": 78,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Archipelago",
         "affinities": [
@@ -1463,7 +1461,7 @@
       "id": "79",
       "no": 79,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "High Desert",
         "affinities": [
@@ -1483,7 +1481,7 @@
       "id": "80",
       "no": 80,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Cloud Sea",
         "affinities": [
@@ -1503,7 +1501,7 @@
       "id": "81",
       "no": 81,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Stone Towers",
         "affinities": [
@@ -1523,7 +1521,7 @@
       "id": "82",
       "no": 82,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Smoking Hills",
         "affinities": [
@@ -1543,7 +1541,7 @@
       "id": "83",
       "no": 83,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Floodplain",
         "affinities": [
@@ -1563,7 +1561,7 @@
       "id": "84",
       "no": 84,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Highlands",
         "affinities": [
@@ -1583,7 +1581,7 @@
       "id": "85",
       "no": 85,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Ice Sheet",
         "affinities": [
@@ -1601,7 +1599,7 @@
       "id": "86",
       "no": 86,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Mountain Range",
         "affinities": [
@@ -1620,7 +1618,7 @@
       "id": "87",
       "no": 87,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Massif",
         "affinities": [
@@ -1638,7 +1636,7 @@
       "id": "88",
       "no": 88,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Cradle",
         "affinities": [],
@@ -1654,7 +1652,7 @@
       "id": "meta-echo",
       "no": 89,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "meta": {
         "name": "Echo",
         "text": "Play a card from your void."
@@ -1664,7 +1662,7 @@
       "id": "meta-ebb",
       "no": 90,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "meta": {
         "name": "Ebb",
         "text": "Remove your opponent's last common."
@@ -1674,7 +1672,7 @@
       "id": "meta-verge",
       "no": 91,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "meta": {
         "name": "Verge",
         "text": "Play two more cards this turn."
@@ -1684,7 +1682,7 @@
       "id": "meta-horizon",
       "no": 92,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "meta": {
         "name": "Horizon",
         "text": "Remove a card from your opponent's binder."
@@ -1694,7 +1692,7 @@
       "id": "meta-hollow",
       "no": 93,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "meta": {
         "name": "Hollow",
         "text": "Return a card from your void."
@@ -1704,7 +1702,7 @@
       "id": "meta-calm",
       "no": 94,
       "rarity": "B",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "meta": {
         "name": "Calm",
         "text": "No forces this round."
@@ -1714,7 +1712,7 @@
       "id": "meta-lull",
       "no": 95,
       "rarity": "A",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "meta": {
         "name": "Lull",
         "text": "Your opponent skips their next turn."
@@ -1724,7 +1722,7 @@
       "id": "96",
       "no": 96,
       "rarity": "S",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Core",
         "affinities": [
@@ -1745,7 +1743,7 @@
       "id": "97",
       "no": 97,
       "rarity": "S",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Ocean",
         "affinities": [
@@ -1766,7 +1764,7 @@
       "id": "98",
       "no": 98,
       "rarity": "S",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Pangaea",
         "affinities": [
@@ -1787,7 +1785,7 @@
       "id": "99",
       "no": 99,
       "rarity": "S",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Trade Winds",
         "affinities": [
@@ -1805,10 +1803,10 @@
       }
     },
     {
-      "id": "101",
-      "no": 101,
+      "id": "100",
+      "no": 100,
       "rarity": "S",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
+      "source": "Third pass: the full pool (Nov 2, 2026)",
       "permanence": {
         "name": "Origin",
         "affinities": [

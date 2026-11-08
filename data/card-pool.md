@@ -2,9 +2,9 @@
 
 > Terminology (Nov 1, 2026): what the passes below call a "tag" is now an "affinity" (working term). Card texts in the force-face table use the new word; older tables and notes still say "tag."
 
-## Third pass: the full pool, 101 cards (Nov 2, 2026)
+## Third pass: the full pool (Nov 2, 2026)
 
-> Claude's draft at Cam's request, nothing Decided. This is the third pass with both faces; the Oct 31 section further down, also called a third pass, covered permanence faces only. Built from Cam's walkthrough of every effect bucket (design/third-pass-brief.md). Faces drawn Nov 2 on the Card Anatomy canvas (boards titled "Third pass"). Commons 1–40, uncommons 41–68, rares 69–88, fifth-pillar meta cards 89–95, pinnacles 96–99 (#100, the fifth-pillar pinnacle Gap, was cut on Nov 8 and the number is open), and card 101 outside the pool (CARD-13).
+> Claude's draft at Cam's request, nothing Decided. This is the third pass with both faces; the Oct 31 section further down, also called a third pass, covered permanence faces only. Built from Cam's walkthrough of every effect bucket (design/third-pass-brief.md). Faces drawn Nov 2 on the Card Anatomy canvas (boards titled "Third pass"). Commons 1–40, uncommons 41–68, rares 69–88, fifth-pillar meta cards 89–95, pinnacles 96–100 (Nov 8: Gap, the fifth-pillar pinnacle at #100, was cut, Origin moved from #101 to #100, and there is no card 101 for now).
 
 **How the text reads.** One wording per idea, used the same way on every card:
 
@@ -24,7 +24,7 @@
 
 **Gone from the second pass.** Permanence played on another card (Snowfield, Glacier and Salt Flat's old faces), Petrified Forest, "also counts as" forces, Shimmer and Haze, and counting double toward affinity.
 
-**Counts.** 40 commons, 28 uncommons, 20 rares, 4 elemental pinnacles and 7 meta cards, plus card 101 (Gap cut Nov 8). Affinities across the 100: fire 33, water 34, air 35, earth 36, plus 6 either-or capsules for each element and one wildcard. Rules text fits in two lines on the card. With Option A (below), 27 forces and Drift run to 8–10 words, shrunk to fit as needed; Archipelago and Cradle keep Cam's wording for their win conditions.
+**Counts.** 40 commons, 28 uncommons, 20 rares, 5 pinnacles (the four elemental ones and Origin) and 7 meta cards: 100 cards (Nov 8). Affinities across the 100: fire 34, water 35, air 36, earth 37, plus 6 either-or capsules for each element and one wildcard. Rules text fits in two lines on the card. With Option A (below), 27 forces and Drift run to 8–10 words, shrunk to fit as needed; Archipelago and Cradle keep Cam's wording for their win conditions.
 
 **Keep me honest (CORE-07).** These could be fun for one player and miserable for the other, so they're the first to watch in testing: Uplift (Massif's force, a world ignores all forces for the round), Massif (your worlds ignore common forces, all the time), Calm (no forces for the round, Cam's test of a stronger version), Whiteout (no world grows until your next turn), the four element-wide protections on the two-of-the-same uncommons, and Lull. Each one either lasts a single round or turn, can itself be removed (Thaw removes a force), or applies to both players.
 
@@ -38,7 +38,7 @@
 
 **Test rule (Nov 2, Cam).** A decisive win: if a player creates a world that scores 3 world points, they win the contest at once. The four test binders below leave out the pinnacles and Origin, which are meant for the end game.
 
-**Open.** The cycle above; whether the commons' restriction text ("Loses its affinities if adjacent to water") is worth its words; Horizon's final shape; card 101's force; names that may sit at the wrong tier.
+**Open.** The cycle above; whether the commons' restriction text ("Loses its affinities if adjacent to water") is worth its words; Horizon's final shape; Origin's force; names that may sit at the wrong tier.
 
 **Fire commons (7)**
 
@@ -183,7 +183,7 @@
 | 87 | Massif | A | 1 earth | Your worlds ignore common forces. | Uplift | Lasts the round | A world ignores all forces. |
 | 88 | Cradle | A | none | At the start of your turn, if you have 3 of each affinity, you win the contest. | Equinox | Once | Return 3 cards from your void. |
 
-**Pinnacles, and card 101 (5)**
+**Pinnacles (5)**
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -191,7 +191,7 @@
 | 97 | Ocean | S | 4 water | — | Deluge | Lasts the round | Two worlds lose their affinities. |
 | 98 | Pangaea | S | 4 earth | — | World Quake | Once | Every permanence becomes its own world. |
 | 99 | Trade Winds | S | 4 air | — | Jet Stream | Once | Every permanence becomes its own world. |
-| 101 | Origin | S | 1 fire, 1 water, 1 air, 1 earth | — | Unmaking | Once | Remove every world. |
+| 100 | Origin | S | 1 fire, 1 water, 1 air, 1 earth | — | Unmaking | Once | Remove every world. |
 
 **Fifth-pillar meta cards, uncommon (6).** One face, usable by either player.
 
@@ -210,7 +210,7 @@
 | --- | --- | --- |
 | Lull | 95 | Your opponent skips their next turn. |
 
-**Gap removed (Nov 8, Cam).** The fifth-pillar meta pinnacle Gap (#100, "Remove a world.") is cut: Cam didn't like the name or the effect. #100 is open.
+**Gap removed, Origin to #100 (Nov 8, Cam).** The fifth-pillar meta pinnacle Gap (#100, "Remove a world.") is cut: Cam didn't like the name or the effect. Origin moves from #101 to #100, and the 101st place is removed for now.
 
 **Five test binders** of 25 (Nov 2), one of each card, for the table, the computer opponent and the simulator. Each follows a rarity gradient (14 commons, 7 uncommons, 4 rares, meta cards counted at their rarity) and leaves out the pinnacles and Origin, which belong to the end game. The first four each lean on two elements but carry at least four of each of the other two, so worlds can complete sets; Compass, added at Cam's request, spreads its affinities evenly across all four. **Rebalanced Nov 2 (Cam asked to bring the element binders closer to Compass):** Tides swaps Cloud Sea, Glacier and Mirage for Geyser Basin, Mud Pots and Sea Cliff; Embers swaps Smoking Hills and Obsidian for Red Canyon and Mangrove. Each keeps its lean and its 14/7/4 curve but now holds more cards that fill a set. In 60 computer-v-computer contests each against Compass, Tides went from 21 wins to 31 and Embers from 21 to 27; Gales and Roots were already about even with Compass and are unchanged.
 
