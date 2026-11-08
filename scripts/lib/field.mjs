@@ -18,30 +18,55 @@ export function mulberry(seed) {
   return () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 }
 
+// One-sided cards (Cam, Nov 8: rate each side of a card alone): every two-sided card below pinnacle splits into a
+// permanence-only card (id + 10000) and a force-only card (id + 20000), each reading its side's text plus "discard the
+// other side of this card". With cfg.faces, binders draw from these halves (never both halves of one card), so the
+// ratings give every side its own number.
+export function addFaceCards() {
+  if (C.__split) return;
+  let n = 0;
+  for (const d of Object.values(C)) {
+    if (d.meta || d.rarity === "S" || !d.fname) continue;
+    C[d.id + 10000] = Object.assign({}, d, { id: d.id + 10000, only: "perm", base: d.id });
+    C[d.id + 20000] = Object.assign({}, d, { id: d.id + 20000, only: "force", base: d.id });
+    d.split = true; n++;
+  }
+  Object.defineProperty(C, "__split", { value: n, enumerable: false });
+}
+export const sideLabel = (d) => (d.only === "perm" ? `${d.name} (permanence)` : d.only === "force" ? `${d.fname} (force of ${d.name})` : d.name);
+
 // one of each card, 15 cards (Cam, Nov 8: smaller binders): 8 commons, 4 uncommons, 3 rares (meta cards at their rarity), no pinnacles or Origin,
 // leaning toward no element (20%), one (30%) or two (50%): a card's weight is 1 + 3 x its share of rings in the lean
 const POOL = Object.values(C).filter((d) => d.rarity !== "S");
 const byRarity = { C: POOL.filter((d) => d.rarity === "C"), B: POOL.filter((d) => d.rarity === "B"), A: POOL.filter((d) => d.rarity === "A") };
 export const TEMPLATE = { C: 8, B: 4, A: 3 }; // 15 cards (was 14/7/4 = 25 until Nov 8)
+let _pf = null;
+const POOL_FACES = () => {
+  if (_pf) return _pf;
+  const all = Object.values(C).filter((d) => d.rarity !== "S" && !d.split);
+  _pf = { C: all.filter((d) => d.rarity === "C"), B: all.filter((d) => d.rarity === "B"), A: all.filter((d) => d.rarity === "A") };
+  return _pf;
+};
 function leanShare(d, mask) {
   if (d.meta || !d.aff || !d.aff.length) return 0;
   let k = 0;
   for (const t of d.aff) k += t === 15 ? 0.5 : t & mask ? 1 : 0;
   return k / d.aff.length;
 }
-export function randomBinder(rng) {
+export function randomBinder(rng, faces) {
   const u = rng();
   const els = ELS.slice().sort(() => rng() - 0.5);
   const lean = u < 0.2 ? [] : u < 0.5 ? [els[0]] : [els[0], els[1]];
   const mask = lean.reduce((m, e) => m | BIT[e], 0);
   const ids = [];
   for (const r of ["C", "B", "A"]) {
-    const cands = byRarity[r].slice();
+    const cands = faces ? POOL_FACES()[r].slice() : byRarity[r].slice();
     const w = cands.map((d) => (lean.length ? 1 + 3 * leanShare(d, mask) : 1));
     for (let k = 0; k < TEMPLATE[r]; k++) {
       let x = rng() * w.reduce((a, b) => a + b, 0), j = 0;
       for (; j < cands.length - 1; j++) { x -= w[j]; if (x <= 0) break; }
-      ids.push(cands[j].id); cands.splice(j, 1); w.splice(j, 1);
+      const pick = cands[j]; ids.push(pick.id); cands.splice(j, 1); w.splice(j, 1);
+      if (pick.base) for (let q = cands.length - 1; q >= 0; q--) if (cands[q].base === pick.base) { cands.splice(q, 1); w.splice(q, 1); }
     }
   }
   return { ids, lean: lean.slice().sort((a, b) => ELS.indexOf(a) - ELS.indexOf(b)).join("+") || "none" };
@@ -50,7 +75,8 @@ export function randomBinder(rng) {
 // cfg: { bo1, nocap, open, quick, styles: [...], ai: {...}, knobs: {...} }
 export function playOne(seed, cfg) {
   const setup = mulberry(seed), rng = mulberry(seed ^ 0x5bd1e995);
-  const A = randomBinder(setup), B = randomBinder(setup);
+  if (cfg.faces) addFaceCards();
+  const A = randomBinder(setup, cfg.faces), B = randomBinder(setup, cfg.faces);
   // cfg.forceA: cards side A always holds, each replacing a random card of its rarity (for sweeps on one card)
   for (const id of cfg.forceA || []) if (!A.ids.includes(id)) {
     const same = A.ids.filter((x) => C[x].rarity === C[id].rarity);

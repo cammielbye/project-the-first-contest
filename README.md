@@ -123,6 +123,11 @@ node scripts/sim3-rate.mjs 4000 --quick --json r.json --csv r.csv
                                  # none, one or two elements), computer styles drawn at random,
                                  # every card rated against an average card of its rarity, plus
                                  # results by lean, element and style; uses every processor
+node scripts/sim3-rate.mjs 20000 --faces --quick --csv sides.csv
+                                 # each side of a card rated alone (Nov 8): every two-sided
+                                 # card splits into a permanence-only and a force-only card
+                                 # ("discard the other side"), drawn into binders separately;
+                                 # compare forces with forces and permanences with permanences
 node scripts/sim3-sweep.mjs --knob archipelagoWater=8,10,12 --quick
                                  # one win-condition number over a few values on the same
                                  # contests, stopping once each is known to ±3 points

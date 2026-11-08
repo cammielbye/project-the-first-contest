@@ -638,8 +638,9 @@ function lastCommon(s, P) {
 function cardMoves(s, P, id, out, inEcho) {
   const d = C[id];
   if (d.meta) { metaMoves(s, P, id, out, inEcho); return; }
-  permMoves(s, P, id, out);
-  if (!s.calm) forceMoves(s, P, id, out);
+  // d.only (simulator's one-sided cards, for rating each side alone): "perm" or "force"; the other side is discarded
+  if (d.only !== "force") permMoves(s, P, id, out);
+  if (!s.calm && d.only !== "perm" && d.fname) forceMoves(s, P, id, out);
 }
 // what P may do now (empty when they can't play)
 export function legalMoves(s, P) {

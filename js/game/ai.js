@@ -71,9 +71,11 @@ export function makeAI(opts = {}) {
       M.now[Q] = now;
     }
   }
-  let POOL = null, POOL_C = null;
+  let POOL = null, POOL_C = null, POOL_SPLIT = -1;
   const pool = () => {
-    if (POOL_C !== R.C) { POOL_C = R.C; POOL = Object.values(R.C).filter((d) => d.rarity !== "S"); }
+    // (with the simulator's one-sided cards in play, the two-sided originals they were split from aren't in any binder)
+    const sp = R.C.__split || 0;
+    if (POOL_C !== R.C || POOL_SPLIT !== sp) { POOL_C = R.C; POOL_SPLIT = sp; POOL = Object.values(R.C).filter((d) => d.rarity !== "S" && !d.split); }
     return POOL;
   };
   // a guess at Q's binder: the cards known to be in it, then unseen cards from the pool
