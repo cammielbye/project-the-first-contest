@@ -1,0 +1,69 @@
+
+20000 contests: one round, no card cap, uncapped worlds; full computer, styles plain/builder/stacker/breaker/turtle/chaser; seed 1108 (20 runs merged)
+first player won 49% of decided; drawn 2%
+how contests were won: world points 39%, tie-break 27%, 3-point world 26%, Archipelago 5%, draw 2%, Cradle 1%
+
+by lean (each side's score: a win 1, a draw 0.5):
+  water        52%  (4267 binders)  wins by tie-break 710, world points 697, 3-point world 369, Archipelago 364, Cradle 18
+  earth+fire   51%  (2469 binders)  wins by world points 530, 3-point world 382, tie-break 312, Cradle 13, Archipelago 9
+  fire+air     51%  (5018 binders)  wins by world points 1085, 3-point world 721, tie-break 654, Cradle 33, Archipelago 17
+  none         50%  (8107 binders)  wins by world points 1709, 3-point world 1238, tie-break 892, Cradle 98, Archipelago 90
+  fire         50%  (2285 binders)  wins by world points 481, tie-break 319, 3-point world 302, Cradle 14, Archipelago 11
+  water+earth  50%  (6293 binders)  wins by world points 1121, tie-break 866, 3-point world 815, Archipelago 244, Cradle 14
+  water+fire   49%  (1262 binders)  wins by world points 215, tie-break 199, 3-point world 138, Archipelago 49, Cradle 8
+  earth        49%  (1614 binders)  wins by world points 282, 3-point world 271, tie-break 220, Archipelago 7, Cradle 5
+  earth+air    49%  (1952 binders)  wins by world points 409, 3-point world 313, tie-break 208, Cradle 11, Archipelago 5
+  air          48%  (3685 binders)  wins by world points 759, tie-break 528, 3-point world 430, Cradle 25, Archipelago 8
+  water+air    48%  (3048 binders)  wins by world points 571, tie-break 444, 3-point world 301, Archipelago 116, Cradle 10
+
+by element (binders leaning on it, alone or with another):
+  water  50%  (14870 binders)
+  earth  50%  (12328 binders)
+  fire   51%  (11034 binders)
+  air    49%  (13703 binders)
+
+by computer style:
+  builder  57%  (6666)
+  chaser   55%  (6662)
+  plain    53%  (6624)
+  turtle   49%  (6679)
+  breaker  46%  (6599)
+  stacker  40%  (6770)
+
+first-player effect in the model: -0.6 points
+
+card ratings: points of win chance against an average card of the same rarity (± is the 95% range)
+ strongest:
+  +  8.3 ±1.6  Cradle           rare             in 4737 binders, played  53%, scored 56%
+  +  7.6 ±1.3  Massif           rare             in 7475 binders, played  88%, scored 56%
+  +  5.0 ±1.3  Mountain Range   rare             in 7813 binders, played  99%, scored 54%
+  +  4.6 ±1.1  Snowfield        common           in 13704 binders, played  62%, scored 52%
+  +  4.2 ±1.3  Archipelago      rare             in 8104 binders, played  98%, scored 53%
+  +  4.1 ±1.0  Peat Bog         common           in 15824 binders, played  81%, scored 52%
+  +  4.0 ±1.5  Mirage           uncommon         in 5427 binders, played  93%, scored 53%
+  +  3.7 ±1.5  Hollow           uncommon (meta)  in 5358 binders, played  45%, scored 53%
+  +  3.6 ±1.2  Mud Pots         uncommon         in 9249 binders, played  93%, scored 53%
+  +  3.5 ±1.0  Foothills        common           in 16755 binders, played  79%, scored 52%
+  +  3.5 ±1.5  Echo             uncommon (meta)  in 5360 binders, played  96%, scored 53%
+  +  3.3 ±1.1  Fumarole         common           in 12359 binders, played  78%, scored 52%
+  +  3.2 ±1.2  Wilderness       uncommon         in 10144 binders, played  87%, scored 52%
+  +  2.1 ±1.1  Grove            common           in 12801 binders, played  72%, scored 51%
+  +  2.1 ±1.2  Hot Spring       uncommon         in 9086 binders, played  90%, scored 51%
+ weakest:
+   -1.7 ±1.3  Lava Coast       rare             in 7872 binders, played  98%, scored 49%
+   -1.9 ±1.2  Plateau          uncommon         in 8613 binders, played  73%, scored 49%
+   -1.9 ±1.1  Cinder Field     common           in 12153 binders, played  62%, scored 49%
+   -2.0 ±1.3  Floodplain       rare             in 7831 binders, played  98%, scored 48%
+   -2.4 ±1.3  Smoking Hills    rare             in 7562 binders, played  99%, scored 48%
+   -2.7 ±1.3  Misty Fjord      rare             in 8328 binders, played  98%, scored 48%
+   -2.8 ±1.1  Bedrock          common           in 12623 binders, played  57%, scored 48%
+   -3.1 ±1.2  Old Growth       uncommon         in 8504 binders, played  47%, scored 48%
+   -4.2 ±1.2  Delta            uncommon         in 9049 binders, played  97%, scored 47%
+   -5.0 ±1.2  Mangrove         uncommon         in 9146 binders, played  96%, scored 46%
+   -5.7 ±1.3  Ice Sheet        rare             in 8140 binders, played  99%, scored 46%
+   -5.9 ±1.5  Calm             uncommon (meta)  in 5267 binders, played  20%, scored 45%
+   -7.5 ±1.5  Verge            uncommon (meta)  in 5307 binders, played  16%, scored 44%
+   -8.4 ±1.3  High Desert      rare             in 8021 binders, played  99%, scored 43%
+  -10.1 ±1.6  Lull             rare (meta)      in 4534 binders, played  30%, scored 41%
+
+50 of 95 cards are clearly above or below average at this sample size

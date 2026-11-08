@@ -1,0 +1,12 @@
+{
+  "name": "2026-11-08-ratings-full-20k",
+  "script": "sim3-rate",
+  "contests": 20000,
+  "shards": 20,
+  "seed": 1108,
+  "args": [
+    "--bo1",
+    "--nocap",
+    "--open"
+  ]
+}
