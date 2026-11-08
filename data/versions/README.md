@@ -9,4 +9,4 @@ doesn't allow them.)
 | File | Branch (commit) | What it is |
 | --- | --- | --- |
 | `card-pool-2026-11-08-third-pass.md` | `saved/card-pool-2026-11-08-third-pass` (`b5385ad`) | The third pass as of Nov 8, 2026 (100 cards: Gap cut, Origin at #100, Archipelago at 10 water), before the restructure by ring count. The playtest table and simulator still use it. |
-| `card-pool-2026-11-08-fourth-pass.md` | `saved/card-pool-2026-11-08-fourth-pass` (`b575d16`) | The fourth pass as first applied on Nov 8 (87 cards, 13 open slots), before the placeholders for cards unique to one element. |
+| `card-pool-2026-11-08-fourth-pass.md` | `saved/card-pool-2026-11-08-fourth-pass` (`c4200fc`) | The fourth pass as first applied on Nov 8 (87 cards, 13 open slots), before the placeholders for cards unique to one element. |

@@ -87,6 +87,15 @@ legend_marks = ''.join(f'<span class="key">{lib.ringed(e, 20)}{e}</span>' for e 
 legend_marks += f'<span class="key">{lib.ringed("water|fire", 20)}either-or</span><span class="key">{lib.ringed("any", 20)}any</span>'
 legend_rar = ''.join(f'<span class="key">{rarity(r)}{RWORD[r]}</span>' for r in 'CBAS')
 open_slots = ''.join(f'<li>{n}</li>' for n in pass4.OPEN)
+def ph_row(no, e, k):
+    return f'''<li class="card card-ph">
+  <span class="no">{no:02d}<small>/100</small></span>
+  <span class="name"><b>Unique {e} {k}</b><span class="tag tag-ph">placeholder</span></span>
+  <span class="plate" role="img" aria-label="At least one {e} ring">{lib.ringed(e, 24)}<span class="more">+?</span></span>
+  <span class="rar rar-none" aria-label="Rarity to come">tbd</span>
+  <span class="text"><span class="perm">{esc(pass4.UNIQUE_NOTE)}</span></span>
+</li>'''
+ph_subs = ''.join(sub(f'{e.capitalize()}', '', [ph_row(no, ee, k % 3 + 1) for k, (no, ee) in enumerate(pass4.PLACEHOLDERS) if ee == e], 3) for e in ORDER)
 
 page = f'''<title>Fourth Pass Card Pool</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -150,6 +159,11 @@ page = f'''<title>Fourth Pass Card Pool</title>
   .force {{ font-size: 12.5px; color: var(--muted); }}
   .force em {{ font-style: normal; font-weight: 500; color: var(--ink); }}
   .dur {{ font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; padding: 1px 5px; border: 1px solid var(--rule-strong); border-radius: 3px; margin: 0 3px; white-space: nowrap; }}
+  .group-note {{ margin: 0 0 2px; color: var(--muted); font-size: 13.5px; max-width: 70ch; }}
+  .tag-ph {{ background: transparent; border: 1px dashed var(--rule-strong); color: var(--muted); }}
+  .card-ph .name b {{ color: var(--muted); }}
+  .card-ph .plate {{ opacity: 0.9; }}
+  .plate .more {{ font-family: var(--mono); font-size: 12px; color: #B9BCB0; padding: 0 2px 0 3px; }}
   .open {{ display: flex; flex-direction: column; gap: 8px; padding-bottom: 12px; }}
   .open ol {{ list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }}
   .open li {{ font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; color: var(--muted); border: 1.5px dashed var(--rule-strong); border-radius: 6px; padding: 6px 10px; }}
@@ -166,14 +180,19 @@ page = f'''<title>Fourth Pass Card Pool</title>
 <div class="wrap">
   <header>
     <h1>Fourth Pass Card Pool</h1>
-    <p class="lede">The third pass restructured by ring count (Nov 8, 2026): <b>{len(pass4.ALL) + len(pass4.META)}</b> cards and <b>{len(pass4.OPEN)}</b> open slots. <b>{rc['C']}</b> commons, <b>{rc['B']}</b> uncommons, <b>{rc['A']}</b> rares, <b>{rc['S']}</b> pinnacles and <b>{len(pass4.META)}</b> meta cards. Rings across the pool: water <b>{t['water']}</b>, earth <b>{t['earth']}</b>, fire <b>{t['fire']}</b>, air <b>{t['air']}</b>, plus <b>{t['water (either-or)']}</b> either-or of each and <b>{t['any']}</b> any.</p>
+    <p class="lede">The third pass restructured by ring count (Nov 8, 2026): <b>{len(pass4.ALL) + len(pass4.META)}</b> cards, <b>{len(pass4.PLACEHOLDERS)}</b> placeholders and <b>{len(pass4.OPEN)}</b> open {'slot' if len(pass4.OPEN) == 1 else 'slots'}. <b>{rc['C']}</b> commons, <b>{rc['B']}</b> uncommons, <b>{rc['A']}</b> rares, <b>{rc['S']}</b> pinnacles and <b>{len(pass4.META)}</b> meta cards. Rings across the pool: water <b>{t['water']}</b>, earth <b>{t['earth']}</b>, fire <b>{t['fire']}</b>, air <b>{t['air']}</b>, plus <b>{t['water (either-or)']}</b> either-or of each and <b>{t['any']}</b> any.</p>
     <div class="legend" aria-label="Key">{legend_marks}<span class="sep" aria-hidden="true"></span>{legend_rar}</div>
   </header>
 
   <main class="pool">
     {''.join(section(title, subs) for title, subs in SECTIONS)}
+    <section class="group" aria-labelledby="placeholders">
+      <h2 id="placeholders"><span>Placeholders</span><span class="count">{len(pass4.PLACEHOLDERS)} slots</span></h2>
+      <p class="group-note">Cam (Nov 8): some cards shouldn't be part of a cycle. Ironically, a cycle of at least 3 cards in each element whose effects have no equivalent in other elements.</p>
+      {ph_subs}
+    </section>
     <section class="group open" aria-labelledby="open-slots">
-      <h2 id="open-slots"><span>Open slots</span><span class="count">{len(pass4.OPEN)}</span></h2>
+      <h2 id="open-slots"><span>{'Open slot' if len(pass4.OPEN) == 1 else 'Open slots'}</span><span class="count">{len(pass4.OPEN)}</span></h2>
       <ol>{open_slots}</ol>
       <p>For more multi-affinity cards (Cam, Nov 8). Names free from cut cards: {esc(', '.join(c[1] for c in pass4.CUT if c[1] not in ('Massif', 'Cradle')))}.</p>
     </section>

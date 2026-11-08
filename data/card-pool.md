@@ -14,9 +14,9 @@
 
 **Cut.** 14 third-pass cards have no place: Dune, Barrens, Ice Floe, Shoal, Fen, Ledge, Ridge, Eyrie, Hill, Meadow, Hanging Valley, Cavern, Massif, Cradle. Their names are free for the open slots.
 
-**Counts.** 25 commons, 25 uncommons, 24 rares, 5 pinnacles and 8 meta cards: 87 cards, with 13 open slots (numbers 83–95). Rings across the pool: water 34, earth 34, fire 35, air 35, plus 6 either-or capsules for each element and 7 any.
+**Counts.** 25 commons, 25 uncommons, 24 rares, 5 pinnacles and 8 meta cards: 87 cards, 12 placeholders (numbers 83–94) and 1 open slot (95). Rings across the pool: water 34, earth 34, fire 35, air 35, plus 6 either-or capsules for each element and 7 any.
 
-**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on.
+**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The placeholders for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards; their rings aren't set, so they may still be.
 
 **One ring, common: can't be moved (4).** One per element.
 
@@ -190,7 +190,24 @@
 | Horizon | 81 | Remove a card from your opponent's binder. |
 | Calm | 82 | No forces this round. |
 
-**Open slots (13).** Numbers 83–95. Cam (Nov 8): the slots this opens should go to more multi-affinity cards.
+**Placeholders: unique to one element (12).** Cam (Nov 8): there should be some cards that aren't part of a cycle; ironically, a cycle of at least 3 cards in each element whose effects have no equivalent in other elements.
+
+| No. | Placeholder | Element | What it's for |
+| --- | --- | --- | --- |
+| 83 | Unique water 1 | water | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
+| 84 | Unique water 2 | water | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
+| 85 | Unique water 3 | water | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
+| 86 | Unique earth 1 | earth | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
+| 87 | Unique earth 2 | earth | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
+| 88 | Unique earth 3 | earth | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
+| 89 | Unique fire 1 | fire | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
+| 90 | Unique fire 2 | fire | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
+| 91 | Unique fire 3 | fire | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
+| 92 | Unique air 1 | air | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
+| 93 | Unique air 2 | air | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
+| 94 | Unique air 3 | air | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come. |
+
+**Open slot (1).** Number 95. Cam (Nov 8): the slots this opens should go to more multi-affinity cards.
 ## Third pass: the full pool (Nov 2, 2026), saved separately
 
 The third pass, as it stood on Nov 8 before the restructure (100 cards, five test binders, and the notes and changes since Nov 2), is saved in the playtest repo at `data/versions/card-pool-2026-11-08-third-pass.md` and on the branch `saved/card-pool-2026-11-08-third-pass`. The playtest table and the simulator still use it.

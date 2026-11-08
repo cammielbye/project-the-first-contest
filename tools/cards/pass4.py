@@ -118,7 +118,11 @@ for k in NUM_ORDER:
     for c in G[k]:
         n += 1; c['no'] = n
 META_NO = {m[0]: 75 + i for i, m in enumerate(META)}
-OPEN = list(range(75 + len(META), 96))
+# placeholders (Cam, Nov 8): some cards aren't part of a cycle; at least 3 per element whose effects have no equivalent in another element
+UNIQUE_NOTE = "Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and name to come."
+_free = list(range(75 + len(META), 96))
+PLACEHOLDERS = [(_free[i * 3 + k], e) for i, e in enumerate(ORDER) for k in range(3)]
+OPEN = _free[len(PLACEHOLDERS):]
 for i, c in enumerate(G['s']): c['no'] = 96 + i
 ALL = [c for k, t, b, cs in GROUPS for c in cs]
 
@@ -132,7 +136,7 @@ def check():
     probs = []
     names = collections.Counter([c['name'] for c in ALL] + [m[0] for m in META])
     probs += [('duplicate name', k) for k, v in names.items() if v > 1]
-    nums = sorted([c['no'] for c in ALL] + list(META_NO.values()) + OPEN)
+    nums = sorted([c['no'] for c in ALL] + list(META_NO.values()) + [p[0] for p in PLACEHOLDERS] + OPEN)
     if nums != list(range(1, 101)): probs.append(('numbering', nums))
     for c in ALL:
         rings = len(c['affinities'])
@@ -194,9 +198,9 @@ def markdown():
 
 **Cut.** {len(CUT)} third-pass cards have no place: {', '.join(c[1] for c in CUT)}. Their names are free for the open slots.
 
-**Counts.** {rc['C']} commons, {rc['B']} uncommons, {rc['A']} rares, {rc['S']} pinnacles and {len(META)} meta cards: {len(ALL) + len(META)} cards, with {len(OPEN)} open slots (numbers {OPEN[0]}–{OPEN[-1]}). Rings across the pool: water {t[W]}, earth {t[E]}, fire {t[F]}, air {t[A]}, plus {t[W + ' (either-or)']} either-or capsules for each element and {t[ANY]} any.
+**Counts.** {rc['C']} commons, {rc['B']} uncommons, {rc['A']} rares, {rc['S']} pinnacles and {len(META)} meta cards: {len(ALL) + len(META)} cards, {len(PLACEHOLDERS)} placeholders (numbers {PLACEHOLDERS[0][0]}–{PLACEHOLDERS[-1][0]}) and {len(OPEN)} open {'slot' if len(OPEN) == 1 else 'slots'} ({', '.join(map(str, OPEN))}). Rings across the pool: water {t[W]}, earth {t[E]}, fire {t[F]}, air {t[A]}, plus {t[W + ' (either-or)']} either-or capsules for each element and {t[ANY]} any.
 
-**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on.
+**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The placeholders for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards; their rings aren't set, so they may still be.
 
 '''
     for key in NUM_ORDER + ['s']:
@@ -205,7 +209,9 @@ def markdown():
         md += '%s%s\n\n%s\n%s\n\n' % (lead, (' ' + blurb) if blurb else '', HEAD, '\n'.join(row(c) for c in cs))
     md += '**Fifth-pillar meta cards, no rarity (%d).** One face, usable by either player.\n\n| Card | No. | Text |\n| --- | --- | --- |\n' % len(META)
     md += '\n'.join('| %s | %d | %s |' % (m[0], META_NO[m[0]], m[1]) for m in META) + '\n\n'
-    md += '**Open slots (%d).** Numbers %d–%d. Cam (Nov 8): the slots this opens should go to more multi-affinity cards.\n' % (len(OPEN), OPEN[0], OPEN[-1])
+    md += '**Placeholders: unique to one element (%d).** Cam (Nov 8): there should be some cards that aren\'t part of a cycle; ironically, a cycle of at least 3 cards in each element whose effects have no equivalent in other elements.\n\n| No. | Placeholder | Element | What it\'s for |\n| --- | --- | --- | --- |\n' % len(PLACEHOLDERS)
+    md += '\n'.join('| %d | Unique %s %d | %s | %s |' % (no, e, k % 3 + 1, e, UNIQUE_NOTE) for k, (no, e) in enumerate(PLACEHOLDERS)) + '\n\n'
+    md += '**Open %s (%d).** %s. Cam (Nov 8): the slots this opens should go to more multi-affinity cards.\n' % ('slot' if len(OPEN) == 1 else 'slots', len(OPEN), 'Number ' + str(OPEN[0]) if len(OPEN) == 1 else 'Numbers %d–%d' % (OPEN[0], OPEN[-1]))
     return md
 
 if __name__ == '__main__':
@@ -214,7 +220,7 @@ if __name__ == '__main__':
     for x in p: print('  ', x)
     t = tally()
     print({e: t[e] for e in ORDER}, 'either-or', {e: t[e + ' (either-or)'] for e in ORDER}, 'any', t[ANY])
-    print('rarity', dict(collections.Counter(c['rarity'] for c in ALL)), 'meta', len(META), 'open', len(OPEN))
+    print('rarity', dict(collections.Counter(c['rarity'] for c in ALL)), 'meta', len(META), 'placeholders', len(PLACEHOLDERS), 'open', OPEN)
     print('cut', [c[1] for c in CUT])
     if '--md' in sys.argv:
         open(sys.argv[sys.argv.index('--md') + 1], 'w').write(markdown())
