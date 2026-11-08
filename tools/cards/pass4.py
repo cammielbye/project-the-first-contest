@@ -119,6 +119,19 @@ for _to, _fr in FORCE_FROM.items():
 for _fr in FORCE_FROM.values():
     b = _by[_fr]; b['force_moved'] = b['force']; b['force'], b['duration'], b['force_text'] = None, None, ''
 
+# pinnacle forces (Cam, Nov 8): the "a world's permanences become [element]" forces are too strong below pinnacle, so
+# Firestorm and Tsunami (reworded the same way) move to the fire and water pinnacles; every other pinnacle force goes
+# except Jet Stream and World Quake. The cards they came from have no force for the moment.
+PINNACLE_FROM = {'Core': ('Red Canyon', None), 'Ocean': ('Archipelago', "A world's permanences become water.")}
+PINNACLE_DROPPED = {}
+for _to, (_fr, _txt) in PINNACLE_FROM.items():
+    a, b = _by[_to], _by[_fr]
+    PINNACLE_DROPPED[_to] = a['force']
+    a['force'], a['duration'], a['force_text'], a['force_from'] = b['force'], b['duration'], _txt or b['force_text'], _fr
+    b['force_moved'] = b['force']; b['force'], b['duration'], b['force_text'] = None, None, ''
+PINNACLE_DROPPED['Origin'] = _by['Origin']['force']
+_by['Origin']['force'], _by['Origin']['duration'], _by['Origin']['force_text'] = None, None, ''
+
 # meta cards: one face, no rarity (Cam, Nov 8). Equinox was Cradle's force face; Cradle's permanence is removed.
 META = [
  ('Echo', P3META['Echo'][3], 'was uncommon'),
@@ -230,7 +243,7 @@ def markdown():
 
 **Changed in place.** {'; '.join('%s (%s)' % (c['name'], c['note']) for c in changed)}.
 
-**Forces changed (Cam, Nov 8).** {'; '.join('%s (%s) now reads "%s" (was "%s"%s)' % (c['force'], c['name'], c['force_text'], c['force_was'], ': ' + c['force_why'] if c['force_why'] else '') for c in ALL if 'force_was' in c)}. Rare forces dialed back (Cam: they got much stronger once worlds were uncapped): the three-of-one-element rares drop their reused common forces ({', '.join('%s (%s)' % (c['force_dropped'], c['name']) for c in ALL if 'force_from' in c)}) and take the remove-a-world's-element forces: {'; '.join('%s now has %s, "%s" (from %s)' % (c['name'], c['force'], c['force_text'], c['force_from']) for c in ALL if 'force_from' in c)}. Claude matched each force to the triple of its element by name; Wildfire and Drought remove by the third pass's cycle (fire burns earth, air dries water), not the opposites. {', '.join(c['name'] for c in ALL if 'force_moved' in c)} have no force for the moment. Every other force is carried over from the third pass unchanged.
+**Forces changed (Cam, Nov 8).** Ice Storm (Deep Lake) and Permafrost (Plateau) say "can't be removed" instead of "can't be moved" ("stronger, and makes more sense" to him). Rare forces are dialed back (they got much stronger once worlds were uncapped): the three-of-one-element rares drop their reused common forces and take the remove-a-world's-element forces: {'; '.join('%s takes %s, "%s" (from %s)' % (c['name'], c['force'], c['force_text'], c['force_from']) for c in ALL if c.get('force_from') in FORCE_FROM.values())}. Claude matched each to the triple of its element by name, so Wildfire and Drought remove by the third pass's cycle (fire burns earth, air dries water), not the opposites. Firestorm and Tsunami now read "A world's permanences become [element]." and, being too strong below pinnacle, are the forces of Core and Ocean; the other pinnacle forces are removed ({', '.join('%s (%s)' % (f, n) for n, f in PINNACLE_DROPPED.items())}) except World Quake (Pangaea) and Jet Stream (Trade Winds), which still read the same. No force for the moment: {', '.join(c['name'] for c in ALL if not c['force'])}. Every other force is carried over from the third pass unchanged.
 
 **Cut.** {len(CUT)} third-pass cards have no place: {', '.join(c[1] for c in CUT)}. {len(PH_USED)} of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: {', '.join(FREE_NAMES)}.
 

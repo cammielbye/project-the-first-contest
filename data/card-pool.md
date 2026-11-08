@@ -12,7 +12,7 @@
 
 **Changed in place.** Glacier (was uncommon; "Ignores air forces." dropped to fit the cycle); Spire (was uncommon; "Ignores earth forces." dropped to fit the cycle); Tide Pool (ignored air); Stone Field (ignored fire); Lava Flow (was uncommon); Mudflat (text removed); Hot Mud (text removed); Spray Coast (text removed); Peat Bog (text removed); Foothills (text removed); Heath (text removed); Wilderness (was uncommon); Mountain Range (was rare); Archipelago (win condition removed for now).
 
-**Forces changed (Cam, Nov 8).** Ice Storm (Deep Lake) now reads "Water permanences can't be removed." (was "Water permanences can't be moved.": stronger, and makes more sense to him); Permafrost (Plateau) now reads "Earth permanences can't be removed." (was "Earth permanences can't be moved.": stronger, and makes more sense to him); Firestorm (Red Canyon) now reads "A world's permanences become fire." (was "A world becomes fire."). Rare forces dialed back (Cam: they got much stronger once worlds were uncapped): the three-of-one-element rares drop their reused common forces (Shower (Lagoon), Dustfall (Moor), Smolder (Cinder Field), Thermal (Peak)) and take the remove-a-world's-element forces: Lagoon now has Flash Flood, "Remove a world's fire permanences." (from Boiling Lake); Moor now has Avalanche, "Remove a world's air permanences." (from Mountain Range); Cinder Field now has Wildfire, "Remove a world's earth permanences." (from Lava Plain); Peak now has Drought, "Remove a world's water permanences." (from Sand Sea). Claude matched each force to the triple of its element by name; Wildfire and Drought remove by the third pass's cycle (fire burns earth, air dries water), not the opposites. Mountain Range, Boiling Lake, Lava Plain, Sand Sea have no force for the moment. Every other force is carried over from the third pass unchanged.
+**Forces changed (Cam, Nov 8).** Ice Storm (Deep Lake) and Permafrost (Plateau) say "can't be removed" instead of "can't be moved" ("stronger, and makes more sense" to him). Rare forces are dialed back (they got much stronger once worlds were uncapped): the three-of-one-element rares drop their reused common forces and take the remove-a-world's-element forces: Lagoon takes Flash Flood, "Remove a world's fire permanences." (from Boiling Lake); Moor takes Avalanche, "Remove a world's air permanences." (from Mountain Range); Cinder Field takes Wildfire, "Remove a world's earth permanences." (from Lava Plain); Peak takes Drought, "Remove a world's water permanences." (from Sand Sea). Claude matched each to the triple of its element by name, so Wildfire and Drought remove by the third pass's cycle (fire burns earth, air dries water), not the opposites. Firestorm and Tsunami now read "A world's permanences become [element]." and, being too strong below pinnacle, are the forces of Core and Ocean; the other pinnacle forces are removed (Solar Flare (Core), Deluge (Ocean), Unmaking (Origin)) except World Quake (Pangaea) and Jet Stream (Trade Winds), which still read the same. No force for the moment: Mountain Range, Red Canyon, Archipelago, Boiling Lake, Lava Plain, Sand Sea, Origin. Every other force is carried over from the third pass unchanged.
 
 **Cut.** 14 third-pass cards have no place: Dune, Barrens, Ice Floe, Shoal, Fen, Ledge, Ridge, Eyrie, Hill, Meadow, Hanging Valley, Cavern, Massif, Cradle. 11 of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: Hanging Valley.
 
@@ -132,13 +132,13 @@
 | 51 | Caldera Lake | A | 1 water, 1 earth, 1 fire | — | Collapse | Once | Remove a permanence. |
 | 52 | Rainforest | A | 1 water, 1 earth, 1 air | — | Monsoon | Once | Return every lone permanence. |
 | 53 | Geyser Basin | A | 1 water, 1 fire, 1 air | — | Typhoon | Once | A world's permanences become separate worlds. |
-| 54 | Red Canyon | A | 1 earth, 1 fire, 1 air | — | Firestorm | Lasts the round | A world's permanences become fire. |
+| 54 | Red Canyon | A | 1 earth, 1 fire, 1 air | — | — | — | No force for the moment. |
 
 **Three rings, rare: two of one element and one of another (12).**
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 55 | Archipelago | A | 2 water, 1 earth | — | Tsunami | Lasts the round | A world becomes water. |
+| 55 | Archipelago | A | 2 water, 1 earth | — | — | — | No force for the moment. |
 | 56 | Boiling Lake | A | 2 water, 1 fire | — | — | — | No force for the moment. |
 | 57 | Misty Fjord | A | 2 water, 1 air | — | Whiteout | Lasts the round | Worlds can't grow until your next turn. |
 | 58 | Floodplain | A | 1 water, 2 earth | — | Mudflow | Once | Return a world of three. |
@@ -173,11 +173,11 @@
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 96 | Ocean | S | 4 water | — | Deluge | Lasts the round | Two worlds lose their affinities. |
+| 96 | Ocean | S | 4 water | — | Tsunami | Lasts the round | A world's permanences become water. |
 | 97 | Pangaea | S | 4 earth | — | World Quake | Once | Every permanence becomes its own world. |
-| 98 | Core | S | 4 fire | — | Solar Flare | Once | Remove every ◯ permanence. |
+| 98 | Core | S | 4 fire | — | Firestorm | Lasts the round | A world's permanences become fire. |
 | 99 | Trade Winds | S | 4 air | — | Jet Stream | Once | Every permanence becomes its own world. |
-| 100 | Origin | S | 1 water, 1 earth, 1 fire, 1 air | — | Unmaking | Once | Remove every world. |
+| 100 | Origin | S | 1 water, 1 earth, 1 fire, 1 air | — | — | — | No force for the moment. |
 
 **Fifth-pillar meta cards, no rarity (8).** One face, usable by either player.
 

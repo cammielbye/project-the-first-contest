@@ -202,7 +202,7 @@ page = f'''<title>Fourth Pass Card Pool</title>
   </main>
 
   <div class="notes">
-    <p><b>Reused name</b>: a cut third-pass card's name, art and force face, given a new permanence; Claude matched names to cards by landform. <b>Draft text</b>: Claude's draft. Forces are carried over from the third pass, so they aren't tuned to the new rarities yet; the ones Cam has changed since: {esc(', '.join(c['force'] for c in pass4.ALL if 'force_was' in c))}; the three-of-one-element rares took the remove-a-world's-element forces, and the cards those came from have none for the moment.</p>
+    <p><b>Reused name</b>: a cut third-pass card's name, art and force face, given a new permanence; Claude matched names to cards by landform. <b>Draft text</b>: Claude's draft. Forces are carried over from the third pass, so they aren't tuned to the new rarities yet; Cam has changed some since (listed in the card pool), and the cards marked "No force for the moment" lost theirs to other cards.</p>
     <p>Source: the fourth pass in design/card-pool.md. The third pass before this is saved in the playtest repo (data/versions/, branch saved/card-pool-2026-11-08-third-pass), and the playtest table still plays it until binders are rebuilt.</p>
   </div>
 </div>
