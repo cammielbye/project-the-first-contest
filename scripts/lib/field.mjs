@@ -18,11 +18,11 @@ export function mulberry(seed) {
   return () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 }
 
-// one of each card: 14 commons, 7 uncommons, 4 rares (meta cards at their rarity), no pinnacles or Origin,
+// one of each card, 15 cards (Cam, Nov 8: smaller binders): 8 commons, 4 uncommons, 3 rares (meta cards at their rarity), no pinnacles or Origin,
 // leaning toward no element (20%), one (30%) or two (50%): a card's weight is 1 + 3 x its share of rings in the lean
 const POOL = Object.values(C).filter((d) => d.rarity !== "S");
 const byRarity = { C: POOL.filter((d) => d.rarity === "C"), B: POOL.filter((d) => d.rarity === "B"), A: POOL.filter((d) => d.rarity === "A") };
-const TEMPLATE = { C: 14, B: 7, A: 4 };
+export const TEMPLATE = { C: 8, B: 4, A: 3 }; // 15 cards (was 14/7/4 = 25 until Nov 8)
 function leanShare(d, mask) {
   if (d.meta || !d.aff || !d.aff.length) return 0;
   let k = 0;

@@ -65,7 +65,7 @@ const one = (i) => C[i.card].aff.length === 1; // "with one affinity": one ring 
 
 // ---------------------------------------------------------------- state
 function newPlayer(ids, name) {
-  return { name, binder: ids.slice(), void: [], played: 0, passed: false, skip: false, wins: 0, commons: [] };
+  return { name, binder: ids.slice(), size: ids.length, void: [], played: 0, passed: false, skip: false, wins: 0, commons: [] };
 }
 // opts (simulator switches; the table uses none): openWorlds (no cap on world size), bestOf (1 or 3 rounds, default 3),
 // noCap (no limit on cards a round: whole binders can be played)
@@ -84,7 +84,7 @@ export function clone(s) {
   return {
     r: s.r, cap: s.cap, bestOf: s.bestOf, knobs: s.knobs, turn: s.turn, opener: s.opener, open: s.open, nid: s.nid, ts: s.ts, inst, worlds, extras: s.extras.slice(), calm: s.calm,
     phase: s.phase, winner: s.winner, rounds: s.rounds, log: [], decisive: s.decisive, turnStarted: s.turnStarted, why: s.why,
-    p: s.p.map((x) => ({ name: x.name, binder: x.binder.slice(), void: x.void.slice(), played: x.played, passed: x.passed, skip: x.skip, wins: x.wins, commons: x.commons.slice() })),
+    p: s.p.map((x) => ({ name: x.name, binder: x.binder.slice(), size: x.size, void: x.void.slice(), played: x.played, passed: x.passed, skip: x.skip, wins: x.wins, commons: x.commons.slice() })),
   };
 }
 const dirty = (s) => { s._v = null; };

@@ -1,9 +1,10 @@
 // Card ratings from random binders (Nov 8). Each contest, each side gets a random legal binder: one of each card,
-// 14 commons, 7 uncommons and 4 rares (meta cards counted at their rarity), no pinnacles or Origin, leaning toward
+// 15 cards since Nov 8 (8 commons, 4 uncommons and 3 rares; meta cards counted at their rarity), no pinnacles or Origin, leaning toward
 // none, one or two elements. Every card is then rated by how much having it in a binder changes the chance of
-// winning, against an average card of its rarity, with the other 24 cards accounted for (a logistic regression).
+// winning, against an average card of its rarity, with the other 14 cards accounted for (a logistic regression).
 //
-// Usage: node scripts/sim3-rate.mjs [contests] [--bo1] [--nocap] [--open] [--seed n] [--workers n] [--json out.json]
+// Usage: node scripts/sim3-rate.mjs [contests] [--bo3] [--cap] [--square] [--seed n] [--workers n] [--json out.json]
+//        (rules default to one round, no card cap, open worlds: see lib/rule-flags.mjs)
 //        [--quick]                     the quick computer (no reply lookahead), about 6x faster, for wide screens
 //        [--styles plain,builder,…]    styles to draw from for each side, each contest (default: all six);
 //                                      --styles builder for one style
@@ -12,6 +13,7 @@
 //        [--first k]                   start at contest k of the run (to split one run across machines)
 //        [--from a.json,b.json]        summarize saved runs together instead of playing
 //        [--csv out.csv]               the card ratings as a table
+import { ruleFlags } from "./lib/rule-flags.mjs";
 import { readFileSync, writeFileSync } from "node:fs";
 import { cpus } from "node:os";
 import { C, ELS, STYLES, runField } from "./lib/field.mjs";
@@ -26,7 +28,7 @@ if (from) {
   rows = runs.flatMap((r) => r.contests); label = runs[0].label + ` (${runs.length} runs merged)`;
 } else {
   const cfg = {
-    bo1: args.includes("--bo1"), nocap: args.includes("--nocap"), open: args.includes("--open"), quick: args.includes("--quick"),
+    ...ruleFlags(args), quick: args.includes("--quick"),
     styles: (opt("--styles", Object.keys(STYLES).join(","))).split(","),
     ai: Object.fromEntries((opt("--ai", "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, b === "false" ? false : b === "true" ? true : isNaN(Number(b)) ? b : Number(b)]; })),
     knobs: Object.fromEntries((opt("--knobs", "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, Number(b)]; })),

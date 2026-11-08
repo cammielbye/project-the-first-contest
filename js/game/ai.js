@@ -26,7 +26,10 @@ const META_WORTH = 0.05;
 const RETURNS = /^Returns at round end/;
 const POWER = { C: 1, B: 1.5, A: 2.2, S: 3 }; // how strong a card is, for planning the rounds
 const power = (d) => (d.meta ? 1.4 : POWER[d.rarity] + 0.15 * (d.aff ? d.aff.length : 0));
-const TEMPLATE = { C: 14, B: 6, A: 4, meta: 1 }; // the test binders' make-up
+// a binder's make-up, for guessing hidden cards: the third-pass test binders (25) and, since Nov 8, the simulator's
+// 15-card binders (8 commons, 4 uncommons, 3 rares, meta cards among them); scaled to the binder's size
+const TEMPLATES = { 25: { C: 14, B: 6, A: 4, meta: 1 }, 15: { C: 8, B: 3, A: 3, meta: 1 } };
+const templateFor = (n) => { const t = TEMPLATES[n > 20 ? 25 : 15], k = n > 20 ? 25 : 15, out = {}; for (const r in t) out[r] = Math.round((t[r] * n) / k); return out; };
 const rkey = (d) => (d.meta ? "meta" : d.rarity);
 const BITS = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
 const last = (s) => s.bestOf || 3; // the contest's last possible round
@@ -79,7 +82,7 @@ export function makeAI(opts = {}) {
     const known = [];
     for (const [c, n] of seen) { const k = n - (now.get(c) || 0); for (let j = 0; j < k; j++) known.push(c); }
     if (known.length >= need) return known.slice(0, need);
-    const left = Object.assign({}, TEMPLATE); let shown = 0;
+    const TEMPLATE = templateFor(s.p[Q].size || 25), left = Object.assign({}, TEMPLATE); let shown = 0;
     for (const [c] of seen) { const d = C()[c]; left[rkey(d)] = (left[rkey(d)] || 0) - 1; shown |= d.el || 0; }
     const keys = Object.keys(TEMPLATE);
     let q = keys.map((r) => Math.max(0, left[r] || 0));

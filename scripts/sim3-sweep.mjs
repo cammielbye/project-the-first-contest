@@ -1,12 +1,13 @@
 // Sweep one win-condition number over a few values on the same random-binder contests (Nov 8), adding contests in
 // batches and stopping once each value's main figure is known to within --precision points (or at --max).
-// Usage: node scripts/sim3-sweep.mjs --knob archipelagoWater=8,10,12 [--bo1] [--nocap] [--open] [--quick]
+// Usage: node scripts/sim3-sweep.mjs --knob archipelagoWater=8,10,12 [--bo3] [--cap] [--square] [--quick]
 //        [--styles …] [--seed n] [--batch 200] [--max 2000] [--precision 3] [--workers n]
 // Knobs: archipelagoWater (Archipelago's water), mountainPer (earth per Mountain Range point),
 //        cradleEach (Cradle's count of each affinity), perfectWorld (world points that win the contest at once).
 // The main figure: for a card's number, the score of binders holding that card (a win 1, a draw 0.5): side A always
 // holds it, and side B sometimes does;
 // for perfectWorld, the share of contests won by a Perfect World.
+import { ruleFlags } from "./lib/rule-flags.mjs";
 import { cpus } from "node:os";
 import { C, ELS, STYLES, runField } from "./lib/field.mjs";
 
@@ -18,7 +19,7 @@ const values = list.split(",").map(Number);
 const CARD = { archipelagoWater: "Archipelago", mountainPer: "Mountain Range", cradleEach: "Cradle" }[knob] || null;
 const cardId = CARD ? Object.values(C).find((d) => d.name === CARD && !d.meta)?.id : null;
 const cfg = {
-  bo1: args.includes("--bo1"), nocap: args.includes("--nocap"), open: args.includes("--open"), quick: args.includes("--quick"),
+  ...ruleFlags(args), quick: args.includes("--quick"),
   styles: (opt("--styles", Object.keys(STYLES).join(","))).split(","), ai: {},
   forceA: cardId ? [cardId] : [], // side A always holds the card, so every contest measures it
 };
