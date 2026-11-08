@@ -1,0 +1,61 @@
+# Big simulation runs on GitHub's runners (Nov 8). Push a request to the sim-runs branch
+# (sims/request.json, see sims/README.md); the run is split across parallel jobs and the summary
+# and card ratings are committed back to sim-runs under sims/results/<name>/.
+name: Simulations
+on:
+  push:
+    branches: [sim-runs]
+    paths: ["sims/request.json"]
+permissions:
+  contents: write
+concurrency:
+  group: sims
+  cancel-in-progress: false
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.p.outputs.shards }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: p
+        run: echo "shards=$(node -e 'const r=require("./sims/request.json"); console.log(JSON.stringify([...Array(r.shards).keys()]))')" >> "$GITHUB_OUTPUT"
+  run:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.shards) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node sims/run.mjs shard ${{ matrix.shard }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shard-${{ matrix.shard }}
+          path: sims/out/
+          retention-days: 3
+  merge:
+    needs: run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/download-artifact@v4
+        with:
+          path: sims/out
+          merge-multiple: true
+      - run: node sims/run.mjs merge
+      - name: Commit the results to sim-runs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sims/results
+          git commit -m "Simulation results: $(node -e 'console.log(require("./sims/request.json").name)')"
+          for i in 1 2 3; do git pull --rebase origin sim-runs && git push origin HEAD:sim-runs && break; sleep 5; done
