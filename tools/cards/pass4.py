@@ -96,6 +96,13 @@ group('a-triple', 'Three rings, rare: three of one element', "", [
 group('s', 'Four rings, pinnacle', "", [
  card(n, 'S', a, '', 'kept') for n, a in [('Ocean', [W] * 4), ('Pangaea', [E] * 4), ('Core', [F] * 4), ('Trade Winds', [A] * 4), ('Origin', [W, E, F, A])]])
 
+# force text changed in this pass (Cam, Nov 8): "X permanences can't be moved" becomes "can't be removed", stronger and clearer to him
+FORCE_CHANGES = {'Deep Lake': "Water permanences can't be removed.", 'Plateau': "Earth permanences can't be removed."}
+for _k, _t, _b, _cs in GROUPS:
+    for _c in _cs:
+        if _c['name'] in FORCE_CHANGES:
+            _c['force_was'] = _c['force_text']; _c['force_text'] = FORCE_CHANGES[_c['name']]
+
 # meta cards: one face, no rarity (Cam, Nov 8). Equinox was Cradle's force face; Cradle's permanence is removed.
 META = [
  ('Echo', P3META['Echo'][3], 'was uncommon'),
@@ -197,13 +204,15 @@ def markdown():
     changed = [c for c in ALL if c['how'] == 'changed']
     md = f'''## Fourth pass: the pool by ring count (Nov 8, 2026)
 
-> Cam's restructure of the third pass (Nov 8), applied to the card pool at his request. The third pass as it stood before this is saved in the repo at `data/versions/card-pool-2026-11-08-third-pass.md` (branch `saved/card-pool-2026-11-08-third-pass`). Forces are carried over from the third pass unchanged, so they haven't been tuned to the new rarities. No binders yet: the playtest table, the computer and the simulator still play the saved third pass until the binders are rebuilt.
+> Cam's restructure of the third pass (Nov 8), applied to the card pool at his request. The third pass as it stood before this is saved in the repo at `data/versions/card-pool-2026-11-08-third-pass.md` (branch `saved/card-pool-2026-11-08-third-pass`). Forces are carried over from the third pass, so they haven't been tuned to the new rarities; the ones Cam has changed since are listed below. No binders yet: the playtest table, the computer and the simulator still play the saved third pass until the binders are rebuilt.
 
 **The structure (Cam, Nov 8).** A card's rarity follows its rings: one ring at common, two at uncommon, three at rare, four at pinnacle. The exceptions are the four rares with one ring that blank their opposite element (Ice Sheet's cycle) and Mirage, which has no ring and stays uncommon. Meta cards have no rarity. Each element has three one-ring commons, one in each cycle: can't be moved, ignores its opposite element's forces, and an effect when played. The opposites are water and fire, earth and air. Two either-or commons per pair of elements, with no text. Wilderness moves to common. New cycles: one element and one any at uncommon, plus one card with two any; three of one element at rare; and a scoring cycle after Mountain Range (water and fire scores water, fire and air scores fire, air and any scores air; the air card is also the any cycle's air card). Cradle's permanence is removed and its force, Equinox, becomes a meta card. Massif is removed. On the any cycle: "the 'any' affinity might be too strong to leave uncommon but for now let's go with it."
 
 **Reclaimed slots (Cam: reuse the existing names).** {len(reused)} cards take the name, art and force face of a cut third-pass card and get a new permanence: {', '.join(c['name'] for c in reused)}. Claude picked which name went where, by landform; Grove's text ("When played, remove a common force.") is Claude's draft, since earth had no when-played card.
 
 **Changed in place.** {'; '.join('%s (%s)' % (c['name'], c['note']) for c in changed)}.
+
+**Forces changed (Cam, Nov 8).** {'; '.join('%s (%s) now reads "%s" (was "%s")' % (c['force'], c['name'], c['force_text'], c['force_was']) for c in ALL if 'force_was' in c)}: "can't be removed" is stronger and makes more sense to him. Every other force is carried over from the third pass unchanged.
 
 **Cut.** {len(CUT)} third-pass cards have no place: {', '.join(c[1] for c in CUT)}. {len(PH_USED)} of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: {', '.join(FREE_NAMES)}.
 

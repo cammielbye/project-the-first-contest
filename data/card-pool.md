@@ -4,13 +4,15 @@
 
 ## Fourth pass: the pool by ring count (Nov 8, 2026)
 
-> Cam's restructure of the third pass (Nov 8), applied to the card pool at his request. The third pass as it stood before this is saved in the repo at `data/versions/card-pool-2026-11-08-third-pass.md` (branch `saved/card-pool-2026-11-08-third-pass`). Forces are carried over from the third pass unchanged, so they haven't been tuned to the new rarities. No binders yet: the playtest table, the computer and the simulator still play the saved third pass until the binders are rebuilt.
+> Cam's restructure of the third pass (Nov 8), applied to the card pool at his request. The third pass as it stood before this is saved in the repo at `data/versions/card-pool-2026-11-08-third-pass.md` (branch `saved/card-pool-2026-11-08-third-pass`). Forces are carried over from the third pass, so they haven't been tuned to the new rarities; the ones Cam has changed since are listed below. No binders yet: the playtest table, the computer and the simulator still play the saved third pass until the binders are rebuilt.
 
 **The structure (Cam, Nov 8).** A card's rarity follows its rings: one ring at common, two at uncommon, three at rare, four at pinnacle. The exceptions are the four rares with one ring that blank their opposite element (Ice Sheet's cycle) and Mirage, which has no ring and stays uncommon. Meta cards have no rarity. Each element has three one-ring commons, one in each cycle: can't be moved, ignores its opposite element's forces, and an effect when played. The opposites are water and fire, earth and air. Two either-or commons per pair of elements, with no text. Wilderness moves to common. New cycles: one element and one any at uncommon, plus one card with two any; three of one element at rare; and a scoring cycle after Mountain Range (water and fire scores water, fire and air scores fire, air and any scores air; the air card is also the any cycle's air card). Cradle's permanence is removed and its force, Equinox, becomes a meta card. Massif is removed. On the any cycle: "the 'any' affinity might be too strong to leave uncommon but for now let's go with it."
 
 **Reclaimed slots (Cam: reuse the existing names).** 16 cards take the name, art and force face of a cut third-pass card and get a new permanence: Lava Field, Grove, Thicket, Badlands, Wind Gap, Spring, Fumarole, Sky Isle, Tidal Flat, Old Growth, Obsidian, Hidden Valley, Lagoon, Moor, Cinder Field, Peak. Claude picked which name went where, by landform; Grove's text ("When played, remove a common force.") is Claude's draft, since earth had no when-played card.
 
 **Changed in place.** Glacier (was uncommon; "Ignores air forces." dropped to fit the cycle); Spire (was uncommon; "Ignores earth forces." dropped to fit the cycle); Tide Pool (ignored air); Stone Field (ignored fire); Lava Flow (was uncommon); Mudflat (text removed); Hot Mud (text removed); Spray Coast (text removed); Peat Bog (text removed); Foothills (text removed); Heath (text removed); Wilderness (was uncommon); Mountain Range (was rare).
+
+**Forces changed (Cam, Nov 8).** Ice Storm (Deep Lake) now reads "Water permanences can't be removed." (was "Water permanences can't be moved."); Permafrost (Plateau) now reads "Earth permanences can't be removed." (was "Earth permanences can't be moved."): "can't be removed" is stronger and makes more sense to him. Every other force is carried over from the third pass unchanged.
 
 **Cut.** 14 third-pass cards have no place: Dune, Barrens, Ice Floe, Shoal, Fen, Ledge, Ridge, Eyrie, Hill, Meadow, Hanging Valley, Cavern, Massif, Cradle. 11 of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: Hanging Valley.
 
@@ -112,8 +114,8 @@
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 46 | Deep Lake | B | 2 water | — | Ice Storm | Lasts the round | Water permanences can't be moved. |
-| 47 | Plateau | B | 2 earth | — | Permafrost | Lasts the round | Earth permanences can't be moved. |
+| 46 | Deep Lake | B | 2 water | — | Ice Storm | Lasts the round | Water permanences can't be removed. |
+| 47 | Plateau | B | 2 earth | — | Permafrost | Lasts the round | Earth permanences can't be removed. |
 | 48 | Lava Lake | B | 2 fire | — | Heat Dome | Lasts the round | Fire permanences can't be removed. |
 | 49 | Twin Peaks | B | 2 air | — | High Pressure | Lasts the round | Air permanences can't be removed. |
 
