@@ -256,7 +256,7 @@ changes on `main`, republish these files to that page as they are on GitHub:
 `index.html`, `css/style.css`, `js/main.js`, `js/state.js`, `js/cards.js`,
 `js/net.js`, `js/computer.js`, `js/game/rules.js`, `js/game/ai.js`,
 `data/cards.json`, `data/binders.json`, `data/card-faces.json`,
-`vendor/peerjs.min.js`. Last republished from `9ecc3d2` (Nov 7).
+`vendor/peerjs.min.js`. Last republished from `ab0bdc5` (Nov 8).
 
 ## Simulating contests
 
