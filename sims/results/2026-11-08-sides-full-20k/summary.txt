@@ -1,0 +1,74 @@
+
+20000 contests: one round, no card cap, uncapped worlds; full computer, styles plain/builder/stacker/breaker/turtle/chaser; each side of a card rated alone; seed 1108 (20 runs merged)
+first player won 48% of decided; drawn 9%
+how contests were won: tie-break 51%, world points 37%, draw 9%, 3-point world 3%
+
+by lean (each side's score: a win 1, a draw 0.5):
+  water+fire   56%  (1284 binders)  wins by tie-break 406, world points 249, 3-point world 14
+  fire         55%  (2280 binders)  wins by tie-break 701, world points 403, 3-point world 39
+  fire+air     53%  (5010 binders)  wins by tie-break 1323, world points 1023, 3-point world 72
+  earth+fire   51%  (2534 binders)  wins by tie-break 671, world points 478, 3-point world 31
+  air          50%  (3722 binders)  wins by tie-break 926, world points 749, 3-point world 38
+  water        49%  (4269 binders)  wins by tie-break 1148, world points 726, 3-point world 48
+  none         49%  (8030 binders)  wins by tie-break 1969, world points 1467, 3-point world 135
+  water+air    49%  (3119 binders)  wins by tie-break 735, world points 597, 3-point world 55
+  earth        49%  (1666 binders)  wins by tie-break 403, world points 305, 3-point world 33
+  water+earth  48%  (6155 binders)  wins by tie-break 1522, world points 1081, 3-point world 91
+  earth+air    47%  (1931 binders)  wins by tie-break 443, world points 354, 3-point world 29
+
+by element (binders leaning on it, alone or with another):
+  water  49%  (14827 binders)
+  earth  49%  (12286 binders)
+  fire   53%  (11108 binders)
+  air    50%  (13782 binders)
+
+by computer style:
+  builder  52%  (6725)
+  plain    51%  (6609)
+  chaser   51%  (6622)
+  breaker  50%  (6672)
+  turtle   49%  (6751)
+  stacker  48%  (6621)
+
+first-player effect in the model: -2.3 points
+
+card ratings: points of win chance against an average card of the same rarity (± is the 95% range)
+ strongest:
+  + 17.5 ±2.8  Equinox          uncommon (meta)  in 1715 binders, played  69%, scored 63%
+  + 13.8 ±2.2  Fumarole (permanence)              uncommon         in 2823 binders, played  98%, scored 61%
+  + 13.2 ±2.1  Sky Isle (permanence)              uncommon         in 3287 binders, played  98%, scored 59%
+  + 11.6 ±1.7  Lightning (force of Lava Flow)     common           in 5459 binders, played  91%, scored 59%
+  + 10.9 ±2.2  Spring (permanence)                uncommon         in 2992 binders, played  98%, scored 57%
+  +  9.7 ±2.0  Hidden Valley (permanence)         uncommon         in 3404 binders, played  93%, scored 57%
+  +  9.6 ±2.1  Mountain Range   uncommon         in 3124 binders, played  98%, scored 57%
+  +  9.5 ±2.8  Mirage (permanence)                uncommon         in 1741 binders, played  95%, scored 58%
+  +  8.6 ±2.2  Peak (permanence)                  rare             in 2921 binders, played  97%, scored 56%
+  +  8.6 ±2.3  Cinder Field (permanence)          rare             in 2581 binders, played  97%, scored 57%
+  +  8.5 ±1.6  Snowfield (permanence)             common           in 5882 binders, played  86%, scored 56%
+  +  8.3 ±2.2  Ice Sheet (permanence)             rare             in 2773 binders, played  90%, scored 56%
+  +  7.8 ±2.2  Lagoon (permanence)                rare             in 2964 binders, played  97%, scored 55%
+  +  7.6 ±2.2  Moor (permanence)                  rare             in 2679 binders, played  97%, scored 54%
+  +  7.0 ±2.1  Tidal Flat (permanence)            uncommon         in 3275 binders, played  92%, scored 54%
+ weakest:
+  -10.5 ±2.1  High Pressure (force of Twin Peaks) uncommon         in 3090 binders, played  35%, scored 42%
+  -10.7 ±2.7  Calm             uncommon (meta)  in 1761 binders, played  55%, scored 42%
+  -11.6 ±2.1  Ice Storm (force of Deep Lake)     uncommon         in 3082 binders, played  38%, scored 41%
+  -11.7 ±2.2  Whiteout (force of Misty Fjord)    rare             in 2907 binders, played  81%, scored 41%
+  -11.8 ±2.2  Downdraft (force of Wind Gap)      rare             in 2878 binders, played  36%, scored 42%
+  -12.0 ±2.2  Permafrost (force of Plateau)      uncommon         in 2870 binders, played  35%, scored 41%
+  -12.7 ±2.7  Lull             uncommon (meta)  in 1784 binders, played  79%, scored 40%
+  -13.3 ±2.8  Verge            uncommon (meta)  in 1762 binders, played  39%, scored 39%
+  -14.7 ±2.3  Shelter (force of Thicket)         rare             in 2668 binders, played  62%, scored 39%
+  -14.8 ±2.1  Undertow (force of Mangrove)       uncommon         in 3061 binders, played  90%, scored 39%
+  -15.1 ±2.2  Monsoon (force of Rainforest)      rare             in 2822 binders, played  71%, scored 39%
+  -15.2 ±2.2  Flood (force of Delta)             uncommon         in 3064 binders, played  93%, scored 38%
+  -18.6 ±2.2  Blizzard (force of Ice Sheet)      rare             in 3035 binders, played  99%, scored 36%
+  -18.9 ±2.3  Tornado (force of High Desert)     rare             in 2779 binders, played  98%, scored 36%
+  -19.5 ±2.3  Mudflow (force of Floodplain)      rare             in 2851 binders, played  72%, scored 36%
+
+average by side, within each rarity (points against the rarity's average card):
+  common    permanence +1.9 (25), force -1.9 (25)
+  uncommon  permanence +5.1 (24), force -4.8 (24), meta -2.1 (8)
+  rare      permanence +4.9 (19), force -6.1 (19)
+
+115 of 150 cards are clearly above or below average at this sample size

@@ -1,0 +1,151 @@
+no,card,side,rarity,rating,ci95,binders,score,play_rate,score_when_played
+77,"Equinox",meta,uncommon (meta),17.48,2.85,1715,0.631,0.692,0.642
+40,"Fumarole (permanence)",permanence,uncommon,13.79,2.23,2823,0.606,0.981,0.608
+41,"Sky Isle (permanence)",permanence,uncommon,13.24,2.07,3287,0.595,0.982,0.595
+11,"Lightning (force of Lava Flow)",force,common,11.61,1.66,5459,0.585,0.907,0.583
+38,"Spring (permanence)",permanence,uncommon,10.91,2.16,2992,0.574,0.982,0.576
+45,"Hidden Valley (permanence)",permanence,uncommon,9.72,2.03,3404,0.569,0.932,0.577
+39,"Mountain Range",both,uncommon,9.56,2.11,3124,0.566,0.980,0.569
+50,"Mirage (permanence)",permanence,uncommon,9.54,2.81,1741,0.584,0.949,0.588
+70,"Peak (permanence)",permanence,rare,8.65,2.17,2921,0.563,0.974,0.565
+69,"Cinder Field (permanence)",permanence,rare,8.59,2.29,2581,0.569,0.967,0.569
+9,"Snowfield (permanence)",permanence,common,8.53,1.58,5882,0.561,0.862,0.552
+71,"Ice Sheet (permanence)",permanence,rare,8.28,2.20,2773,0.565,0.897,0.551
+67,"Lagoon (permanence)",permanence,rare,7.81,2.16,2964,0.553,0.973,0.557
+68,"Moor (permanence)",permanence,rare,7.63,2.23,2679,0.543,0.973,0.545
+42,"Tidal Flat (permanence)",permanence,uncommon,7.01,2.06,3275,0.543,0.920,0.544
+25,"Thunderstorm (force of Wilderness)",force,common,6.99,1.54,6393,0.547,0.839,0.543
+51,"Collapse (force of Caldera Lake)",force,rare,6.88,2.14,2904,0.551,0.983,0.550
+35,"Cinder Cone (permanence)",permanence,uncommon,6.82,2.16,2879,0.543,0.971,0.543
+54,"Red Canyon",both,rare,6.57,2.22,2750,0.549,0.960,0.549
+70,"Drought (force of Peak)",force,rare,6.45,2.23,2743,0.546,0.884,0.547
+73,"Badlands (permanence)",permanence,rare,6.38,2.27,2611,0.558,0.900,0.550
+44,"Obsidian (permanence)",permanence,uncommon,6.31,2.10,3099,0.547,0.922,0.546
+72,"Thicket (permanence)",permanence,rare,5.50,2.25,2653,0.544,0.901,0.528
+33,"Mud Pots (permanence)",permanence,uncommon,5.40,2.12,3038,0.539,0.965,0.541
+75,"Echo",meta,uncommon (meta),5.31,2.72,1772,0.533,0.938,0.526
+43,"Old Growth (permanence)",permanence,uncommon,5.24,2.10,3170,0.544,0.927,0.543
+63,"Sand Sea",both,rare,5.05,2.24,2714,0.549,0.968,0.550
+10,"Grove (permanence)",permanence,common,4.80,1.65,5490,0.529,0.922,0.531
+67,"Flash Flood (force of Lagoon)",force,rare,4.78,2.14,2973,0.526,0.879,0.527
+46,"Deep Lake (permanence)",permanence,uncommon,4.78,2.08,3146,0.540,0.932,0.537
+68,"Avalanche (force of Moor)",force,rare,4.76,2.24,2677,0.515,0.874,0.516
+66,"High Desert (permanence)",permanence,rare,4.49,2.22,2709,0.548,0.968,0.551
+58,"Floodplain (permanence)",permanence,rare,4.47,2.21,2763,0.541,0.963,0.547
+57,"Misty Fjord (permanence)",permanence,rare,4.35,2.13,2974,0.526,0.967,0.530
+56,"Boiling Lake",both,rare,4.19,2.13,2991,0.527,0.976,0.527
+53,"Geyser Basin (permanence)",permanence,rare,3.90,2.18,2870,0.538,0.959,0.543
+61,"Lava Coast (permanence)",permanence,rare,3.81,2.18,2805,0.527,0.969,0.528
+69,"Wildfire (force of Cinder Field)",force,rare,3.67,2.28,2608,0.532,0.864,0.541
+64,"Cloud Sea (permanence)",permanence,rare,3.66,2.14,2971,0.531,0.967,0.533
+62,"Lava Plain",both,rare,3.58,2.21,2706,0.533,0.968,0.535
+34,"Waterfall (permanence)",permanence,uncommon,3.43,2.09,3130,0.519,0.956,0.522
+30,"Sea Cliff (permanence)",permanence,uncommon,3.41,2.13,2967,0.528,0.943,0.532
+12,"Bluff (permanence)",permanence,common,3.37,1.61,5780,0.531,0.939,0.532
+55,"Archipelago",both,rare,3.35,2.16,2922,0.522,0.971,0.525
+1,"Thaw (force of Glacier)",force,common,3.34,1.57,6073,0.517,0.826,0.518
+59,"Smoking Hills (permanence)",permanence,rare,3.21,2.27,2626,0.529,0.970,0.532
+74,"Wind Gap (permanence)",permanence,rare,3.14,2.19,2847,0.535,0.905,0.524
+18,"Spray Coast (permanence)",permanence,common,3.13,1.42,7701,0.525,0.898,0.516
+28,"Cloud Forest (permanence)",permanence,uncommon,3.09,2.06,3176,0.525,0.957,0.527
+20,"Peat Bog (permanence)",permanence,common,3.07,1.49,6819,0.516,0.895,0.509
+76,"Hollow",meta,uncommon (meta),3.05,2.76,1700,0.516,0.741,0.478
+65,"Stone Towers (permanence)",permanence,rare,2.94,2.21,2767,0.515,0.960,0.516
+37,"Savanna (permanence)",permanence,uncommon,2.93,2.16,2904,0.517,0.955,0.514
+14,"Mudflat (permanence)",permanence,common,2.85,1.49,6882,0.524,0.900,0.518
+13,"Marsh (permanence)",permanence,common,2.74,1.50,6856,0.519,0.902,0.510
+48,"Lava Lake (permanence)",permanence,uncommon,2.71,2.25,2703,0.533,0.925,0.527
+24,"Heath (permanence)",permanence,common,2.71,1.52,6754,0.524,0.894,0.520
+36,"Canyon (permanence)",permanence,uncommon,2.64,2.14,2924,0.522,0.940,0.518
+49,"Twin Peaks (permanence)",permanence,uncommon,2.62,2.09,3079,0.529,0.920,0.525
+52,"Rainforest (permanence)",permanence,rare,2.60,2.18,2848,0.521,0.959,0.523
+23,"Scrubland (permanence)",permanence,common,2.51,1.51,6629,0.522,0.889,0.516
+19,"Flint (permanence)",permanence,common,2.49,1.51,6835,0.521,0.899,0.517
+47,"Plateau (permanence)",permanence,uncommon,2.46,2.18,2855,0.522,0.930,0.516
+17,"Sea Stack (permanence)",permanence,common,2.46,1.42,7742,0.516,0.901,0.514
+16,"Hot Mud (permanence)",permanence,common,2.28,1.45,7393,0.524,0.903,0.517
+32,"Mangrove (permanence)",permanence,uncommon,2.01,2.09,3093,0.521,0.953,0.522
+60,"Highlands (permanence)",permanence,rare,1.98,2.23,2705,0.511,0.967,0.511
+25,"Wilderness (permanence)",permanence,common,1.93,1.53,6352,0.508,0.867,0.503
+20,"Firebreak (force of Peat Bog)",force,common,1.92,1.48,6892,0.511,0.662,0.524
+51,"Caldera Lake (permanence)",permanence,rare,1.79,2.22,2717,0.514,0.967,0.519
+26,"Delta (permanence)",permanence,uncommon,1.73,2.08,3152,0.518,0.947,0.517
+31,"Desert (permanence)",permanence,uncommon,1.70,2.16,2914,0.517,0.953,0.521
+29,"Volcano (permanence)",permanence,uncommon,1.64,2.18,2848,0.517,0.947,0.516
+1,"Glacier (permanence)",permanence,common,1.57,1.59,5857,0.503,0.899,0.491
+42,"Hail (force of Tidal Flat)",force,uncommon,1.55,2.07,3212,0.497,0.691,0.487
+21,"Pass (permanence)",permanence,common,1.42,1.45,7297,0.505,0.886,0.500
+61,"Steam Explosion (force of Lava Coast)",force,rare,1.28,2.24,2686,0.517,0.918,0.519
+8,"Summit (permanence)",permanence,common,1.21,1.59,5797,0.512,0.886,0.496
+7,"Ashfield (permanence)",permanence,common,1.13,1.64,5303,0.510,0.886,0.498
+15,"Steam Vent (permanence)",permanence,common,1.08,1.45,7453,0.514,0.904,0.508
+3,"Lava Field (permanence)",permanence,common,0.87,1.63,5442,0.516,0.888,0.503
+34,"Cloudburst (force of Waterfall)",force,uncommon,0.61,2.08,3132,0.507,0.920,0.491
+45,"Landslide (force of Hidden Valley)",force,uncommon,0.60,2.00,3380,0.496,0.715,0.495
+22,"Foothills (permanence)",permanence,common,0.55,1.47,7336,0.500,0.887,0.493
+27,"Scald (force of Hot Spring)",force,uncommon,0.44,2.09,3070,0.499,0.719,0.501
+5,"Tide Pool (permanence)",permanence,common,0.35,1.57,6058,0.509,0.905,0.496
+2,"Bedrock (permanence)",permanence,common,0.24,1.63,5483,0.505,0.885,0.491
+6,"Stone Field (permanence)",permanence,common,0.09,1.63,5501,0.497,0.901,0.479
+33,"Downpour (force of Mud Pots)",force,uncommon,0.07,2.15,2921,0.496,0.863,0.467
+4,"Spire (permanence)",permanence,common,0.03,1.59,5776,0.501,0.884,0.491
+21,"Whirl (force of Pass)",force,common,-0.02,1.45,7312,0.498,0.854,0.487
+27,"Hot Spring (permanence)",permanence,uncommon,-0.26,2.13,2938,0.493,0.952,0.491
+10,"Overgrowth (force of Grove)",force,common,-0.37,1.65,5359,0.484,0.750,0.480
+50,"Heat Shimmer (force of Mirage)",force,uncommon,-0.59,2.66,1801,0.494,0.925,0.481
+22,"Windbreak (force of Foothills)",force,common,-0.67,1.43,7405,0.493,0.603,0.515
+80,"Ebb",meta,uncommon (meta),-0.73,2.72,1746,0.499,0.867,0.486
+4,"Whirlwind (force of Spire)",force,common,-0.80,1.62,5708,0.497,0.814,0.488
+44,"Scorch (force of Obsidian)",force,uncommon,-0.90,2.11,2982,0.495,0.878,0.478
+41,"Waterspout (force of Sky Isle)",force,uncommon,-1.01,2.08,3127,0.490,0.810,0.458
+7,"Brushfire (force of Ashfield)",force,common,-1.38,1.64,5385,0.496,0.717,0.470
+29,"Lava Bomb (force of Volcano)",force,uncommon,-1.46,2.15,2902,0.490,0.735,0.486
+24,"Dry Wind (force of Heath)",force,common,-1.50,1.50,6868,0.491,0.683,0.457
+17,"Riptide (force of Sea Stack)",force,common,-1.56,1.43,7635,0.484,0.721,0.459
+15,"Vent (force of Steam Vent)",force,common,-1.90,1.44,7578,0.490,0.466,0.446
+23,"Dust Devil (force of Scrubland)",force,common,-1.95,1.50,6676,0.487,0.648,0.458
+31,"Heatwave (force of Desert)",force,uncommon,-2.19,2.15,2903,0.485,0.634,0.485
+59,"Eruption (force of Smoking Hills)",force,rare,-2.23,2.23,2692,0.486,0.984,0.485
+8,"Crosswind (force of Summit)",force,common,-2.27,1.60,5729,0.482,0.825,0.467
+35,"Ashfall (force of Cinder Cone)",force,uncommon,-2.67,2.16,2892,0.475,0.897,0.465
+6,"Dust (force of Stone Field)",force,common,-3.14,1.63,5485,0.472,0.541,0.459
+11,"Lava Flow (permanence)",permanence,common,-3.15,1.67,5281,0.472,0.891,0.456
+36,"Dust Storm (force of Canyon)",force,uncommon,-3.16,2.13,3042,0.474,0.863,0.444
+18,"Drying Wind (force of Spray Coast)",force,common,-3.29,1.44,7633,0.474,0.534,0.461
+5,"Drizzle (force of Tide Pool)",force,common,-3.52,1.58,6033,0.472,0.548,0.462
+30,"Gale (force of Sea Cliff)",force,uncommon,-3.77,2.17,2881,0.476,0.869,0.470
+37,"Sandstorm (force of Savanna)",force,uncommon,-3.78,2.17,2868,0.473,0.837,0.450
+73,"Ember (force of Badlands)",force,rare,-4.01,2.28,2567,0.472,0.893,0.465
+3,"Spark (force of Lava Field)",force,common,-4.19,1.68,5199,0.482,0.477,0.452
+13,"Mire (force of Marsh)",force,common,-4.40,1.47,6980,0.465,0.716,0.446
+38,"Low Tide (force of Spring)",force,uncommon,-4.50,2.15,2996,0.465,0.304,0.406
+65,"Gale Force (force of Stone Towers)",force,rare,-5.06,2.20,2803,0.463,0.853,0.455
+64,"Hurricane (force of Cloud Sea)",force,rare,-5.27,2.16,2929,0.458,0.619,0.433
+81,"Horizon",meta,uncommon (meta),-5.35,2.71,1779,0.455,0.874,0.463
+28,"Fog (force of Cloud Forest)",force,uncommon,-5.55,2.10,3098,0.460,0.933,0.446
+14,"Tremor (force of Mudflat)",force,common,-5.94,1.48,7064,0.454,0.427,0.409
+40,"Flare-up (force of Fumarole)",force,uncommon,-5.97,2.12,2999,0.449,0.621,0.446
+19,"Sinkhole (force of Flint)",force,common,-6.16,1.50,6852,0.461,0.298,0.416
+53,"Typhoon (force of Geyser Basin)",force,rare,-6.20,2.14,2907,0.453,0.590,0.428
+9,"Freeze (force of Snowfield)",force,common,-6.23,1.61,5845,0.447,0.704,0.385
+2,"Tangle (force of Bedrock)",force,common,-6.69,1.64,5432,0.452,0.689,0.396
+16,"Steam (force of Hot Mud)",force,common,-7.88,1.44,7586,0.447,0.433,0.426
+12,"Eddy (force of Bluff)",force,common,-8.24,1.61,5720,0.449,0.590,0.383
+48,"Heat Dome (force of Lava Lake)",force,uncommon,-9.07,2.18,2859,0.445,0.376,0.354
+43,"Bramble (force of Old Growth)",force,uncommon,-9.96,2.12,3088,0.426,0.164,0.287
+60,"Earthquake (force of Highlands)",force,rare,-10.52,2.23,2704,0.420,0.604,0.387
+49,"High Pressure (force of Twin Peaks)",force,uncommon,-10.54,2.13,3090,0.421,0.351,0.331
+82,"Calm",meta,uncommon (meta),-10.68,2.74,1761,0.418,0.548,0.389
+46,"Ice Storm (force of Deep Lake)",force,uncommon,-11.57,2.13,3082,0.409,0.375,0.323
+57,"Whiteout (force of Misty Fjord)",force,rare,-11.74,2.18,2907,0.408,0.813,0.386
+74,"Downdraft (force of Wind Gap)",force,rare,-11.84,2.20,2878,0.416,0.362,0.376
+47,"Permafrost (force of Plateau)",force,uncommon,-12.03,2.21,2870,0.405,0.350,0.331
+79,"Lull",meta,uncommon (meta),-12.74,2.74,1784,0.398,0.790,0.355
+78,"Verge",meta,uncommon (meta),-13.35,2.78,1762,0.392,0.390,0.281
+72,"Shelter (force of Thicket)",force,rare,-14.74,2.30,2668,0.385,0.617,0.304
+32,"Undertow (force of Mangrove)",force,uncommon,-14.80,2.13,3061,0.390,0.896,0.366
+52,"Monsoon (force of Rainforest)",force,rare,-15.12,2.23,2822,0.387,0.709,0.337
+26,"Flood (force of Delta)",force,uncommon,-15.17,2.16,3064,0.382,0.932,0.365
+71,"Blizzard (force of Ice Sheet)",force,rare,-18.59,2.19,3035,0.358,0.991,0.354
+66,"Tornado (force of High Desert)",force,rare,-18.94,2.27,2779,0.365,0.979,0.360
+58,"Mudflow (force of Floodplain)",force,rare,-19.50,2.26,2851,0.356,0.722,0.303
