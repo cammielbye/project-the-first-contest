@@ -8,7 +8,7 @@ items = []
 for c in pass3.ALL:
     if c[4]: items.append(('p', c[1], c[4]))
     items.append(('f', c[5], c[7]))
-for m in pass3.META + [pass3.GAP]: items.append(('m', m[1], m[3]))
+for m in pass3.META: items.append(('m', m[1], m[3]))
 W = int(sys.argv[1]) if len(sys.argv) > 1 else 280
 body = ''
 for k, (kind, name, t) in enumerate(items):

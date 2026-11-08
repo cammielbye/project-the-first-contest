@@ -1,22 +1,24 @@
 {
   "source": "data/card-pool.md",
   "pass": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
-  "syncedAt": "2026-11-07T21:20:20.890Z",
+  "syncedAt": "2026-11-08T07:38:45.283Z",
   "counts": {
-    "cards": 101,
-    "meta": 8,
+    "cards": 100,
+    "meta": 7,
     "withForceFace": 93,
     "byRarity": {
       "C": 40,
       "B": 34,
       "A": 21,
-      "S": 6
+      "S": 5
     },
     "fromSection": {
-      "Third pass: the full pool, 101 cards (Nov 2, 2026)": 101
+      "Third pass: the full pool, 101 cards (Nov 2, 2026)": 100
     }
   },
-  "missingNumbers": [],
+  "missingNumbers": [
+    100
+  ],
   "warnings": [],
   "cards": [
     {
@@ -1800,16 +1802,6 @@
         "name": "Jet Stream",
         "duration": "Once",
         "text": "Every permanence becomes its own world."
-      }
-    },
-    {
-      "id": "meta-gap",
-      "no": 100,
-      "rarity": "S",
-      "source": "Third pass: the full pool, 101 cards (Nov 2, 2026)",
-      "meta": {
-        "name": "Gap",
-        "text": "Remove a world."
       }
     },
     {

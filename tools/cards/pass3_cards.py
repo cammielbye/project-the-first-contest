@@ -240,14 +240,13 @@ def boards():
         for c in cs: idx += 2; items.append(pair(idx, c))
         body += group('RARE · ' + lab, items)
     out['Pass3-Rares.dc.html'] = ('Third pass: rares (20)', body)
-    idx = 1600; body = header('Third pass: pinnacles, Origin and meta', 'Four pinnacles, the meta pinnacle Gap, card 101 (Origin, one of each affinity), and seven meta cards: one face, usable by either player.')
+    idx = 1600; body = header('Third pass: pinnacles, Origin and meta', 'Four pinnacles, card 101 (Origin, one of each affinity), and seven meta cards: one face, usable by either player.')
     items = []
     for c in pass3.S_: idx += 2; items.append(pair(idx, c))
     body += group('PINNACLE · S · 4', items)
     idx += 2
-    body += f'<div style="display: flex; gap: 56px">{group("CARD 101 · S", [pair(idx, pass3.ORIGIN)], 1)}'
+    body += f'<div style="display: flex; gap: 56px">{group("CARD 101 · S", [pair(idx, pass3.ORIGIN)], 1)}</div>\n'  # Gap cut Nov 8
     idx += 2
-    body += group('META PINNACLE · S', [single(idx, pass3.GAP)], 1) + '</div>\n'
     ms = []
     for m in pass3.META: idx += 1; ms.append(single(idx, m))
     body += group('META · 7', ms, 7, 34)

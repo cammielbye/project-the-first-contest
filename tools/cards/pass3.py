@@ -127,7 +127,7 @@ S_ = [
  (98, 'Pangaea', 'S', [E] * 4, '', 'World Quake', O, "Every permanence becomes its own world."),
  (99, 'Trade Winds', 'S', [A] * 4, '', 'Jet Stream', O, "Every permanence becomes its own world."),
 ]
-GAP = (100, 'Gap', 'S', "Remove a world.")
+# Gap (#100, the meta pinnacle, "Remove a world.") was cut on Nov 8 (Cam: didn't like the name or the effect); #100 is open.
 ORIGIN = (101, 'Origin', 'S', [F, W, A, E], '', 'Unmaking', O, "Remove every world.")
 
 ALL = C_ + B_ + A_ + S_ + [ORIGIN]
@@ -151,7 +151,7 @@ def words(t): return len(t.replace('—', ' ').split())
 
 def check():
     probs = []
-    names = collections.Counter([c[1] for c in ALL] + [m[1] for m in META] + [GAP[1]])
+    names = collections.Counter([c[1] for c in ALL] + [m[1] for m in META])
     for n, k in names.items():
         if k > 1: probs.append(('duplicate name', n))
     fnames = collections.Counter([c[5] for c in ALL])
@@ -159,7 +159,7 @@ def check():
         if k > 1: probs.append(('duplicate force name', n))
     pn = set(names); clash = pn & set(fnames)
     for n in clash: probs.append(('name used on both faces', n))
-    texts = collections.Counter([c[7] for c in ALL] + [m[3] for m in META] + [GAP[3]])
+    texts = collections.Counter([c[7] for c in ALL] + [m[3] for m in META])
     for t, k in texts.items():
         if k > 1: probs.append(('duplicate force text', t))
     ptexts = collections.Counter([c[4] for c in ALL if c[4]])
@@ -168,10 +168,11 @@ def check():
     for c in ALL:
         for t in (c[4], c[7]):
             if t and words(t) >= 8 and c[1] not in EXCEPTIONS: probs.append(('8+ words', c[1], t, words(t)))
-    for m in META + [GAP]:
+    for m in META:
         if words(m[3]) >= 8: probs.append(('8+ words', m[1], m[3]))
-    nums = sorted([c[0] for c in ALL] + [m[0] for m in META] + [GAP[0]])
-    if nums != list(range(1, 102)): probs.append(('numbering', [n for n in range(1, 102) if n not in nums]))
+    nums = sorted([c[0] for c in ALL] + [m[0] for m in META])
+    want = [n for n in range(1, 102) if n != 100]  # #100 open since Gap was cut
+    if nums != want: probs.append(('numbering', [n for n in want if n not in nums]))
     for c in ALL:
         if c[2] == 'C' and len(c[3]) != 1: probs.append(('common must have one affinity', c[1]))
     trip = [tuple(sorted(c[3])) for c in A_ if len(c[3]) == 3]
@@ -196,7 +197,7 @@ if __name__ == '__main__':
     for e in [F, W, A, E]: print(e, t[e], '+', t[e + ' (either-or)'], 'either-or')
     print('any', t['any'])
     rc = collections.Counter(c[2] for c in ALL if c[0] != 101)
-    print('rarity', dict(rc), 'meta', len(META), '+ Gap')
+    print('rarity', dict(rc), 'meta', len(META))
     fam = collections.Counter((c[2], family(c[7])) for c in ALL)
     for r in 'CBAS':
         print(r, {k[1]: v for k, v in fam.items() if k[0] == r})

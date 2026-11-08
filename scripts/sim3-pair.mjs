@@ -24,7 +24,7 @@ const A = find(opt("--a", "Tides")), B = find(opt("--b", "Embers"));
 if (!A || !B) throw new Error("binder not found: " + binders.map(short).join(", "));
 const names = [short(A), short(B)];
 const open = args.includes("--open"), bo1 = args.includes("--bo1"), nocap = args.includes("--nocap");
-const aiOpts = (k) => Object.fromEntries((opt(k, "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, b === "0" || b === "false" ? false : b === "1" || b === "true" ? true : Number(b)]; }));
+const aiOpts = (k) => Object.fromEntries((opt(k, "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, b === "false" ? false : b === "true" ? true : isNaN(Number(b)) ? b : Number(b)]; }));
 const optsA = aiOpts("--aiA"), optsB = aiOpts("--aiB");
 const show = Number(opt("--show", -1));
 

@@ -78,7 +78,7 @@ intro = f'''## Third pass: the full pool, 101 cards (Nov 2, 2026)
 md = intro + '\n' + '\n'.join(table(g, cs) for g, cs in groups)
 md += '\n**Fifth-pillar meta cards, uncommon (6).** One face, usable by either player.\n\n| Card | No. | Text |\n| --- | --- | --- |\n' + '\n'.join('| %s | %d | %s |' % (m[1], m[0], m[3]) for m in META if m[2] == 'B') + '\n'
 md += '\n**Fifth-pillar meta cards, rare (1).**\n\n| Card | No. | Text |\n| --- | --- | --- |\n' + '\n'.join('| %s | %d | %s |' % (m[1], m[0], m[3]) for m in META if m[2] == 'A') + '\n'
-md += '\n**Fifth-pillar meta pinnacle (1).**\n\n| Card | No. | Text |\n| --- | --- | --- |\n| %s | %d | %s |\n' % (GAP[1], GAP[0], GAP[3])
+# (Gap, the meta pinnacle at #100, was cut on Nov 8.)
 md += '\n**Two test binders** of 25, one of each card, for the table and the simulator:\n\n'
 for b in (binA, binB): md += '- **%s.** %s %s.\n' % (b[0], b[1], ', '.join(b[2]))
 open('pass3.md', 'w').write(md)

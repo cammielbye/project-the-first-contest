@@ -13,7 +13,7 @@ const N = Number(args.find((a, i) => /^\d+$/.test(a) && !args[i - 1]?.startsWith
 let seed = Number(opt("--seed", 1));
 const rng = () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 const open = args.includes("--open"), bo1 = args.includes("--bo1"), nocap = args.includes("--nocap");
-const aiOpts = Object.fromEntries((opt("--ai", "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, b === "0" || b === "false" ? false : b === "1" || b === "true" ? true : Number(b)]; }));
+const aiOpts = Object.fromEntries((opt("--ai", "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, b === "false" ? false : b === "true" ? true : isNaN(Number(b)) ? b : Number(b)]; }));
 
 const root = new URL("..", import.meta.url);
 R.loadCards(JSON.parse(readFileSync(new URL("data/cards.json", root), "utf8")));
