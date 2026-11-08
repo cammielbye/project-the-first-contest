@@ -31,12 +31,14 @@ def tags(c):
 def card_row(c):
     dur = 'lasts the round' if c['duration'] == pass3.R else 'once'
     text = esc(c['text']) if c['text'] else '<span class="vanilla">No text</span>'
+    force = (f'<em>{esc(c["force"])}</em> <span class="dur">{dur}</span> {esc(c["force_text"])}' if c['force']
+             else '<span class="vanilla">No force for the moment</span>')
     return f'''<li class="card">
   <span class="no">{c['no']:02d}<small>/100</small></span>
   <span class="name"><b>{esc(c['name'])}</b>{tags(c)}</span>
   {rings(c['affinities'])}
   {rarity(c['rarity'])}
-  <span class="text"><span class="perm">{text}</span><span class="force"><em>{esc(c['force'])}</em> <span class="dur">{dur}</span> {esc(c['force_text'])}</span></span>
+  <span class="text"><span class="perm">{text}</span><span class="force">{force}</span></span>
 </li>'''
 
 def meta_row(name, text, no):
@@ -200,7 +202,7 @@ page = f'''<title>Fourth Pass Card Pool</title>
   </main>
 
   <div class="notes">
-    <p><b>Reused name</b>: a cut third-pass card's name, art and force face, given a new permanence; Claude matched names to cards by landform. <b>Draft text</b>: Claude's draft. Forces are carried over from the third pass, so they aren't tuned to the new rarities yet; the ones Cam has changed since: {esc(', '.join(c['force'] for c in pass4.ALL if 'force_was' in c))}.</p>
+    <p><b>Reused name</b>: a cut third-pass card's name, art and force face, given a new permanence; Claude matched names to cards by landform. <b>Draft text</b>: Claude's draft. Forces are carried over from the third pass, so they aren't tuned to the new rarities yet; the ones Cam has changed since: {esc(', '.join(c['force'] for c in pass4.ALL if 'force_was' in c))}; the three-of-one-element rares took the remove-a-world's-element forces, and the cards those came from have none for the moment.</p>
     <p>Source: the fourth pass in design/card-pool.md. The third pass before this is saved in the playtest repo (data/versions/, branch saved/card-pool-2026-11-08-third-pass), and the playtest table still plays it until binders are rebuilt.</p>
   </div>
 </div>

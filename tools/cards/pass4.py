@@ -106,6 +106,19 @@ for _k, _t, _b, _cs in GROUPS:
         if _c['name'] in FORCE_CHANGES:
             _c['force_was'] = _c['force_text']; _c['force_text'], _c['force_why'] = FORCE_CHANGES[_c['name']]
 
+# rare forces dialed back (Cam, Nov 8: rare forces got much stronger once worlds were uncapped). The three-of-one-element
+# rares lose their reused common forces and take the remove-a-world's-element forces (Wildfire, Drought, ...); the cards
+# those forces came from have no force for the moment. Claude matched each force to the triple of its own element by name
+# (Flash Flood water, Avalanche earth, Wildfire fire, Drought the air triple); the targets follow the third pass's cycle.
+FORCE_FROM = {'Lagoon': 'Boiling Lake', 'Moor': 'Mountain Range', 'Cinder Field': 'Lava Plain', 'Peak': 'Sand Sea'}
+_by = {c['name']: c for _k, _t, _b, _cs in GROUPS for c in _cs}
+for _to, _fr in FORCE_FROM.items():
+    a, b = _by[_to], _by[_fr]
+    a['force_dropped'] = a['force']
+    a['force'], a['duration'], a['force_text'], a['force_from'] = b['force'], b['duration'], b['force_text'], _fr
+for _fr in FORCE_FROM.values():
+    b = _by[_fr]; b['force_moved'] = b['force']; b['force'], b['duration'], b['force_text'] = None, None, ''
+
 # meta cards: one face, no rarity (Cam, Nov 8). Equinox was Cradle's force face; Cradle's permanence is removed.
 META = [
  ('Echo', P3META['Echo'][3], 'was uncommon'),
@@ -197,6 +210,8 @@ def aff_cell(affs):
 RWORD = {'C': 'commons', 'B': 'uncommons', 'A': 'rares', 'S': 'pinnacles'}
 HEAD = '| No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |\n| --- | --- | --- | --- | --- | --- | --- | --- |'
 def row(c):
+    if not c['force']:
+        return '| %d | %s | %s | %s | %s | — | — | No force for the moment. |' % (c['no'], c['name'], c['rarity'], aff_cell(c['affinities']), c['text'] or '—')
     dur = 'Lasts the round' if c['duration'] == pass3.R else 'Once'
     return '| %d | %s | %s | %s | %s | %s | %s | %s |' % (c['no'], c['name'], c['rarity'], aff_cell(c['affinities']), c['text'] or '—', c['force'], dur, c['force_text'])
 
@@ -215,7 +230,7 @@ def markdown():
 
 **Changed in place.** {'; '.join('%s (%s)' % (c['name'], c['note']) for c in changed)}.
 
-**Forces changed (Cam, Nov 8).** {'; '.join('%s (%s) now reads "%s" (was "%s"%s)' % (c['force'], c['name'], c['force_text'], c['force_was'], ': ' + c['force_why'] if c['force_why'] else '') for c in ALL if 'force_was' in c)}. Every other force is carried over from the third pass unchanged.
+**Forces changed (Cam, Nov 8).** {'; '.join('%s (%s) now reads "%s" (was "%s"%s)' % (c['force'], c['name'], c['force_text'], c['force_was'], ': ' + c['force_why'] if c['force_why'] else '') for c in ALL if 'force_was' in c)}. Rare forces dialed back (Cam: they got much stronger once worlds were uncapped): the three-of-one-element rares drop their reused common forces ({', '.join('%s (%s)' % (c['force_dropped'], c['name']) for c in ALL if 'force_from' in c)}) and take the remove-a-world's-element forces: {'; '.join('%s now has %s, "%s" (from %s)' % (c['name'], c['force'], c['force_text'], c['force_from']) for c in ALL if 'force_from' in c)}. Claude matched each force to the triple of its element by name; Wildfire and Drought remove by the third pass's cycle (fire burns earth, air dries water), not the opposites. {', '.join(c['name'] for c in ALL if 'force_moved' in c)} have no force for the moment. Every other force is carried over from the third pass unchanged.
 
 **Cut.** {len(CUT)} third-pass cards have no place: {', '.join(c[1] for c in CUT)}. {len(PH_USED)} of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: {', '.join(FREE_NAMES)}.
 

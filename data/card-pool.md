@@ -12,7 +12,7 @@
 
 **Changed in place.** Glacier (was uncommon; "Ignores air forces." dropped to fit the cycle); Spire (was uncommon; "Ignores earth forces." dropped to fit the cycle); Tide Pool (ignored air); Stone Field (ignored fire); Lava Flow (was uncommon); Mudflat (text removed); Hot Mud (text removed); Spray Coast (text removed); Peat Bog (text removed); Foothills (text removed); Heath (text removed); Wilderness (was uncommon); Mountain Range (was rare); Archipelago (win condition removed for now).
 
-**Forces changed (Cam, Nov 8).** Ice Storm (Deep Lake) now reads "Water permanences can't be removed." (was "Water permanences can't be moved.": stronger, and makes more sense to him); Permafrost (Plateau) now reads "Earth permanences can't be removed." (was "Earth permanences can't be moved.": stronger, and makes more sense to him); Firestorm (Red Canyon) now reads "A world's permanences become fire." (was "A world becomes fire."). Every other force is carried over from the third pass unchanged.
+**Forces changed (Cam, Nov 8).** Ice Storm (Deep Lake) now reads "Water permanences can't be removed." (was "Water permanences can't be moved.": stronger, and makes more sense to him); Permafrost (Plateau) now reads "Earth permanences can't be removed." (was "Earth permanences can't be moved.": stronger, and makes more sense to him); Firestorm (Red Canyon) now reads "A world's permanences become fire." (was "A world becomes fire."). Rare forces dialed back (Cam: they got much stronger once worlds were uncapped): the three-of-one-element rares drop their reused common forces (Shower (Lagoon), Dustfall (Moor), Smolder (Cinder Field), Thermal (Peak)) and take the remove-a-world's-element forces: Lagoon now has Flash Flood, "Remove a world's fire permanences." (from Boiling Lake); Moor now has Avalanche, "Remove a world's air permanences." (from Mountain Range); Cinder Field now has Wildfire, "Remove a world's earth permanences." (from Lava Plain); Peak now has Drought, "Remove a world's water permanences." (from Sand Sea). Claude matched each force to the triple of its element by name; Wildfire and Drought remove by the third pass's cycle (fire burns earth, air dries water), not the opposites. Mountain Range, Boiling Lake, Lava Plain, Sand Sea have no force for the moment. Every other force is carried over from the third pass unchanged.
 
 **Cut.** 14 third-pass cards have no place: Dune, Barrens, Ice Floe, Shoal, Fen, Ledge, Ridge, Eyrie, Hill, Meadow, Hanging Valley, Cavern, Massif, Cradle. 11 of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: Hanging Valley.
 
@@ -97,7 +97,7 @@
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 38 | Spring | B | 1 water, 1 fire | Score a point per four water affinities. | Low Tide | Once | Return one of your worlds. |
-| 39 | Mountain Range | B | 1 earth, 1 air | Score a point per four earth affinities. | Avalanche | Once | Remove a world's air permanences. |
+| 39 | Mountain Range | B | 1 earth, 1 air | Score a point per four earth affinities. | — | — | No force for the moment. |
 | 40 | Fumarole | B | 1 fire, 1 air | Score a point per four fire affinities. | Flare-up | Once | Remove a common force. |
 | 41 | Sky Isle | B | 1 air, 1 any | Score a point per four air affinities. | Waterspout | Lasts the round | A world's water permanences become air. |
 
@@ -139,14 +139,14 @@
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 55 | Archipelago | A | 2 water, 1 earth | — | Tsunami | Lasts the round | A world becomes water. |
-| 56 | Boiling Lake | A | 2 water, 1 fire | — | Flash Flood | Once | Remove a world's fire permanences. |
+| 56 | Boiling Lake | A | 2 water, 1 fire | — | — | — | No force for the moment. |
 | 57 | Misty Fjord | A | 2 water, 1 air | — | Whiteout | Lasts the round | Worlds can't grow until your next turn. |
 | 58 | Floodplain | A | 1 water, 2 earth | — | Mudflow | Once | Return a world of three. |
 | 59 | Smoking Hills | A | 2 earth, 1 fire | — | Eruption | Lasts the round | A world loses its affinities. |
 | 60 | Highlands | A | 2 earth, 1 air | — | Earthquake | Once | Split each of a player's worlds. |
 | 61 | Lava Coast | A | 1 water, 2 fire | — | Steam Explosion | Lasts the round | Two adjacent permanences lose their affinities. |
-| 62 | Lava Plain | A | 1 earth, 2 fire | — | Wildfire | Once | Remove a world's earth permanences. |
-| 63 | Sand Sea | A | 2 fire, 1 air | — | Drought | Once | Remove a world's water permanences. |
+| 62 | Lava Plain | A | 1 earth, 2 fire | — | — | — | No force for the moment. |
+| 63 | Sand Sea | A | 2 fire, 1 air | — | — | — | No force for the moment. |
 | 64 | Cloud Sea | A | 1 water, 2 air | — | Hurricane | Once | Rearrange a player's worlds. |
 | 65 | Stone Towers | A | 1 earth, 2 air | — | Gale Force | Once | Move three permanences to other worlds. |
 | 66 | High Desert | A | 1 fire, 2 air | — | Tornado | Once | Return two permanences. |
@@ -155,10 +155,10 @@
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 67 | Lagoon | A | 3 water | — | Shower | Lasts the round | A fire permanence becomes water. |
-| 68 | Moor | A | 3 earth | — | Dustfall | Lasts the round | An air permanence with one affinity becomes earth. |
-| 69 | Cinder Field | A | 3 fire | — | Smolder | Lasts the round | An earth permanence with one affinity loses it. |
-| 70 | Peak | A | 3 air | — | Thermal | Lasts the round | A fire permanence with one affinity becomes air. |
+| 67 | Lagoon | A | 3 water | — | Flash Flood | Once | Remove a world's fire permanences. |
+| 68 | Moor | A | 3 earth | — | Avalanche | Once | Remove a world's air permanences. |
+| 69 | Cinder Field | A | 3 fire | — | Wildfire | Once | Remove a world's earth permanences. |
+| 70 | Peak | A | 3 air | — | Drought | Once | Remove a world's water permanences. |
 
 **One ring, rare: X permanences lose their affinities (4).** Each blanks its opposite element (Cam, Nov 8).
 
