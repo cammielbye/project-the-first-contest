@@ -114,6 +114,18 @@ test("Hidden Valley's two any rings fill a set with two one-element cards", () =
   put(s, 0, "Hidden Valley"); put(s, 0, "Glacier", "Hidden Valley", 1); put(s, 0, "Bedrock", "Hidden Valley", 2);
   assert.equal(R.score(s)[0].pts, 1);
 });
+test("Dune: +1 fire once its player has a world point (the opponent's points don't count)", () => {
+  const s = table([], []);
+  const d = put(s, 0, "Dune");
+  assert.deepEqual(R.view(s).tok[d.id], [R.BIT.fire]);
+  put(s, 1, "Hidden Valley"); put(s, 1, "Glacier", "Hidden Valley", 1); put(s, 1, "Bedrock", "Hidden Valley", 2);
+  assert.equal(R.score(s)[1].pts, 1);
+  assert.deepEqual(R.view(s).tok[d.id], [R.BIT.fire]);
+  put(s, 0, "Wilderness"); put(s, 0, "Tide Pool", "Wilderness", 1); put(s, 0, "Stone Field", "Wilderness", 2);
+  put(s, 0, "Summit", "Wilderness", 3);
+  assert.deepEqual(R.view(s).tok[d.id], [R.BIT.fire, R.BIT.fire]);
+  assert.equal(R.score(s)[0].tot[0], 3); // fire: Dune two, Wilderness one
+});
 test("one round: the contest ends when the round does, and there's no card cap", () => {
   const s = table(["Bedrock", "Glacier"], ["Spire"]);
   assert.ok(s.cap > 100);

@@ -169,6 +169,9 @@ Where a card's text leaves a question open, the engine picks one reading (marked
 - The scoring cycle (Spring, Mountain Range, Fumarole, Sky Isle): "a point per four X
   affinities" counts every affinity showing X in the player's worlds, either-or and any rings
   included, as the tie-break does.
+- The +1 cards (Ice Floe, Hill, Dune, Ledge, Nov 9): "a world point" is a complete set in one of
+  the player's worlds right now, counted before any +1, so a card can't earn its own bonus;
+  points from the scoring cycle don't count. The extra affinity is the one the card shows now.
 - Grove ("When played, remove a common force"): any force from a common card on the table,
   either player's. Equinox is a meta card in the fourth pass (it was Cradle's force).
 - Echo's card from the void doesn't count toward the 10; Verge's two plays do.

@@ -1,32 +1,28 @@
 {
   "source": "data/card-pool.md",
   "pass": "Fourth pass: the pool by ring count (Nov 8, 2026)",
-  "syncedAt": "2026-11-08T19:26:05.143Z",
+  "syncedAt": "2026-11-09T08:56:58.747Z",
   "counts": {
-    "cards": 87,
+    "cards": 91,
     "meta": 8,
-    "withForceFace": 72,
+    "withForceFace": 76,
     "byRarity": {
-      "C": 25,
+      "C": 29,
       "B": 33,
       "A": 24,
       "S": 5
     },
     "fromSection": {
-      "Fourth pass: the pool by ring count (Nov 8, 2026)": 87
+      "Fourth pass: the pool by ring count (Nov 8, 2026)": 91
     }
   },
   "missingNumbers": [
-    83,
     84,
     85,
-    86,
     87,
     88,
-    89,
     90,
     91,
-    92,
     93,
     94,
     95
@@ -1488,6 +1484,78 @@
       "meta": {
         "name": "Calm",
         "text": "No forces this round."
+      }
+    },
+    {
+      "id": "83",
+      "no": 83,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Ice Floe",
+        "affinities": [
+          "water"
+        ],
+        "text": "+1 of this card's affinity if you have a world point."
+      },
+      "force": {
+        "name": "Current",
+        "duration": "Lasts the round",
+        "text": "An earth permanence becomes water."
+      }
+    },
+    {
+      "id": "86",
+      "no": 86,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Hill",
+        "affinities": [
+          "earth"
+        ],
+        "text": "+1 of this card's affinity if you have a world point."
+      },
+      "force": {
+        "name": "Rockfall",
+        "duration": "Lasts the round",
+        "text": "An air permanence becomes earth."
+      }
+    },
+    {
+      "id": "89",
+      "no": 89,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Dune",
+        "affinities": [
+          "fire"
+        ],
+        "text": "+1 of this card's affinity if you have a world point."
+      },
+      "force": {
+        "name": "Updraft",
+        "duration": "Lasts the round",
+        "text": "An air permanence becomes fire."
+      }
+    },
+    {
+      "id": "92",
+      "no": 92,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Ledge",
+        "affinities": [
+          "air"
+        ],
+        "text": "+1 of this card's affinity if you have a world point."
+      },
+      "force": {
+        "name": "Gust",
+        "duration": "Once",
+        "text": "An air permanence with one affinity becomes its own world."
       }
     },
     {

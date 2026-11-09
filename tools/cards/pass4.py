@@ -162,6 +162,16 @@ PH_NAMES = {W: ['Ice Floe', 'Shoal', 'Fen'], E: ['Hill', 'Meadow', 'Cavern'], F:
 _free = list(range(75 + len(META), 96))
 PLACEHOLDERS = [(_free[i * 3 + k], e, PH_NAMES[e][k]) for i, e in enumerate(ORDER) for k in range(3)]
 OPEN = _free[len(PLACEHOLDERS):]
+# one placeholder per element filled (Cam, Nov 9): one affinity, "+1 of this card's affinity if you have a world point."
+# Claude took the first placeholder of each element; like the other reclaimed slots, each keeps its third-pass force face.
+POINT_TEXT = "+1 of this card's affinity if you have a world point."
+POINT_NAMES = {W: 'Ice Floe', E: 'Hill', F: 'Dune', A: 'Ledge'}
+group('c-point', "One ring, common: +1 of its affinity with a world point (in the unique slots)",
+      "Cam (Nov 9): one of each element's placeholders with non-cycle effects. They sit in the slots for cards unique to one element, numbered with them. Claude took the first placeholder of each element; like the other reclaimed slots, each keeps its third-pass force face.", [
+ card(POINT_NAMES[e], 'C', [e], POINT_TEXT, 'reused', 'placeholder slot') for e in ORDER])
+for c in GROUPS[-1][3]: c['no'] = next(p[0] for p in PLACEHOLDERS if p[2] == c['name'])
+PLACEHOLDERS = [p for p in PLACEHOLDERS if p[2] not in POINT_NAMES.values()]
+G = {k: cs for k, t, b, cs in GROUPS}
 for i, c in enumerate(G['s']): c['no'] = 96 + i
 ALL = [c for k, t, b, cs in GROUPS for c in cs]
 
@@ -202,11 +212,11 @@ def check():
         want = {1: 'C', 2: 'B', 3: 'A', 4: 'S'}.get(rings)
         if c['rarity'] != want and not (rings == 1 and c in G['a-blank']) and not (rings == 0 and c['name'] == 'Mirage'):
             probs.append(('ring rule', c['name'], rings, c['rarity']))
-        if c['text'] and words(c['text']) >= 8 and c['name'] not in pass3.EXCEPTIONS: probs.append(('8+ words', c['name'], c['text']))
+        if c['text'] and words(c['text']) >= 8 and c['name'] not in pass3.EXCEPTIONS and c['text'] != POINT_TEXT: probs.append(('8+ words', c['name'], c['text']))
         if re.search(r'\b(hand|deal|the)\b', c['name'], re.I): probs.append(('name rule', c['name']))
     for m in META:
         if words(m[1]) >= 8: probs.append(('8+ words', m[0], m[1]))
-    for k in ('c-still', 'c-ignore', 'c-played', 'a-blank', 'a-triple'):
+    for k in ('c-still', 'c-ignore', 'c-played', 'c-point', 'a-blank', 'a-triple'):
         els = [next(a for a in c['affinities']) for c in G[k]]
         if els != ORDER: probs.append(('cycle order', k, els))
     pairs = collections.Counter(c['affinities'][0] for c in G['c-either'])
@@ -261,19 +271,19 @@ def markdown():
 
 **Cut.** {len(CUT)} third-pass cards have no place: {', '.join(c[1] for c in CUT)}. {len(PH_USED)} of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: {', '.join(FREE_NAMES)}.
 
-**Counts.** {rc['C']} commons, {rc['B']} uncommons, {rc['A']} rares, {rc['S']} pinnacles and {len(META)} meta cards: {len(ALL) + len(META)} cards, {len(PLACEHOLDERS)} placeholders (numbers {PLACEHOLDERS[0][0]}–{PLACEHOLDERS[-1][0]}) and {len(OPEN)} open {'slot' if len(OPEN) == 1 else 'slots'} ({', '.join(map(str, OPEN))}). Rings across the pool: water {t[W]}, earth {t[E]}, fire {t[F]}, air {t[A]}, plus {t[W + ' (either-or)']} either-or capsules for each element and {t[ANY]} any.
+**Counts.** {rc['C']} commons, {rc['B']} uncommons, {rc['A']} rares, {rc['S']} pinnacles and {len(META)} meta cards: {len(ALL) + len(META)} cards, {len(PLACEHOLDERS)} placeholders (numbers {', '.join(str(p[0]) for p in PLACEHOLDERS)}) and {len(OPEN)} open {'slot' if len(OPEN) == 1 else 'slots'} ({', '.join(map(str, OPEN))}). Rings across the pool: water {t[W]}, earth {t[E]}, fire {t[F]}, air {t[A]}, plus {t[W + ' (either-or)']} either-or capsules for each element and {t[ANY]} any.
 
-**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The placeholders for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards; their rings aren't set, so they may still be.
+**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The slots for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards. Four now hold the +1-with-a-world-point cards (one ring each, Nov 9); the other eight are placeholders whose rings aren't set, so they may still be. The four form a cycle of their own while sitting in the unique slots. Their text is 11 words, over the under-8 rule (CARD-23); it's let through as an exception for now.
 
 '''
-    for key in NUM_ORDER + ['s']:
+    for key in NUM_ORDER[:5] + ['c-point'] + NUM_ORDER[5:] + ['s']:
         k, title, blurb, cs = next(g for g in GROUPS if g[0] == key)
         lead = '**%s (%d).**' % (title, len(cs))
         md += '%s%s\n\n%s\n%s\n\n' % (lead, (' ' + blurb) if blurb else '', HEAD, '\n'.join(row(c) for c in cs))
     md += '**Fifth-pillar meta cards, no rarity (%d).** One face, usable by either player.\n\n| Card | No. | Text |\n| --- | --- | --- |\n' % len(META)
     md += '\n'.join('| %s | %d | %s |' % (m[0], META_NO[m[0]], m[1]) for m in META) + '\n\n'
     md += '**Placeholders: unique to one element (%d).** Cam (Nov 8): there should be some cards that aren\'t part of a cycle; ironically, a cycle of at least 3 cards in each element whose effects have no equivalent in other elements.\n\n| No. | Placeholder | Element | What it\'s for |\n| --- | --- | --- | --- |\n' % len(PLACEHOLDERS)
-    md += '\n'.join('| %d | %s | %s | %s |' % (no, nm or 'Unique %s %d' % (e, k % 3 + 1), e, UNIQUE_NOTE if nm else UNNAMED_NOTE) for k, (no, e, nm) in enumerate(PLACEHOLDERS)) + '\n\n'
+    md += '\n'.join('| %d | %s | %s | %s |' % (no, nm or 'Unique %s %d' % (e, PH_NAMES[e].index(nm) + 1), e, UNIQUE_NOTE if nm else UNNAMED_NOTE) for k, (no, e, nm) in enumerate(PLACEHOLDERS)) + '\n\n'
     md += '**Open %s (%d).** %s. Cam (Nov 8): the slots this opens should go to more multi-affinity cards.\n' % ('slot' if len(OPEN) == 1 else 'slots', len(OPEN), 'Number ' + str(OPEN[0]) if len(OPEN) == 1 else 'Numbers %d–%d' % (OPEN[0], OPEN[-1]))
     md += '\n**Provisional test binders (Claude, Nov 8), %d.** For the playtest table and the simulator until Cam builds binders from this pool: 15 cards each (Cam, Nov 8: smaller binders), drawn the way the simulator draws random binders (8 commons, 4 uncommons with meta cards among them, 3 rares; no pinnacles), four leaning loosely on one element and one even. Not designed: swap them out freely.\n\n' % len(PROVISIONAL_BINDERS)
     md += ''.join('- **Binder %s, %s.** %s. %s.\n' % (chr(65 + k), bn, d, ', '.join(cs)) for k, (bn, d, cs) in enumerate(PROVISIONAL_BINDERS))

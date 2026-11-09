@@ -8,17 +8,17 @@
 
 **The structure (Cam, Nov 8).** A card's rarity follows its rings: one ring at common, two at uncommon, three at rare, four at pinnacle. The exceptions are the four rares with one ring that blank their opposite element (Ice Sheet's cycle) and Mirage, which has no ring and stays uncommon. Meta cards have no rarity. Each element has three one-ring commons, one in each cycle: can't be moved, ignores its opposite element's forces, and an effect when played. The opposites are water and fire, earth and air. Two either-or commons per pair of elements, with no text. Wilderness moves to common. New cycles: one element and one any at uncommon, plus one card with two any; three of one element at rare; and a scoring cycle after Mountain Range (water and fire scores water, fire and air scores fire, air and any scores air; the air card is also the any cycle's air card). Cradle's permanence is removed and its force, Equinox, becomes a meta card. Massif is removed. On the any cycle: "the 'any' affinity might be too strong to leave uncommon but for now let's go with it."
 
-**Reclaimed slots (Cam: reuse the existing names).** 16 cards take the name, art and force face of a cut third-pass card and get a new permanence: Lava Field, Grove, Thicket, Badlands, Wind Gap, Spring, Fumarole, Sky Isle, Tidal Flat, Old Growth, Obsidian, Hidden Valley, Lagoon, Moor, Cinder Field, Peak. Claude picked which name went where, by landform; Grove's text ("When played, remove a common force.") is Claude's draft, since earth had no when-played card.
+**Reclaimed slots (Cam: reuse the existing names).** 20 cards take the name, art and force face of a cut third-pass card and get a new permanence: Lava Field, Grove, Thicket, Badlands, Wind Gap, Spring, Fumarole, Sky Isle, Tidal Flat, Old Growth, Obsidian, Hidden Valley, Lagoon, Moor, Cinder Field, Peak, Ice Floe, Hill, Dune, Ledge. Claude picked which name went where, by landform; Grove's text ("When played, remove a common force.") is Claude's draft, since earth had no when-played card.
 
 **Changed in place.** Glacier (was uncommon; "Ignores air forces." dropped to fit the cycle); Spire (was uncommon; "Ignores earth forces." dropped to fit the cycle); Tide Pool (ignored air); Stone Field (ignored fire); Lava Flow (was uncommon); Mudflat (text removed); Hot Mud (text removed); Spray Coast (text removed); Peat Bog (text removed); Foothills (text removed); Heath (text removed); Wilderness (was uncommon); Mountain Range (was rare); Archipelago (win condition removed for now).
 
 **Forces changed (Cam, Nov 8).** Ice Storm (Deep Lake) and Permafrost (Plateau) say "can't be removed" instead of "can't be moved" ("stronger, and makes more sense" to him). Rare forces are dialed back (they got much stronger once worlds were uncapped): the three-of-one-element rares drop their reused common forces and take the remove-a-world's-element forces: Lagoon takes Flash Flood, "Remove a world's fire permanences." (from Boiling Lake); Moor takes Avalanche, "Remove a world's air permanences." (from Mountain Range); Cinder Field takes Wildfire, "Remove a world's earth permanences." (from Lava Plain); Peak takes Drought, "Remove a world's water permanences." (from Sand Sea). Claude matched each to the triple of its element by name, so Wildfire and Drought remove by the third pass's cycle (fire burns earth, air dries water), not the opposites. Firestorm and Tsunami now read "A world's permanences become [element]." and, being too strong below pinnacle, are the forces of Core and Ocean; the other pinnacle forces are removed (Solar Flare (Core), Deluge (Ocean), Unmaking (Origin)) except World Quake (Pangaea) and Jet Stream (Trade Winds), which still read the same. No force for the moment: Mountain Range, Red Canyon, Archipelago, Boiling Lake, Lava Plain, Sand Sea, Origin. Every other force is carried over from the third pass unchanged.
 
-**Cut.** 14 third-pass cards have no place: Dune, Barrens, Ice Floe, Shoal, Fen, Ledge, Ridge, Eyrie, Hill, Meadow, Hanging Valley, Cavern, Massif, Cradle. 11 of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: Hanging Valley.
+**Cut.** 10 third-pass cards have no place: Barrens, Shoal, Fen, Ridge, Eyrie, Meadow, Hanging Valley, Cavern, Massif, Cradle. 7 of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: Hanging Valley.
 
-**Counts.** 25 commons, 25 uncommons, 24 rares, 5 pinnacles and 8 meta cards: 87 cards, 12 placeholders (numbers 83–94) and 1 open slot (95). Rings across the pool: water 34, earth 34, fire 35, air 35, plus 6 either-or capsules for each element and 7 any.
+**Counts.** 29 commons, 25 uncommons, 24 rares, 5 pinnacles and 8 meta cards: 91 cards, 8 placeholders (numbers 84, 85, 87, 88, 90, 91, 93, 94) and 1 open slot (95). Rings across the pool: water 35, earth 35, fire 36, air 36, plus 6 either-or capsules for each element and 7 any.
 
-**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The placeholders for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards; their rings aren't set, so they may still be.
+**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The slots for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards. Four now hold the +1-with-a-world-point cards (one ring each, Nov 9); the other eight are placeholders whose rings aren't set, so they may still be. The four form a cycle of their own while sitting in the unique slots. Their text is 11 words, over the under-8 rule (CARD-23); it's let through as an exception for now.
 
 **One ring, common: can't be moved (4).** One per element.
 
@@ -69,6 +69,15 @@
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 25 | Wilderness | C | 1 any | — | Thunderstorm | Once | Remove a ◯ permanence. |
+
+**One ring, common: +1 of its affinity with a world point (in the unique slots) (4).** Cam (Nov 9): one of each element's placeholders with non-cycle effects. They sit in the slots for cards unique to one element, numbered with them.
+
+| No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 83 | Ice Floe | C | 1 water | +1 of this card's affinity if you have a world point. | Current | Lasts the round | An earth permanence becomes water. |
+| 86 | Hill | C | 1 earth | +1 of this card's affinity if you have a world point. | Rockfall | Lasts the round | An air permanence becomes earth. |
+| 89 | Dune | C | 1 fire | +1 of this card's affinity if you have a world point. | Updraft | Lasts the round | An air permanence becomes fire. |
+| 92 | Ledge | C | 1 air | +1 of this card's affinity if you have a world point. | Gust | Once | An air permanence with one affinity becomes its own world. |
 
 **Two rings, uncommon: two different elements, no text (6).**
 
@@ -192,20 +201,16 @@
 | Horizon | 81 | Remove a card from your opponent's binder. |
 | Calm | 82 | No forces this round. |
 
-**Placeholders: unique to one element (12).** Cam (Nov 8): there should be some cards that aren't part of a cycle; ironically, a cycle of at least 3 cards in each element whose effects have no equivalent in other elements.
+**Placeholders: unique to one element (8).** Cam (Nov 8): there should be some cards that aren't part of a cycle; ironically, a cycle of at least 3 cards in each element whose effects have no equivalent in other elements.
 
 | No. | Placeholder | Element | What it's for |
 | --- | --- | --- | --- |
-| 83 | Ice Floe | water | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
 | 84 | Shoal | water | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
 | 85 | Fen | water | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
-| 86 | Hill | earth | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
 | 87 | Meadow | earth | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
 | 88 | Cavern | earth | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
-| 89 | Dune | fire | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
 | 90 | Barrens | fire | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
 | 91 | Unique fire 3 | fire | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity, effect and name to come. |
-| 92 | Ledge | air | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
 | 93 | Ridge | air | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
 | 94 | Eyrie | air | Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come. |
 
@@ -218,6 +223,7 @@
 - **Binder C, Fire.** Leans fire, loosely (drawn at random). Stone Field, Heath, Summit, Lava Flow, Tide Pool, Scrubland, Ashfield, Steam Vent, Hidden Valley, Twin Peaks, Delta, Tidal Flat, Badlands, Caldera Lake, Sand Sea.
 - **Binder D, Air.** Leans air, loosely (drawn at random). Stone Field, Sea Stack, Tide Pool, Lava Field, Glacier, Wilderness, Heath, Summit, Savanna, Twin Peaks, Equinox, Desert, Sand Sea, Peak, Rainforest.
 - **Binder E, Even.** No lean (drawn at random). Spire, Summit, Ashfield, Bedrock, Snowfield, Bluff, Scrubland, Wilderness, Savanna, Horizon, Cloud Forest, Old Growth, Archipelago, Boiling Lake, Highlands.
+
 ## Third pass: the full pool (Nov 2, 2026), saved separately
 
 The third pass, as it stood on Nov 8 before the restructure (100 cards, five test binders, and the notes and changes since Nov 2), is saved in the playtest repo at `data/versions/card-pool-2026-11-08-third-pass.md` and on the branch `saved/card-pool-2026-11-08-third-pass`.
