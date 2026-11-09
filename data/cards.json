@@ -1,22 +1,28 @@
 {
   "source": "data/card-pool.md",
   "pass": "Fourth pass: the pool by ring count (Nov 8, 2026)",
-  "syncedAt": "2026-11-09T09:18:43.394Z",
+  "syncedAt": "2026-11-09T09:34:30.224Z",
   "counts": {
-    "cards": 92,
+    "cards": 86,
     "meta": 8,
-    "withForceFace": 77,
+    "withForceFace": 71,
     "byRarity": {
-      "C": 29,
+      "C": 23,
       "B": 34,
       "A": 24,
       "S": 5
     },
     "fromSection": {
-      "Fourth pass: the pool by ring count (Nov 8, 2026)": 92
+      "Fourth pass: the pool by ring count (Nov 8, 2026)": 86
     }
   },
   "missingNumbers": [
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
     84,
     85,
     87,
@@ -27,6 +33,7 @@
     94
   ],
   "warnings": [
+    "Fourth pass: the pool by ring count (Nov 8, 2026): table skipped (header: no. | placeholder | what it's for)",
     "Fourth pass: the pool by ring count (Nov 8, 2026): table skipped (header: no. | placeholder | element | what it's for)",
     "Binder A, Water: no force face yet for Archipelago",
     "Binder B, Earth: no force face yet for Lava Plain",
@@ -275,24 +282,6 @@
       "rarity": "C",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
-        "name": "Mudflat",
-        "affinities": [
-          "water|earth"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Tremor",
-        "duration": "Once",
-        "text": "A world of two splits apart."
-      }
-    },
-    {
-      "id": "15",
-      "no": 15,
-      "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
-      "permanence": {
         "name": "Steam Vent",
         "affinities": [
           "water|fire"
@@ -306,26 +295,8 @@
       }
     },
     {
-      "id": "16",
-      "no": 16,
-      "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
-      "permanence": {
-        "name": "Hot Mud",
-        "affinities": [
-          "water|fire"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Steam",
-        "duration": "Lasts the round",
-        "text": "A world of three can't grow."
-      }
-    },
-    {
-      "id": "17",
-      "no": 17,
+      "id": "15",
+      "no": 15,
       "rarity": "C",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -342,26 +313,8 @@
       }
     },
     {
-      "id": "18",
-      "no": 18,
-      "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
-      "permanence": {
-        "name": "Spray Coast",
-        "affinities": [
-          "water|air"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Drying Wind",
-        "duration": "Lasts the round",
-        "text": "A water permanence with one affinity loses it."
-      }
-    },
-    {
-      "id": "19",
-      "no": 19,
+      "id": "16",
+      "no": 16,
       "rarity": "C",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -378,26 +331,8 @@
       }
     },
     {
-      "id": "20",
-      "no": 20,
-      "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
-      "permanence": {
-        "name": "Peat Bog",
-        "affinities": [
-          "earth|fire"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Firebreak",
-        "duration": "Lasts the round",
-        "text": "Your worlds ignore fire forces."
-      }
-    },
-    {
-      "id": "21",
-      "no": 21,
+      "id": "17",
+      "no": 17,
       "rarity": "C",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -414,26 +349,8 @@
       }
     },
     {
-      "id": "22",
-      "no": 22,
-      "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
-      "permanence": {
-        "name": "Foothills",
-        "affinities": [
-          "earth|air"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Windbreak",
-        "duration": "Lasts the round",
-        "text": "Your worlds ignore air forces."
-      }
-    },
-    {
-      "id": "23",
-      "no": 23,
+      "id": "18",
+      "no": 18,
       "rarity": "C",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -450,26 +367,8 @@
       }
     },
     {
-      "id": "24",
-      "no": 24,
-      "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
-      "permanence": {
-        "name": "Heath",
-        "affinities": [
-          "fire|air"
-        ],
-        "text": ""
-      },
-      "force": {
-        "name": "Dry Wind",
-        "duration": "Lasts the round",
-        "text": "A water permanence becomes air."
-      }
-    },
-    {
-      "id": "25",
-      "no": 25,
+      "id": "19",
+      "no": 19,
       "rarity": "C",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -486,8 +385,8 @@
       }
     },
     {
-      "id": "26",
-      "no": 26,
+      "id": "20",
+      "no": 20,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -505,8 +404,8 @@
       }
     },
     {
-      "id": "27",
-      "no": 27,
+      "id": "21",
+      "no": 21,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -524,8 +423,8 @@
       }
     },
     {
-      "id": "28",
-      "no": 28,
+      "id": "22",
+      "no": 22,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -543,8 +442,8 @@
       }
     },
     {
-      "id": "29",
-      "no": 29,
+      "id": "23",
+      "no": 23,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -562,8 +461,8 @@
       }
     },
     {
-      "id": "30",
-      "no": 30,
+      "id": "24",
+      "no": 24,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -581,8 +480,8 @@
       }
     },
     {
-      "id": "31",
-      "no": 31,
+      "id": "25",
+      "no": 25,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -600,8 +499,8 @@
       }
     },
     {
-      "id": "32",
-      "no": 32,
+      "id": "26",
+      "no": 26,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -619,8 +518,8 @@
       }
     },
     {
-      "id": "33",
-      "no": 33,
+      "id": "27",
+      "no": 27,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -638,8 +537,8 @@
       }
     },
     {
-      "id": "34",
-      "no": 34,
+      "id": "28",
+      "no": 28,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -657,8 +556,8 @@
       }
     },
     {
-      "id": "35",
-      "no": 35,
+      "id": "29",
+      "no": 29,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -676,8 +575,8 @@
       }
     },
     {
-      "id": "36",
-      "no": 36,
+      "id": "30",
+      "no": 30,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -695,8 +594,8 @@
       }
     },
     {
-      "id": "37",
-      "no": 37,
+      "id": "31",
+      "no": 31,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -714,8 +613,8 @@
       }
     },
     {
-      "id": "38",
-      "no": 38,
+      "id": "32",
+      "no": 32,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -733,8 +632,8 @@
       }
     },
     {
-      "id": "39",
-      "no": 39,
+      "id": "33",
+      "no": 33,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -748,8 +647,8 @@
       "force": null
     },
     {
-      "id": "40",
-      "no": 40,
+      "id": "34",
+      "no": 34,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -767,8 +666,8 @@
       }
     },
     {
-      "id": "41",
-      "no": 41,
+      "id": "35",
+      "no": 35,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -786,8 +685,8 @@
       }
     },
     {
-      "id": "42",
-      "no": 42,
+      "id": "36",
+      "no": 36,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -805,8 +704,8 @@
       }
     },
     {
-      "id": "43",
-      "no": 43,
+      "id": "37",
+      "no": 37,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -824,8 +723,8 @@
       }
     },
     {
-      "id": "44",
-      "no": 44,
+      "id": "38",
+      "no": 38,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -843,8 +742,8 @@
       }
     },
     {
-      "id": "45",
-      "no": 45,
+      "id": "39",
+      "no": 39,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -862,8 +761,8 @@
       }
     },
     {
-      "id": "46",
-      "no": 46,
+      "id": "40",
+      "no": 40,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -881,8 +780,8 @@
       }
     },
     {
-      "id": "47",
-      "no": 47,
+      "id": "41",
+      "no": 41,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -900,8 +799,8 @@
       }
     },
     {
-      "id": "48",
-      "no": 48,
+      "id": "42",
+      "no": 42,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -919,8 +818,8 @@
       }
     },
     {
-      "id": "49",
-      "no": 49,
+      "id": "43",
+      "no": 43,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -938,8 +837,8 @@
       }
     },
     {
-      "id": "50",
-      "no": 50,
+      "id": "44",
+      "no": 44,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -954,8 +853,8 @@
       }
     },
     {
-      "id": "51",
-      "no": 51,
+      "id": "45",
+      "no": 45,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -974,8 +873,8 @@
       }
     },
     {
-      "id": "52",
-      "no": 52,
+      "id": "46",
+      "no": 46,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -994,8 +893,8 @@
       }
     },
     {
-      "id": "53",
-      "no": 53,
+      "id": "47",
+      "no": 47,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1014,8 +913,8 @@
       }
     },
     {
-      "id": "54",
-      "no": 54,
+      "id": "48",
+      "no": 48,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1030,8 +929,8 @@
       "force": null
     },
     {
-      "id": "55",
-      "no": 55,
+      "id": "49",
+      "no": 49,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1046,8 +945,8 @@
       "force": null
     },
     {
-      "id": "56",
-      "no": 56,
+      "id": "50",
+      "no": 50,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1062,8 +961,8 @@
       "force": null
     },
     {
-      "id": "57",
-      "no": 57,
+      "id": "51",
+      "no": 51,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1082,8 +981,8 @@
       }
     },
     {
-      "id": "58",
-      "no": 58,
+      "id": "52",
+      "no": 52,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1102,8 +1001,8 @@
       }
     },
     {
-      "id": "59",
-      "no": 59,
+      "id": "53",
+      "no": 53,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1122,8 +1021,8 @@
       }
     },
     {
-      "id": "60",
-      "no": 60,
+      "id": "54",
+      "no": 54,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1142,8 +1041,8 @@
       }
     },
     {
-      "id": "61",
-      "no": 61,
+      "id": "55",
+      "no": 55,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1162,8 +1061,8 @@
       }
     },
     {
-      "id": "62",
-      "no": 62,
+      "id": "56",
+      "no": 56,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1178,8 +1077,8 @@
       "force": null
     },
     {
-      "id": "63",
-      "no": 63,
+      "id": "57",
+      "no": 57,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1194,8 +1093,8 @@
       "force": null
     },
     {
-      "id": "64",
-      "no": 64,
+      "id": "58",
+      "no": 58,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1214,8 +1113,8 @@
       }
     },
     {
-      "id": "65",
-      "no": 65,
+      "id": "59",
+      "no": 59,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1234,8 +1133,8 @@
       }
     },
     {
-      "id": "66",
-      "no": 66,
+      "id": "60",
+      "no": 60,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1254,8 +1153,8 @@
       }
     },
     {
-      "id": "67",
-      "no": 67,
+      "id": "61",
+      "no": 61,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1274,8 +1173,8 @@
       }
     },
     {
-      "id": "68",
-      "no": 68,
+      "id": "62",
+      "no": 62,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1294,8 +1193,8 @@
       }
     },
     {
-      "id": "69",
-      "no": 69,
+      "id": "63",
+      "no": 63,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1314,8 +1213,8 @@
       }
     },
     {
-      "id": "70",
-      "no": 70,
+      "id": "64",
+      "no": 64,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1334,8 +1233,8 @@
       }
     },
     {
-      "id": "71",
-      "no": 71,
+      "id": "65",
+      "no": 65,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1352,8 +1251,8 @@
       }
     },
     {
-      "id": "72",
-      "no": 72,
+      "id": "66",
+      "no": 66,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1370,8 +1269,8 @@
       }
     },
     {
-      "id": "73",
-      "no": 73,
+      "id": "67",
+      "no": 67,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1388,8 +1287,8 @@
       }
     },
     {
-      "id": "74",
-      "no": 74,
+      "id": "68",
+      "no": 68,
       "rarity": "A",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "permanence": {
@@ -1407,7 +1306,7 @@
     },
     {
       "id": "meta-echo",
-      "no": 75,
+      "no": 69,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "meta": {
@@ -1417,7 +1316,7 @@
     },
     {
       "id": "meta-hollow",
-      "no": 76,
+      "no": 70,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "meta": {
@@ -1427,7 +1326,7 @@
     },
     {
       "id": "meta-equinox",
-      "no": 77,
+      "no": 71,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "meta": {
@@ -1437,7 +1336,7 @@
     },
     {
       "id": "meta-verge",
-      "no": 78,
+      "no": 72,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "meta": {
@@ -1447,7 +1346,7 @@
     },
     {
       "id": "meta-lull",
-      "no": 79,
+      "no": 73,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "meta": {
@@ -1457,7 +1356,7 @@
     },
     {
       "id": "meta-ebb",
-      "no": 80,
+      "no": 74,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "meta": {
@@ -1467,7 +1366,7 @@
     },
     {
       "id": "meta-horizon",
-      "no": 81,
+      "no": 75,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "meta": {
@@ -1477,7 +1376,7 @@
     },
     {
       "id": "meta-calm",
-      "no": 82,
+      "no": 76,
       "rarity": "B",
       "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
       "meta": {

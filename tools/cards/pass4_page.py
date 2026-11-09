@@ -50,6 +50,16 @@ def meta_row(name, text, no):
   <span class="text"><span class="perm">{esc(text)}</span><span class="force">One face, usable by either player.</span></span>
 </li>'''
 
+def meta_ph_row(no, k, was, ab):
+    return f'''<li class="card card-meta card-ph">
+  <span class="no">{no:02d}<small>/100</small></span>
+  <span class="name"><b>Meta {k}</b><span class="tag tag-ph">placeholder</span></span>
+  <span class="plate plate-none" role="img" aria-label="No affinity, meta card">meta</span>
+  {rarity(None)}
+  <span class="text"><span class="perm">Effect and name to come.</span><span class="force">Was {esc(was)} (either-or {ab[0]} or {ab[1]}, force {esc(pass3_force(was))}).</span></span>
+</li>'''
+def pass3_force(n): return pass4.P3[n][5]
+
 def sub(title, note, rows, n):
     note_html = f'<span class="sub-note">{esc(note)}</span>' if note else ''
     return f'''<div class="sub">
@@ -74,7 +84,8 @@ SECTIONS = [
  ('Four rings', [g('s', 'Pinnacle')]),
  ('No rings', [g('b-none', 'Uncommon', 'No ring of its own; kept at uncommon.'),
                g('b-none-open', 'Uncommon · +1 world point', 'Cam (Nov 9): in the last open slot. The four elements in its text are ringed. Claude gave it the one free name and kept it at uncommon like Mirage; 8 words, with the four symbols counted as one (Cam, Nov 9), so one over the under-8 rule.'),
-               sub('Meta cards · no rarity', 'Equinox was Cradle\'s force face.', [meta_row(m[0], m[1], pass4.META_NO[m[0]]) for m in pass4.META], len(pass4.META))]),
+               sub('Meta cards · no rarity', 'Equinox was Cradle\'s force face.', [meta_row(m[0], m[1], pass4.META_NO[m[0]]) for m in pass4.META], len(pass4.META)),
+               sub('Meta cards · placeholders', 'Cam (Nov 9): one of each either-or pair becomes a meta card, since one-sided cards are fewer to balance and design. Claude took the second of each pair; their names and force faces are free again.', [meta_ph_row(no, k + 1, n, ab) for k, (no, n, ab) in enumerate(pass4.META_PH)], len(pass4.META_PH))]),
 ]
 
 def section(title, subs):
@@ -192,7 +203,7 @@ page = f'''<title>Fourth Pass Card Pool</title>
 <div class="wrap">
   <header>
     <h1>Fourth Pass Card Pool</h1>
-    <p class="lede">The third pass restructured by ring count (Nov 8, 2026): <b>{len(pass4.ALL) + len(pass4.META)}</b> cards, <b>{len(pass4.PLACEHOLDERS)}</b> placeholders and {('<b>%d</b> open %s' % (len(pass4.OPEN), 'slot' if len(pass4.OPEN) == 1 else 'slots')) if pass4.OPEN else 'no open slots'}. <b>{rc['C']}</b> commons, <b>{rc['B']}</b> uncommons, <b>{rc['A']}</b> rares, <b>{rc['S']}</b> pinnacles and <b>{len(pass4.META)}</b> meta cards. Rings across the pool: water <b>{t['water']}</b>, earth <b>{t['earth']}</b>, fire <b>{t['fire']}</b>, air <b>{t['air']}</b>, plus <b>{t['water (either-or)']}</b> either-or of each and <b>{t['any']}</b> any.</p>
+    <p class="lede">The third pass restructured by ring count (Nov 8, 2026): <b>{len(pass4.ALL) + len(pass4.META)}</b> cards, <b>{len(pass4.META_PH) + len(pass4.PLACEHOLDERS)}</b> placeholders ({len(pass4.META_PH)} meta, {len(pass4.PLACEHOLDERS)} unique to one element) and {('<b>%d</b> open %s' % (len(pass4.OPEN), 'slot' if len(pass4.OPEN) == 1 else 'slots')) if pass4.OPEN else 'no open slots'}. <b>{rc['C']}</b> commons, <b>{rc['B']}</b> uncommons, <b>{rc['A']}</b> rares, <b>{rc['S']}</b> pinnacles and <b>{len(pass4.META)}</b> meta cards. Rings across the pool: water <b>{t['water']}</b>, earth <b>{t['earth']}</b>, fire <b>{t['fire']}</b>, air <b>{t['air']}</b>, plus <b>{t['water (either-or)']}</b> either-or of each and <b>{t['any']}</b> any.</p>
     <div class="legend" aria-label="Key">{legend_marks}<span class="sep" aria-hidden="true"></span>{legend_rar}</div>
   </header>
 

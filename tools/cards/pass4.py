@@ -49,7 +49,12 @@ group('c-played', 'One ring, common: when played', "One per element.", [
 ])
 EITHER = [('Marsh', W, E), ('Mudflat', W, E), ('Steam Vent', W, F), ('Hot Mud', W, F), ('Sea Stack', W, A), ('Spray Coast', W, A),
           ('Flint', E, F), ('Peat Bog', E, F), ('Pass', E, A), ('Foothills', E, A), ('Scrubland', F, A), ('Heath', F, A)]
-group('c-either', 'One ring, common: either-or, no text', "Two for each pair of elements.", [
+# one of each pair repurposed into a meta card (Cam, Nov 9: "each additional meta card is technically two fewer cards I have
+# to balance and design since they're one sided"). Claude took the second of each pair; their names are free again.
+TO_META = ['Mudflat', 'Hot Mud', 'Spray Coast', 'Peat Bog', 'Foothills', 'Heath']
+EITHER_ALL = EITHER
+EITHER = [x for x in EITHER if x[0] not in TO_META]
+group('c-either', 'One ring, common: either-or, no text', "One for each pair of elements (Cam, Nov 9: the other became a meta card).", [
  card(n, 'C', [eo(a, b)], '', 'kept' if not P3[n][4] else 'changed', '' if not P3[n][4] else 'text removed') for n, a, b in EITHER])
 group('c-any', 'One ring, common: any', "", [
  card('Wilderness', 'C', [ANY], '', 'changed', 'was uncommon')])
@@ -144,7 +149,9 @@ META = [
  ('Calm', P3META['Calm'][3], 'was uncommon'),
 ]
 
-# numbers: commons 1-25, uncommons 26-50, rares 51-74 (the four one-ring rares last), meta 75-82, open 83-95, pinnacles 96-100
+# numbers: commons, uncommons, rares (the four one-ring rares last), then meta cards and meta placeholders up to 82, the unique
+# slots 83-95 (Ice Floe, Hill, Dune and Ledge among them, Hanging Valley at 95), pinnacles 96-100. Since Nov 9: commons 1-19,
+# uncommons 20-44, rares 45-68, meta 69-82
 NUM_ORDER = ['c-still', 'c-ignore', 'c-played', 'c-either', 'c-any',
              'b-two', 'b-two-text', 'b-score', 'b-any', 'b-same', 'b-none',
              'a-three', 'a-two-one', 'a-triple', 'a-blank']
@@ -153,13 +160,15 @@ n = 0
 for k in NUM_ORDER:
     for c in G[k]:
         n += 1; c['no'] = n
-META_NO = {m[0]: 75 + i for i, m in enumerate(META)}
+META_START = 83 - len(META) - len(TO_META)  # meta cards and meta placeholders fill the block just below the unique slots
+META_NO = {m[0]: META_START + i for i, m in enumerate(META)}
+META_PH = [(META_START + len(META) + i, n, next((a, b) for x, a, b in EITHER_ALL if x == n)) for i, n in enumerate(TO_META)]
 # placeholders (Cam, Nov 8): some cards aren't part of a cycle; at least 3 per element whose effects have no equivalent in another element
 UNIQUE_NOTE = "Not part of a cycle: its effect has no equivalent in another element. Rings, rarity and effect to come."
 UNNAMED_NOTE = "Not part of a cycle: its effect has no equivalent in another element. Rings, rarity, effect and name to come."
 # names from the cut third-pass cards, matched to the element (Cam, Nov 8: "might inspire ideas"); fire has only two free fire names
 PH_NAMES = {W: ['Ice Floe', 'Shoal', 'Fen'], E: ['Hill', 'Meadow', 'Cavern'], F: ['Dune', 'Barrens', None], A: ['Ledge', 'Ridge', 'Eyrie']}
-_free = list(range(75 + len(META), 96))
+_free = list(range(83, 96))
 PLACEHOLDERS = [(_free[i * 3 + k], e, PH_NAMES[e][k]) for i, e in enumerate(ORDER) for k in range(3)]
 OPEN = _free[len(PLACEHOLDERS):]
 # one placeholder per element filled (Cam, Nov 9): one affinity, "+1 of this card's affinity if you have a world point.",
@@ -201,6 +210,18 @@ PROVISIONAL_BINDERS = [
  ('Air', 'Leans air, loosely (drawn at random)', ["Stone Field","Sea Stack","Tide Pool","Lava Field","Glacier","Wilderness","Heath","Summit","Savanna","Twin Peaks","Equinox","Desert","Sand Sea","Peak","Rainforest"]),
  ('Even', 'No lean (drawn at random)', ["Spire","Summit","Ashfield","Bedrock","Snowfield","Bluff","Scrubland","Wilderness","Savanna","Horizon","Cloud Forest","Old Growth","Archipelago","Boiling Lake","Highlands"]),
 ]
+# Nov 9: a binder card that became a meta placeholder is swapped for its pair's remaining either-or common or, if the binder
+# already has that, for the first common of the binder's element (by number) that it doesn't have
+_mate = {n: next(x for x, a, b in EITHER if (a, b) == (a2, b2)) for n, a2, b2 in EITHER_ALL if n in TO_META}
+_bel = {'Water': W, 'Earth': E, 'Fire': F, 'Air': A}
+_commons = sorted([c for c in ALL if c['rarity'] == 'C'], key=lambda c: c['no'])
+BINDER_SWAPS = []
+for _bn, _d, _cs in PROVISIONAL_BINDERS:
+    for _i, _n in enumerate(_cs):
+        if _n not in TO_META: continue
+        _new = _mate[_n]
+        if _new in _cs: _new = next(c['name'] for c in _commons if _bel[_bn] in c['affinities'] and c['name'] not in _cs)
+        _cs[_i] = _new; BINDER_SWAPS.append((_bn, _n, _new))
 
 # a run of element symbols counts as a single word (Cam, Nov 9); element words stand for their symbols in this text
 def words(t): return len(re.sub(r'\b(?:water|earth|fire|air)(?:\s+(?:water|earth|fire|air)\b)+', 'ELEMENTS', t).split())
@@ -209,7 +230,7 @@ def check():
     probs = []
     names = collections.Counter([c['name'] for c in ALL] + [m[0] for m in META])
     probs += [('duplicate name', k) for k, v in names.items() if v > 1]
-    nums = sorted([c['no'] for c in ALL] + list(META_NO.values()) + [p[0] for p in PLACEHOLDERS] + OPEN)
+    nums = sorted([c['no'] for c in ALL] + list(META_NO.values()) + [p[0] for p in META_PH] + [p[0] for p in PLACEHOLDERS] + OPEN)
     known = {c['name'] for c in ALL} | {m[0] for m in META}
     for bn, _d, cs in PROVISIONAL_BINDERS:
         if len(cs) != 15 or len(set(cs)) != 15 or set(cs) - known: probs.append(('binder', bn, len(cs), set(cs) - known))
@@ -230,7 +251,7 @@ def check():
         els = [next(a for a in c['affinities']) for c in G[k]]
         if els != ORDER: probs.append(('cycle order', k, els))
     pairs = collections.Counter(c['affinities'][0] for c in G['c-either'])
-    if len(pairs) != 6 or set(pairs.values()) != {2}: probs.append(('either-or pairs', pairs))
+    if len(pairs) != 6 or set(pairs.values()) != {1}: probs.append(('either-or pairs', pairs))
     trip = {tuple(sorted(c['affinities'])) for c in G['a-three'] + G['a-two-one']}
     if len(trip) != 16: probs.append(('three-ring combos', len(trip)))
     return probs
@@ -281,7 +302,7 @@ def markdown():
 
 **Cut.** {len(CUT)} third-pass cards have no place: {', '.join(c[1] for c in CUT)}. {len(PH_USED)} of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); {('still free: ' + ', '.join(FREE_NAMES)) if FREE_NAMES else 'none is still free (Hanging Valley went to the open slot, Nov 9)'}.
 
-**Counts.** {rc['C']} commons, {rc['B']} uncommons, {rc['A']} rares, {rc['S']} pinnacles and {len(META)} meta cards: {len(ALL) + len(META)} cards, {len(PLACEHOLDERS)} placeholders (numbers {', '.join(str(p[0]) for p in PLACEHOLDERS)}) and {('%d open %s (%s)' % (len(OPEN), 'slot' if len(OPEN) == 1 else 'slots', ', '.join(map(str, OPEN)))) if OPEN else 'no open slots'}. Rings across the pool: water {t[W]}, earth {t[E]}, fire {t[F]}, air {t[A]}, plus {t[W + ' (either-or)']} either-or capsules for each element and {t[ANY]} any.
+**Counts.** {rc['C']} commons, {rc['B']} uncommons, {rc['A']} rares, {rc['S']} pinnacles and {len(META)} meta cards: {len(ALL) + len(META)} cards, {len(META_PH)} meta placeholders (numbers {META_PH[0][0]}–{META_PH[-1][0]}), {len(PLACEHOLDERS)} placeholders for cards unique to one element (numbers {', '.join(str(p[0]) for p in PLACEHOLDERS)}) and {('%d open %s (%s)' % (len(OPEN), 'slot' if len(OPEN) == 1 else 'slots', ', '.join(map(str, OPEN)))) if OPEN else 'no open slots'}. Rings across the pool: water {t[W]}, earth {t[E]}, fire {t[F]}, air {t[A]}, plus {t[W + ' (either-or)']} either-or capsules for each element and {t[ANY]} any.
 
 **Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The slots for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards. Four now hold the +1-with-a-world-point cards (one ring each, Nov 9: \"+1 [element] if you have a world point.\"); the other eight are placeholders whose rings aren't set, so they may still be. The four form a cycle of their own while sitting in the unique slots. Their text is 8 words counting \"+1\" and the symbol, one over the under-8 rule (CARD-23); it's let through as an exception for now. The open slot (#95) became Hanging Valley (Nov 9), a second card with no affinities: its condition, one of each element in the world, is the same as the world scoring a world point, so in effect it adds one to any world that already scores; with two sets it makes a world worth 3 world points (the decisive win). Its text is 8 words, counting the four symbols as one (Cam, Nov 9: a grouping of element symbols counts as a single word), so also one over the under-8 rule.
 
@@ -294,11 +315,13 @@ def markdown():
         md += '%s%s\n\n%s\n%s\n\n' % (lead, (' ' + blurb) if blurb else '', HEAD, '\n'.join(row(c) for c in cs))
     md += '**Fifth-pillar meta cards, no rarity (%d).** One face, usable by either player.\n\n| Card | No. | Text |\n| --- | --- | --- |\n' % len(META)
     md += '\n'.join('| %s | %d | %s |' % (m[0], META_NO[m[0]], m[1]) for m in META) + '\n\n'
+    md += '**Placeholders: one-sided cards to come (%d).** Cam (Nov 9): repurpose one of each either-or common into more meta cards; "each additional meta card is technically two fewer cards I have to balance and design since they\'re one sided." Claude took the second card of each pair; their names and force faces are free again.\n\n| No. | Placeholder | What it\'s for |\n| --- | --- | --- |\n' % len(META_PH)
+    md += '\n'.join('| %d | Meta %d | A meta card: one face, no rarity. Effect and name to come. Was %s (either-or %s or %s, force %s). |' % (no, k + 1, n, a, b, P3[n][5]) for k, (no, n, (a, b)) in enumerate(META_PH)) + '\n\n'
     md += '**Placeholders: unique to one element (%d).** Cam (Nov 8): there should be some cards that aren\'t part of a cycle; ironically, a cycle of at least 3 cards in each element whose effects have no equivalent in other elements.\n\n| No. | Placeholder | Element | What it\'s for |\n| --- | --- | --- | --- |\n' % len(PLACEHOLDERS)
     md += '\n'.join('| %d | %s | %s | %s |' % (no, nm or 'Unique %s %d' % (e, PH_NAMES[e].index(nm) + 1), e, UNIQUE_NOTE if nm else UNNAMED_NOTE) for k, (no, e, nm) in enumerate(PLACEHOLDERS)) + '\n\n'
     if OPEN: md += '**Open %s (%d).** %s. Cam (Nov 8): the slots this opens should go to more multi-affinity cards.\n' % ('slot' if len(OPEN) == 1 else 'slots', len(OPEN), 'Number ' + str(OPEN[0]) if len(OPEN) == 1 else 'Numbers %d–%d' % (OPEN[0], OPEN[-1]))
     else: md += '**No open slots.** The last one (#95) became Hanging Valley on Nov 9.\n'
-    md += '\n**Provisional test binders (Claude, Nov 8), %d.** For the playtest table and the simulator until Cam builds binders from this pool: 15 cards each (Cam, Nov 8: smaller binders), drawn the way the simulator draws random binders (8 commons, 4 uncommons with meta cards among them, 3 rares; no pinnacles), four leaning loosely on one element and one even. Not designed: swap them out freely.\n\n' % len(PROVISIONAL_BINDERS)
+    md += '\n**Provisional test binders (Claude, Nov 8), %d.** For the playtest table and the simulator until Cam builds binders from this pool: 15 cards each (Cam, Nov 8: smaller binders), drawn the way the simulator draws random binders (8 commons, 4 uncommons with meta cards among them, 3 rares; no pinnacles), four leaning loosely on one element and one even. Not designed: swap them out freely. Swapped on Nov 9 for the either-or commons that became meta placeholders (each for its pair\'s remaining card, or the binder\'s first common of its element when it already had that): %s.\n\n' % (len(PROVISIONAL_BINDERS), '; '.join('%s, %s for %s' % (bn, new, old) for bn, old, new in BINDER_SWAPS))
     md += ''.join('- **Binder %s, %s.** %s. %s.\n' % (chr(65 + k), bn, d, ', '.join(cs)) for k, (bn, d, cs) in enumerate(PROVISIONAL_BINDERS))
     return md
 
