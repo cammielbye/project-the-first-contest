@@ -1,7 +1,7 @@
 {
   "source": "data/card-pool.md",
   "pass": "Fourth pass: the pool by ring count (Nov 8, 2026)",
-  "syncedAt": "2026-11-09T08:56:58.747Z",
+  "syncedAt": "2026-11-09T09:03:28.753Z",
   "counts": {
     "cards": 91,
     "meta": 8,
@@ -1496,7 +1496,7 @@
         "affinities": [
           "water"
         ],
-        "text": "+1 of this card's affinity if you have a world point."
+        "text": "+1 water if you have a world point."
       },
       "force": {
         "name": "Current",
@@ -1514,7 +1514,7 @@
         "affinities": [
           "earth"
         ],
-        "text": "+1 of this card's affinity if you have a world point."
+        "text": "+1 earth if you have a world point."
       },
       "force": {
         "name": "Rockfall",
@@ -1532,7 +1532,7 @@
         "affinities": [
           "fire"
         ],
-        "text": "+1 of this card's affinity if you have a world point."
+        "text": "+1 fire if you have a world point."
       },
       "force": {
         "name": "Updraft",
@@ -1550,7 +1550,7 @@
         "affinities": [
           "air"
         ],
-        "text": "+1 of this card's affinity if you have a world point."
+        "text": "+1 air if you have a world point."
       },
       "force": {
         "name": "Gust",

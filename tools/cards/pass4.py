@@ -162,13 +162,14 @@ PH_NAMES = {W: ['Ice Floe', 'Shoal', 'Fen'], E: ['Hill', 'Meadow', 'Cavern'], F:
 _free = list(range(75 + len(META), 96))
 PLACEHOLDERS = [(_free[i * 3 + k], e, PH_NAMES[e][k]) for i, e in enumerate(ORDER) for k in range(3)]
 OPEN = _free[len(PLACEHOLDERS):]
-# one placeholder per element filled (Cam, Nov 9): one affinity, "+1 of this card's affinity if you have a world point."
+# one placeholder per element filled (Cam, Nov 9): one affinity, "+1 of this card's affinity if you have a world point.",
+# then (Cam, Nov 9) reworded to name the element: "+1 [water symbol] if you have a world point."
 # Claude took the first placeholder of each element; like the other reclaimed slots, each keeps its third-pass force face.
-POINT_TEXT = "+1 of this card's affinity if you have a world point."
+POINT_TEXT = {e: "+1 %s if you have a world point." % e for e in ORDER}
 POINT_NAMES = {W: 'Ice Floe', E: 'Hill', F: 'Dune', A: 'Ledge'}
-group('c-point', "One ring, common: +1 of its affinity with a world point (in the unique slots)",
-      "Cam (Nov 9): one of each element's placeholders with non-cycle effects. They sit in the slots for cards unique to one element, numbered with them. Claude took the first placeholder of each element; like the other reclaimed slots, each keeps its third-pass force face.", [
- card(POINT_NAMES[e], 'C', [e], POINT_TEXT, 'reused', 'placeholder slot') for e in ORDER])
+group('c-point', "One ring, common: +1 of its element with a world point (in the unique slots)",
+      "Cam (Nov 9): one of each element's placeholders with non-cycle effects; the text names the element (\"+1 [water symbol]\"). They sit in the slots for cards unique to one element, numbered with them. Claude took the first placeholder of each element; like the other reclaimed slots, each keeps its third-pass force face.", [
+ card(POINT_NAMES[e], 'C', [e], POINT_TEXT[e], 'reused', 'placeholder slot') for e in ORDER])
 for c in GROUPS[-1][3]: c['no'] = next(p[0] for p in PLACEHOLDERS if p[2] == c['name'])
 PLACEHOLDERS = [p for p in PLACEHOLDERS if p[2] not in POINT_NAMES.values()]
 G = {k: cs for k, t, b, cs in GROUPS}
@@ -212,7 +213,7 @@ def check():
         want = {1: 'C', 2: 'B', 3: 'A', 4: 'S'}.get(rings)
         if c['rarity'] != want and not (rings == 1 and c in G['a-blank']) and not (rings == 0 and c['name'] == 'Mirage'):
             probs.append(('ring rule', c['name'], rings, c['rarity']))
-        if c['text'] and words(c['text']) >= 8 and c['name'] not in pass3.EXCEPTIONS and c['text'] != POINT_TEXT: probs.append(('8+ words', c['name'], c['text']))
+        if c['text'] and words(c['text']) >= 8 and c['name'] not in pass3.EXCEPTIONS and c['text'] not in POINT_TEXT.values(): probs.append(('8+ words', c['name'], c['text']))
         if re.search(r'\b(hand|deal|the)\b', c['name'], re.I): probs.append(('name rule', c['name']))
     for m in META:
         if words(m[1]) >= 8: probs.append(('8+ words', m[0], m[1]))
@@ -273,7 +274,7 @@ def markdown():
 
 **Counts.** {rc['C']} commons, {rc['B']} uncommons, {rc['A']} rares, {rc['S']} pinnacles and {len(META)} meta cards: {len(ALL) + len(META)} cards, {len(PLACEHOLDERS)} placeholders (numbers {', '.join(str(p[0]) for p in PLACEHOLDERS)}) and {len(OPEN)} open {'slot' if len(OPEN) == 1 else 'slots'} ({', '.join(map(str, OPEN))}). Rings across the pool: water {t[W]}, earth {t[E]}, fire {t[F]}, air {t[A]}, plus {t[W + ' (either-or)']} either-or capsules for each element and {t[ANY]} any.
 
-**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The slots for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards. Four now hold the +1-with-a-world-point cards (one ring each, Nov 9); the other eight are placeholders whose rings aren't set, so they may still be. The four form a cycle of their own while sitting in the unique slots. Their text is 11 words, over the under-8 rule (CARD-23); it's let through as an exception for now.
+**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The slots for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards. Four now hold the +1-with-a-world-point cards (one ring each, Nov 9: \"+1 [element] if you have a world point.\"); the other eight are placeholders whose rings aren't set, so they may still be. The four form a cycle of their own while sitting in the unique slots. Their text is 8 words counting \"+1\" and the symbol, one over the under-8 rule (CARD-23); it's let through as an exception for now.
 
 '''
     for key in NUM_ORDER[:5] + ['c-point'] + NUM_ORDER[5:] + ['s']:

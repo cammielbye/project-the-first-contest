@@ -65,7 +65,7 @@ def g(key, label, note=None):
 SECTIONS = [
  ('One ring', [g('c-still', "Common · can't be moved"), g('c-ignore', 'Common · ignores the opposite element', 'Opposites: water and fire, earth and air.'),
                g('c-played', 'Common · when played'), g('c-either', 'Common · either-or, no text'), g('c-any', 'Common · any'),
-               g('c-point', 'Common · +1 of its affinity with a world point', 'Cam (Nov 9): one of each element\'s placeholders. They sit in the slots for cards unique to one element, numbered with them; 11 words, over the under-8 rule.'),
+               g('c-point', 'Common · +1 of its element with a world point', 'Cam (Nov 9): one of each element\'s placeholders. They sit in the slots for cards unique to one element, numbered with them; 8 words, one over the under-8 rule.'),
                g('a-blank', 'Rare · blanks the opposite element', 'Ice Sheet\'s cycle.')]),
  ('Two rings', [g('b-two', 'Uncommon · two different elements, no text'), g('b-two-text', 'Uncommon · two different elements, with text'),
                 g('b-score', 'Uncommon · scoring', 'A point per four of its element. Sky Isle is also the any cycle\'s air card.'),

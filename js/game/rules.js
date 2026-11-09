@@ -72,7 +72,7 @@ export function permEffects(t) {
   if (has(/^When played, swap two of your permanences\./)) pe.played = "swap";
   if ((m = has(/^When played, play another (fire|water|air|earth) card\./))) { pe.played = "another"; pe.another = m[1]; }
   if (has(/^When played, remove a common force\./)) pe.played = "removeCommon";
-  if (has(/^\+1 of this card's affinity if you have a world point\./)) pe.bonusIfPoint = true;
+  if ((m = has(/^\+1 (fire|water|air|earth) if you have a world point\./))) pe.bonusIfPoint = ELW[m[1]];
   if (!hit) pe.unknown = true;
   return pe;
 }
@@ -261,14 +261,15 @@ export function view(s) {
   }
   const cur = {};
   for (const i of ps) cur[i.id] = blank[i.id] ? [] : tok[i.id];
-  // "+1 of this card's affinity if you have a world point." (Nov 9): a world point is a complete set in one of the player's
+  // "+1 water if you have a world point." and its cycle (Nov 9): a world point is a complete set in one of the player's
   // worlds right now, counted before any of these bonuses, so the bonus can't earn itself; points from the scoring cycle
-  // don't count (READING). The extra affinity is the one the card shows now, after changes; a blanked card gets none.
-  const bonus = ps.filter((i) => pe(i).bonusIfPoint && cur[i.id].length);
+  // don't count (READING). The +1 comes after every other change, so "becomes" doesn't overwrite it, but a blanked
+  // card gets none (READING).
+  const bonus = ps.filter((i) => pe(i).bonusIfPoint && !blank[i.id]);
   if (bonus.length) {
     const pts = [0, 0];
     for (const k in s.worlds) { const w = s.worlds[k], toks = []; for (const iid of w.cells) if (iid !== null) toks.push(...cur[iid]); pts[w.owner] += setsOf(toks).k; }
-    for (const i of bonus) if (pts[i.owner] > 0) cur[i.id] = cur[i.id].concat([cur[i.id][0]]);
+    for (const i of bonus) if (pts[i.owner] > 0) cur[i.id] = cur[i.id].concat([pe(i).bonusIfPoint]);
   }
   s._v = { tok: cur, blank };
   return s._v;

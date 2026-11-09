@@ -126,6 +126,14 @@ test("Dune: +1 fire once its player has a world point (the opponent's points don
   assert.deepEqual(R.view(s).tok[d.id], [R.BIT.fire, R.BIT.fire]);
   assert.equal(R.score(s)[0].tot[0], 3); // fire: Dune two, Wilderness one
 });
+test("Ledge hit by Updraft shows fire, and its +1 air still comes after (reading)", () => {
+  const s = table([], ["Dune"]);
+  const l = put(s, 0, "Ledge");
+  put(s, 0, "Wilderness"); put(s, 0, "Tide Pool", "Wilderness", 1); put(s, 0, "Stone Field", "Wilderness", 2); put(s, 0, "Summit", "Wilderness", 3);
+  assert.deepEqual(R.view(s).tok[l.id], [R.BIT.air, R.BIT.air]);
+  s.turn = 1; R.applyMove(s, 1, forceTargets(s, 1, "Updraft").find((m) => m.t === l.id));
+  assert.deepEqual(R.view(s).tok[l.id], [R.BIT.fire, R.BIT.air]);
+});
 test("one round: the contest ends when the round does, and there's no card cap", () => {
   const s = table(["Bedrock", "Glacier"], ["Spire"]);
   assert.ok(s.cap > 100);

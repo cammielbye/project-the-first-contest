@@ -18,7 +18,7 @@
 
 **Counts.** 29 commons, 25 uncommons, 24 rares, 5 pinnacles and 8 meta cards: 91 cards, 8 placeholders (numbers 84, 85, 87, 88, 90, 91, 93, 94) and 1 open slot (95). Rings across the pool: water 35, earth 35, fire 36, air 36, plus 6 either-or capsules for each element and 7 any.
 
-**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The slots for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards. Four now hold the +1-with-a-world-point cards (one ring each, Nov 9); the other eight are placeholders whose rings aren't set, so they may still be. The four form a cycle of their own while sitting in the unique slots. Their text is 11 words, over the under-8 rule (CARD-23); it's let through as an exception for now.
+**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The slots for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards. Four now hold the +1-with-a-world-point cards (one ring each, Nov 9: "+1 [element] if you have a world point."); the other eight are placeholders whose rings aren't set, so they may still be. The four form a cycle of their own while sitting in the unique slots. Their text is 8 words counting "+1" and the symbol, one over the under-8 rule (CARD-23); it's let through as an exception for now.
 
 **One ring, common: can't be moved (4).** One per element.
 
@@ -70,14 +70,14 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 25 | Wilderness | C | 1 any | — | Thunderstorm | Once | Remove a ◯ permanence. |
 
-**One ring, common: +1 of its affinity with a world point (in the unique slots) (4).** Cam (Nov 9): one of each element's placeholders with non-cycle effects. They sit in the slots for cards unique to one element, numbered with them.
+**One ring, common: +1 of its element with a world point (in the unique slots) (4).** Cam (Nov 9): one of each element's placeholders with non-cycle effects; the text names the element ("+1 [water symbol]"). They sit in the slots for cards unique to one element, numbered with them. Claude took the first placeholder of each element; like the other reclaimed slots, each keeps its third-pass force face.
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 83 | Ice Floe | C | 1 water | +1 of this card's affinity if you have a world point. | Current | Lasts the round | An earth permanence becomes water. |
-| 86 | Hill | C | 1 earth | +1 of this card's affinity if you have a world point. | Rockfall | Lasts the round | An air permanence becomes earth. |
-| 89 | Dune | C | 1 fire | +1 of this card's affinity if you have a world point. | Updraft | Lasts the round | An air permanence becomes fire. |
-| 92 | Ledge | C | 1 air | +1 of this card's affinity if you have a world point. | Gust | Once | An air permanence with one affinity becomes its own world. |
+| 83 | Ice Floe | C | 1 water | +1 water if you have a world point. | Current | Lasts the round | An earth permanence becomes water. |
+| 86 | Hill | C | 1 earth | +1 earth if you have a world point. | Rockfall | Lasts the round | An air permanence becomes earth. |
+| 89 | Dune | C | 1 fire | +1 fire if you have a world point. | Updraft | Lasts the round | An air permanence becomes fire. |
+| 92 | Ledge | C | 1 air | +1 air if you have a world point. | Gust | Once | An air permanence with one affinity becomes its own world. |
 
 **Two rings, uncommon: two different elements, no text (6).**
 
