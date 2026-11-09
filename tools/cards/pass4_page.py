@@ -65,6 +65,7 @@ def g(key, label, note=None):
 SECTIONS = [
  ('One ring', [g('c-still', "Common · can't be moved"), g('c-ignore', 'Common · ignores the opposite element', 'Opposites: water and fire, earth and air.'),
                g('c-played', 'Common · when played'), g('c-either', 'Common · either-or, no text'), g('c-any', 'Common · any'),
+               g('c-point', 'Common · +1 of its affinity with a world point', 'Cam (Nov 9): one of each element\'s placeholders. They sit in the slots for cards unique to one element, numbered with them; 11 words, over the under-8 rule.'),
                g('a-blank', 'Rare · blanks the opposite element', 'Ice Sheet\'s cycle.')]),
  ('Two rings', [g('b-two', 'Uncommon · two different elements, no text'), g('b-two-text', 'Uncommon · two different elements, with text'),
                 g('b-score', 'Uncommon · scoring', 'A point per four of its element. Sky Isle is also the any cycle\'s air card.'),
@@ -98,7 +99,8 @@ def ph_row(no, e, k, nm):
   <span class="rar rar-none" aria-label="Rarity to come">tbd</span>
   <span class="text"><span class="perm">{esc(note)}</span></span>
 </li>'''
-ph_subs = ''.join(sub(f'{e.capitalize()}', '', [ph_row(no, ee, k % 3 + 1, nm) for k, (no, ee, nm) in enumerate(pass4.PLACEHOLDERS) if ee == e], 3) for e in ORDER)
+_ph = {e: [ph_row(no, ee, pass4.PH_NAMES[ee].index(nm) + 1, nm) for no, ee, nm in pass4.PLACEHOLDERS if ee == e] for e in ORDER}
+ph_subs = ''.join(sub(f'{e.capitalize()}', '', _ph[e], len(_ph[e])) for e in ORDER)
 
 page = f'''<title>Fourth Pass Card Pool</title>
 <meta name="claude:viewport-fit-sides" content="cover">
