@@ -73,7 +73,7 @@ SECTIONS = [
  ('Three rings', [g('a-three', 'Rare · three different elements'), g('a-two-one', 'Rare · two of one element, one of another'), g('a-triple', 'Rare · three of one element')]),
  ('Four rings', [g('s', 'Pinnacle')]),
  ('No rings', [g('b-none', 'Uncommon', 'No ring of its own; kept at uncommon.'),
-               g('b-none-open', 'Uncommon · +1 world point', 'Cam (Nov 9): in the last open slot. The four elements in its text are ringed. Claude gave it the one free name and kept it at uncommon like Mirage; 11 words counting each symbol, over the under-8 rule.'),
+               g('b-none-open', 'Uncommon · +1 world point', 'Cam (Nov 9): in the last open slot. The four elements in its text are ringed. Claude gave it the one free name and kept it at uncommon like Mirage; 8 words, with the four symbols counted as one (Cam, Nov 9), so one over the under-8 rule.'),
                sub('Meta cards · no rarity', 'Equinox was Cradle\'s force face.', [meta_row(m[0], m[1], pass4.META_NO[m[0]]) for m in pass4.META], len(pass4.META))]),
 ]
 
