@@ -73,6 +73,7 @@ SECTIONS = [
  ('Three rings', [g('a-three', 'Rare · three different elements'), g('a-two-one', 'Rare · two of one element, one of another'), g('a-triple', 'Rare · three of one element')]),
  ('Four rings', [g('s', 'Pinnacle')]),
  ('No rings', [g('b-none', 'Uncommon', 'No ring of its own; kept at uncommon.'),
+               g('b-none-open', 'Uncommon · +1 world point', 'Cam (Nov 9): in the last open slot. The four elements in its text are ringed. Claude gave it the one free name and kept it at uncommon like Mirage; 11 words counting each symbol, over the under-8 rule.'),
                sub('Meta cards · no rarity', 'Equinox was Cradle\'s force face.', [meta_row(m[0], m[1], pass4.META_NO[m[0]]) for m in pass4.META], len(pass4.META))]),
 ]
 
@@ -101,6 +102,12 @@ def ph_row(no, e, k, nm):
 </li>'''
 _ph = {e: [ph_row(no, ee, pass4.PH_NAMES[ee].index(nm) + 1, nm) for no, ee, nm in pass4.PLACEHOLDERS if ee == e] for e in ORDER}
 ph_subs = ''.join(sub(f'{e.capitalize()}', '', _ph[e], len(_ph[e])) for e in ORDER)
+
+OPEN_SECTION = (f'''<section class="group open" aria-labelledby="open-slots">
+      <h2 id="open-slots"><span>{'Open slot' if len(pass4.OPEN) == 1 else 'Open slots'}</span><span class="count">{len(pass4.OPEN)}</span></h2>
+      <ol>{open_slots}</ol>
+      <p>For more multi-affinity cards (Cam, Nov 8). Name still free from a cut card: {esc(', '.join(pass4.FREE_NAMES))}.</p>
+    </section>''') if pass4.OPEN else ''
 
 page = f'''<title>Fourth Pass Card Pool</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -185,7 +192,7 @@ page = f'''<title>Fourth Pass Card Pool</title>
 <div class="wrap">
   <header>
     <h1>Fourth Pass Card Pool</h1>
-    <p class="lede">The third pass restructured by ring count (Nov 8, 2026): <b>{len(pass4.ALL) + len(pass4.META)}</b> cards, <b>{len(pass4.PLACEHOLDERS)}</b> placeholders and <b>{len(pass4.OPEN)}</b> open {'slot' if len(pass4.OPEN) == 1 else 'slots'}. <b>{rc['C']}</b> commons, <b>{rc['B']}</b> uncommons, <b>{rc['A']}</b> rares, <b>{rc['S']}</b> pinnacles and <b>{len(pass4.META)}</b> meta cards. Rings across the pool: water <b>{t['water']}</b>, earth <b>{t['earth']}</b>, fire <b>{t['fire']}</b>, air <b>{t['air']}</b>, plus <b>{t['water (either-or)']}</b> either-or of each and <b>{t['any']}</b> any.</p>
+    <p class="lede">The third pass restructured by ring count (Nov 8, 2026): <b>{len(pass4.ALL) + len(pass4.META)}</b> cards, <b>{len(pass4.PLACEHOLDERS)}</b> placeholders and {('<b>%d</b> open %s' % (len(pass4.OPEN), 'slot' if len(pass4.OPEN) == 1 else 'slots')) if pass4.OPEN else 'no open slots'}. <b>{rc['C']}</b> commons, <b>{rc['B']}</b> uncommons, <b>{rc['A']}</b> rares, <b>{rc['S']}</b> pinnacles and <b>{len(pass4.META)}</b> meta cards. Rings across the pool: water <b>{t['water']}</b>, earth <b>{t['earth']}</b>, fire <b>{t['fire']}</b>, air <b>{t['air']}</b>, plus <b>{t['water (either-or)']}</b> either-or of each and <b>{t['any']}</b> any.</p>
     <div class="legend" aria-label="Key">{legend_marks}<span class="sep" aria-hidden="true"></span>{legend_rar}</div>
   </header>
 
@@ -196,11 +203,7 @@ page = f'''<title>Fourth Pass Card Pool</title>
       <p class="group-note">Cam (Nov 8): some cards shouldn't be part of a cycle. Ironically, a cycle of at least 3 cards in each element whose effects have no equivalent in other elements.</p>
       {ph_subs}
     </section>
-    <section class="group open" aria-labelledby="open-slots">
-      <h2 id="open-slots"><span>{'Open slot' if len(pass4.OPEN) == 1 else 'Open slots'}</span><span class="count">{len(pass4.OPEN)}</span></h2>
-      <ol>{open_slots}</ol>
-      <p>For more multi-affinity cards (Cam, Nov 8). Name still free from a cut card: {esc(', '.join(pass4.FREE_NAMES))}.</p>
-    </section>
+    {OPEN_SECTION}
   </main>
 
   <div class="notes">

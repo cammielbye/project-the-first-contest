@@ -73,6 +73,7 @@ export function permEffects(t) {
   if ((m = has(/^When played, play another (fire|water|air|earth) card\./))) { pe.played = "another"; pe.another = m[1]; }
   if (has(/^When played, remove a common force\./)) pe.played = "removeCommon";
   if ((m = has(/^\+1 (fire|water|air|earth) if you have a world point\./))) pe.bonusIfPoint = ELW[m[1]];
+  if ((m = has(/^\+1 world point if this world has ((?:(?:fire|water|air|earth) ?)+)\./))) pe.worldPoint = m[1].trim().split(" ").map((e) => ELW[e]);
   if (!hit) pe.unknown = true;
   return pe;
 }
@@ -471,6 +472,7 @@ export function setsOf(tokens) {
   return r;
 }
 const hasEach = (tokens, n) => { const { c, flex } = split(tokens); return feasible(c, flex, [n, n, n, n]); };
+const worldHas = (tokens, els) => { const need = [0, 0, 0, 0]; for (const b of els) need[Math.log2(b)]++; const { c, flex } = split(tokens); return feasible(c, flex, need); };
 export function score(s) {
   const v = view(s);
   const pw = knob(s, "perfectWorld");
@@ -479,7 +481,12 @@ export function score(s) {
     const w = s.worlds[k], R = res[w.owner], toks = [];
     for (const iid of w.cells) if (iid !== null) toks.push(...v.tok[iid]);
     const st = setsOf(toks);
-    R.pts += st.k; R.worlds.push({ id: w.id, n: w.n, k: st.k, cov: st.cov, cards: worldSize(w), perfect: st.k >= pw });
+    // "+1 world point if this world has water earth fire air." (Hanging Valley, Nov 9): "has" means the world's affinities can
+    // show each listed element at once, counted as for sets; the point is that world's own, so it counts toward a world
+    // worth 3 world points (READING)
+    let wk = st.k;
+    for (const iid of w.cells) if (iid !== null) { const wp = pe(s.inst[iid]).worldPoint; if (wp && worldHas(toks, wp)) wk++; }
+    R.pts += wk; R.worlds.push({ id: w.id, n: w.n, k: wk, cov: st.cov, cards: worldSize(w), perfect: wk >= pw });
     R.all.push(...toks);
     for (const t of toks) { for (let e = 0; e < 4; e++) if (t & (1 << e)) R.tot[e]++; if (t & W) R.water++; if (t & E) R.earth++; }
   }

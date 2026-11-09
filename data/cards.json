@@ -1,19 +1,19 @@
 {
   "source": "data/card-pool.md",
   "pass": "Fourth pass: the pool by ring count (Nov 8, 2026)",
-  "syncedAt": "2026-11-09T09:03:28.753Z",
+  "syncedAt": "2026-11-09T09:18:43.394Z",
   "counts": {
-    "cards": 91,
+    "cards": 92,
     "meta": 8,
-    "withForceFace": 76,
+    "withForceFace": 77,
     "byRarity": {
       "C": 29,
-      "B": 33,
+      "B": 34,
       "A": 24,
       "S": 5
     },
     "fromSection": {
-      "Fourth pass: the pool by ring count (Nov 8, 2026)": 91
+      "Fourth pass: the pool by ring count (Nov 8, 2026)": 92
     }
   },
   "missingNumbers": [
@@ -24,8 +24,7 @@
     90,
     91,
     93,
-    94,
-    95
+    94
   ],
   "warnings": [
     "Fourth pass: the pool by ring count (Nov 8, 2026): table skipped (header: no. | placeholder | element | what it's for)",
@@ -1556,6 +1555,22 @@
         "name": "Gust",
         "duration": "Once",
         "text": "An air permanence with one affinity becomes its own world."
+      }
+    },
+    {
+      "id": "95",
+      "no": 95,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Hanging Valley",
+        "affinities": [],
+        "text": "+1 world point if this world has water earth fire air."
+      },
+      "force": {
+        "name": "Squall",
+        "duration": "Once",
+        "text": "A permanence becomes its own world."
       }
     },
     {

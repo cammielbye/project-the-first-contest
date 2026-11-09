@@ -134,6 +134,17 @@ test("Ledge hit by Updraft shows fire, and its +1 air still comes after (reading
   s.turn = 1; R.applyMove(s, 1, forceTargets(s, 1, "Updraft").find((m) => m.t === l.id));
   assert.deepEqual(R.view(s).tok[l.id], [R.BIT.fire, R.BIT.air]);
 });
+test("Hanging Valley: +1 world point for a world with one of each element, and that world's own (reading)", () => {
+  const s = table([], []);
+  const h = put(s, 0, "Hanging Valley");
+  assert.equal(R.score(s)[0].pts, 0);
+  put(s, 0, "Hidden Valley", "Hanging Valley", 1); put(s, 0, "Glacier", "Hanging Valley", 2);
+  assert.equal(R.score(s)[0].pts, 0); // any, any, water: no fire-earth-air set yet
+  put(s, 0, "Bedrock", "Hanging Valley", 3);
+  const sc = R.score(s)[0];
+  assert.equal(sc.pts, 2);
+  assert.equal(sc.worlds.find((w) => w.id === h.w).k, 2);
+});
 test("one round: the contest ends when the round does, and there's no card cap", () => {
   const s = table(["Bedrock", "Glacier"], ["Spire"]);
   assert.ok(s.cap > 100);

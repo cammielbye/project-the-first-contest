@@ -172,6 +172,14 @@ group('c-point', "One ring, common: +1 of its element with a world point (in the
  card(POINT_NAMES[e], 'C', [e], POINT_TEXT[e], 'reused', 'placeholder slot') for e in ORDER])
 for c in GROUPS[-1][3]: c['no'] = next(p[0] for p in PLACEHOLDERS if p[2] == c['name'])
 PLACEHOLDERS = [p for p in PLACEHOLDERS if p[2] not in POINT_NAMES.values()]
+# the open slot filled (Cam, Nov 9): another permanence with no affinities, "+1 World Point if this world has [each element,
+# ringed]". Claude gave it the one free name, Hanging Valley, which keeps its third-pass force face like the other reclaimed
+# slots, and put it at uncommon like Mirage (no rings, so the ring rule doesn't place it).
+WORLD_TEXT = "+1 world point if this world has water earth fire air."
+group('b-none-open', "No rings, uncommon: +1 world point (in the open slot)",
+      "Cam (Nov 9): another permanence with no affinities. The four elements in its text are ringed, as affinities. Claude gave it the one free name and kept it at uncommon like Mirage.", [
+ card('Hanging Valley', 'B', [], WORLD_TEXT, 'reused', 'the open slot')])
+GROUPS[-1][3][0]['no'] = OPEN.pop(0)
 G = {k: cs for k, t, b, cs in GROUPS}
 for i, c in enumerate(G['s']): c['no'] = 96 + i
 ALL = [c for k, t, b, cs in GROUPS for c in cs]
@@ -211,9 +219,9 @@ def check():
     for c in ALL:
         rings = len(c['affinities'])
         want = {1: 'C', 2: 'B', 3: 'A', 4: 'S'}.get(rings)
-        if c['rarity'] != want and not (rings == 1 and c in G['a-blank']) and not (rings == 0 and c['name'] == 'Mirage'):
+        if c['rarity'] != want and not (rings == 1 and c in G['a-blank']) and not (rings == 0 and c['rarity'] == 'B'):
             probs.append(('ring rule', c['name'], rings, c['rarity']))
-        if c['text'] and words(c['text']) >= 8 and c['name'] not in pass3.EXCEPTIONS and c['text'] not in POINT_TEXT.values(): probs.append(('8+ words', c['name'], c['text']))
+        if c['text'] and words(c['text']) >= 8 and c['name'] not in pass3.EXCEPTIONS and c['text'] not in POINT_TEXT.values() and c['text'] != WORLD_TEXT: probs.append(('8+ words', c['name'], c['text']))
         if re.search(r'\b(hand|deal|the)\b', c['name'], re.I): probs.append(('name rule', c['name']))
     for m in META:
         if words(m[1]) >= 8: probs.append(('8+ words', m[0], m[1]))
@@ -270,14 +278,16 @@ def markdown():
 
 **Forces changed (Cam, Nov 8).** Ice Storm (Deep Lake) and Permafrost (Plateau) say "can't be removed" instead of "can't be moved" ("stronger, and makes more sense" to him). Rare forces are dialed back (they got much stronger once worlds were uncapped): the three-of-one-element rares drop their reused common forces and take the remove-a-world's-element forces: {'; '.join('%s takes %s, "%s" (from %s)' % (c['name'], c['force'], c['force_text'], c['force_from']) for c in ALL if c.get('force_from') in FORCE_FROM.values())}. Claude matched each to the triple of its element by name, so Wildfire and Drought remove by the third pass's cycle (fire burns earth, air dries water), not the opposites. Firestorm and Tsunami now read "A world's permanences become [element]." and, being too strong below pinnacle, are the forces of Core and Ocean; the other pinnacle forces are removed ({', '.join('%s (%s)' % (f, n) for n, f in PINNACLE_DROPPED.items())}) except World Quake (Pangaea) and Jet Stream (Trade Winds), which still read the same. No force for the moment: {', '.join(c['name'] for c in ALL if not c['force'])}. Every other force is carried over from the third pass unchanged.
 
-**Cut.** {len(CUT)} third-pass cards have no place: {', '.join(c[1] for c in CUT)}. {len(PH_USED)} of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); still free: {', '.join(FREE_NAMES)}.
+**Cut.** {len(CUT)} third-pass cards have no place: {', '.join(c[1] for c in CUT)}. {len(PH_USED)} of their names now sit on the placeholders for cards unique to one element (Cam: names "might inspire ideas"); {('still free: ' + ', '.join(FREE_NAMES)) if FREE_NAMES else 'none is still free (Hanging Valley went to the open slot, Nov 9)'}.
 
-**Counts.** {rc['C']} commons, {rc['B']} uncommons, {rc['A']} rares, {rc['S']} pinnacles and {len(META)} meta cards: {len(ALL) + len(META)} cards, {len(PLACEHOLDERS)} placeholders (numbers {', '.join(str(p[0]) for p in PLACEHOLDERS)}) and {len(OPEN)} open {'slot' if len(OPEN) == 1 else 'slots'} ({', '.join(map(str, OPEN))}). Rings across the pool: water {t[W]}, earth {t[E]}, fire {t[F]}, air {t[A]}, plus {t[W + ' (either-or)']} either-or capsules for each element and {t[ANY]} any.
+**Counts.** {rc['C']} commons, {rc['B']} uncommons, {rc['A']} rares, {rc['S']} pinnacles and {len(META)} meta cards: {len(ALL) + len(META)} cards, {len(PLACEHOLDERS)} placeholders (numbers {', '.join(str(p[0]) for p in PLACEHOLDERS)}) and {('%d open %s (%s)' % (len(OPEN), 'slot' if len(OPEN) == 1 else 'slots', ', '.join(map(str, OPEN)))) if OPEN else 'no open slots'}. Rings across the pool: water {t[W]}, earth {t[E]}, fire {t[F]}, air {t[A]}, plus {t[W + ' (either-or)']} either-or capsules for each element and {t[ANY]} any.
 
-**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The slots for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards. Four now hold the +1-with-a-world-point cards (one ring each, Nov 9: \"+1 [element] if you have a world point.\"); the other eight are placeholders whose rings aren't set, so they may still be. The four form a cycle of their own while sitting in the unique slots. Their text is 8 words counting \"+1\" and the symbol, one over the under-8 rule (CARD-23); it's let through as an exception for now.
+**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The slots for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards. Four now hold the +1-with-a-world-point cards (one ring each, Nov 9: \"+1 [element] if you have a world point.\"); the other eight are placeholders whose rings aren't set, so they may still be. The four form a cycle of their own while sitting in the unique slots. Their text is 8 words counting \"+1\" and the symbol, one over the under-8 rule (CARD-23); it's let through as an exception for now. The open slot (#95) became Hanging Valley (Nov 9), a second card with no affinities: its condition, one of each element in the world, is the same as the world scoring a world point, so in effect it adds one to any world that already scores; with two sets it makes a world worth 3 world points (the decisive win). Its text is 11 words counting each symbol, also over the under-8 rule.
 
 '''
-    for key in NUM_ORDER[:5] + ['c-point'] + NUM_ORDER[5:] + ['s']:
+    order = NUM_ORDER[:5] + ['c-point'] + NUM_ORDER[5:]
+    order.insert(order.index('b-none') + 1, 'b-none-open')
+    for key in order + ['s']:
         k, title, blurb, cs = next(g for g in GROUPS if g[0] == key)
         lead = '**%s (%d).**' % (title, len(cs))
         md += '%s%s\n\n%s\n%s\n\n' % (lead, (' ' + blurb) if blurb else '', HEAD, '\n'.join(row(c) for c in cs))
@@ -285,7 +295,8 @@ def markdown():
     md += '\n'.join('| %s | %d | %s |' % (m[0], META_NO[m[0]], m[1]) for m in META) + '\n\n'
     md += '**Placeholders: unique to one element (%d).** Cam (Nov 8): there should be some cards that aren\'t part of a cycle; ironically, a cycle of at least 3 cards in each element whose effects have no equivalent in other elements.\n\n| No. | Placeholder | Element | What it\'s for |\n| --- | --- | --- | --- |\n' % len(PLACEHOLDERS)
     md += '\n'.join('| %d | %s | %s | %s |' % (no, nm or 'Unique %s %d' % (e, PH_NAMES[e].index(nm) + 1), e, UNIQUE_NOTE if nm else UNNAMED_NOTE) for k, (no, e, nm) in enumerate(PLACEHOLDERS)) + '\n\n'
-    md += '**Open %s (%d).** %s. Cam (Nov 8): the slots this opens should go to more multi-affinity cards.\n' % ('slot' if len(OPEN) == 1 else 'slots', len(OPEN), 'Number ' + str(OPEN[0]) if len(OPEN) == 1 else 'Numbers %d–%d' % (OPEN[0], OPEN[-1]))
+    if OPEN: md += '**Open %s (%d).** %s. Cam (Nov 8): the slots this opens should go to more multi-affinity cards.\n' % ('slot' if len(OPEN) == 1 else 'slots', len(OPEN), 'Number ' + str(OPEN[0]) if len(OPEN) == 1 else 'Numbers %d–%d' % (OPEN[0], OPEN[-1]))
+    else: md += '**No open slots.** The last one (#95) became Hanging Valley on Nov 9.\n'
     md += '\n**Provisional test binders (Claude, Nov 8), %d.** For the playtest table and the simulator until Cam builds binders from this pool: 15 cards each (Cam, Nov 8: smaller binders), drawn the way the simulator draws random binders (8 commons, 4 uncommons with meta cards among them, 3 rares; no pinnacles), four leaning loosely on one element and one even. Not designed: swap them out freely.\n\n' % len(PROVISIONAL_BINDERS)
     md += ''.join('- **Binder %s, %s.** %s. %s.\n' % (chr(65 + k), bn, d, ', '.join(cs)) for k, (bn, d, cs) in enumerate(PROVISIONAL_BINDERS))
     return md

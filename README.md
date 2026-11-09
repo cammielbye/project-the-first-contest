@@ -173,6 +173,9 @@ Where a card's text leaves a question open, the engine picks one reading (marked
   "a world point" is a complete set in one of the player's worlds right now, counted before any
   +1, so a card can't earn its own bonus; points from the scoring cycle don't count. The +1 comes
   after every other change, so "becomes" doesn't overwrite it, but a blanked card gets none.
+- Hanging Valley ("+1 world point if this world has" the four elements, ringed; Nov 9): "has" means the
+  world's affinities can show each element at once, counted as for sets, so it adds one to any world
+  that scores. The point is that world's own, so it counts toward a world worth 3 world points.
 - Grove ("When played, remove a common force"): any force from a common card on the table,
   either player's. Equinox is a meta card in the fourth pass (it was Cradle's force).
 - Echo's card from the void doesn't count toward the 10; Verge's two plays do.

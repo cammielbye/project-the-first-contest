@@ -47,7 +47,8 @@ function symbolSvg(kind, size = 32) {
 
 // Rules text draws elements, never names them (Cam, Nov 2): the element a card turns something
 // INTO ("becomes fire") is ringed, as an affinity; every other mention is the bare symbol. An affinity a card
-// gains ("+1 water", Nov 9) is ringed too, since a ring means an affinity (Claude's reading of the Nov 2 rule).
+// gains ("+1 water", Nov 9) is ringed too, since a ring means an affinity (Claude's reading of the Nov 2 rule), and so
+// are the elements a world must have (Hanging Valley, Nov 9: Cam asked for each circled).
 // Matches the canvas's own faces (gen/pass3_cards.py).
 const bareSym = (el) =>
   `<svg viewBox="0 0 24 24" role="img" aria-label="${el}" style="width:.78em;height:.78em;vertical-align:-.07em;margin:0 .04em" fill="none" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><g transform="translate(1 1)" stroke="#0D0F0D"><path d="${SYMBOLS[el].d}"/></g><g stroke="${SYMBOLS[el].color}"><path d="${SYMBOLS[el].d}"/></g></svg>`;
@@ -59,6 +60,7 @@ export function rulesHtml(text) {
   return esc(text)
     .replace(/\b(becomes?|become)\s+(fire|water|air|earth)\b/gi, (_, v, e) => `${v} \u0000R${e.toLowerCase()}\u0000`)
     .replace(/\+1\s+(fire|water|air|earth)\b/gi, (_, e) => `+1 \u0000R${e.toLowerCase()}\u0000`)
+    .replace(/\bhas((?:\s+(?:fire|water|air|earth)\b)+)/gi, (_, list) => "has " + `<span style="white-space:nowrap">${list.trim().replace(/(fire|water|air|earth)/gi, (e) => `\u0000R${e.toLowerCase()}\u0000`)}</span>`)
     .replace(/\b(fire|water|air|earth)\b/gi, (_, e) => `\u0000B${e.toLowerCase()}\u0000`)
     .replace(/\u0000([RB])(fire|water|air|earth)\u0000([.,;:]?)/g, (_, k, e, p) => `<span style="white-space:nowrap">${k === "R" ? ringedSym(e) : bareSym(e)}${p}</span>`);
 }
