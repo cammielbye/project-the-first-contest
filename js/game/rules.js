@@ -121,7 +121,7 @@ function newPlayer(ids, name) {
 // of one element, and there's no Perfect World; "sets": the rule before, a point per complete set, Perfect World at 3)
 export function newContest(idsA, idsB, opener, names = ["You", "Computer"], opts = {}) {
   const s = {
-    r: 1, cap: opts.noCap ? 1e9 : opts.cap || DEFAULT_CAP, bestOf: opts.bestOf || 3, scoring: opts.scoring || "point", knobs: opts.knobs || null, turn: opener, opener, p: [newPlayer(idsA, names[0]), newPlayer(idsB, names[1])], open: !!opts.openWorlds,
+    r: 1, cap: opts.noCap ? 1e9 : opts.cap || DEFAULT_CAP, bestOf: opts.bestOf || 3, scoring: opts.scoring || "point", roundStarter: opts.roundStarter || "alternate", knobs: opts.knobs || null, turn: opener, opener, p: [newPlayer(idsA, names[0]), newPlayer(idsB, names[1])], open: !!opts.openWorlds,
     inst: {}, worlds: {}, nid: 1, ts: 1, extras: [], calm: false, phase: "turn", winner: null, rounds: [], log: [], decisive: null,
   };
   return s;
@@ -132,7 +132,7 @@ export function clone(s) {
   const worlds = {};
   for (const k in s.worlds) { const w = s.worlds[k]; worlds[k] = { id: w.id, owner: w.owner, cells: w.cells.slice(), n: w.n }; }
   return {
-    r: s.r, cap: s.cap, bestOf: s.bestOf, scoring: s.scoring, knobs: s.knobs, turn: s.turn, opener: s.opener, open: s.open, nid: s.nid, ts: s.ts, inst, worlds, extras: s.extras.slice(), calm: s.calm,
+    r: s.r, cap: s.cap, bestOf: s.bestOf, scoring: s.scoring, roundStarter: s.roundStarter, knobs: s.knobs, turn: s.turn, opener: s.opener, open: s.open, nid: s.nid, ts: s.ts, inst, worlds, extras: s.extras.slice(), calm: s.calm,
     phase: s.phase, winner: s.winner, rounds: s.rounds, log: [], decisive: s.decisive, turnStarted: s.turnStarted, why: s.why,
     p: s.p.map((x) => ({ name: x.name, binder: x.binder.slice(), size: x.size, void: x.void.slice(), played: x.played, passed: x.passed, skip: x.skip, wins: x.wins, commons: x.commons.slice() })),
   };
@@ -927,7 +927,11 @@ function endRound(s, forced, why) {
 }
 export function nextRound(s) {
   if (s.phase !== "roundOver") return;
-  s.ended = null; s.r++; s.opener = 1 - s.opener; s.turn = s.opener; s.turnStarted = false; s.phase = "turn"; // READING: openers alternate
+  // READING: openers alternate. opts.roundStarter "winner" (Gwent's rule, Nov 10 sim): the last round's winner starts the
+  // next round, so its loser plays second; after a drawn round the opener alternates
+  const lastW = s.rounds.length ? s.rounds[s.rounds.length - 1].winner : null;
+  s.opener = s.roundStarter === "winner" && lastW !== null ? lastW : 1 - s.opener;
+  s.ended = null; s.r++; s.turn = s.opener; s.turnStarted = false; s.phase = "turn";
   advance(s);
 }
 function endContest(s, winner, why) {

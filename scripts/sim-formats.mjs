@@ -13,6 +13,8 @@ export const FORMATS = [];
 for (const open of [false, true])
   for (const [bestOf, cap] of [[1, 0], [1, 10], [1, 7], [3, 0], [3, 5], [3, 7]])
     FORMATS.push({ key: `${open ? "open" : "2x2"}-${bestOf === 1 ? "bo1" : "bo3"}-${cap ? "cap" + cap : "nocap"}`, open, bestOf, cap });
+// Gwent's rule for who starts rounds 2 and 3 (the last round's winner), best of three, 2x2 (Nov 10)
+for (const cap of [0, 7]) FORMATS.push({ key: `2x2-bo3-${cap ? "cap" + cap : "nocap"}-winnerstarts`, open: false, bestOf: 3, cap, roundStarter: "winner" });
 const pips = (id) => (C[id].aff ? C[id].aff.length : 0);
 
 function playOne(seed, f) {
@@ -20,7 +22,7 @@ function playOne(seed, f) {
   const A = randomBinder(setup), B = randomBinder(setup);
   const styles = [0, 1].map(() => STYLES[Math.floor(setup() * STYLES.length)]);
   const opener = setup() < 0.5 ? 0 : 1;
-  const s = R.newContest(A.ids, B.ids, opener, ["A", "B"], { openWorlds: f.open, bestOf: f.bestOf, noCap: !f.cap, cap: f.cap || undefined });
+  const s = R.newContest(A.ids, B.ids, opener, ["A", "B"], { openWorlds: f.open, bestOf: f.bestOf, noCap: !f.cap, cap: f.cap || undefined, roundStarter: f.roundStarter });
   const ai = styles.map((st) => makeAI({ rng, style: st, ply: 1 }));
   const plays = [0, 0], asPerm = [{}, {}], any = [{}, {}], asForce = [0, 0], asMeta = [0, 0];
   let lastP = null, flip = false; // who made the contest's last play, and whether it changed who was ahead
