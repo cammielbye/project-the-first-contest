@@ -17,7 +17,7 @@ for (const p of perms) {
 }
 const N = perms.length;
 const ARR = [[0, 1, 2, 3], [0, 1, 3, 2], [0, 3, 1, 2]]; // card order into cells 0 1 / 2 3; the three ways up to symmetry
-const ONE = { bestOf: 1, noCap: true };
+const ONE = { bestOf: 1, noCap: true, scoring: "sets" }; // the scoring before Nov 10, when a world could be worth 3
 function scoreArr(cs) {
   const s = R.newContest(cs.map((c) => c.id), [], 0, ["A", "B"], ONE); R.advance(s);
   // place into cells 0,1,2,3 in an order that keeps each placement touching a placed card: 0,1,3,2 works for any fill

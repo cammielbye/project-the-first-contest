@@ -66,7 +66,9 @@ Choose **Computer** in the top bar (on a table without a room). It's the same ta
 binder and scoreboard, but the page plays by the rules, with the newest card pool (the
 fourth pass, Nov 8) and its five provisional 15-card binders (Water, Earth, Fire, Air and
 Even, drawn at random until real ones are built; no pinnacles). Since Nov 8 a contest is
-one round with no card cap, and worlds go up to 2×2 here (the simulator plays open worlds):
+one round with no card cap, and worlds go up to 2×2. Since Nov 10 a world with one of each
+element or four of one element scores a world point, a world scores one point at most, and
+there's no Perfect World:
 
 1. In the binder panel, choose your binder and the computer's, then **Start the
    contest**. The opener is random.
@@ -101,11 +103,13 @@ every card you've shown, and guesses the rest. At the start of each round it set
 budget for the round and holds some of its strong cards back for later rounds.
 
 The rules live in `js/game/rules.js` and the opponent in `js/game/ai.js`. The same
-files run in node. Since Nov 8 the simulator plays one round with no card cap and open
-worlds by default (Cam: the game is one round again), and its random binders hold 15
-cards (8 commons, 4 uncommons, 3 rares); `--bo3`, `--cap` and `--square` switch back to
-the old table rules (best of three, a cap of 10, 2×2 worlds). The table itself now plays
-one round with no cap, on 2×2 worlds, with the fourth pass and its provisional binders.
+files run in node. Since Nov 10 the simulator and the table play the same rules by default:
+one round, no card cap, worlds of up to 2×2, and one world point at most per world (one of
+each element or four of one element), with no Perfect World. The simulator's random binders
+hold 15 cards (8 commons, 4 uncommons, 3 rares). Switches (scripts/lib/rule-flags.mjs):
+`--bo3` best of three, `--cap` or `--cap=N` a cap of 10 or N cards a round, `--open` open
+worlds with no size cap (the simulator's default Nov 8–9), `--sets` the scoring before
+Nov 10 (a point per complete set, Perfect World at 3).
 
 ```sh
 node scripts/test-rules4.mjs     # rule checks on hand-built tables, fourth-pass cards
@@ -117,7 +121,7 @@ node scripts/sim3-pair.mjs 500 --a Tides --b Embers --seed 1107 --json out.json
                                  # one pairing, random opener: wins, how contests end,
                                  # cards left in each binder, plays and the cap by round,
                                  # world sizes, and how often each card gets played, by round
-node scripts/sim3-pair.mjs 500 --a Water --b Fire --bo3 --cap --square   # the old rules: best of three, a cap of 10, 2x2
+node scripts/sim3-pair.mjs 500 --a Water --b Fire --bo3 --cap=7 --open   # best of three, a cap of 7, open worlds
 node scripts/sim3-pair.mjs 41 --seed 1108 --show 40   # replay one contest, play by play
 node scripts/sim3-pair.mjs 250 --aiA bigWorld=2 --aiB bigWorld=2
                                  # computers aiming for the 3-point world (Nov 7)
@@ -186,11 +190,15 @@ Where a card's text leaves a question open, the engine picks one reading (marked
   the table, a lasting force included.
 - Archipelago (10 water since Nov 7) and Cradle are checked at the start of their owner's
   turns, so not after they pass. A drawn round counts for both players; openers alternate.
+- World points (Nov 10): a world scores one world point for one of each element or four of
+  one element, and one point at most. Either-or and any pips count toward four of one
+  element as they do toward a set. Hanging Valley's +1 adds nothing under this rule. There's
+  no Perfect World (`--sets` brings back the old scoring and the Perfect World).
 - One round and no cap (Nov 7; the simulator's default since Nov 8, `--bo3` and `--cap` to switch back): the round's winner
   wins the contest, and a player can play down to their last card. Passing stays, as a way
   to stop (a concession, in effect). With no cap the computer never passes just because
   it's ahead.
-- Open worlds (Nov 7; the simulator's default since Nov 8, `--square` for 2×2; the table keeps 2×2): a world is any
+- Open worlds (Nov 7; the simulator's default Nov 8–9, `--open` since Nov 10): a world is any
   connected shape of cards, lines included, on an 11×11 grid with no size cap. A split
   cuts the shape's bounding box down the middle. Placing offers one cell per set of
   neighbours the card would touch, the one nearest the world's middle.

@@ -134,8 +134,8 @@ test("Ledge hit by Updraft shows fire, and its +1 air still comes after (reading
   s.turn = 1; R.applyMove(s, 1, forceTargets(s, 1, "Updraft").find((m) => m.t === l.id));
   assert.deepEqual(R.view(s).tok[l.id], [R.BIT.fire, R.BIT.air]);
 });
-test("Hanging Valley: +1 world point for a world with one of each element, and that world's own (reading)", () => {
-  const s = table([], []);
+test("Hanging Valley, under the scoring before Nov 10: +1 world point for a world with one of each element (reading)", () => {
+  const s = table([], [], { ...ONE_ROUND, scoring: "sets" });
   const h = put(s, 0, "Hanging Valley");
   assert.equal(R.score(s)[0].pts, 0);
   put(s, 0, "Hidden Valley", "Hanging Valley", 1); put(s, 0, "Glacier", "Hanging Valley", 2);
@@ -144,6 +144,26 @@ test("Hanging Valley: +1 world point for a world with one of each element, and t
   const sc = R.score(s)[0];
   assert.equal(sc.pts, 2);
   assert.equal(sc.worlds.find((w) => w.id === h.w).k, 2);
+});
+test("Nov 10: four of one element in a world is a world point (Lagoon's three water and Glacier)", () => {
+  const s = table([], []);
+  put(s, 0, "Lagoon"); assert.equal(R.score(s)[0].pts, 0);
+  put(s, 0, "Glacier", "Lagoon", 1); assert.equal(R.score(s)[0].pts, 1);
+});
+test("Nov 10: a world scores one point at most (Origin and Ocean), and Hanging Valley adds nothing (reading)", () => {
+  const s = table([], []);
+  put(s, 0, "Origin"); put(s, 0, "Ocean", "Origin", 1);
+  assert.equal(R.score(s)[0].pts, 1);
+  put(s, 0, "Hanging Valley", "Origin", 2);
+  assert.equal(R.score(s)[0].pts, 1);
+  assert.equal(s.decisive, null); // no Perfect World
+});
+test("Nov 10: either-or and any pips count toward four of one element (reading)", () => {
+  const s = table([], []);
+  put(s, 0, "Hidden Valley"); put(s, 0, "Glacier", "Hidden Valley", 1); // any, any, water: three
+  assert.equal(R.score(s)[0].pts, 0);
+  put(s, 0, "Tide Pool", "Hidden Valley", 2); // four water
+  assert.equal(R.score(s)[0].pts, 1);
 });
 test("one round: the contest ends when the round does, and there's no card cap", () => {
   const s = table(["Bedrock", "Glacier"], ["Spire"]);

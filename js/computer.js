@@ -312,7 +312,7 @@ export function createComputer(ctx) {
       h("h2", { class: "binder-pick-title", text: "Play the computer" }),
       h("p", {
         class: "hint",
-        text: "The page applies every card's rules and the computer plays the other seat. One round, with no limit on cards: play down to your last card. Worlds go up to 2×2. A world worth 3 world points wins the contest on the spot.",
+        text: "The page applies every card's rules and the computer plays the other seat. One round, with no limit on cards: play down to your last card. Worlds go up to 2×2. A world with one of each element, or four of one element, scores a world point, and a world scores one point at most.",
       })
     );
     for (const [which, title] of [["mine", "Your binder"], ["theirs", "The computer's binder"]]) {

@@ -3,7 +3,7 @@
 //        [--bo3] [--cap] [--square]   the rule switches, as in sim3-pair.mjs (default: one round, no cap, open worlds)
 //        [--ai k=v,k=v]               options for both computers, e.g. bigWorld=2
 //        [--from a.json,b.json]       skip playing: summarize saved runs together
-import { ruleFlags } from "./lib/rule-flags.mjs";
+import { ruleFlags, contestOpts } from "./lib/rule-flags.mjs";
 import { readFileSync, writeFileSync } from "node:fs";
 import * as R from "../js/game/rules.js";
 import { makeAI } from "../js/game/ai.js";
@@ -13,7 +13,7 @@ const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] :
 const N = Number(args.find((a, i) => /^\d+$/.test(a) && !args[i - 1]?.startsWith("--")) || 500);
 let seed = Number(opt("--seed", 1));
 const rng = () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
-const { open, bo1, nocap } = ruleFlags(args);
+const FL = ruleFlags(args), { open, bo1, nocap } = FL;
 const aiOpts = Object.fromEntries((opt("--ai", "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, b === "false" ? false : b === "true" ? true : isNaN(Number(b)) ? b : Number(b)]; }));
 
 const root = new URL("..", import.meta.url);
@@ -31,7 +31,7 @@ function contest() {
   const A = field[ia], B = field[ib];
   const names = ia === ib ? [`${short(A)} 1`, `${short(B)} 2`] : [short(A), short(B)];
   const opener = rng() < 0.5 ? 0 : 1;
-  const s = R.newContest(A.cards, B.cards, opener, names, { openWorlds: open, bestOf: bo1 ? 1 : 3, noCap: nocap });
+  const s = R.newContest(A.cards, B.cards, opener, names, contestOpts(FL));
   const ai = [makeAI(Object.assign({ rng }, aiOpts)), makeAI(Object.assign({ rng }, aiOpts))];
   const plays = [0, 0];
   R.advance(s);

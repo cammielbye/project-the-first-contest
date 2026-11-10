@@ -11,7 +11,9 @@ for (const c of Object.values(R.C)) { ID[c.name] = c.id; if (c.fname) ID[c.fname
 const id = (name) => { assert.ok(ID[name], "no card " + name); return ID[name]; };
 
 // a contest where both binders hold the named cards, P0 to play
-function table(b0, b1) { const s = R.newContest(b0.map(id), b1.map(id), 0); R.advance(s); return s; }
+// the third pass was played under the scoring before Nov 10 (a point per set, Perfect World at 3)
+const SETS = { scoring: "sets" };
+function table(b0, b1) { const s = R.newContest(b0.map(id), b1.map(id), 0, ["You", "Computer"], SETS); R.advance(s); return s; }
 const findPerm = (s, name) => R.perms(s).find((i) => R.C[i.card].name === name);
 // put a permanence down for P (bypassing turns); into a new world, or next to another card
 function put(s, P, name, nextTo, cell) {
@@ -47,7 +49,7 @@ test("Flare-up removes a common force, not an uncommon one", () => {
   assert.deepEqual(R.view(s).tok[h.id], [R.BIT.earth]);
 });
 test("Equinox returns three cards from your void", () => {
-  const s = R.newContest([id("Cradle")], [id("Ridge")], 0);
+  const s = R.newContest([id("Cradle")], [id("Ridge")], 0, ["You", "Computer"], SETS);
   for (const n of ["Hill", "Grove", "Ledge", "Lagoon", "Dune"]) s.p[0].void.push(id(n));
   R.advance(s);
   const m = R.legalMoves(s, 0).find((x) => x.face === "force");
@@ -128,7 +130,7 @@ test("Archipelago doesn't win with 8 water", () => {
 });
 test("Open worlds (simulator switch) grow past four cards; a one-card world offers one cell", () => {
   const names = ["Hill", "Ridge", "Ledge", "Flint", "Bedrock", "Lagoon"];
-  const s = R.newContest(names.map(id), ["Hill"].map(id), 0, ["A", "B"], { openWorlds: true }); R.advance(s);
+  const s = R.newContest(names.map(id), ["Hill"].map(id), 0, ["A", "B"], { openWorlds: true, scoring: "sets" }); R.advance(s);
   R.applyMove(s, 0, { id: id("Hill"), face: "perm", w: "new", cell: 0 });
   const w = Object.values(s.worlds)[0];
   assert.equal(R.movesFor(s, 0, false).filter((m) => m.face === "perm" && m.id === id("Ridge") && m.w === w.id).length, 1);
@@ -152,7 +154,7 @@ test("Calm stops force faces for the round", () => {
   assert.equal(R.movesFor(s, 0, false).filter((m) => m.face === "force").length, 0);
 });
 test("Echo plays a card from the void without counting toward the cap", () => {
-  const s = R.newContest([id("Echo")], [id("Ridge")], 0);
+  const s = R.newContest([id("Echo")], [id("Ridge")], 0, ["You", "Computer"], SETS);
   s.p[0].void.push(id("Hill"));
   R.advance(s);
   const m = R.legalMoves(s, 0).find((x) => x.face === "meta" && x.sub.id === id("Hill") && x.sub.face === "perm");

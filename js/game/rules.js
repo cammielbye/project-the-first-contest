@@ -115,10 +115,12 @@ function newPlayer(ids, name) {
   return { name, binder: ids.slice(), size: ids.length, void: [], played: 0, passed: false, skip: false, wins: 0, commons: [] };
 }
 // opts (simulator switches; the table uses none): openWorlds (no cap on world size), bestOf (1 or 3 rounds, default 3),
-// noCap (no limit on cards a round: whole binders can be played)
+// noCap (no limit on cards a round: whole binders can be played), cap (cards a round when there is a cap, default 10),
+// scoring ("point", the default since Nov 10: a world scores one world point at most, for one of each element or four
+// of one element, and there's no Perfect World; "sets": the rule before, a point per complete set, Perfect World at 3)
 export function newContest(idsA, idsB, opener, names = ["You", "Computer"], opts = {}) {
   const s = {
-    r: 1, cap: opts.noCap ? 1e9 : DEFAULT_CAP, bestOf: opts.bestOf || 3, knobs: opts.knobs || null, turn: opener, opener, p: [newPlayer(idsA, names[0]), newPlayer(idsB, names[1])], open: !!opts.openWorlds,
+    r: 1, cap: opts.noCap ? 1e9 : opts.cap || DEFAULT_CAP, bestOf: opts.bestOf || 3, scoring: opts.scoring || "point", knobs: opts.knobs || null, turn: opener, opener, p: [newPlayer(idsA, names[0]), newPlayer(idsB, names[1])], open: !!opts.openWorlds,
     inst: {}, worlds: {}, nid: 1, ts: 1, extras: [], calm: false, phase: "turn", winner: null, rounds: [], log: [], decisive: null,
   };
   return s;
@@ -129,7 +131,7 @@ export function clone(s) {
   const worlds = {};
   for (const k in s.worlds) { const w = s.worlds[k]; worlds[k] = { id: w.id, owner: w.owner, cells: w.cells.slice(), n: w.n }; }
   return {
-    r: s.r, cap: s.cap, bestOf: s.bestOf, knobs: s.knobs, turn: s.turn, opener: s.opener, open: s.open, nid: s.nid, ts: s.ts, inst, worlds, extras: s.extras.slice(), calm: s.calm,
+    r: s.r, cap: s.cap, bestOf: s.bestOf, scoring: s.scoring, knobs: s.knobs, turn: s.turn, opener: s.opener, open: s.open, nid: s.nid, ts: s.ts, inst, worlds, extras: s.extras.slice(), calm: s.calm,
     phase: s.phase, winner: s.winner, rounds: s.rounds, log: [], decisive: s.decisive, turnStarted: s.turnStarted, why: s.why,
     p: s.p.map((x) => ({ name: x.name, binder: x.binder.slice(), size: x.size, void: x.void.slice(), played: x.played, passed: x.passed, skip: x.skip, wins: x.wins, commons: x.commons.slice() })),
   };
@@ -269,7 +271,7 @@ export function view(s) {
   const bonus = ps.filter((i) => pe(i).bonusIfPoint && !blank[i.id]);
   if (bonus.length) {
     const pts = [0, 0];
-    for (const k in s.worlds) { const w = s.worlds[k], toks = []; for (const iid of w.cells) if (iid !== null) toks.push(...cur[iid]); pts[w.owner] += setsOf(toks).k; }
+    for (const k in s.worlds) { const w = s.worlds[k], toks = []; for (const iid of w.cells) if (iid !== null) toks.push(...cur[iid]); pts[w.owner] += worldPoints(s, toks); }
     for (const i of bonus) if (pts[i.owner] > 0) cur[i.id] = cur[i.id].concat([pe(i).bonusIfPoint]);
   }
   s._v = { tok: cur, blank };
@@ -472,10 +474,16 @@ export function setsOf(tokens) {
   return r;
 }
 const hasEach = (tokens, n) => { const { c, flex } = split(tokens); return feasible(c, flex, [n, n, n, n]); };
+// the most of one element a world can show at once: every pip that can be that element (either-or and any included)
+function maxSame(tokens) { let best = 0; for (let e = 0; e < 4; e++) { let n = 0; for (const t of tokens) if (t & (1 << e)) n++; if (n > best) best = n; } return best; }
+// Nov 10 (Cam): one of each element or four of one element in a world is a world point, and a world scores one point at
+// most; either-or and any pips count toward four of one element as they do toward a set (READING)
+function worldPoints(s, tokens) { return s.scoring === "sets" ? setsOf(tokens).k : hasEach(tokens, 1) || maxSame(tokens) >= 4 ? 1 : 0; }
 const worldHas = (tokens, els) => { const need = [0, 0, 0, 0]; for (const b of els) need[Math.log2(b)]++; const { c, flex } = split(tokens); return feasible(c, flex, need); };
 export function score(s) {
   const v = view(s);
-  const pw = knob(s, "perfectWorld");
+  const pointRule = s.scoring !== "sets";
+  const pw = pointRule ? Infinity : knob(s, "perfectWorld"); // no Perfect World under the Nov 10 rule (a world scores 1 at most)
   const res = [0, 1].map(() => ({ pts: 0, tie: 0, tot: [0, 0, 0, 0], water: 0, earth: 0, worlds: [], all: [], mtn: 0, pw }));
   for (const k in s.worlds) {
     const w = s.worlds[k], R = res[w.owner], toks = [];
@@ -484,9 +492,12 @@ export function score(s) {
     // "+1 world point if this world has water earth fire air." (Hanging Valley, Nov 9): "has" means the world's affinities can
     // show each listed element at once, counted as for sets; the point is that world's own, so it counts toward a world
     // worth 3 world points (READING)
-    let wk = st.k;
-    for (const iid of w.cells) if (iid !== null) { const wp = pe(s.inst[iid]).worldPoint; if (wp && worldHas(toks, wp)) wk++; }
-    R.pts += wk; R.worlds.push({ id: w.id, n: w.n, k: wk, cov: st.cov, cards: worldSize(w), perfect: wk >= pw });
+    // Under the Nov 10 rule a world scores one point at most, so Hanging Valley's +1 adds nothing (READING); cov is then
+    // how far an unscored world has got toward its point (elements covered, or the most of one element), for the computer
+    let wk = st.k, cov = st.cov;
+    if (pointRule) { const same = maxSame(toks); wk = st.k >= 1 || same >= 4 ? 1 : 0; cov = wk ? 0 : Math.min(3, Math.max(st.cov, same)); }
+    else for (const iid of w.cells) if (iid !== null) { const wp = pe(s.inst[iid]).worldPoint; if (wp && worldHas(toks, wp)) wk++; }
+    R.pts += wk; R.worlds.push({ id: w.id, n: w.n, k: wk, cov, cards: worldSize(w), perfect: wk >= pw });
     R.all.push(...toks);
     for (const t of toks) { for (let e = 0; e < 4; e++) if (t & (1 << e)) R.tot[e]++; if (t & W) R.water++; if (t & E) R.earth++; }
   }

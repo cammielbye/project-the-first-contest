@@ -5,7 +5,7 @@
 //        [--aiA k=v,k=v] [--aiB …] options for each side's computer, e.g. plan=0,hidden=0 for the Nov 1 player
 //        [--show k]               print contest k (counting from 0) play by play
 // The opener of round 1 is random in every contest (R.nextRound alternates it after that).
-import { ruleFlags } from "./lib/rule-flags.mjs";
+import { ruleFlags, contestOpts } from "./lib/rule-flags.mjs";
 import { readFileSync, writeFileSync } from "node:fs";
 import * as R from "../js/game/rules.js";
 import { makeAI } from "../js/game/ai.js";
@@ -24,14 +24,14 @@ const find = (n) => binders.find((b) => short(b).toLowerCase() === n.toLowerCase
 const A = find(opt("--a", "Tides")), B = find(opt("--b", "Embers"));
 if (!A || !B) throw new Error("binder not found: " + binders.map(short).join(", "));
 const names = [short(A), short(B)];
-const { open, bo1, nocap } = ruleFlags(args);
+const FL = ruleFlags(args), { open, bo1, nocap } = FL;
 const aiOpts = (k) => Object.fromEntries((opt(k, "") || "").split(",").filter(Boolean).map((kv) => { const [a, b] = kv.split("="); return [a, b === "false" ? false : b === "true" ? true : isNaN(Number(b)) ? b : Number(b)]; }));
 const optsA = aiOpts("--aiA"), optsB = aiOpts("--aiB");
 const show = Number(opt("--show", -1));
 
 function contest(k) {
   const opener = rng() < 0.5 ? 0 : 1;
-  const s = R.newContest(A.cards, B.cards, opener, names, { openWorlds: open, bestOf: bo1 ? 1 : 3, noCap: nocap });
+  const s = R.newContest(A.cards, B.cards, opener, names, contestOpts(FL));
   const ai = [makeAI(Object.assign({ rng }, optsA)), makeAI(Object.assign({ rng }, optsB))];
   const rounds = []; // per round: { start: [binder sizes], moves: [n, n], ids: [[...], [...]] }
   const begin = () => rounds.push({ r: s.r, start: [s.p[0].binder.length, s.p[1].binder.length], moves: [0, 0], ids: [[], []] });
