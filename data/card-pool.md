@@ -2,15 +2,17 @@
 
 > Terminology (Nov 1, 2026): what the passes below call a "tag" is now an "affinity" (working term). Card texts in the force-face table use the new word; older tables and notes still say "tag."
 
-## Fourth pass: the pool by ring count (Nov 8, 2026)
+## Fourth pass: the pool by pip count (Nov 8, 2026)
 
 > Cam's restructure of the third pass (Nov 8), applied to the card pool at his request. The third pass as it stood before this is saved in the repo at `data/versions/card-pool-2026-11-08-third-pass.md` (branch `saved/card-pool-2026-11-08-third-pass`). Forces are carried over from the third pass, so they haven't been tuned to the new rarities; the ones Cam has changed since are listed below. Since Nov 8 the playtest table, the computer and the simulator play this pass, with the five provisional binders at the end of this section until Cam builds real ones.
 
-**The structure (Cam, Nov 8).** A card's rarity follows its rings: one ring at common, two at uncommon, three at rare, four at pinnacle. The exceptions are the four rares with one ring that blank their opposite element (Ice Sheet's cycle) and Mirage, which has no ring and stays uncommon. Meta cards have no rarity. Each element has three one-ring commons, one in each cycle: can't be moved, ignores its opposite element's forces, and an effect when played. The opposites are water and fire, earth and air. Two either-or commons per pair of elements, with no text. Wilderness moves to common. New cycles: one element and one any at uncommon, plus one card with two any; three of one element at rare; and a scoring cycle after Mountain Range (water and fire scores water, fire and air scores fire, air and any scores air; the air card is also the any cycle's air card). Cradle's permanence is removed and its force, Equinox, becomes a meta card. Massif is removed. On the any cycle: "the 'any' affinity might be too strong to leave uncommon but for now let's go with it."
+**Pips (Cam, Nov 10).** The element symbols on a permanence are its pips, as Magic calls its mana symbols; a one-pip permanence has one symbol, a three-pip permanence three.
+
+**The structure (Cam, Nov 8).** A card's rarity follows its pips: one pip at common, two at uncommon, three at rare, four at pinnacle. The exceptions are the four rares with one pip that blank their opposite element (Ice Sheet's cycle) and Mirage, which has no pip and stays uncommon. Meta cards have no rarity. Each element has three one-pip commons, one in each cycle: can't be moved, ignores its opposite element's forces, and an effect when played. The opposites are water and fire, earth and air. Two either-or commons per pair of elements, with no text. Wilderness moves to common. New cycles: one element and one any at uncommon, plus one card with two any; three of one element at rare; and a scoring cycle after Mountain Range (water and fire scores water, fire and air scores fire, air and any scores air; the air card is also the any cycle's air card). Cradle's permanence is removed and its force, Equinox, becomes a meta card. Massif is removed. On the any cycle: "the 'any' affinity might be too strong to leave uncommon but for now let's go with it."
 
 **Reclaimed slots (Cam: reuse the existing names).** 21 cards take the name, art and force face of a cut third-pass card and get a new permanence: Lava Field, Grove, Thicket, Badlands, Wind Gap, Spring, Fumarole, Sky Isle, Tidal Flat, Old Growth, Obsidian, Hidden Valley, Lagoon, Moor, Cinder Field, Peak, Ice Floe, Hill, Dune, Ledge, Hanging Valley. Claude picked which name went where, by landform; Grove's text ("When played, remove a common force.") is Claude's draft, since earth had no when-played card.
 
-**Changed in place.** Glacier (was uncommon; "Ignores air forces." dropped to fit the cycle); Spire (was uncommon; "Ignores earth forces." dropped to fit the cycle); Tide Pool (ignored air); Stone Field (ignored fire); Lava Flow (was uncommon); Wilderness (was uncommon); Mountain Range (was rare); Archipelago (win condition removed for now).
+**Changed in place.** Glacier (was uncommon; "Ignores air forces." dropped to fit the cycle); Spire (was uncommon; "Ignores earth forces." dropped to fit the cycle); Tide Pool (ignored air); Stone Field (ignored fire); Lava Flow (was uncommon); Wilderness (was uncommon); Mangrove (text moved to the idea pool); Mud Pots (text moved to the idea pool); Waterfall (text moved to the idea pool); Cinder Cone (text moved to the idea pool); Canyon (text moved to the idea pool); Savanna (text moved to the idea pool); Mountain Range (was rare); Archipelago (win condition removed for now).
 
 **Forces changed (Cam, Nov 8).** Ice Storm (Deep Lake) and Permafrost (Plateau) say "can't be removed" instead of "can't be moved" ("stronger, and makes more sense" to him). Rare forces are dialed back (they got much stronger once worlds were uncapped): the three-of-one-element rares drop their reused common forces and take the remove-a-world's-element forces: Lagoon takes Flash Flood, "Remove a world's fire permanences." (from Boiling Lake); Moor takes Avalanche, "Remove a world's air permanences." (from Mountain Range); Cinder Field takes Wildfire, "Remove a world's earth permanences." (from Lava Plain); Peak takes Drought, "Remove a world's water permanences." (from Sand Sea). Claude matched each to the triple of its element by name, so Wildfire and Drought remove by the third pass's cycle (fire burns earth, air dries water), not the opposites. Firestorm and Tsunami now read "A world's permanences become [element]." and, being too strong below pinnacle, are the forces of Core and Ocean; the other pinnacle forces are removed (Solar Flare (Core), Deluge (Ocean), Unmaking (Origin)) except World Quake (Pangaea) and Jet Stream (Trade Winds), which still read the same. No force for the moment: Mountain Range, Red Canyon, Archipelago, Boiling Lake, Lava Plain, Sand Sea, Origin. Every other force is carried over from the third pass unchanged.
 
@@ -18,9 +20,9 @@
 
 **Counts.** 23 commons, 26 uncommons, 24 rares, 5 pinnacles and 8 meta cards: 86 cards, 6 meta placeholders (numbers 77–82), 8 placeholders for cards unique to one element (numbers 84, 85, 87, 88, 90, 91, 93, 94) and no open slots. Rings across the pool: water 35, earth 35, fire 36, air 36, plus 3 either-or capsules for each element and 7 any.
 
-**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The slots for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards. Four now hold the +1-with-a-world-point cards (one ring each, Nov 9: "+1 [element] if you have a world point."); the other eight are placeholders whose rings aren't set, so they may still be. The four form a cycle of their own while sitting in the unique slots. Their text is 8 words counting "+1" and the symbol, one over the under-8 rule (CARD-23); it's let through as an exception for now. The open slot (#95) became Hanging Valley (Nov 9), a second card with no affinities: its condition, one of each element in the world, is the same as the world scoring a world point, so in effect it adds one to any world that already scores; with two sets it makes a world worth 3 world points (the decisive win). Its text is 8 words, counting the four symbols as one (Cam, Nov 9: a grouping of element symbols counts as a single word), so also one over the under-8 rule.
+**Noted, not settled.** Forces moving to common with the pip rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-pip cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The slots for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards. Four now hold the +1-with-a-world-point cards (one pip each, Nov 9: "+1 [element] if you have a world point."); the other eight are placeholders whose pips aren't set, so they may still be. The four form a cycle of their own while sitting in the unique slots. Their text is 8 words counting "+1" and the symbol, one over the under-8 rule (CARD-23); it's let through as an exception for now. The open slot (#95) became Hanging Valley (Nov 9), a second card with no affinities: its condition, one of each element in the world, is the same as the world scoring a world point, so in effect it adds one to any world that already scores; with two sets it makes a world worth 3 world points (the decisive win). Its text is 8 words, counting the four symbols as one (Cam, Nov 9: a grouping of element symbols counts as a single word), so also one over the under-8 rule.
 
-**One ring, common: can't be moved (4).** One per element.
+**One pip, common: can't be moved (4).** One per element.
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -29,7 +31,7 @@
 | 3 | Lava Field | C | 1 fire | Can't be moved. | Spark | Lasts the round | An air permanence with one affinity becomes fire. |
 | 4 | Spire | C | 1 air | Can't be moved. | Whirlwind | Once | Two permanences become separate worlds. |
 
-**One ring, common: ignores the opposite element (4).** Opposites: water and fire, earth and air (Cam, Nov 8).
+**One pip, common: ignores the opposite element (4).** Opposites: water and fire, earth and air (Cam, Nov 8).
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -38,7 +40,7 @@
 | 7 | Ashfield | C | 1 fire | Ignores water forces. | Brushfire | Lasts the round | An earth permanence becomes fire. |
 | 8 | Summit | C | 1 air | Ignores earth forces. | Crosswind | Once | Swap two permanences between worlds. |
 
-**One ring, common: when played (4).** One per element.
+**One pip, common: when played (4).** One per element.
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -47,7 +49,7 @@
 | 11 | Lava Flow | C | 1 fire | When played, play another fire card. | Lightning | Once | Remove a lone permanence. |
 | 12 | Bluff | C | 1 air | When played, move one of your permanences. | Eddy | Once | Swap two permanences in a world. |
 
-**One ring, common: either-or, no text (6).** One for each pair of elements (Cam, Nov 9: the other became a meta card).
+**One pip, common: either-or, no text (6).** One for each pair of elements (Cam, Nov 9: the other became a meta card).
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -58,13 +60,13 @@
 | 17 | Pass | C | 1 either-or (earth or air) | — | Whirl | Once | Move a permanence to another world. |
 | 18 | Scrubland | C | 1 either-or (fire or air) | — | Dust Devil | Lasts the round | An earth permanence becomes air. |
 
-**One ring, common: any (1).**
+**One pip, common: any (1).**
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 19 | Wilderness | C | 1 any | — | Thunderstorm | Once | Remove a ◯ permanence. |
 
-**One ring, common: +1 of its element with a world point (in the unique slots) (4).** Cam (Nov 9): one of each element's placeholders with non-cycle effects; the text names the element ("+1 [water symbol]"). They sit in the slots for cards unique to one element, numbered with them. Claude took the first placeholder of each element; like the other reclaimed slots, each keeps its third-pass force face.
+**One pip, common: +1 of its element with a world point (in the unique slots) (4).** Cam (Nov 9): one of each element's placeholders with non-cycle effects; the text names the element ("+1 [water symbol]"). They sit in the slots for cards unique to one element, numbered with them. Claude took the first placeholder of each element; like the other reclaimed slots, each keeps its third-pass force face.
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -73,7 +75,7 @@
 | 89 | Dune | C | 1 fire | +1 fire if you have a world point. | Updraft | Lasts the round | An air permanence becomes fire. |
 | 92 | Ledge | C | 1 air | +1 air if you have a world point. | Gust | Once | An air permanence with one affinity becomes its own world. |
 
-**Two rings, uncommon: two different elements, no text (6).**
+**Two pips, uncommon: two different elements, no text (6).**
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -84,18 +86,18 @@
 | 24 | Sea Cliff | B | 1 earth, 1 air | — | Gale | Once | Move two permanences to other worlds. |
 | 25 | Desert | B | 1 fire, 1 air | — | Heatwave | Lasts the round | Two earth permanences lose their affinities. |
 
-**Two rings, uncommon: two different elements, with text (6).**
+**Two pips, uncommon: two different elements, no text since Nov 10 (6).** Cam (Nov 10): their texts moved to the idea pool (Mangrove's "Can't be moved.", the adjacent-ignore cycle on Mud Pots, Waterfall, Cinder Cone and Savanna, and Canyon's "Its world can't be split."); the scoring cycle keeps its text.
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 26 | Mangrove | B | 1 water, 1 earth | Can't be moved. | Undertow | Once | Return a world of two. |
-| 27 | Mud Pots | B | 1 water, 1 fire | Your adjacent permanences ignore air forces. | Downpour | Lasts the round | A world's fire permanences become water. |
-| 28 | Waterfall | B | 1 water, 1 air | Your adjacent permanences ignore earth forces. | Cloudburst | Lasts the round | A permanence becomes water. |
-| 29 | Cinder Cone | B | 1 earth, 1 fire | Your adjacent permanences ignore fire forces. | Ashfall | Lasts the round | A world's air permanences lose their affinities. |
-| 30 | Canyon | B | 1 earth, 1 air | Its world can't be split. | Dust Storm | Lasts the round | A world's air permanences become earth. |
-| 31 | Savanna | B | 1 fire, 1 air | Your adjacent permanences ignore water forces. | Sandstorm | Lasts the round | A world's earth permanences become fire. |
+| 26 | Mangrove | B | 1 water, 1 earth | — | Undertow | Once | Return a world of two. |
+| 27 | Mud Pots | B | 1 water, 1 fire | — | Downpour | Lasts the round | A world's fire permanences become water. |
+| 28 | Waterfall | B | 1 water, 1 air | — | Cloudburst | Lasts the round | A permanence becomes water. |
+| 29 | Cinder Cone | B | 1 earth, 1 fire | — | Ashfall | Lasts the round | A world's air permanences lose their affinities. |
+| 30 | Canyon | B | 1 earth, 1 air | — | Dust Storm | Lasts the round | A world's air permanences become earth. |
+| 31 | Savanna | B | 1 fire, 1 air | — | Sandstorm | Lasts the round | A world's earth permanences become fire. |
 
-**Two rings, uncommon: scoring (the Mountain Range cycle) (4).** Each scores a point per four of its element (Cam, Nov 8).
+**Two pips, uncommon: scoring (the Mountain Range cycle) (4).** Each scores a point per four of its element (Cam, Nov 8).
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -104,7 +106,7 @@
 | 34 | Fumarole | B | 1 fire, 1 air | Score a point per four fire affinities. | Flare-up | Once | Remove a common force. |
 | 35 | Sky Isle | B | 1 air, 1 any | Score a point per four air affinities. | Waterspout | Lasts the round | A world's water permanences become air. |
 
-**Two rings, uncommon: one element and one any (4).** Sky Isle (above) is the air card of this cycle.
+**Two pips, uncommon: one element and one any (4).** Sky Isle (above) is the air card of this cycle.
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -113,7 +115,7 @@
 | 38 | Obsidian | B | 1 fire, 1 any | — | Scorch | Lasts the round | A world's earth permanences lose their affinities. |
 | 39 | Hidden Valley | B | 2 any | — | Landslide | Once | Remove an air or water permanence with one affinity. |
 
-**Two rings, uncommon: two of one element (4).**
+**Two pips, uncommon: two of one element (4).**
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -122,19 +124,19 @@
 | 42 | Lava Lake | B | 2 fire | — | Heat Dome | Lasts the round | Fire permanences can't be removed. |
 | 43 | Twin Peaks | B | 2 air | — | High Pressure | Lasts the round | Air permanences can't be removed. |
 
-**No rings, uncommon (1).** No ring of its own, so the ring rule doesn't place it; kept at uncommon.
+**No pips, uncommon (1).** No pip of its own, so the pip rule doesn't place it; kept at uncommon.
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 44 | Mirage | B | none | Copies every adjacent permanence's affinities. | Heat Shimmer | Lasts the round | A permanence copies an adjacent permanence. |
 
-**No rings, uncommon: +1 world point (in the open slot) (1).** Cam (Nov 9): another permanence with no affinities. The four elements in its text are ringed, as affinities. Claude gave it the one free name and kept it at uncommon like Mirage.
+**No pips, uncommon: +1 world point (in the open slot) (1).** Cam (Nov 9): another permanence with no affinities. The four elements in its text are ringed, as affinities. Claude gave it the one free name and kept it at uncommon like Mirage.
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 95 | Hanging Valley | B | none | +1 world point if this world has water earth fire air. | Squall | Once | A permanence becomes its own world. |
 
-**Three rings, rare: three different elements (4).**
+**Three pips, rare: three different elements (4).**
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -143,7 +145,7 @@
 | 47 | Geyser Basin | A | 1 water, 1 fire, 1 air | — | Typhoon | Once | A world's permanences become separate worlds. |
 | 48 | Red Canyon | A | 1 earth, 1 fire, 1 air | — | — | — | No force for the moment. |
 
-**Three rings, rare: two of one element and one of another (12).**
+**Three pips, rare: two of one element and one of another (12).**
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -160,7 +162,7 @@
 | 59 | Stone Towers | A | 1 earth, 2 air | — | Gale Force | Once | Move three permanences to other worlds. |
 | 60 | High Desert | A | 1 fire, 2 air | — | Tornado | Once | Return two permanences. |
 
-**Three rings, rare: three of one element (4).**
+**Three pips, rare: three of one element (4).**
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -169,7 +171,7 @@
 | 63 | Cinder Field | A | 3 fire | — | Wildfire | Once | Remove a world's earth permanences. |
 | 64 | Peak | A | 3 air | — | Drought | Once | Remove a world's water permanences. |
 
-**One ring, rare: X permanences lose their affinities (4).** Each blanks its opposite element (Cam, Nov 8).
+**One pip, rare: X permanences lose their affinities (4).** Each blanks its opposite element (Cam, Nov 8).
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -178,7 +180,7 @@
 | 67 | Badlands | A | 1 fire | Water permanences lose their affinities. | Ember | Lasts the round | A lone permanence loses its affinities. |
 | 68 | Wind Gap | A | 1 air | Earth permanences lose their affinities. | Downdraft | Once | A fire permanence with one affinity becomes its own world. |
 
-**Four rings, pinnacle (5).**
+**Four pips, pinnacle (5).**
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |

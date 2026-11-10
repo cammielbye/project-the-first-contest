@@ -51,7 +51,7 @@ page = f'''<title>Three-Point Worlds</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-  /* Layout: the card pool page's stone panel; one row per world, four card chips with their rings on a dark plate; filters on top. */
+  /* Layout: the card pool page's stone panel; one row per world, four card chips with their pips on a dark plate; filters on top. */
   :root {{
     --bg: #E9EBE4; --panel: #F7F8F3; --ink: #1D211D; --muted: #5D635B; --rule: #D3D7CC; --rule-strong: #B9BEB1;
     --plate: #2B2F2B; --bronze: #9A6E1F; --chip: #EEF0E8; --on: #1D211D; --on-ink: #F7F8F3;
@@ -106,7 +106,7 @@ page = f'''<title>Three-Point Worlds</title>
     <h1>Three-Point Worlds</h1>
     <p class="lede">Every 2×2 world of four fourth-pass permanences that scores 3 or more world points, worked out by the playtest engine: <b>{n_all:,}</b> sets of four cards, <b>{n4}</b> of them worth 4. A 2×2 world holds four cards, so there are no five-card worlds under this cap.</p>
     <ul class="notes">
-      <li>A world point is one complete set of water, earth, fire and air. Either-or and any rings fill whichever element is missing.</li>
+      <li>A world point is one complete set of water, earth, fire and air. Either-or and any pips fill whichever element is missing.</li>
       <li>Mirage copies the two cards beside it. The card across the diagonal isn't beside it, so where it sits matters; each Mirage row names the card or cards that can go diagonal to it.</li>
       <li>Hanging Valley adds a point to a world that already scores, and that point counts toward the 3. Ice Floe, Hill, Dune and Ledge count their +1 once the player has a world point.</li>
       <li>Points from Spring, Mountain Range, Fumarole and Sky Isle aren't world points, so they don't count here. Forces aren't included.</li>
@@ -120,11 +120,11 @@ page = f'''<title>Three-Point Worlds</title>
     <span class="shown" id="shown"></span>
   </div>
   <div class="pool">
-    <section data-f="r"><h2>Four rares <span class="count" data-c="r"></span></h2><p class="why">Twelve rings, exactly three of each element. Every one is four three-ring rares.</p><ol id="l-r"></ol></section>
-    <section data-f="h"><h2>Hanging Valley <span class="count" data-c="h"></span></h2><p class="why">Three cards that make two sets (eight rings, two of each element), plus Hanging Valley's point.</p><ol id="l-h"></ol></section>
-    <section data-f="m"><h2>Mirage <span class="count" data-c="m"></span></h2><p class="why">Mirage copies the two cards beside it, so three cards can carry twelve rings.</p><ol id="l-m"></ol></section>
-    <section data-f="mh"><h2>Mirage and Hanging Valley <span class="count" data-c="mh"></span></h2><p class="why">Two sets from Mirage and one other card's copied rings, plus Hanging Valley's point.</p><ol id="l-mh"></ol></section>
-    <section data-f="pin"><h2>With a pinnacle <span class="count" data-c="pin"></span></h2><p class="why">Pinnacles carry four rings each. Origin alone is a full set.</p><div id="l-pin"></div></section>
+    <section data-f="r"><h2>Four rares <span class="count" data-c="r"></span></h2><p class="why">Twelve pips, exactly three of each element. Every one is four three-pip rares.</p><ol id="l-r"></ol></section>
+    <section data-f="h"><h2>Hanging Valley <span class="count" data-c="h"></span></h2><p class="why">Three cards that make two sets (eight pips, two of each element), plus Hanging Valley's point.</p><ol id="l-h"></ol></section>
+    <section data-f="m"><h2>Mirage <span class="count" data-c="m"></span></h2><p class="why">Mirage copies the two cards beside it, so three cards can carry twelve pips.</p><ol id="l-m"></ol></section>
+    <section data-f="mh"><h2>Mirage and Hanging Valley <span class="count" data-c="mh"></span></h2><p class="why">Two sets from Mirage and one other card's copied pips, plus Hanging Valley's point.</p><ol id="l-mh"></ol></section>
+    <section data-f="pin"><h2>With a pinnacle <span class="count" data-c="pin"></span></h2><p class="why">Pinnacles carry four pips each. Origin alone is a full set.</p><div id="l-pin"></div></section>
   </div>
 </div>
 <script>

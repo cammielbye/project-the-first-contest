@@ -73,16 +73,16 @@ def g(key, label, note=None):
     return sub(label, b if note is None else note, [card_row(c) for c in cs], len(cs))
 
 SECTIONS = [
- ('One ring', [g('c-still', "Common · can't be moved"), g('c-ignore', 'Common · ignores the opposite element', 'Opposites: water and fire, earth and air.'),
+ ('One pip', [g('c-still', "Common · can't be moved"), g('c-ignore', 'Common · ignores the opposite element', 'Opposites: water and fire, earth and air.'),
                g('c-played', 'Common · when played'), g('c-either', 'Common · either-or, no text'), g('c-any', 'Common · any'),
                g('c-point', 'Common · +1 of its element with a world point', 'Cam (Nov 9): one of each element\'s placeholders. They sit in the slots for cards unique to one element, numbered with them; 8 words, one over the under-8 rule.'),
                g('a-blank', 'Rare · blanks the opposite element', 'Ice Sheet\'s cycle.')]),
- ('Two rings', [g('b-two', 'Uncommon · two different elements, no text'), g('b-two-text', 'Uncommon · two different elements, with text'),
+ ('Two pips', [g('b-two', 'Uncommon · two different elements, no text'), g('b-two-text', 'Uncommon · two different elements, no text since Nov 10', 'Cam (Nov 10): their texts moved to the idea pool; the scoring cycle keeps its text.'),
                 g('b-score', 'Uncommon · scoring', 'A point per four of its element. Sky Isle is also the any cycle\'s air card.'),
                 g('b-any', 'Uncommon · any', 'One element and any; Hidden Valley has two any.'), g('b-same', 'Uncommon · two of one element')]),
- ('Three rings', [g('a-three', 'Rare · three different elements'), g('a-two-one', 'Rare · two of one element, one of another'), g('a-triple', 'Rare · three of one element')]),
- ('Four rings', [g('s', 'Pinnacle')]),
- ('No rings', [g('b-none', 'Uncommon', 'No ring of its own; kept at uncommon.'),
+ ('Three pips', [g('a-three', 'Rare · three different elements'), g('a-two-one', 'Rare · two of one element, one of another'), g('a-triple', 'Rare · three of one element')]),
+ ('Four pips', [g('s', 'Pinnacle')]),
+ ('No pips', [g('b-none', 'Uncommon', 'No pip of its own; kept at uncommon.'),
                g('b-none-open', 'Uncommon · +1 world point', 'Cam (Nov 9): in the last open slot. The four elements in its text are ringed. Claude gave it the one free name and kept it at uncommon like Mirage; 8 words, with the four symbols counted as one (Cam, Nov 9), so one over the under-8 rule.'),
                sub('Meta cards · no rarity', 'Equinox was Cradle\'s force face.', [meta_row(m[0], m[1], pass4.META_NO[m[0]]) for m in pass4.META], len(pass4.META)),
                sub('Meta cards · placeholders', 'Cam (Nov 9): one of each either-or pair becomes a meta card, since one-sided cards are fewer to balance and design. Claude took the second of each pair; their names and force faces are free again.', [meta_ph_row(no, k + 1, n, ab) for k, (no, n, ab) in enumerate(pass4.META_PH)], len(pass4.META_PH))]),
@@ -126,7 +126,7 @@ page = f'''<title>Fourth Pass Card Pool</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-  /* Layout: one stone panel holding the whole pool, grouped by ring count, each card one row: number, name, rings on a dark plate as on the faces, rarity diamond, text. */
+  /* Layout: one stone panel holding the whole pool, grouped by pip count, each card one row: number, name, pips in rings on a dark plate as on the faces, rarity diamond, text. */
   :root {{
     --bg: #E9EBE4; --panel: #F7F8F3; --ink: #1D211D; --muted: #5D635B; --rule: #D3D7CC; --rule-strong: #B9BEB1;
     --plate: #2B2F2B; --plate-edge: #0D0F0D; --bronze: #9A6E1F; --tag: #E5E2D2; --tag-ink: #4C4A3C; --draft: #F3E0C4; --draft-ink: #6B4512;
@@ -203,7 +203,7 @@ page = f'''<title>Fourth Pass Card Pool</title>
 <div class="wrap">
   <header>
     <h1>Fourth Pass Card Pool</h1>
-    <p class="lede">The third pass restructured by ring count (Nov 8, 2026): <b>{len(pass4.ALL) + len(pass4.META)}</b> cards, <b>{len(pass4.META_PH) + len(pass4.PLACEHOLDERS)}</b> placeholders ({len(pass4.META_PH)} meta, {len(pass4.PLACEHOLDERS)} unique to one element) and {('<b>%d</b> open %s' % (len(pass4.OPEN), 'slot' if len(pass4.OPEN) == 1 else 'slots')) if pass4.OPEN else 'no open slots'}. <b>{rc['C']}</b> commons, <b>{rc['B']}</b> uncommons, <b>{rc['A']}</b> rares, <b>{rc['S']}</b> pinnacles and <b>{len(pass4.META)}</b> meta cards. Rings across the pool: water <b>{t['water']}</b>, earth <b>{t['earth']}</b>, fire <b>{t['fire']}</b>, air <b>{t['air']}</b>, plus <b>{t['water (either-or)']}</b> either-or of each and <b>{t['any']}</b> any.</p>
+    <p class="lede">The third pass restructured by pip count (Nov 8, 2026): <b>{len(pass4.ALL) + len(pass4.META)}</b> cards, <b>{len(pass4.META_PH) + len(pass4.PLACEHOLDERS)}</b> placeholders ({len(pass4.META_PH)} meta, {len(pass4.PLACEHOLDERS)} unique to one element) and {('<b>%d</b> open %s' % (len(pass4.OPEN), 'slot' if len(pass4.OPEN) == 1 else 'slots')) if pass4.OPEN else 'no open slots'}. <b>{rc['C']}</b> commons, <b>{rc['B']}</b> uncommons, <b>{rc['A']}</b> rares, <b>{rc['S']}</b> pinnacles and <b>{len(pass4.META)}</b> meta cards. Rings across the pool: water <b>{t['water']}</b>, earth <b>{t['earth']}</b>, fire <b>{t['fire']}</b>, air <b>{t['air']}</b>, plus <b>{t['water (either-or)']}</b> either-or of each and <b>{t['any']}</b> any.</p>
     <div class="legend" aria-label="Key">{legend_marks}<span class="sep" aria-hidden="true"></span>{legend_rar}</div>
   </header>
 

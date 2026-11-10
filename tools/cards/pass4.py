@@ -1,4 +1,4 @@
-# Fourth pass (Nov 8, 2026): the third pass restructured by ring count, at Cam's direction.
+# Fourth pass (Nov 8, 2026): the third pass restructured by pip count, at Cam's direction.
 # Data + checks + markdown. Built from the third pass (pass3.py): every card here is a third-pass
 # card, a third-pass card with new permanence text or rarity, or a reclaimed third-pass slot
 # (name, art and force face kept) given a new permanence. Forces are carried over unchanged.
@@ -29,19 +29,19 @@ GROUPS = []  # (key, title, blurb, [cards]) in number order
 def group(key, title, blurb, cards):
     GROUPS.append((key, title, blurb, cards))
 
-group('c-still', "One ring, common: can't be moved", "One per element.", [
+group('c-still', "One pip, common: can't be moved", "One per element.", [
  card('Glacier', 'C', [W], "Can't be moved.", 'changed', "was uncommon; \"Ignores air forces.\" dropped to fit the cycle"),
  card('Bedrock', 'C', [E], "Can't be moved.", 'kept'),
  card('Lava Field', 'C', [F], "Can't be moved.", 'reused', 'reclaimed slot'),
  card('Spire', 'C', [A], "Can't be moved.", 'changed', "was uncommon; \"Ignores earth forces.\" dropped to fit the cycle"),
 ])
-group('c-ignore', 'One ring, common: ignores the opposite element', "Opposites: water and fire, earth and air (Cam, Nov 8).", [
+group('c-ignore', 'One pip, common: ignores the opposite element', "Opposites: water and fire, earth and air (Cam, Nov 8).", [
  card('Tide Pool', 'C', [W], "Ignores fire forces.", 'changed', 'ignored air'),
  card('Stone Field', 'C', [E], "Ignores air forces.", 'changed', 'ignored fire'),
  card('Ashfield', 'C', [F], "Ignores water forces.", 'kept'),
  card('Summit', 'C', [A], "Ignores earth forces.", 'kept'),
 ])
-group('c-played', 'One ring, common: when played', "One per element.", [
+group('c-played', 'One pip, common: when played', "One per element.", [
  card('Snowfield', 'C', [W], "When played, return one of your permanences.", 'kept'),
  card('Grove', 'C', [E], "When played, remove a common force.", 'reused', "reclaimed slot; Claude's draft text"),
  card('Lava Flow', 'C', [F], "When played, play another fire card.", 'changed', 'was uncommon'),
@@ -54,51 +54,52 @@ EITHER = [('Marsh', W, E), ('Mudflat', W, E), ('Steam Vent', W, F), ('Hot Mud', 
 TO_META = ['Mudflat', 'Hot Mud', 'Spray Coast', 'Peat Bog', 'Foothills', 'Heath']
 EITHER_ALL = EITHER
 EITHER = [x for x in EITHER if x[0] not in TO_META]
-group('c-either', 'One ring, common: either-or, no text', "One for each pair of elements (Cam, Nov 9: the other became a meta card).", [
+group('c-either', 'One pip, common: either-or, no text', "One for each pair of elements (Cam, Nov 9: the other became a meta card).", [
  card(n, 'C', [eo(a, b)], '', 'kept' if not P3[n][4] else 'changed', '' if not P3[n][4] else 'text removed') for n, a, b in EITHER])
-group('c-any', 'One ring, common: any', "", [
+group('c-any', 'One pip, common: any', "", [
  card('Wilderness', 'C', [ANY], '', 'changed', 'was uncommon')])
-group('a-blank', 'One ring, rare: X permanences lose their affinities', "Each blanks its opposite element (Cam, Nov 8).", [
+group('a-blank', 'One pip, rare: X permanences lose their affinities', "Each blanks its opposite element (Cam, Nov 8).", [
  card('Ice Sheet', 'A', [W], "Fire permanences lose their affinities.", 'kept'),
  card('Thicket', 'A', [E], "Air permanences lose their affinities.", 'reused', 'reclaimed slot'),
  card('Badlands', 'A', [F], "Water permanences lose their affinities.", 'reused', 'reclaimed slot'),
  card('Wind Gap', 'A', [A], "Earth permanences lose their affinities.", 'reused', 'reclaimed slot'),
 ])
-group('b-two', 'Two rings, uncommon: two different elements, no text', "", [
+group('b-two', 'Two pips, uncommon: two different elements, no text', "", [
  card(n, 'B', a, '', 'kept') for n, a in [('Delta', [W, E]), ('Hot Spring', [W, F]), ('Cloud Forest', [W, A]), ('Volcano', [E, F]), ('Sea Cliff', [E, A]), ('Desert', [F, A])]])
-group('b-two-text', 'Two rings, uncommon: two different elements, with text', "", [
- card(n, 'B', a, P3[n][4], 'kept') for n, a in [('Mangrove', [W, E]), ('Mud Pots', [W, F]), ('Waterfall', [W, A]), ('Cinder Cone', [E, F]), ('Canyon', [E, A]), ('Savanna', [F, A])]])
-group('b-score', 'Two rings, uncommon: scoring (the Mountain Range cycle)', "Each scores a point per four of its element (Cam, Nov 8).", [
+# Cam (Nov 10): move most of the two-pip permanence effects to the idea pool and make those cards vanilla, all but the scoring cycle
+group('b-two-text', 'Two pips, uncommon: two different elements, no text since Nov 10', "Cam (Nov 10): their texts moved to the idea pool (Mangrove's \"Can't be moved.\", the adjacent-ignore cycle on Mud Pots, Waterfall, Cinder Cone and Savanna, and Canyon's \"Its world can't be split.\"); the scoring cycle keeps its text.", [
+ card(n, 'B', a, '', 'changed', 'text moved to the idea pool') for n, a in [('Mangrove', [W, E]), ('Mud Pots', [W, F]), ('Waterfall', [W, A]), ('Cinder Cone', [E, F]), ('Canyon', [E, A]), ('Savanna', [F, A])]])
+group('b-score', 'Two pips, uncommon: scoring (the Mountain Range cycle)', "Each scores a point per four of its element (Cam, Nov 8).", [
  card('Spring', 'B', [W, F], "Score a point per four water affinities.", 'reused', 'reclaimed slot'),
  card('Mountain Range', 'B', [E, A], "Score a point per four earth affinities.", 'changed', 'was rare'),
  card('Fumarole', 'B', [F, A], "Score a point per four fire affinities.", 'reused', 'reclaimed slot'),
  card('Sky Isle', 'B', [A, ANY], "Score a point per four air affinities.", 'reused', 'reclaimed slot; also the air card of the any cycle'),
 ])
-group('b-any', 'Two rings, uncommon: one element and one any', "Sky Isle (above) is the air card of this cycle.", [
+group('b-any', 'Two pips, uncommon: one element and one any', "Sky Isle (above) is the air card of this cycle.", [
  card('Tidal Flat', 'B', [W, ANY], '', 'reused', 'reclaimed slot'),
  card('Old Growth', 'B', [E, ANY], '', 'reused', 'reclaimed slot'),
  card('Obsidian', 'B', [F, ANY], '', 'reused', 'reclaimed slot'),
  card('Hidden Valley', 'B', [ANY, ANY], '', 'reused', 'reclaimed slot; two any'),
 ])
-group('b-same', 'Two rings, uncommon: two of one element', "", [
+group('b-same', 'Two pips, uncommon: two of one element', "", [
  card(n, 'B', [e, e], '', 'kept') for n, e in [('Deep Lake', W), ('Plateau', E), ('Lava Lake', F), ('Twin Peaks', A)]])
-group('b-none', 'No rings, uncommon', "No ring of its own, so the ring rule doesn't place it; kept at uncommon.", [
+group('b-none', 'No pips, uncommon', "No pip of its own, so the pip rule doesn't place it; kept at uncommon.", [
  card('Mirage', 'B', [], P3['Mirage'][4], 'kept')])
-group('a-three', 'Three rings, rare: three different elements', "", [
+group('a-three', 'Three pips, rare: three different elements', "", [
  card(n, 'A', a, '', 'kept') for n, a in [('Caldera Lake', [W, E, F]), ('Rainforest', [W, E, A]), ('Geyser Basin', [W, F, A]), ('Red Canyon', [E, F, A])]])
-group('a-two-one', 'Three rings, rare: two of one element and one of another', "", [
+group('a-two-one', 'Three pips, rare: two of one element and one of another', "", [
  card(n, 'A', a, '', 'changed', 'win condition removed for now') if n == 'Archipelago' else card(n, 'A', a, P3[n][4], 'kept') for n, a in [
   ('Archipelago', [W, W, E]), ('Boiling Lake', [W, W, F]), ('Misty Fjord', [W, W, A]),
   ('Floodplain', [E, E, W]), ('Smoking Hills', [E, E, F]), ('Highlands', [E, E, A]),
   ('Lava Coast', [F, F, W]), ('Lava Plain', [F, F, E]), ('Sand Sea', [F, F, A]),
   ('Cloud Sea', [A, A, W]), ('Stone Towers', [A, A, E]), ('High Desert', [A, A, F])]])
-group('a-triple', 'Three rings, rare: three of one element', "", [
+group('a-triple', 'Three pips, rare: three of one element', "", [
  card('Lagoon', 'A', [W, W, W], '', 'reused', 'reclaimed slot'),
  card('Moor', 'A', [E, E, E], '', 'reused', 'reclaimed slot'),
  card('Cinder Field', 'A', [F, F, F], '', 'reused', 'reclaimed slot'),
  card('Peak', 'A', [A, A, A], '', 'reused', 'reclaimed slot'),
 ])
-group('s', 'Four rings, pinnacle', "", [
+group('s', 'Four pips, pinnacle', "", [
  card(n, 'S', a, '', 'kept') for n, a in [('Ocean', [W] * 4), ('Pangaea', [E] * 4), ('Core', [F] * 4), ('Trade Winds', [A] * 4), ('Origin', [W, E, F, A])]])
 
 # force text changed in this pass (Cam, Nov 8): "X permanences can't be moved" becomes "can't be removed", stronger and clearer to him
@@ -149,7 +150,7 @@ META = [
  ('Calm', P3META['Calm'][3], 'was uncommon'),
 ]
 
-# numbers: commons, uncommons, rares (the four one-ring rares last), then meta cards and meta placeholders up to 82, the unique
+# numbers: commons, uncommons, rares (the four one-pip rares last), then meta cards and meta placeholders up to 82, the unique
 # slots 83-95 (Ice Floe, Hill, Dune and Ledge among them, Hanging Valley at 95), pinnacles 96-100. Since Nov 9: commons 1-19,
 # uncommons 20-44, rares 45-68, meta 69-82
 NUM_ORDER = ['c-still', 'c-ignore', 'c-played', 'c-either', 'c-any',
@@ -176,16 +177,16 @@ OPEN = _free[len(PLACEHOLDERS):]
 # Claude took the first placeholder of each element; like the other reclaimed slots, each keeps its third-pass force face.
 POINT_TEXT = {e: "+1 %s if you have a world point." % e for e in ORDER}
 POINT_NAMES = {W: 'Ice Floe', E: 'Hill', F: 'Dune', A: 'Ledge'}
-group('c-point', "One ring, common: +1 of its element with a world point (in the unique slots)",
+group('c-point', "One pip, common: +1 of its element with a world point (in the unique slots)",
       "Cam (Nov 9): one of each element's placeholders with non-cycle effects; the text names the element (\"+1 [water symbol]\"). They sit in the slots for cards unique to one element, numbered with them. Claude took the first placeholder of each element; like the other reclaimed slots, each keeps its third-pass force face.", [
  card(POINT_NAMES[e], 'C', [e], POINT_TEXT[e], 'reused', 'placeholder slot') for e in ORDER])
 for c in GROUPS[-1][3]: c['no'] = next(p[0] for p in PLACEHOLDERS if p[2] == c['name'])
 PLACEHOLDERS = [p for p in PLACEHOLDERS if p[2] not in POINT_NAMES.values()]
 # the open slot filled (Cam, Nov 9): another permanence with no affinities, "+1 World Point if this world has [each element,
 # ringed]". Claude gave it the one free name, Hanging Valley, which keeps its third-pass force face like the other reclaimed
-# slots, and put it at uncommon like Mirage (no rings, so the ring rule doesn't place it).
+# slots, and put it at uncommon like Mirage (no pips, so the pip rule doesn't place it).
 WORLD_TEXT = "+1 world point if this world has water earth fire air."
-group('b-none-open', "No rings, uncommon: +1 world point (in the open slot)",
+group('b-none-open', "No pips, uncommon: +1 world point (in the open slot)",
       "Cam (Nov 9): another permanence with no affinities. The four elements in its text are ringed, as affinities. Claude gave it the one free name and kept it at uncommon like Mirage.", [
  card('Hanging Valley', 'B', [], WORLD_TEXT, 'reused', 'the open slot')])
 GROUPS[-1][3][0]['no'] = OPEN.pop(0)
@@ -242,7 +243,7 @@ def check():
         rings = len(c['affinities'])
         want = {1: 'C', 2: 'B', 3: 'A', 4: 'S'}.get(rings)
         if c['rarity'] != want and not (rings == 1 and c in G['a-blank']) and not (rings == 0 and c['rarity'] == 'B'):
-            probs.append(('ring rule', c['name'], rings, c['rarity']))
+            probs.append(('pip rule', c['name'], rings, c['rarity']))
         if c['text'] and words(c['text']) >= 8 and c['name'] not in pass3.EXCEPTIONS and c['text'] not in POINT_TEXT.values() and c['text'] != WORLD_TEXT: probs.append(('8+ words', c['name'], c['text']))
         if re.search(r'\b(hand|deal|the)\b', c['name'], re.I): probs.append(('name rule', c['name']))
     for m in META:
@@ -253,7 +254,7 @@ def check():
     pairs = collections.Counter(c['affinities'][0] for c in G['c-either'])
     if len(pairs) != 6 or set(pairs.values()) != {1}: probs.append(('either-or pairs', pairs))
     trip = {tuple(sorted(c['affinities'])) for c in G['a-three'] + G['a-two-one']}
-    if len(trip) != 16: probs.append(('three-ring combos', len(trip)))
+    if len(trip) != 16: probs.append(('three-pip combos', len(trip)))
     return probs
 
 def tally():
@@ -288,11 +289,13 @@ def markdown():
     rc = collections.Counter(c['rarity'] for c in ALL)
     reused = [c for c in ALL if c['how'] == 'reused']
     changed = [c for c in ALL if c['how'] == 'changed']
-    md = f'''## Fourth pass: the pool by ring count (Nov 8, 2026)
+    md = f'''## Fourth pass: the pool by pip count (Nov 8, 2026)
 
 > Cam's restructure of the third pass (Nov 8), applied to the card pool at his request. The third pass as it stood before this is saved in the repo at `data/versions/card-pool-2026-11-08-third-pass.md` (branch `saved/card-pool-2026-11-08-third-pass`). Forces are carried over from the third pass, so they haven't been tuned to the new rarities; the ones Cam has changed since are listed below. Since Nov 8 the playtest table, the computer and the simulator play this pass, with the five provisional binders at the end of this section until Cam builds real ones.
 
-**The structure (Cam, Nov 8).** A card's rarity follows its rings: one ring at common, two at uncommon, three at rare, four at pinnacle. The exceptions are the four rares with one ring that blank their opposite element (Ice Sheet's cycle) and Mirage, which has no ring and stays uncommon. Meta cards have no rarity. Each element has three one-ring commons, one in each cycle: can't be moved, ignores its opposite element's forces, and an effect when played. The opposites are water and fire, earth and air. Two either-or commons per pair of elements, with no text. Wilderness moves to common. New cycles: one element and one any at uncommon, plus one card with two any; three of one element at rare; and a scoring cycle after Mountain Range (water and fire scores water, fire and air scores fire, air and any scores air; the air card is also the any cycle's air card). Cradle's permanence is removed and its force, Equinox, becomes a meta card. Massif is removed. On the any cycle: "the 'any' affinity might be too strong to leave uncommon but for now let's go with it."
+**Pips (Cam, Nov 10).** The element symbols on a permanence are its pips, as Magic calls its mana symbols; a one-pip permanence has one symbol, a three-pip permanence three.
+
+**The structure (Cam, Nov 8).** A card's rarity follows its pips: one pip at common, two at uncommon, three at rare, four at pinnacle. The exceptions are the four rares with one pip that blank their opposite element (Ice Sheet's cycle) and Mirage, which has no pip and stays uncommon. Meta cards have no rarity. Each element has three one-pip commons, one in each cycle: can't be moved, ignores its opposite element's forces, and an effect when played. The opposites are water and fire, earth and air. Two either-or commons per pair of elements, with no text. Wilderness moves to common. New cycles: one element and one any at uncommon, plus one card with two any; three of one element at rare; and a scoring cycle after Mountain Range (water and fire scores water, fire and air scores fire, air and any scores air; the air card is also the any cycle's air card). Cradle's permanence is removed and its force, Equinox, becomes a meta card. Massif is removed. On the any cycle: "the 'any' affinity might be too strong to leave uncommon but for now let's go with it."
 
 **Reclaimed slots (Cam: reuse the existing names).** {len(reused)} cards take the name, art and force face of a cut third-pass card and get a new permanence: {', '.join(c['name'] for c in reused)}. Claude picked which name went where, by landform; Grove's text ("When played, remove a common force.") is Claude's draft, since earth had no when-played card.
 
@@ -304,7 +307,7 @@ def markdown():
 
 **Counts.** {rc['C']} commons, {rc['B']} uncommons, {rc['A']} rares, {rc['S']} pinnacles and {len(META)} meta cards: {len(ALL) + len(META)} cards, {len(META_PH)} meta placeholders (numbers {META_PH[0][0]}–{META_PH[-1][0]}), {len(PLACEHOLDERS)} placeholders for cards unique to one element (numbers {', '.join(str(p[0]) for p in PLACEHOLDERS)}) and {('%d open %s (%s)' % (len(OPEN), 'slot' if len(OPEN) == 1 else 'slots', ', '.join(map(str, OPEN)))) if OPEN else 'no open slots'}. Rings across the pool: water {t[W]}, earth {t[E]}, fire {t[F]}, air {t[A]}, plus {t[W + ' (either-or)']} either-or capsules for each element and {t[ANY]} any.
 
-**Noted, not settled.** Forces moving to common with the ring rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-ring cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The slots for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards. Four now hold the +1-with-a-world-point cards (one ring each, Nov 9: \"+1 [element] if you have a world point.\"); the other eight are placeholders whose rings aren't set, so they may still be. The four form a cycle of their own while sitting in the unique slots. Their text is 8 words counting \"+1\" and the symbol, one over the under-8 rule (CARD-23); it's let through as an exception for now. The open slot (#95) became Hanging Valley (Nov 9), a second card with no affinities: its condition, one of each element in the world, is the same as the world scoring a world point, so in effect it adds one to any world that already scores; with two sets it makes a world worth 3 world points (the decisive win). Its text is 8 words, counting the four symbols as one (Cam, Nov 9: a grouping of element symbols counts as a single word), so also one over the under-8 rule.
+**Noted, not settled.** Forces moving to common with the pip rule now remove or move a permanence, which nothing at common did since Nov 2: Lightning (Lava Flow), Whirlwind (Spire) and Thunderstorm (Wilderness). The cycle that returned at round end (Fumarole, Spring, Eyrie, Grove) is gone. A vanilla one-pip cycle was a maybe and isn't included. The card text uses "affinities" in the order water, earth, fire, air from here on. The slots for cards unique to one element take 12 of the 13 open slots, which Cam had earmarked for more multi-affinity cards. Four now hold the +1-with-a-world-point cards (one pip each, Nov 9: \"+1 [element] if you have a world point.\"); the other eight are placeholders whose pips aren't set, so they may still be. The four form a cycle of their own while sitting in the unique slots. Their text is 8 words counting \"+1\" and the symbol, one over the under-8 rule (CARD-23); it's let through as an exception for now. The open slot (#95) became Hanging Valley (Nov 9), a second card with no affinities: its condition, one of each element in the world, is the same as the world scoring a world point, so in effect it adds one to any world that already scores; with two sets it makes a world worth 3 world points (the decisive win). Its text is 8 words, counting the four symbols as one (Cam, Nov 9: a grouping of element symbols counts as a single word), so also one over the under-8 rule.
 
 '''
     order = NUM_ORDER[:5] + ['c-point'] + NUM_ORDER[5:]

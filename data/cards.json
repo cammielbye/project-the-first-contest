@@ -1,7 +1,7 @@
 {
   "source": "data/card-pool.md",
-  "pass": "Fourth pass: the pool by ring count (Nov 8, 2026)",
-  "syncedAt": "2026-11-09T09:34:30.224Z",
+  "pass": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+  "syncedAt": "2026-11-10T06:38:55.564Z",
   "counts": {
     "cards": 86,
     "meta": 8,
@@ -13,7 +13,7 @@
       "S": 5
     },
     "fromSection": {
-      "Fourth pass: the pool by ring count (Nov 8, 2026)": 86
+      "Fourth pass: the pool by pip count (Nov 8, 2026)": 86
     }
   },
   "missingNumbers": [
@@ -33,8 +33,8 @@
     94
   ],
   "warnings": [
-    "Fourth pass: the pool by ring count (Nov 8, 2026): table skipped (header: no. | placeholder | what it's for)",
-    "Fourth pass: the pool by ring count (Nov 8, 2026): table skipped (header: no. | placeholder | element | what it's for)",
+    "Fourth pass: the pool by pip count (Nov 8, 2026): table skipped (header: no. | placeholder | what it's for)",
+    "Fourth pass: the pool by pip count (Nov 8, 2026): table skipped (header: no. | placeholder | element | what it's for)",
     "Binder A, Water: no force face yet for Archipelago",
     "Binder B, Earth: no force face yet for Lava Plain",
     "Binder C, Fire: no force face yet for Sand Sea",
@@ -46,7 +46,7 @@
       "id": "1",
       "no": 1,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Glacier",
         "affinities": [
@@ -64,7 +64,7 @@
       "id": "2",
       "no": 2,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Bedrock",
         "affinities": [
@@ -82,7 +82,7 @@
       "id": "3",
       "no": 3,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Lava Field",
         "affinities": [
@@ -100,7 +100,7 @@
       "id": "4",
       "no": 4,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Spire",
         "affinities": [
@@ -118,7 +118,7 @@
       "id": "5",
       "no": 5,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Tide Pool",
         "affinities": [
@@ -136,7 +136,7 @@
       "id": "6",
       "no": 6,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Stone Field",
         "affinities": [
@@ -154,7 +154,7 @@
       "id": "7",
       "no": 7,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Ashfield",
         "affinities": [
@@ -172,7 +172,7 @@
       "id": "8",
       "no": 8,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Summit",
         "affinities": [
@@ -190,7 +190,7 @@
       "id": "9",
       "no": 9,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Snowfield",
         "affinities": [
@@ -208,7 +208,7 @@
       "id": "10",
       "no": 10,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Grove",
         "affinities": [
@@ -226,7 +226,7 @@
       "id": "11",
       "no": 11,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Lava Flow",
         "affinities": [
@@ -244,7 +244,7 @@
       "id": "12",
       "no": 12,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Bluff",
         "affinities": [
@@ -262,7 +262,7 @@
       "id": "13",
       "no": 13,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Marsh",
         "affinities": [
@@ -280,7 +280,7 @@
       "id": "14",
       "no": 14,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Steam Vent",
         "affinities": [
@@ -298,7 +298,7 @@
       "id": "15",
       "no": 15,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Sea Stack",
         "affinities": [
@@ -316,7 +316,7 @@
       "id": "16",
       "no": 16,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Flint",
         "affinities": [
@@ -334,7 +334,7 @@
       "id": "17",
       "no": 17,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Pass",
         "affinities": [
@@ -352,7 +352,7 @@
       "id": "18",
       "no": 18,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Scrubland",
         "affinities": [
@@ -370,7 +370,7 @@
       "id": "19",
       "no": 19,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Wilderness",
         "affinities": [
@@ -388,7 +388,7 @@
       "id": "20",
       "no": 20,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Delta",
         "affinities": [
@@ -407,7 +407,7 @@
       "id": "21",
       "no": 21,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Hot Spring",
         "affinities": [
@@ -426,7 +426,7 @@
       "id": "22",
       "no": 22,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Cloud Forest",
         "affinities": [
@@ -445,7 +445,7 @@
       "id": "23",
       "no": 23,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Volcano",
         "affinities": [
@@ -464,7 +464,7 @@
       "id": "24",
       "no": 24,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Sea Cliff",
         "affinities": [
@@ -483,7 +483,7 @@
       "id": "25",
       "no": 25,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Desert",
         "affinities": [
@@ -502,14 +502,14 @@
       "id": "26",
       "no": 26,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Mangrove",
         "affinities": [
           "water",
           "earth"
         ],
-        "text": "Can't be moved."
+        "text": ""
       },
       "force": {
         "name": "Undertow",
@@ -521,14 +521,14 @@
       "id": "27",
       "no": 27,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Mud Pots",
         "affinities": [
           "water",
           "fire"
         ],
-        "text": "Your adjacent permanences ignore air forces."
+        "text": ""
       },
       "force": {
         "name": "Downpour",
@@ -540,14 +540,14 @@
       "id": "28",
       "no": 28,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Waterfall",
         "affinities": [
           "water",
           "air"
         ],
-        "text": "Your adjacent permanences ignore earth forces."
+        "text": ""
       },
       "force": {
         "name": "Cloudburst",
@@ -559,14 +559,14 @@
       "id": "29",
       "no": 29,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Cinder Cone",
         "affinities": [
           "earth",
           "fire"
         ],
-        "text": "Your adjacent permanences ignore fire forces."
+        "text": ""
       },
       "force": {
         "name": "Ashfall",
@@ -578,14 +578,14 @@
       "id": "30",
       "no": 30,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Canyon",
         "affinities": [
           "earth",
           "air"
         ],
-        "text": "Its world can't be split."
+        "text": ""
       },
       "force": {
         "name": "Dust Storm",
@@ -597,14 +597,14 @@
       "id": "31",
       "no": 31,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Savanna",
         "affinities": [
           "fire",
           "air"
         ],
-        "text": "Your adjacent permanences ignore water forces."
+        "text": ""
       },
       "force": {
         "name": "Sandstorm",
@@ -616,7 +616,7 @@
       "id": "32",
       "no": 32,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Spring",
         "affinities": [
@@ -635,7 +635,7 @@
       "id": "33",
       "no": 33,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Mountain Range",
         "affinities": [
@@ -650,7 +650,7 @@
       "id": "34",
       "no": 34,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Fumarole",
         "affinities": [
@@ -669,7 +669,7 @@
       "id": "35",
       "no": 35,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Sky Isle",
         "affinities": [
@@ -688,7 +688,7 @@
       "id": "36",
       "no": 36,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Tidal Flat",
         "affinities": [
@@ -707,7 +707,7 @@
       "id": "37",
       "no": 37,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Old Growth",
         "affinities": [
@@ -726,7 +726,7 @@
       "id": "38",
       "no": 38,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Obsidian",
         "affinities": [
@@ -745,7 +745,7 @@
       "id": "39",
       "no": 39,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Hidden Valley",
         "affinities": [
@@ -764,7 +764,7 @@
       "id": "40",
       "no": 40,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Deep Lake",
         "affinities": [
@@ -783,7 +783,7 @@
       "id": "41",
       "no": 41,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Plateau",
         "affinities": [
@@ -802,7 +802,7 @@
       "id": "42",
       "no": 42,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Lava Lake",
         "affinities": [
@@ -821,7 +821,7 @@
       "id": "43",
       "no": 43,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Twin Peaks",
         "affinities": [
@@ -840,7 +840,7 @@
       "id": "44",
       "no": 44,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Mirage",
         "affinities": [],
@@ -856,7 +856,7 @@
       "id": "45",
       "no": 45,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Caldera Lake",
         "affinities": [
@@ -876,7 +876,7 @@
       "id": "46",
       "no": 46,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Rainforest",
         "affinities": [
@@ -896,7 +896,7 @@
       "id": "47",
       "no": 47,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Geyser Basin",
         "affinities": [
@@ -916,7 +916,7 @@
       "id": "48",
       "no": 48,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Red Canyon",
         "affinities": [
@@ -932,7 +932,7 @@
       "id": "49",
       "no": 49,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Archipelago",
         "affinities": [
@@ -948,7 +948,7 @@
       "id": "50",
       "no": 50,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Boiling Lake",
         "affinities": [
@@ -964,7 +964,7 @@
       "id": "51",
       "no": 51,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Misty Fjord",
         "affinities": [
@@ -984,7 +984,7 @@
       "id": "52",
       "no": 52,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Floodplain",
         "affinities": [
@@ -1004,7 +1004,7 @@
       "id": "53",
       "no": 53,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Smoking Hills",
         "affinities": [
@@ -1024,7 +1024,7 @@
       "id": "54",
       "no": 54,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Highlands",
         "affinities": [
@@ -1044,7 +1044,7 @@
       "id": "55",
       "no": 55,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Lava Coast",
         "affinities": [
@@ -1064,7 +1064,7 @@
       "id": "56",
       "no": 56,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Lava Plain",
         "affinities": [
@@ -1080,7 +1080,7 @@
       "id": "57",
       "no": 57,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Sand Sea",
         "affinities": [
@@ -1096,7 +1096,7 @@
       "id": "58",
       "no": 58,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Cloud Sea",
         "affinities": [
@@ -1116,7 +1116,7 @@
       "id": "59",
       "no": 59,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Stone Towers",
         "affinities": [
@@ -1136,7 +1136,7 @@
       "id": "60",
       "no": 60,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "High Desert",
         "affinities": [
@@ -1156,7 +1156,7 @@
       "id": "61",
       "no": 61,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Lagoon",
         "affinities": [
@@ -1176,7 +1176,7 @@
       "id": "62",
       "no": 62,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Moor",
         "affinities": [
@@ -1196,7 +1196,7 @@
       "id": "63",
       "no": 63,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Cinder Field",
         "affinities": [
@@ -1216,7 +1216,7 @@
       "id": "64",
       "no": 64,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Peak",
         "affinities": [
@@ -1236,7 +1236,7 @@
       "id": "65",
       "no": 65,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Ice Sheet",
         "affinities": [
@@ -1254,7 +1254,7 @@
       "id": "66",
       "no": 66,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Thicket",
         "affinities": [
@@ -1272,7 +1272,7 @@
       "id": "67",
       "no": 67,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Badlands",
         "affinities": [
@@ -1290,7 +1290,7 @@
       "id": "68",
       "no": 68,
       "rarity": "A",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Wind Gap",
         "affinities": [
@@ -1308,7 +1308,7 @@
       "id": "meta-echo",
       "no": 69,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "meta": {
         "name": "Echo",
         "text": "Play a card from your void."
@@ -1318,7 +1318,7 @@
       "id": "meta-hollow",
       "no": 70,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "meta": {
         "name": "Hollow",
         "text": "Return a card from your void."
@@ -1328,7 +1328,7 @@
       "id": "meta-equinox",
       "no": 71,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "meta": {
         "name": "Equinox",
         "text": "Return 3 cards from your void."
@@ -1338,7 +1338,7 @@
       "id": "meta-verge",
       "no": 72,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "meta": {
         "name": "Verge",
         "text": "Play two more cards this turn."
@@ -1348,7 +1348,7 @@
       "id": "meta-lull",
       "no": 73,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "meta": {
         "name": "Lull",
         "text": "Your opponent skips their next turn."
@@ -1358,7 +1358,7 @@
       "id": "meta-ebb",
       "no": 74,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "meta": {
         "name": "Ebb",
         "text": "Remove your opponent's last common."
@@ -1368,7 +1368,7 @@
       "id": "meta-horizon",
       "no": 75,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "meta": {
         "name": "Horizon",
         "text": "Remove a card from your opponent's binder."
@@ -1378,7 +1378,7 @@
       "id": "meta-calm",
       "no": 76,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "meta": {
         "name": "Calm",
         "text": "No forces this round."
@@ -1388,7 +1388,7 @@
       "id": "83",
       "no": 83,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Ice Floe",
         "affinities": [
@@ -1406,7 +1406,7 @@
       "id": "86",
       "no": 86,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Hill",
         "affinities": [
@@ -1424,7 +1424,7 @@
       "id": "89",
       "no": 89,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Dune",
         "affinities": [
@@ -1442,7 +1442,7 @@
       "id": "92",
       "no": 92,
       "rarity": "C",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Ledge",
         "affinities": [
@@ -1460,7 +1460,7 @@
       "id": "95",
       "no": 95,
       "rarity": "B",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Hanging Valley",
         "affinities": [],
@@ -1476,7 +1476,7 @@
       "id": "96",
       "no": 96,
       "rarity": "S",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Ocean",
         "affinities": [
@@ -1497,7 +1497,7 @@
       "id": "97",
       "no": 97,
       "rarity": "S",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Pangaea",
         "affinities": [
@@ -1518,7 +1518,7 @@
       "id": "98",
       "no": 98,
       "rarity": "S",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Core",
         "affinities": [
@@ -1539,7 +1539,7 @@
       "id": "99",
       "no": 99,
       "rarity": "S",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Trade Winds",
         "affinities": [
@@ -1560,7 +1560,7 @@
       "id": "100",
       "no": 100,
       "rarity": "S",
-      "source": "Fourth pass: the pool by ring count (Nov 8, 2026)",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
       "permanence": {
         "name": "Origin",
         "affinities": [
