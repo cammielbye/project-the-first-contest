@@ -12,7 +12,7 @@
 
 **Reclaimed slots (Cam: reuse the existing names).** 21 cards take the name, art and force face of a cut third-pass card and get a new permanence: Lava Field, Grove, Thicket, Badlands, Wind Gap, Spring, Fumarole, Sky Isle, Tidal Flat, Old Growth, Obsidian, Hidden Valley, Lagoon, Moor, Cinder Field, Peak, Ice Floe, Hill, Dune, Ledge, Hanging Valley. Claude picked which name went where, by landform; Grove's text ("When played, remove a common force.") is Claude's draft, since earth had no when-played card.
 
-**Changed in place.** Glacier (was uncommon; "Ignores air forces." dropped to fit the cycle); Spire (was uncommon; "Ignores earth forces." dropped to fit the cycle); Tide Pool (ignored air); Stone Field (ignored fire); Lava Flow (was uncommon); Wilderness (was uncommon); Mangrove (text moved to the idea pool); Mud Pots (text moved to the idea pool); Waterfall (text moved to the idea pool); Cinder Cone (text moved to the idea pool); Canyon (text moved to the idea pool); Savanna (text moved to the idea pool); Mountain Range (was rare); Archipelago (win condition removed for now).
+**Changed in place.** Glacier (was uncommon; "Ignores air forces." dropped to fit the cycle); Spire (was uncommon; "Ignores earth forces." dropped to fit the cycle); Tide Pool (ignored fire forces); Stone Field (ignored air forces); Ashfield (ignored water forces); Summit (ignored earth forces); Lava Flow (was uncommon); Wilderness (was uncommon); Mangrove (text moved to the idea pool); Mud Pots (text moved to the idea pool); Waterfall (text moved to the idea pool); Cinder Cone (text moved to the idea pool); Canyon (text moved to the idea pool); Savanna (text moved to the idea pool); Mountain Range (was rare); Archipelago (win condition removed for now).
 
 **Forces changed (Cam, Nov 8).** Ice Storm (Deep Lake) and Permafrost (Plateau) say "can't be removed" instead of "can't be moved" ("stronger, and makes more sense" to him). Rare forces are dialed back (they got much stronger once worlds were uncapped): the three-of-one-element rares drop their reused common forces and take the remove-a-world's-element forces: Lagoon takes Flash Flood, "Remove a world's fire permanences." (from Boiling Lake); Moor takes Avalanche, "Remove a world's air permanences." (from Mountain Range); Cinder Field takes Wildfire, "Remove a world's earth permanences." (from Lava Plain); Peak takes Drought, "Remove a world's water permanences." (from Sand Sea). Claude matched each to the triple of its element by name, so Wildfire and Drought remove by the third pass's cycle (fire burns earth, air dries water), not the opposites. Firestorm and Tsunami now read "A world's permanences become [element]." and, being too strong below pinnacle, are the forces of Core and Ocean; the other pinnacle forces are removed (Solar Flare (Core), Deluge (Ocean), Unmaking (Origin)) except World Quake (Pangaea) and Jet Stream (Trade Winds), which still read the same. No force for the moment: Mountain Range, Red Canyon, Archipelago, Boiling Lake, Lava Plain, Sand Sea, Origin. Every other force is carried over from the third pass unchanged.
 
@@ -31,14 +31,14 @@
 | 3 | Lava Field | C | 1 fire | Can't be moved. | Spark | Lasts the round | An air permanence with one affinity becomes fire. |
 | 4 | Spire | C | 1 air | Can't be moved. | Whirlwind | Once | Two permanences become separate worlds. |
 
-**One pip, common: ignores the opposite element (4).** Opposites: water and fire, earth and air (Cam, Nov 8).
+**One pip, common: unaffected by forces (4).** Cam (Nov 10): a cycle of single-pip cards unaffected by forces, to make some powerful enough to use late game. Until Nov 10 this cycle ignored the opposite element's forces (water and fire, earth and air); that idea is now in the idea pool.
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 5 | Tide Pool | C | 1 water | Ignores fire forces. | Drizzle | Lasts the round | A fire permanence with one affinity loses it. |
-| 6 | Stone Field | C | 1 earth | Ignores air forces. | Dust | Lasts the round | An air permanence with one affinity loses it. |
-| 7 | Ashfield | C | 1 fire | Ignores water forces. | Brushfire | Lasts the round | An earth permanence becomes fire. |
-| 8 | Summit | C | 1 air | Ignores earth forces. | Crosswind | Once | Swap two permanences between worlds. |
+| 5 | Tide Pool | C | 1 water | Unaffected by forces. | Drizzle | Lasts the round | A fire permanence with one affinity loses it. |
+| 6 | Stone Field | C | 1 earth | Unaffected by forces. | Dust | Lasts the round | An air permanence with one affinity loses it. |
+| 7 | Ashfield | C | 1 fire | Unaffected by forces. | Brushfire | Lasts the round | An earth permanence becomes fire. |
+| 8 | Summit | C | 1 air | Unaffected by forces. | Crosswind | Once | Swap two permanences between worlds. |
 
 **One pip, common: when played (4).** One per element.
 

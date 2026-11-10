@@ -1,7 +1,7 @@
 {
   "source": "data/card-pool.md",
   "pass": "Fourth pass: the pool by pip count (Nov 8, 2026)",
-  "syncedAt": "2026-11-10T06:38:55.564Z",
+  "syncedAt": "2026-11-10T08:48:22.744Z",
   "counts": {
     "cards": 86,
     "meta": 8,
@@ -124,7 +124,7 @@
         "affinities": [
           "water"
         ],
-        "text": "Ignores fire forces."
+        "text": "Unaffected by forces."
       },
       "force": {
         "name": "Drizzle",
@@ -142,7 +142,7 @@
         "affinities": [
           "earth"
         ],
-        "text": "Ignores air forces."
+        "text": "Unaffected by forces."
       },
       "force": {
         "name": "Dust",
@@ -160,7 +160,7 @@
         "affinities": [
           "fire"
         ],
-        "text": "Ignores water forces."
+        "text": "Unaffected by forces."
       },
       "force": {
         "name": "Brushfire",
@@ -178,7 +178,7 @@
         "affinities": [
           "air"
         ],
-        "text": "Ignores earth forces."
+        "text": "Unaffected by forces."
       },
       "force": {
         "name": "Crosswind",

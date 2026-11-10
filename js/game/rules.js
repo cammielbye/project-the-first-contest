@@ -53,6 +53,7 @@ export function permEffects(t) {
   if (has(/(?:^|\. )Can't be moved\./)) pe.unmovable = true;
   if ((m = has(/(?:^|\. )Ignores (fire|water|air|earth)(?: and (fire|water|air|earth))? forces\./))) pe.ignoreEl = ELW[m[1]] | (m[2] ? ELW[m[2]] : 0);
   if ((m = has(/^Ignores common( and uncommon)? forces\./))) pe.ignoreTiers = m[1] ? "CB" : "C";
+  if (has(/^Unaffected by forces\./)) pe.ignoreAll = true; // Nov 10: no force touches it, a friendly one included (READING)
   if ((m = has(/^Your adjacent permanences ignore (fire|water|air|earth) forces\./))) pe.adjIgnore = ELW[m[1]];
   if ((m = has(/^Your (fire|water|air|earth) permanences ignore (fire|water|air|earth) forces\./))) pe.kindIgnore = [ELW[m[1]], ELW[m[2]]];
   if ((m = has(/^Adjacent (fire|water|air|earth) permanences become (fire|water|air|earth)\./))) pe.adjShift = [ELW[m[1]], ELW[m[2]]];
@@ -193,6 +194,7 @@ function worldIgnores(s, wid, src) {
 }
 export function permIgnores(s, i, src) {
   const d = C[src.card]; const me = pe(i);
+  if (me.ignoreAll) return true;
   if ((me.ignoreEl && d.el & me.ignoreEl) || (me.ignoreTiers && me.ignoreTiers.includes(d.rarity))) return true;
   for (const t of adjacent(s, i)) { const el = pe(t).adjIgnore; if (el && t.owner === i.owner && d.el & el) return true; }
   const printed = C[i.card].aff.reduce((m, t) => m | t, 0);

@@ -35,11 +35,13 @@ group('c-still', "One pip, common: can't be moved", "One per element.", [
  card('Lava Field', 'C', [F], "Can't be moved.", 'reused', 'reclaimed slot'),
  card('Spire', 'C', [A], "Can't be moved.", 'changed', "was uncommon; \"Ignores earth forces.\" dropped to fit the cycle"),
 ])
-group('c-ignore', 'One pip, common: ignores the opposite element', "Opposites: water and fire, earth and air (Cam, Nov 8).", [
- card('Tide Pool', 'C', [W], "Ignores fire forces.", 'changed', 'ignored air'),
- card('Stone Field', 'C', [E], "Ignores air forces.", 'changed', 'ignored fire'),
- card('Ashfield', 'C', [F], "Ignores water forces.", 'kept'),
- card('Summit', 'C', [A], "Ignores earth forces.", 'kept'),
+# Cam (Nov 10): "make a cycle of the single pip cards have 'unaffected by forces'. that will make some powerful enough to use
+# late game I think." Claude put it on this cycle, which ignored the opposite element's forces (Nov 8; that idea is in the pool)
+group('c-ignore', 'One pip, common: unaffected by forces', "Cam (Nov 10): a cycle of single-pip cards unaffected by forces, to make some powerful enough to use late game. Until Nov 10 this cycle ignored the opposite element's forces (water and fire, earth and air); that idea is now in the idea pool.", [
+ card('Tide Pool', 'C', [W], "Unaffected by forces.", 'changed', 'ignored fire forces'),
+ card('Stone Field', 'C', [E], "Unaffected by forces.", 'changed', 'ignored air forces'),
+ card('Ashfield', 'C', [F], "Unaffected by forces.", 'changed', 'ignored water forces'),
+ card('Summit', 'C', [A], "Unaffected by forces.", 'changed', 'ignored earth forces'),
 ])
 group('c-played', 'One pip, common: when played', "One per element.", [
  card('Snowfield', 'C', [W], "When played, return one of your permanences.", 'kept'),

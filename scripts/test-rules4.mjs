@@ -68,14 +68,14 @@ test("Lava Field can't be moved", () => {
   assert.ok(ms.length > 0);
   assert.ok(!ms.some((m) => R.C[s.inst[m.t].card].name === "Lava Field"));
 });
-test("Tide Pool ignores fire forces (it ignored air in the third pass)", () => {
+test("Tide Pool is unaffected by forces (Nov 10; it ignored fire forces Nov 8, air in the third pass)", () => {
   const s = table(["Lava Coast"], []);
   put(s, 1, "Tide Pool"); put(s, 1, "Deep Lake", "Tide Pool", 1);
   assert.equal(forceTargets(s, 0, "Steam Explosion").length, 0);
 });
 test("Ice Storm: water permanences can't be removed (Nov 8)", () => {
   const s = table(["Peak", "Deep Lake"], []);
-  put(s, 1, "Tide Pool");
+  put(s, 1, "Glacier"); // Tide Pool was here until Nov 10; it's now unaffected by forces
   assert.equal(forceTargets(s, 0, "Drought").length, 1);
   R.applyMove(s, 0, forceTargets(s, 0, "Ice Storm")[0]);
   assert.equal(forceTargets(s, 0, "Drought").length, 0);
@@ -164,6 +164,11 @@ test("Nov 10: either-or and any pips count toward four of one element (reading)"
   assert.equal(R.score(s)[0].pts, 0);
   put(s, 0, "Tide Pool", "Hidden Valley", 2); // four water
   assert.equal(R.score(s)[0].pts, 1);
+});
+test("Summit is unaffected by forces: no force can target it, and a friendly protection doesn't reach it either (reading)", () => {
+  const s = table(["Lava Flow", "Glacier"], []);
+  const su = put(s, 1, "Summit");
+  assert.ok(!R.movesFor(s, 0, false).some((m) => m.face === "force" && m.t === su.id));
 });
 test("one round: the contest ends when the round does, and there's no card cap", () => {
   const s = table(["Bedrock", "Glacier"], ["Spire"]);
