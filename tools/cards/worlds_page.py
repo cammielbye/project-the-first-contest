@@ -116,6 +116,7 @@ page = f'''<title>Three-Point Worlds</title>
     <label for="q">Card <input id="q" type="search" placeholder="Search a card, e.g. Lagoon" autocomplete="off"></label>
     <label for="nopin"><input id="nopin" type="checkbox"> Hide pinnacles</label>
     <label for="nomir"><input id="nomir" type="checkbox"> Hide Mirage</label>
+    <label for="nohv"><input id="nohv" type="checkbox"> Hide Hanging Valley</label>
     <span class="shown" id="shown"></span>
   </div>
   <div class="pool">
@@ -144,15 +145,15 @@ function row(r) {{
   const d = r.d.length ? `<span class="diag">Diagonal to Mirage: ${{r.d.map((i) => esc(NAMES[i])).join(" or ")}}</span>` : "";
   return `<li class="w"><span class="pts${{r.k >= 4 ? " four" : ""}}">${{r.k}} pts</span>${{r.c.map(chip).join('<span class="plus">+</span>')}}${{d}}</li>`;
 }}
-const q = document.getElementById("q"), nopin = document.getElementById("nopin"), nomir = document.getElementById("nomir");
+const q = document.getElementById("q"), nopin = document.getElementById("nopin"), nomir = document.getElementById("nomir"), nohv = document.getElementById("nohv");
 function render() {{
   const t = q.value.trim().toLowerCase();
-  const keep = (r) => (!t || r.c.some((i) => NAMES[i].toLowerCase().includes(t))) && !(nomir.checked && r.c.some((i) => NAMES[i] === "Mirage"));
+  const keep = (r) => (!t || r.c.some((i) => NAMES[i].toLowerCase().includes(t))) && !(nomir.checked && r.c.some((i) => NAMES[i] === "Mirage")) && !(nohv.checked && r.c.some((i) => NAMES[i] === "Hanging Valley"));
   let shown = 0;
   for (const f of ["r", "h", "m", "mh", "pin"]) {{
     const rs = ROWS.filter((r) => r.f === f && keep(r));
     const sec = document.querySelector(`section[data-f="${{f}}"]`);
-    sec.hidden = (f === "pin" && nopin.checked) || ((f === "m" || f === "mh") && nomir.checked);
+    sec.hidden = (f === "pin" && nopin.checked) || ((f === "m" || f === "mh") && nomir.checked) || ((f === "h" || f === "mh") && nohv.checked);
     if (sec.hidden) continue;
     shown += rs.length;
     document.querySelector(`[data-c="${{f}}"]`).textContent = rs.length.toLocaleString();
@@ -164,7 +165,7 @@ function render() {{
   }}
   document.getElementById("shown").textContent = `${{shown.toLocaleString()}} of ${{ROWS.length.toLocaleString()}} shown`;
 }}
-q.addEventListener("input", render); nopin.addEventListener("change", render); nomir.addEventListener("change", render);
+q.addEventListener("input", render); nopin.addEventListener("change", render); nomir.addEventListener("change", render); nohv.addEventListener("change", render);
 render();
 </script>
 '''
