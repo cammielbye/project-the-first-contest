@@ -125,6 +125,8 @@ node scripts/sim3-pair.mjs 500 --a Water --b Fire --bo3 --cap=7 --open   # best 
 node scripts/sim3-pair.mjs 41 --seed 1108 --show 40   # replay one contest, play by play
 node scripts/sim3-pair.mjs 250 --aiA bigWorld=2 --aiB bigWorld=2
                                  # computers aiming for the 3-point world (Nov 7)
+node scripts/sim-formats.mjs 1500 --json f.json   # the same random binders under 12 formats (Nov 10): 2x2 or open
+                                 # worlds; one round or best of three; no cap, or a cap of 5, 7 or 10
 node scripts/sim3-rate.mjs 4000 --quick --json r.json --csv r.csv
                                  # card ratings (Nov 8): random legal binders (15 cards: 8/4/3, leaning
                                  # none, one or two elements), computer styles drawn at random,
@@ -304,7 +306,7 @@ changes on `main`, republish these files to that page as they are on GitHub:
 `index.html`, `css/style.css`, `js/main.js`, `js/state.js`, `js/cards.js`,
 `js/net.js`, `js/computer.js`, `js/game/rules.js`, `js/game/ai.js`,
 `data/cards.json`, `data/binders.json`, `data/card-faces.json`,
-`vendor/peerjs.min.js`. Last republished from `2e2772b` (Nov 10).
+`vendor/peerjs.min.js`. Last republished from `1e75c61` (Nov 10).
 
 ## Simulating contests
 
