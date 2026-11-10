@@ -73,7 +73,7 @@ def g(key, label, note=None):
     return sub(label, b if note is None else note, [card_row(c) for c in cs], len(cs))
 
 SECTIONS = [
- ('One pip', [g('c-still', "Common · can't be moved"), g('c-ignore', 'Common · ignores the opposite element', 'Opposites: water and fire, earth and air.'),
+ ('One pip', [g('c-still', "Common · can't be moved"), g('c-ignore', 'Common · unaffected by forces', 'Cam (Nov 10): to make some single-pip cards strong enough to play late. Until Nov 10 they ignored the opposite element\'s forces.'),
                g('c-played', 'Common · when played'), g('c-either', 'Common · either-or, no text'), g('c-any', 'Common · any'),
                g('c-point', 'Common · +1 of its element with a world point', 'Cam (Nov 9): one of each element\'s placeholders. They sit in the slots for cards unique to one element, numbered with them; 8 words, one over the under-8 rule.'),
                g('a-blank', 'Rare · blanks the opposite element', 'Ice Sheet\'s cycle.')]),
