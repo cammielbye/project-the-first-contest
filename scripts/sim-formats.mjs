@@ -23,21 +23,26 @@ function playOne(seed, f) {
   const s = R.newContest(A.ids, B.ids, opener, ["A", "B"], { openWorlds: f.open, bestOf: f.bestOf, noCap: !f.cap, cap: f.cap || undefined });
   const ai = styles.map((st) => makeAI({ rng, style: st, ply: 1 }));
   const plays = [0, 0], asPerm = [{}, {}], any = [{}, {}], asForce = [0, 0], asMeta = [0, 0];
+  let lastP = null, flip = false; // who made the contest's last play, and whether it changed who was ahead
   R.advance(s);
   for (let guard = 0; guard < 900 && s.phase !== "contestOver"; guard++) {
     if (s.phase === "roundOver") { R.nextRound(s); continue; }
     const P = s.turn, m = ai[P].choose(s, P);
     if (m) {
+      const before = R.outcome(R.score(s), 0), nr = s.rounds.length;
       plays[P]++; any[P][m.id] = 1;
       if (m.face === "perm") asPerm[P][m.id] = (asPerm[P][m.id] || 0) + 1; else if (m.face === "force") asForce[P]++; else asMeta[P]++;
       R.play(s, P, m);
+      // if the play ended the round, the table has gone to the void: read the result from the round's record
+      const after = s.rounds.length > nr ? (w => w === 0 ? 1 : w === 1 ? -1 : 0)(s.rounds[s.rounds.length - 1].winner) : R.outcome(R.score(s), 0);
+      lastP = P; flip = after !== before;
     } else R.pass(s, P);
   }
   if (s.phase !== "contestOver") return null;
   // each binder card with a permanence side: pips, and whether it was ever played as a permanence
   const perm = [A.ids, B.ids].map((ids, P) => ids.filter((id) => C[id].aff).map((id) => [pips(id), asPerm[P][id] ? 1 : 0, any[P][id] ? 1 : 0]));
   const last = s.rounds[s.rounds.length - 1];
-  return { opener, winner: s.winner, why: s.why === "rounds" ? last.why : s.why, rounds: s.rounds.map((r) => r.winner), plays, forces: asForce, metas: asMeta, perm, pts: s.rounds.map((r) => r.score.map((x) => x.pts)) };
+  return { last: lastP, flip, opener, winner: s.winner, why: s.why === "rounds" ? last.why : s.why, rounds: s.rounds.map((r) => r.winner), plays, forces: asForce, metas: asMeta, perm, pts: s.rounds.map((r) => r.score.map((x) => x.pts)) };
 }
 
 if (!isMainThread) {
@@ -67,6 +72,8 @@ if (!isMainThread) {
       ...f, contests: n, secs: Math.round((Date.now() - t0) / 1000),
       won: { worldPoints: by("world points"), tieBreak: by("tie-break"), draw: by("draw") },
       firstPlayer: pct(dec.filter((r) => r.winner === r.opener).length, dec.length),
+      secondPlaysLast: pct(rows.filter((r) => r.last !== null && r.last !== r.opener).length, n), // in the final round
+      lastPlayFlips: pct(rows.filter((r) => r.flip).length, n), // the final play changed who was ahead (or a draw)
       plays: +(rows.reduce((a, r) => a + r.plays[0] + r.plays[1], 0) / (2 * n)).toFixed(1),
       forcesPlayed: +(rows.reduce((a, r) => a + r.forces[0] + r.forces[1], 0) / (2 * n)).toFixed(1),
       worldPoints: +(rows.reduce((a, r) => a + r.pts.reduce((x, p) => x + p[0] + p[1], 0) / r.pts.length, 0) / (2 * n)).toFixed(2), // per player per round
