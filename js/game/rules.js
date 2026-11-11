@@ -76,7 +76,6 @@ export function permEffects(t) {
   if ((m = has(/^\+1 (fire|water|air|earth) if you have a world point\./))) pe.bonusIfPoint = ELW[m[1]];
   if ((m = has(/^\+1 world point if this world has ((?:(?:fire|water|air|earth) ?)+)\./))) pe.worldPoint = m[1].trim().split(" ").map((e) => ELW[e]);
   // fifth pass (Nov 11)
-  if (has(/^Its world scores with one pip fewer\./)) pe.fewer = 1; // Hanging Valley
   if (has(/^Play only on your first turn\./)) pe.firstTurn = true; // the three-of-one-element rares
   if (has(/^Play only on a new world\./)) pe.newWorld = true; // the three-different-element rares
   if ((m = has(/^The permanence (below|above|beside|across from) this gains (fire|water|air|earth)\./))) pe.gain = { dir: m[1], el: ELW[m[2]] }; // positional (idea 11)
@@ -346,7 +345,7 @@ export function view(s) {
   const bonus = ps.filter((i) => pe(i).bonusIfPoint && !blank[i.id]);
   if (bonus.length) {
     const pts = [0, 0];
-    for (const k in s.worlds) { const w = s.worlds[k], toks = []; for (const iid of w.cells) if (iid !== null) toks.push(...cur[iid]); pts[w.owner] += worldPoints(s, toks, fewerIn(s, w)); }
+    for (const k in s.worlds) { const w = s.worlds[k], toks = []; for (const iid of w.cells) if (iid !== null) toks.push(...cur[iid]); pts[w.owner] += worldPoints(s, toks); }
     for (const i of bonus) if (pts[i.owner] > 0) cur[i.id] = cur[i.id].concat([pe(i).bonusIfPoint]);
   }
   s._v = { tok: cur, blank };
@@ -558,17 +557,15 @@ export function setsOf(tokens) {
 const hasEach = (tokens, n) => { const { c, flex } = split(tokens); return feasible(c, flex, [n, n, n, n]); };
 // the most of one element a world can show at once: every pip that can be that element (either-or and any included)
 function maxSame(tokens) { let best = 0; for (let e = 0; e < 4; e++) { let n = 0; for (const t of tokens) if (t & (1 << e)) n++; if (n > best) best = n; } return best; }
-// Nov 10 (Cam): one of each element or four of one element in a world is a world point, and a world scores one point at
-// most; either-or and any pips count toward four of one element as they do toward a set (READING)
-// "Its world scores with one pip fewer." (Hanging Valley, Nov 11): three different elements, or three of one element
-// (READING: two of them in a world, two fewer)
-function pointOf(tokens, fewer) {
-  const st = setsOf(tokens), same = maxSame(tokens), need = Math.max(1, 4 - (fewer || 0));
-  const dist = st.k >= 1 ? 4 : st.cov;
-  return { k: dist >= need || same >= need ? 1 : 0, cov: Math.min(3, Math.max(dist, same) + (fewer || 0)) };
+// Nov 10 (Cam): one of each element or four of one element in a world is a world point, and a world's affinities score
+// one point at most; either-or and any pips count toward four of one element as they do toward a set (READING). Nov 11
+// (Cam): the one world point per world "is only from affinities, not card effects like the mountain range cycle", so
+// Hanging Valley's +1 and the scoring cycle add to it.
+function pointOf(tokens) {
+  const st = setsOf(tokens), same = maxSame(tokens);
+  return { k: st.k >= 1 || same >= 4 ? 1 : 0, cov: Math.min(3, Math.max(st.cov, same)) };
 }
-const fewerIn = (s, w) => w.cells.reduce((n, iid) => n + (iid !== null ? pe(s.inst[iid]).fewer || 0 : 0), 0);
-function worldPoints(s, tokens, fewer) { return s.scoring === "sets" ? setsOf(tokens).k : pointOf(tokens, fewer).k; }
+function worldPoints(s, tokens) { return s.scoring === "sets" ? setsOf(tokens).k : pointOf(tokens).k; }
 const worldHas = (tokens, els) => { const need = [0, 0, 0, 0]; for (const b of els) need[Math.log2(b)]++; const { c, flex } = split(tokens); return feasible(c, flex, need); };
 export function score(s) {
   const v = view(s);
@@ -579,14 +576,14 @@ export function score(s) {
     const w = s.worlds[k], R = res[w.owner], toks = [];
     for (const iid of w.cells) if (iid !== null) toks.push(...v.tok[iid]);
     const st = setsOf(toks);
-    // "+1 world point if this world has water earth fire air." (Hanging Valley, Nov 9): "has" means the world's affinities can
-    // show each listed element at once, counted as for sets; the point is that world's own, so it counts toward a world
-    // worth 3 world points (READING)
-    // Under the Nov 10 rule a world scores one point at most, so Hanging Valley's +1 adds nothing (READING); cov is then
-    // how far an unscored world has got toward its point (elements covered, or the most of one element), for the computer
+    // Under the Nov 10 rule the world's affinities score one point at most; cov is then how far a world without its point
+    // has got toward it (elements covered, or the most of one element), for the computer
     let wk = st.k, cov = st.cov;
-    if (pointRule) { const pt = pointOf(toks, fewerIn(s, w)); wk = pt.k; cov = wk ? 0 : pt.cov; }
-    else for (const iid of w.cells) if (iid !== null) { const wp = pe(s.inst[iid]).worldPoint; if (wp && worldHas(toks, wp)) wk++; }
+    if (pointRule) { const pt = pointOf(toks); wk = pt.k; cov = wk ? 0 : pt.cov; }
+    // "+1 world point if this world has water earth fire air." (Hanging Valley, Nov 9): "has" means the world's affinities can
+    // show each listed element at once, counted as for sets; the point is that world's own, so under the old scoring it
+    // counts toward a world worth 3 world points (READING). Under the Nov 10 rule it adds to the affinities' point (Cam, Nov 11).
+    for (const iid of w.cells) if (iid !== null) { const wp = pe(s.inst[iid]).worldPoint; if (wp && worldHas(toks, wp)) wk++; }
     R.pts += wk; R.worlds.push({ id: w.id, n: w.n, k: wk, cov, cards: worldSize(w), perfect: wk >= pw });
     R.all.push(...toks);
     for (const t of toks) { for (let e = 0; e < 4; e++) if (t & (1 << e)) R.tot[e]++; if (t & W) R.water++; if (t & E) R.earth++; }

@@ -151,12 +151,12 @@ test("Nov 10: four of one element in a world is a world point (Lagoon's three wa
   put(s, 0, "Lagoon"); assert.equal(R.score(s)[0].pts, 0);
   put(s, 0, "Glacier", "Lagoon", 1); assert.equal(R.score(s)[0].pts, 1);
 });
-test("Nov 10: a world scores one point at most (Origin and Ocean), and Hanging Valley adds nothing (reading)", () => {
+test("Nov 10: a world's affinities score one point at most (Origin and Ocean); Hanging Valley's +1 adds to it (Cam, Nov 11)", () => {
   const s = table([], []);
   put(s, 0, "Origin"); put(s, 0, "Ocean", "Origin", 1);
   assert.equal(R.score(s)[0].pts, 1);
   put(s, 0, "Hanging Valley", "Origin", 2);
-  assert.equal(R.score(s)[0].pts, 1);
+  assert.equal(R.score(s)[0].pts, 2); // Claude read it as adding nothing until Cam's Nov 11 correction
   assert.equal(s.decisive, null); // no Perfect World
 });
 test("Nov 10: either-or and any pips count toward four of one element (reading)", () => {

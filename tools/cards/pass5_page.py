@@ -85,7 +85,7 @@ SECTIONS = [
  ('Three pips', [g('a-three', 'Rare · three different elements', 'Play only on a new world (fifth pass).'), g('a-two-one', 'Rare · two of one element, one of another'),
                  g('a-triple', 'Rare · three of one element', 'Play only on your first turn (fifth pass).')]),
  ('Four pips', [g('s', 'Pinnacle')]),
- ('No pips', [g('b-none', 'Uncommon'), g('b-none-open', 'Uncommon · one pip fewer', 'Its +1 world point did nothing once a world scores one point at most (Nov 10).'),
+ ('No pips', [g('b-none', 'Uncommon'), g('b-none-open', 'Uncommon · +1 world point', 'Its +1 adds to the point its world\'s affinities score (Cam, Nov 11: the one world point per world is only from affinities). The four elements in its text are ringed; 8 words, with the four symbols counted as one, so one over the under-8 rule.'),
               sub('Meta cards · no rarity', 'One face, usable by either player. Six are new in the fifth pass.', [meta_row(m[0], m[1], pass5.META_NO[m[0]]) for m in sorted(pass5.META, key=lambda m: pass5.META_NO[m[0]])], len(pass5.META))]),
 ]
 
@@ -125,8 +125,8 @@ page = f'''<title>Fifth Pass Card Pool</title>
   </header>
 
   <div class="format">
-    <p><b>The format for test games (Cam, Nov 11).</b> Best of three rounds, no cap on cards a round. Before the contest, each player may reveal a permanence from their binder; whoever reveals the most pips goes second, and a tie is a coin flip. A world scores one world point at most, for one of each element or four of one element; worlds go up to 2×2.</p>
-    <p>A ◯ in a force's text means a permanence with one pip.</p>
+    <p><b>The format for test games (Cam, Nov 11).</b> Best of three rounds, no cap on cards a round. Before the contest, each player may reveal a permanence from their binder; whoever reveals the most pips goes second, and a tie is a coin flip. A world's affinities score one world point at most, for one of each element or four of one element; card effects such as Hanging Valley's and the scoring cycle's add to it (Cam, Nov 11). Worlds go up to 2×2.</p>
+    <p>A ◯ in a force's text means a permanence with one pip. Positional permanences give a pip in one direction each: water below, air above, earth beside, fire across (Cam, Nov 11).</p>
   </div>
 
   <main class="pool">

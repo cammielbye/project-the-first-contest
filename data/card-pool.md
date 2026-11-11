@@ -6,7 +6,7 @@
 
 > Cam (Nov 11): "let's do a 5th pass at the card pool. I just want to get it back to a playable state so I can get more test games in." Every permanence has a force; effects may repeat, especially on commons and on different elements; gaps filled from the effect idea pool and the feedback so far; forces he's said he doesn't like readjusted; new cards from the idea pool, names from the word lists, themes and effects loosely tied to their affinity. Everything new here is Claude's draft against that brief, not adopted. The fourth pass as it ended is saved in the repo at `data/versions/card-pool-2026-11-11-fourth-pass-final.md` (branch `saved/card-pool-2026-11-11-fourth-pass-final`).
 
-**The format for test games (Cam, Nov 11).** Best of three rounds, no cap on cards per round. Who goes second: before the contest, each player may reveal a permanence from their binder, and whoever reveals the most pips goes second (Cam: "let's see what that adds to the mix, it might be stupid and should just be a dice roll"). Claude's readings: revealing is optional (no reveal counts as zero pips); a tie is a coin flip; the revealed card stays in the binder, known to the other player; it decides round 1 only, and the openers alternate after that. A world scores one world point at most, for one of each element or four of one element (Nov 10); worlds go up to 2×2; returns only put cards into their owners' binders (Nov 11).
+**The format for test games (Cam, Nov 11).** Best of three rounds, no cap on cards per round. Who goes second: before the contest, each player may reveal a permanence from their binder, and whoever reveals the most pips goes second (Cam: "let's see what that adds to the mix, it might be stupid and should just be a dice roll"). Claude's readings: revealing is optional (no reveal counts as zero pips); a tie is a coin flip; the revealed card stays in the binder, known to the other player; it decides round 1 only, and the openers alternate after that. A world's affinities score one world point at most, for one of each element or four of one element (Nov 10); card effects such as Hanging Valley and the scoring cycle add to that (Cam, Nov 11: the one world point per world "is only from affinities, not card effects"); worlds go up to 2×2; returns only put cards into their owners' binders (Nov 11).
 
 **What changed, and why.**
 - **One restriction at most** (Cam, Nov 8): Ash (Lava Field), Drizzle (Tide Pool), Dust (Stone Field), Spark (Flint), Gust (Ledge), Scald (Hot Spring), Lava Bomb (Volcano), Hail (Tidal Flat), Landslide (Hidden Valley), Downdraft (Wind Gap) drop "with one affinity." The four uncommon removals now read the way Cam's Nov 2 ladder has an uncommon remove ("an earth or air permanence").
@@ -15,8 +15,8 @@
 - **Every card has a force:** Mountain Range, Red Canyon, Archipelago, Boiling Lake, Lava Plain, Sand Sea and Origin get one.
 - **Pinnacles:** Tsunami and Firestorm were too weak (Cam, Nov 10) and now return a player's worlds and remove a world; World Quake read the same as Jet Stream and now splits every world; Origin gets back Unmaking ("Remove every world").
 - **Restrictions on three-pip permanences** (Cam: "in some cases it might even make sense"): the three-of-one-element rares play only on your first turn (each makes a world point with one more pip of its element); the three-different-element rares play only on a new world (so they can't finish a world as a last play).
-- **Hanging Valley** did nothing under the one-point rule; it now reads "Its world scores with one pip fewer."
-- **The slots unique to one element are filled**: a positional permanence for each element, each with its own direction (idea 11), and one card per element that doubles down on its element's effect with a twist: water plays a card from either void (Whirlpool, idea 12), earth holds a world together (Sinkhole; Cavern's world can't be split, idea 9), fire removes the permanence just played (Meteor), air returns cards you played last round (Cyclone, and Tornado at rare).
+- **Hanging Valley** keeps its text: the one world point per world counts affinities only, so its +1 world point adds to its world's point (Cam, Nov 11). Claude's first draft had read it as adding nothing and changed it to "Its world scores with one pip fewer."
+- **The slots unique to one element are filled**: a positional permanence for each element, each with its own direction (idea 11: water below, air above, earth beside, fire across; Cam swapped earth and fire), and one card per element that doubles down on its element's effect with a twist: water plays a card from either void (Whirlpool, idea 12), earth holds a world together (Sinkhole; Cavern's world can't be split, idea 9), fire removes the permanence just played (Meteor), air returns cards you played last round (Cyclone, and Tornado at rare).
 - **Six new meta cards** fill the meta slots: Aftershock (idea 6), Stillness, Sunlight (idea 5), Weathering, Thunder and Haze.
 - **Two- and three-pip permanences** otherwise stay vanilla (Cam: "they're strong because of their contribution to winning the rounds").
 
@@ -136,7 +136,7 @@
 
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 95 | Hanging Valley | B | none | Its world scores with one pip fewer. | Squall | Once | A permanence becomes its own world. |
+| 95 | Hanging Valley | B | none | +1 world point if this world has water earth fire air. | Squall | Once | A permanence becomes its own world. |
 
 **Three pips, rare: three different elements, start a new world (4).**
 
@@ -187,8 +187,8 @@
 | No. | Permanence | Rarity | Affinities | Permanence text | Force | Duration | Force text |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 84 | Shoal | C | 1 water | The permanence below this gains water. | Mist | Lasts the round | An air permanence becomes water. |
-| 87 | Meadow | C | 1 earth | The permanence across from this gains earth. | Mudslide | Lasts the round | A fire permanence becomes earth. |
-| 90 | Barrens | C | 1 fire | The permanence beside this gains fire. | Smoke | Lasts the round | A water permanence loses its affinities. |
+| 87 | Meadow | C | 1 earth | The permanence beside this gains earth. | Mudslide | Lasts the round | A fire permanence becomes earth. |
+| 90 | Barrens | C | 1 fire | The permanence across from this gains fire. | Smoke | Lasts the round | A water permanence loses its affinities. |
 | 93 | Ridge | C | 1 air | The permanence above this gains air. | Breeze | Lasts the round | A water permanence becomes air. |
 
 **Unique to one element: the element's effect, twisted (4).** Cam (Nov 11): the cards unique to one element lean into the effect and element relationship and double down, with an unusual twist on an existing mechanic left unique to that element; his example was an air return that brings back a card played in a previous round.

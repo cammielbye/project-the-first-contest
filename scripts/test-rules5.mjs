@@ -96,21 +96,22 @@ test("Caldera Lake plays only on a new world", () => {
   const ms = R.legalMoves(s, 0).filter((m) => m.id === id("Caldera Lake") && m.face === "perm");
   assert.ok(ms.length > 0 && ms.every((m) => m.w === "new"));
 });
-test("positional pips: Shoal gives the card below it water; Meadow the card across; Barrens the card beside; Ridge the card above", () => {
+test("positional pips: Shoal gives the card below it water; Meadow the card beside; Barrens the card across; Ridge the card above", () => {
   const s = table([], []);
-  const sh = put(s, 0, "Shoal"); const b = put(s, 0, "Bedrock", "Shoal", 2); const r = put(s, 0, "Ashfield", "Shoal", 1);
+  put(s, 0, "Shoal"); const b = put(s, 0, "Bedrock", "Shoal", 2); const r = put(s, 0, "Ashfield", "Shoal", 1);
   assert.deepEqual(R.view(s).tok[b.id], [Et, Wt]); // below
   assert.deepEqual(R.view(s).tok[r.id], [Ft]); // beside, not below
   const t = table([], []);
-  put(t, 0, "Meadow"); put(t, 0, "Glacier", "Meadow", 1); const x = put(t, 0, "Summit", "Meadow", 3);
-  assert.deepEqual(R.view(t).tok[x.id], [At, Et]); // across: the diagonal
+  put(t, 0, "Meadow"); const g = put(t, 0, "Glacier", "Meadow", 1); const x = put(t, 0, "Summit", "Meadow", 3);
+  assert.deepEqual(R.view(t).tok[g.id], [Wt, Et]); // beside (Cam, Nov 11)
+  assert.deepEqual(R.view(t).tok[x.id], [At]); // across gets nothing
   const u = table([], []);
-  put(u, 0, "Barrens"); const y = put(u, 0, "Glacier", "Barrens", 1);
-  assert.deepEqual(R.view(u).tok[y.id], [Wt, Ft]);
+  put(u, 0, "Barrens"); const y = put(u, 0, "Glacier", "Barrens", 1); const z = put(u, 0, "Summit", "Barrens", 3);
+  assert.deepEqual(R.view(u).tok[z.id], [At, Ft]); // across: the diagonal (Cam, Nov 11); Summit is unaffected by forces, and this isn't one
+  assert.deepEqual(R.view(u).tok[y.id], [Wt]);
   const v = table([], []);
   const top = put(v, 0, "Glacier"); put(v, 0, "Ridge", "Glacier", 2);
   assert.deepEqual(R.view(v).tok[top.id], [Wt, At]);
-  assert.ok(sh);
 });
 test("a gained pip completes a world: Shoal, Bedrock, Lava Field and Spire with the water below counted once", () => {
   const s = table([], []);
@@ -121,17 +122,20 @@ test("a gained pip completes a world: Shoal, Bedrock, Lava Field and Spire with 
   put(t, 0, "Summit", "Shoal", 3);
   assert.equal(R.score(t)[0].pts, 1);
 });
-test("Hanging Valley: its world scores with three different elements, or three of one element", () => {
+test("one world point per world counts affinities only: Hanging Valley's +1 and the scoring cycle add to it (Cam, Nov 11)", () => {
   const s = table([], []);
-  put(s, 0, "Hanging Valley"); put(s, 0, "Glacier", "Hanging Valley", 1); put(s, 0, "Bedrock", "Hanging Valley", 2);
+  put(s, 0, "Hanging Valley"); put(s, 0, "Hidden Valley", "Hanging Valley", 1); put(s, 0, "Glacier", "Hanging Valley", 2);
   assert.equal(R.score(s)[0].pts, 0);
-  put(s, 0, "Ashfield", "Hanging Valley", 3);
-  assert.equal(R.score(s)[0].pts, 1);
+  put(s, 0, "Bedrock", "Hanging Valley", 3); // any, any, water, earth: one of each element
+  assert.equal(R.score(s)[0].pts, 2);
   const t = table([], []);
-  put(t, 0, "Hanging Valley"); put(t, 0, "Deep Lake", "Hanging Valley", 1);
+  put(t, 0, "Hanging Valley"); put(t, 0, "Deep Lake", "Hanging Valley", 1); put(t, 0, "Glacier", "Hanging Valley", 2); // four of one element, not one of each
   assert.equal(R.score(t)[0].pts, 0);
-  put(t, 0, "Glacier", "Hanging Valley", 2);
+  put(t, 0, "Ice Floe", "Hanging Valley", 3);
   assert.equal(R.score(t)[0].pts, 1);
+  const u = table([], []);
+  put(u, 0, "Spring"); put(u, 0, "Lagoon", "Spring", 1); // four water: the world's point, and Spring's point per four water
+  assert.equal(R.score(u)[0].pts, 2);
 });
 test("Sinkhole: a held world loses nothing (no removal, no return, no move, no split)", () => {
   const s = table(["Cavern", "Caldera Lake", "Ice Sheet", "Spire", "Cloud Sea"], []);

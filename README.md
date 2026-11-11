@@ -68,7 +68,8 @@ fifth pass, Nov 11) and its five provisional 16-card binders (Water, Earth, Fire
 Even, drawn at random from the fourth pass until real ones are built; no pinnacles). Since
 Nov 11 a contest is best of three rounds with no card cap (Cam), and worlds go up to 2×2.
 Since Nov 10 a world with one of each element or four of one element scores a world point,
-a world scores one point at most, and there's no Perfect World:
+a world's affinities score one point at most (card effects such as Hanging Valley's add to
+it, Cam Nov 11), and there's no Perfect World:
 
 1. In the binder panel, choose your binder and the computer's, and the permanence you
    reveal (your most pips to start with, or none), then **Start the contest**. Whoever
@@ -186,7 +187,8 @@ Where a card's text leaves a question open, the engine picks one reading (marked
   after every other change, so "becomes" doesn't overwrite it, but a blanked card gets none.
 - Hanging Valley ("+1 world point if this world has" the four elements, ringed; Nov 9): "has" means the
   world's affinities can show each element at once, counted as for sets, so it adds one to any world
-  that scores. The point is that world's own, so it counts toward a world worth 3 world points.
+  that scores. The point is that world's own, so under the old scoring it counts toward a world
+  worth 3 world points.
 - Return (Cam, Nov 11, a rule): "return" can only put a card into its owner's binder, so card
   text keeps the short form ("Return a world."). In the engine a permanence's owner is the
   player who played it; a card played from the other player's void (Whirlpool, Nov 11) is
@@ -202,10 +204,12 @@ Where a card's text leaves a question open, the engine picks one reading (marked
   the table, a lasting force included.
 - Archipelago (10 water since Nov 7) and Cradle are checked at the start of their owner's
   turns, so not after they pass. A drawn round counts for both players; openers alternate.
-- World points (Nov 10): a world scores one world point for one of each element or four of
-  one element, and one point at most. Either-or and any pips count toward four of one
-  element as they do toward a set. Hanging Valley's +1 adds nothing under this rule. There's
-  no Perfect World (`--sets` brings back the old scoring and the Perfect World).
+- World points (Nov 10): a world's affinities score one world point for one of each element or
+  four of one element, and one point at most. Either-or and any pips count toward four of one
+  element as they do toward a set. Card effects add to that (Cam, Nov 11: the one world point
+  per world "is only from affinities, not card effects like the mountain range cycle"), so a
+  world with Hanging Valley and one of each element scores 2. There's no Perfect World
+  (`--sets` brings back the old scoring and the Perfect World).
 - One round and no cap (Nov 7; the default Nov 8–10, `--bo1` since Nov 11): the round's winner
   wins the contest, and a player can play down to their last card. Passing stays, as a way
   to stop (a concession, in effect). With no cap the computer never passes just because
@@ -223,12 +227,10 @@ Where a card's text leaves a question open, the engine picks one reading (marked
   cards you played last round") takes up to two, as Equinox takes up to three.
 - Cyclone and Tornado return cards from your void that you played last round, to your binder;
   Meteor removes a permanence played in the turn just before (either player's).
-- Positional pips (Shoal, Meadow, Barrens, Ridge: "The permanence below this gains water."):
-  in a 2×2 world each direction names one cell (across is the diagonal); the pip is added after
+- Positional pips (Shoal below, Ridge above, Meadow beside, Barrens across: "The permanence below
+  this gains water."): in a 2×2 world each direction names one cell (across is the diagonal); the pip is added after
   every change of element and before nothing else, so "becomes" doesn't overwrite it, and a
   blanked permanence gains nothing. In open worlds "beside" and "across" name every cell that way.
-- Hanging Valley (Nov 11: "Its world scores with one pip fewer."): three different elements,
-  or three of one element, make that world's point.
 - Sinkhole ("A world can't lose permanences."): nothing in that world is removed, returned,
   moved out or split off; a force can still be aimed at the world, and does what it can.
 - "Play only on your first turn" is the player's first turn of the round; "Play only on a

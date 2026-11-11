@@ -1,7 +1,7 @@
 {
   "source": "data/card-pool.md",
   "pass": "Fifth pass: playable again (Nov 11, 2026)",
-  "syncedAt": "2026-11-11T12:21:27.151Z",
+  "syncedAt": "2026-11-11T12:58:06.045Z",
   "counts": {
     "cards": 100,
     "meta": 14,
@@ -1528,7 +1528,7 @@
         "affinities": [
           "earth"
         ],
-        "text": "The permanence across from this gains earth."
+        "text": "The permanence beside this gains earth."
       },
       "force": {
         "name": "Mudslide",
@@ -1582,7 +1582,7 @@
         "affinities": [
           "fire"
         ],
-        "text": "The permanence beside this gains fire."
+        "text": "The permanence across from this gains fire."
       },
       "force": {
         "name": "Smoke",
@@ -1671,7 +1671,7 @@
       "permanence": {
         "name": "Hanging Valley",
         "affinities": [],
-        "text": "Its world scores with one pip fewer."
+        "text": "+1 world point if this world has water earth fire air."
       },
       "force": {
         "name": "Squall",

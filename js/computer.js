@@ -329,7 +329,7 @@ export function createComputer(ctx) {
       h("h2", { class: "binder-pick-title", text: "Play the computer" }),
       h("p", {
         class: "hint",
-        text: "The page applies every card's rules and the computer plays the other seat. Best of three rounds, with no limit on cards a round: your binder has to last all three. Worlds go up to 2×2. A world with one of each element, or four of one element, scores a world point, and a world scores one point at most. Before the contest each player may reveal a permanence: whoever reveals the most pips goes second (a tie is a coin flip).",
+        text: "The page applies every card's rules and the computer plays the other seat. Best of three rounds, with no limit on cards a round: your binder has to last all three. Worlds go up to 2×2. A world with one of each element, or four of one element, scores a world point, and a world's affinities score one point at most (card effects can add more). Before the contest each player may reveal a permanence: whoever reveals the most pips goes second (a tie is a coin flip).",
       })
     );
     for (const [which, title] of [["mine", "Your binder"], ["theirs", "The computer's binder"]]) {
