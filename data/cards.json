@@ -1,7 +1,7 @@
 {
   "source": "data/card-pool.md",
   "pass": "Fourth pass: the pool by pip count (Nov 8, 2026)",
-  "syncedAt": "2026-11-11T11:24:49.206Z",
+  "syncedAt": "2026-11-11T11:30:40.076Z",
   "counts": {
     "cards": 86,
     "meta": 8,
@@ -35,11 +35,9 @@
   "warnings": [
     "Fourth pass: the pool by pip count (Nov 8, 2026): table skipped (header: no. | placeholder | what it's for)",
     "Fourth pass: the pool by pip count (Nov 8, 2026): table skipped (header: no. | placeholder | element | what it's for)",
-    "Binder A, Water: no force face yet for Archipelago",
     "Binder B, Earth: no force face yet for Lava Plain",
-    "Binder C, Fire: no force face yet for Sand Sea",
     "Binder D, Air: no force face yet for Sand Sea",
-    "Binder E, Even: no force face yet for Archipelago, Boiling Lake"
+    "Binder E, Even: no force face yet for Boiling Lake"
   ],
   "cards": [
     {

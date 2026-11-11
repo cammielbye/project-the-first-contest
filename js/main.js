@@ -448,9 +448,9 @@ function renderTopbar() {
   );
 }
 
-// The binder is an old leather album open flat: two pages of nine pockets. Every card keeps
+// The binder is an old leather album open flat: two pages of four pockets, 2x2 (Cam, Nov 11: 16 cards fill four pages). Every card keeps
 // its pocket (the binder's order); a card that's out leaves an empty sleeve saying where it is.
-const PER_PAGE = 9;
+const PER_PAGE = 4;
 function binderSlots(priv) {
   const b = binders.find((x) => x.id === priv.binderId);
   const ids = b ? [...new Set(b.cards.map(String))].filter((id) => cardsById.has(id)) : priv.cards.map((c) => c.id);
@@ -466,7 +466,7 @@ function fitBinder() {
   const panel = $("#binderPanel");
   if (!panel || !ui.binderOpen) return;
   const w = panel.clientWidth - 28 - 30, hgt = panel.clientHeight - 110;
-  const sc = Math.max(0.16, Math.min((w - 174) / 1920, (hgt - 160) / 1344, 0.5));
+  const sc = Math.max(0.16, Math.min((w - 174) / 1280, (hgt - 160) / 896, 0.75)); // two 2x2 pages side by side
   panel.style.setProperty("--bs", sc.toFixed(3));
 }
 function spineSvg(hgt) {
@@ -543,7 +543,7 @@ function renderBinder() {
 // An empty sleeve, saying where its card went.
 const goneSleeve = (label, where) => h("div", { class: "gone" }, h("span", {}, h("b", { text: label }), where));
 
-// The album, for either opponent: two pages of nine pockets, page tabs on top, the
+// The album, for either opponent: two pages of four pockets (2x2), page tabs on top, the
 // permanence/force tabs down the right edge. fillPocket(pocket, id) fills one pocket.
 function buildAlbum(panel, { name, owner, slots, keys, fillPocket }) {
   fitBinder();

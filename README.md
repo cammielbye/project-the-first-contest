@@ -106,7 +106,7 @@ The rules live in `js/game/rules.js` and the opponent in `js/game/ai.js`. The sa
 files run in node. Since Nov 10 the simulator and the table play the same rules by default:
 one round, no card cap, worlds of up to 2×2, and one world point at most per world (one of
 each element or four of one element), with no Perfect World. The simulator's random binders
-hold 16 cards since Nov 11 (9 commons, 4 uncommons, 3 rares; Cam: four binder pages of 2×2). Switches (scripts/lib/rule-flags.mjs):
+hold 16 cards since Nov 11 (10 commons, 4 uncommons, 2 rares; Cam: four binder pages of 2×2). Switches (scripts/lib/rule-flags.mjs):
 `--bo3` best of three, `--cap` or `--cap=N` a cap of 10 or N cards a round, `--open` open
 worlds with no size cap (the simulator's default Nov 8–9), `--sets` the scoring before
 Nov 10 (a point per complete set, Perfect World at 3).
@@ -128,7 +128,7 @@ node scripts/sim3-pair.mjs 250 --aiA bigWorld=2 --aiB bigWorld=2
 node scripts/sim-formats.mjs 1500 --json f.json   # the same random binders under 12 formats (Nov 10): 2x2 or open
                                  # worlds; one round or best of three; no cap, or a cap of 5, 7 or 10
 node scripts/sim3-rate.mjs 4000 --quick --json r.json --csv r.csv
-                                 # card ratings (Nov 8): random legal binders (16 cards: 9/4/3, leaning
+                                 # card ratings (Nov 8): random legal binders (16 cards: 10/4/2, leaning
                                  # none, one or two elements), computer styles drawn at random,
                                  # every card rated against an average card of its rarity, plus
                                  # results by lean, element and style; uses every processor

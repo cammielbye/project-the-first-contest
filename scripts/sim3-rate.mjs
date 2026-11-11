@@ -1,5 +1,5 @@
 // Card ratings from random binders (Nov 8). Each contest, each side gets a random legal binder: one of each card,
-// 16 cards since Nov 11, 15 from Nov 8 (9 commons, 4 uncommons and 3 rares; meta cards counted at their rarity), no pinnacles or Origin, leaning toward
+// 16 cards since Nov 11, 15 from Nov 8 (10 commons, 4 uncommons and 2 rares; meta cards counted at their rarity), no pinnacles or Origin, leaning toward
 // none, one or two elements. Every card is then rated by how much having it in a binder changes the chance of
 // winning, against an average card of its rarity, with the other 14 cards accounted for (a logistic regression).
 //

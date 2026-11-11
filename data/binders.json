@@ -1,6 +1,6 @@
 {
   "about": "Generated from data/card-pool.md by scripts/sync-cards.mjs. Edit the binders there, not here.",
-  "syncedAt": "2026-11-11T11:24:49.206Z",
+  "syncedAt": "2026-11-11T11:30:40.076Z",
   "binders": [
     {
       "id": "binder-a-water",
@@ -21,8 +21,8 @@
         "40",
         "65",
         "59",
-        "49",
-        "14"
+        "14",
+        "15"
       ],
       "originals": []
     },
@@ -44,9 +44,9 @@
         "24",
         "21",
         "56",
-        "53",
         "47",
-        "86"
+        "86",
+        "19"
       ],
       "originals": []
     },
@@ -69,8 +69,8 @@
         "36",
         "67",
         "45",
-        "57",
-        "16"
+        "16",
+        "19"
       ],
       "originals": []
     },
@@ -92,9 +92,9 @@
         "meta-equinox",
         "25",
         "57",
-        "64",
         "46",
-        "17"
+        "17",
+        "12"
       ],
       "originals": []
     },
@@ -115,10 +115,10 @@
         "meta-horizon",
         "22",
         "37",
-        "49",
         "50",
         "54",
-        "10"
+        "10",
+        "16"
       ],
       "originals": []
     }

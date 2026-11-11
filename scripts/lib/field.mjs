@@ -36,11 +36,11 @@ export function addFaceCards() {
 }
 export const sideLabel = (d) => (d.only === "perm" ? `${d.name} (permanence)` : d.only === "force" ? `${d.fname} (force of ${d.name})` : d.name);
 
-// one of each card, 16 cards (Cam, Nov 11: four binder pages of 2x2; 15 from Nov 8): 9 commons, 4 uncommons, 3 rares (meta cards at their rarity), no pinnacles or Origin,
+// one of each card, 16 cards (Cam, Nov 11: four binder pages of 2x2; 15 from Nov 8): 10 commons, 4 uncommons, 2 rares (Cam, Nov 11) (meta cards at their rarity), no pinnacles or Origin,
 // leaning toward no element (20%), one (30%) or two (50%): a card's weight is 1 + 3 x its share of rings in the lean
 const POOL = Object.values(C).filter((d) => d.rarity !== "S");
 const byRarity = { C: POOL.filter((d) => d.rarity === "C"), B: POOL.filter((d) => d.rarity === "B"), A: POOL.filter((d) => d.rarity === "A") };
-export const TEMPLATE = { C: 9, B: 4, A: 3 }; // 16 cards since Nov 11 (8/4/3 = 15 from Nov 8; 14/7/4 = 25 before)
+export const TEMPLATE = { C: 10, B: 4, A: 2 }; // 16 cards since Nov 11 (8/4/3 = 15 from Nov 8; 14/7/4 = 25 before)
 let _pf = null;
 const POOL_FACES = () => {
   if (_pf) return _pf;
