@@ -60,6 +60,7 @@ export function rulesHtml(text) {
   return esc(text)
     .replace(/\b(becomes?|become)\s+(fire|water|air|earth)\b/gi, (_, v, e) => `${v} \u0000R${e.toLowerCase()}\u0000`)
     .replace(/\+1\s+(fire|water|air|earth)\b/gi, (_, e) => `+1 \u0000R${e.toLowerCase()}\u0000`)
+    .replace(/\bgains\s+(fire|water|air|earth)\b/gi, (_, e) => `gains \u0000R${e.toLowerCase()}\u0000`) // a pip (Nov 11, positional)
     .replace(/\bhas((?:\s+(?:fire|water|air|earth)\b)+)/gi, (_, list) => "has " + `<span style="white-space:nowrap">${list.trim().replace(/(fire|water|air|earth)/gi, (e) => `\u0000R${e.toLowerCase()}\u0000`)}</span>`)
     .replace(/\b(fire|water|air|earth)\b/gi, (_, e) => `\u0000B${e.toLowerCase()}\u0000`)
     .replace(/\u0000([RB])(fire|water|air|earth)\u0000([.,;:]?)/g, (_, k, e, p) => `<span style="white-space:nowrap">${k === "R" ? ringedSym(e) : bareSym(e)}${p}</span>`);

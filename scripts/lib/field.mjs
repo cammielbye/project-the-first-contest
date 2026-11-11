@@ -1,4 +1,4 @@
-import { contestOpts } from "./rule-flags.mjs";
+import { contestOpts, openerFor } from "./rule-flags.mjs";
 // Shared by sim3-rate.mjs and sim3-sweep.mjs: random binders, one contest, and running many on worker threads.
 // Contest k of a run is set up from its own seed (binders, styles, first player), so two runs with the same seed
 // play the same match-ups: a sweep compares rule settings on paired contests.
@@ -84,8 +84,8 @@ export function playOne(seed, cfg) {
     A.ids[A.ids.indexOf(same[Math.floor(setup() * same.length)])] = id;
   }
   const styles = [0, 1].map(() => cfg.styles[Math.floor(setup() * cfg.styles.length)]);
-  const opener = setup() < 0.5 ? 0 : 1;
-  const s = R.newContest(A.ids, B.ids, opener, ["A", "B"], { ...contestOpts(cfg), knobs: cfg.knobs || null });
+  const { opener, reveals, byCoin } = openerFor(cfg, A.ids, B.ids, setup()); // the reveal (Nov 11), or the coin with --coin
+  const s = R.newContest(A.ids, B.ids, opener, ["A", "B"], { ...contestOpts(cfg), knobs: cfg.knobs || null, reveals });
   const ai = styles.map((st) => makeAI(Object.assign({ rng, style: st }, cfg.quick ? { ply: 1 } : {}, cfg.ai || {})));
   const played = [[], []];
   R.advance(s);
@@ -95,7 +95,7 @@ export function playOne(seed, cfg) {
     if (m) { played[P].push(m.id); R.play(s, P, m); } else R.pass(s, P);
   }
   if (s.phase !== "contestOver") return null;
-  return { a: A.ids, b: B.ids, lean: [A.lean, B.lean], styles, opener, winner: s.winner, why: s.why === "rounds" ? s.rounds[s.rounds.length - 1].why : s.why, played };
+  return { a: A.ids, b: B.ids, lean: [A.lean, B.lean], styles, opener, byCoin, revealPips: reveals ? reveals.map(R.revealPips) : null, winner: s.winner, why: s.why === "rounds" ? s.rounds[s.rounds.length - 1].why : s.why, played };
 }
 
 // contests from..from+n-1 of the run with this seed, spread over worker threads

@@ -542,6 +542,11 @@ button.icon-btn:hover:not(:disabled) { background: #ffffff10; color: var(--text)
 .binder-pick-sub { font: 400 19px "IM Fell English", "Cormorant Garamond", Georgia, serif; color: #d8c29a; margin: 20px 0 0; }
 .binder-choice.on { background-color: #5c3a25; box-shadow: inset 0 0 30px rgba(0, 0, 0, .45), 0 0 0 2px #e2c08c, 0 10px 22px rgba(0, 0, 0, .55); }
 .binder-choice.on::after { content: "chosen"; position: absolute; top: 10px; right: 14px; font: 10.5px "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: #f0d9a8; }
+/* the reveal (Nov 11): a permanence from your binder, most pips first */
+.reveal-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.reveal-chip { font: 12px "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .04em; color: #e2cfae; background: #4a2e1e; border: 1px solid rgba(226, 192, 140, .35); border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+.reveal-chip:hover { background: #573623; }
+.reveal-chip.on { background: #5c3a25; color: #f3e4c4; border-color: #e2c08c; box-shadow: 0 0 0 1px #e2c08c; }
 .cpu-start { margin: 22px 0 10px; }
 .cpu-start button { font-size: 15px; padding: 8px 20px; }
 .vs-computer #binderPanel .pocket .card { cursor: pointer; }

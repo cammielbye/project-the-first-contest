@@ -3,7 +3,7 @@
 //        [--bo3] [--cap] [--square]   the rule switches, as in sim3-pair.mjs (default: one round, no cap, open worlds)
 //        [--ai k=v,k=v]               options for both computers, e.g. bigWorld=2
 //        [--from a.json,b.json]       skip playing: summarize saved runs together
-import { ruleFlags, contestOpts } from "./lib/rule-flags.mjs";
+import { ruleFlags, contestOpts, openerFor } from "./lib/rule-flags.mjs";
 import { readFileSync, writeFileSync } from "node:fs";
 import * as R from "../js/game/rules.js";
 import { makeAI } from "../js/game/ai.js";
@@ -30,8 +30,8 @@ function contest() {
   const ia = Math.floor(rng() * field.length), ib = Math.floor(rng() * field.length);
   const A = field[ia], B = field[ib];
   const names = ia === ib ? [`${short(A)} 1`, `${short(B)} 2`] : [short(A), short(B)];
-  const opener = rng() < 0.5 ? 0 : 1;
-  const s = R.newContest(A.cards, B.cards, opener, names, contestOpts(FL));
+  const { opener, reveals } = openerFor(FL, A.cards, B.cards, rng()); // the reveal (Nov 11), or the coin with --coin
+  const s = R.newContest(A.cards, B.cards, opener, names, { ...contestOpts(FL), reveals });
   const ai = [makeAI(Object.assign({ rng }, aiOpts)), makeAI(Object.assign({ rng }, aiOpts))];
   const plays = [0, 0];
   R.advance(s);

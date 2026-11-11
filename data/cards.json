@@ -1,50 +1,29 @@
 {
   "source": "data/card-pool.md",
-  "pass": "Fourth pass: the pool by pip count (Nov 8, 2026)",
-  "syncedAt": "2026-11-11T11:30:40.076Z",
+  "pass": "Fifth pass: playable again (Nov 11, 2026)",
+  "syncedAt": "2026-11-11T12:21:27.151Z",
   "counts": {
-    "cards": 86,
-    "meta": 8,
-    "withForceFace": 71,
+    "cards": 100,
+    "meta": 14,
+    "withForceFace": 86,
     "byRarity": {
-      "C": 23,
-      "B": 34,
+      "C": 29,
+      "B": 42,
       "A": 24,
       "S": 5
     },
     "fromSection": {
-      "Fourth pass: the pool by pip count (Nov 8, 2026)": 86
+      "Fifth pass: playable again (Nov 11, 2026)": 100
     }
   },
-  "missingNumbers": [
-    77,
-    78,
-    79,
-    80,
-    81,
-    82,
-    84,
-    85,
-    87,
-    88,
-    90,
-    91,
-    93,
-    94
-  ],
-  "warnings": [
-    "Fourth pass: the pool by pip count (Nov 8, 2026): table skipped (header: no. | placeholder | what it's for)",
-    "Fourth pass: the pool by pip count (Nov 8, 2026): table skipped (header: no. | placeholder | element | what it's for)",
-    "Binder B, Earth: no force face yet for Lava Plain",
-    "Binder D, Air: no force face yet for Sand Sea",
-    "Binder E, Even: no force face yet for Boiling Lake"
-  ],
+  "missingNumbers": [],
+  "warnings": [],
   "cards": [
     {
       "id": "1",
       "no": 1,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Glacier",
         "affinities": [
@@ -62,7 +41,7 @@
       "id": "2",
       "no": 2,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Bedrock",
         "affinities": [
@@ -80,7 +59,7 @@
       "id": "3",
       "no": 3,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Lava Field",
         "affinities": [
@@ -89,16 +68,16 @@
         "text": "Can't be moved."
       },
       "force": {
-        "name": "Spark",
+        "name": "Ash",
         "duration": "Lasts the round",
-        "text": "An air permanence with one affinity becomes fire."
+        "text": "An earth permanence loses its affinities."
       }
     },
     {
       "id": "4",
       "no": 4,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Spire",
         "affinities": [
@@ -116,7 +95,7 @@
       "id": "5",
       "no": 5,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Tide Pool",
         "affinities": [
@@ -127,14 +106,14 @@
       "force": {
         "name": "Drizzle",
         "duration": "Lasts the round",
-        "text": "A fire permanence with one affinity loses it."
+        "text": "A fire permanence loses its affinities."
       }
     },
     {
       "id": "6",
       "no": 6,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Stone Field",
         "affinities": [
@@ -145,14 +124,14 @@
       "force": {
         "name": "Dust",
         "duration": "Lasts the round",
-        "text": "An air permanence with one affinity loses it."
+        "text": "An air permanence loses its affinities."
       }
     },
     {
       "id": "7",
       "no": 7,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Ashfield",
         "affinities": [
@@ -170,7 +149,7 @@
       "id": "8",
       "no": 8,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Summit",
         "affinities": [
@@ -188,7 +167,7 @@
       "id": "9",
       "no": 9,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Snowfield",
         "affinities": [
@@ -206,7 +185,7 @@
       "id": "10",
       "no": 10,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Grove",
         "affinities": [
@@ -224,7 +203,7 @@
       "id": "11",
       "no": 11,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Lava Flow",
         "affinities": [
@@ -242,7 +221,7 @@
       "id": "12",
       "no": 12,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Bluff",
         "affinities": [
@@ -260,7 +239,7 @@
       "id": "13",
       "no": 13,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Marsh",
         "affinities": [
@@ -278,7 +257,7 @@
       "id": "14",
       "no": 14,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Steam Vent",
         "affinities": [
@@ -296,7 +275,7 @@
       "id": "15",
       "no": 15,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Sea Stack",
         "affinities": [
@@ -314,7 +293,7 @@
       "id": "16",
       "no": 16,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Flint",
         "affinities": [
@@ -323,16 +302,16 @@
         "text": ""
       },
       "force": {
-        "name": "Sinkhole",
-        "duration": "Once",
-        "text": "An earth permanence with one affinity becomes its own world."
+        "name": "Spark",
+        "duration": "Lasts the round",
+        "text": "An air permanence loses its affinities."
       }
     },
     {
       "id": "17",
       "no": 17,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Pass",
         "affinities": [
@@ -350,7 +329,7 @@
       "id": "18",
       "no": 18,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Scrubland",
         "affinities": [
@@ -368,7 +347,7 @@
       "id": "19",
       "no": 19,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Wilderness",
         "affinities": [
@@ -386,7 +365,7 @@
       "id": "20",
       "no": 20,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Delta",
         "affinities": [
@@ -405,7 +384,7 @@
       "id": "21",
       "no": 21,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Hot Spring",
         "affinities": [
@@ -417,14 +396,14 @@
       "force": {
         "name": "Scald",
         "duration": "Once",
-        "text": "Remove a fire or earth permanence with one affinity."
+        "text": "Remove a fire or earth permanence."
       }
     },
     {
       "id": "22",
       "no": 22,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Cloud Forest",
         "affinities": [
@@ -443,7 +422,7 @@
       "id": "23",
       "no": 23,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Volcano",
         "affinities": [
@@ -455,14 +434,14 @@
       "force": {
         "name": "Lava Bomb",
         "duration": "Once",
-        "text": "Remove an earth or air permanence with one affinity."
+        "text": "Remove an earth or air permanence."
       }
     },
     {
       "id": "24",
       "no": 24,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Sea Cliff",
         "affinities": [
@@ -481,7 +460,7 @@
       "id": "25",
       "no": 25,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Desert",
         "affinities": [
@@ -500,7 +479,7 @@
       "id": "26",
       "no": 26,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Mangrove",
         "affinities": [
@@ -519,7 +498,7 @@
       "id": "27",
       "no": 27,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Mud Pots",
         "affinities": [
@@ -538,7 +517,7 @@
       "id": "28",
       "no": 28,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Waterfall",
         "affinities": [
@@ -557,7 +536,7 @@
       "id": "29",
       "no": 29,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Cinder Cone",
         "affinities": [
@@ -576,7 +555,7 @@
       "id": "30",
       "no": 30,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Canyon",
         "affinities": [
@@ -595,7 +574,7 @@
       "id": "31",
       "no": 31,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Savanna",
         "affinities": [
@@ -614,7 +593,7 @@
       "id": "32",
       "no": 32,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Spring",
         "affinities": [
@@ -633,7 +612,7 @@
       "id": "33",
       "no": 33,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Mountain Range",
         "affinities": [
@@ -642,13 +621,17 @@
         ],
         "text": "Score a point per four earth affinities."
       },
-      "force": null
+      "force": {
+        "name": "Rockslide",
+        "duration": "Lasts the round",
+        "text": "An air permanence becomes earth."
+      }
     },
     {
       "id": "34",
       "no": 34,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Fumarole",
         "affinities": [
@@ -667,7 +650,7 @@
       "id": "35",
       "no": 35,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Sky Isle",
         "affinities": [
@@ -686,7 +669,7 @@
       "id": "36",
       "no": 36,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Tidal Flat",
         "affinities": [
@@ -698,14 +681,14 @@
       "force": {
         "name": "Hail",
         "duration": "Once",
-        "text": "Remove a fire or air permanence with one affinity."
+        "text": "Remove a fire or air permanence."
       }
     },
     {
       "id": "37",
       "no": 37,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Old Growth",
         "affinities": [
@@ -724,7 +707,7 @@
       "id": "38",
       "no": 38,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Obsidian",
         "affinities": [
@@ -743,7 +726,7 @@
       "id": "39",
       "no": 39,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Hidden Valley",
         "affinities": [
@@ -755,14 +738,14 @@
       "force": {
         "name": "Landslide",
         "duration": "Once",
-        "text": "Remove an air or water permanence with one affinity."
+        "text": "Remove an air or water permanence."
       }
     },
     {
       "id": "40",
       "no": 40,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Deep Lake",
         "affinities": [
@@ -781,7 +764,7 @@
       "id": "41",
       "no": 41,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Plateau",
         "affinities": [
@@ -800,7 +783,7 @@
       "id": "42",
       "no": 42,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Lava Lake",
         "affinities": [
@@ -819,7 +802,7 @@
       "id": "43",
       "no": 43,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Twin Peaks",
         "affinities": [
@@ -838,7 +821,7 @@
       "id": "44",
       "no": 44,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Mirage",
         "affinities": [],
@@ -854,7 +837,7 @@
       "id": "45",
       "no": 45,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Caldera Lake",
         "affinities": [
@@ -862,7 +845,7 @@
           "earth",
           "fire"
         ],
-        "text": ""
+        "text": "Play only on a new world."
       },
       "force": {
         "name": "Collapse",
@@ -874,7 +857,7 @@
       "id": "46",
       "no": 46,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Rainforest",
         "affinities": [
@@ -882,7 +865,7 @@
           "earth",
           "air"
         ],
-        "text": ""
+        "text": "Play only on a new world."
       },
       "force": {
         "name": "Monsoon",
@@ -894,7 +877,7 @@
       "id": "47",
       "no": 47,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Geyser Basin",
         "affinities": [
@@ -902,7 +885,7 @@
           "fire",
           "air"
         ],
-        "text": ""
+        "text": "Play only on a new world."
       },
       "force": {
         "name": "Typhoon",
@@ -914,7 +897,7 @@
       "id": "48",
       "no": 48,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Red Canyon",
         "affinities": [
@@ -922,15 +905,19 @@
           "fire",
           "air"
         ],
-        "text": ""
+        "text": "Play only on a new world."
       },
-      "force": null
+      "force": {
+        "name": "Erosion",
+        "duration": "Lasts the round",
+        "text": "Two permanences lose their affinities."
+      }
     },
     {
       "id": "49",
       "no": 49,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Archipelago",
         "affinities": [
@@ -940,13 +927,17 @@
         ],
         "text": ""
       },
-      "force": null
+      "force": {
+        "name": "Surge",
+        "duration": "Once",
+        "text": "Return a permanence and its adjacent permanences."
+      }
     },
     {
       "id": "50",
       "no": 50,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Boiling Lake",
         "affinities": [
@@ -956,13 +947,17 @@
         ],
         "text": ""
       },
-      "force": null
+      "force": {
+        "name": "Torrent",
+        "duration": "Once",
+        "text": "Return two fire permanences."
+      }
     },
     {
       "id": "51",
       "no": 51,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Misty Fjord",
         "affinities": [
@@ -982,7 +977,7 @@
       "id": "52",
       "no": 52,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Floodplain",
         "affinities": [
@@ -1002,7 +997,7 @@
       "id": "53",
       "no": 53,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Smoking Hills",
         "affinities": [
@@ -1022,7 +1017,7 @@
       "id": "54",
       "no": 54,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Highlands",
         "affinities": [
@@ -1042,7 +1037,7 @@
       "id": "55",
       "no": 55,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Lava Coast",
         "affinities": [
@@ -1062,7 +1057,7 @@
       "id": "56",
       "no": 56,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Lava Plain",
         "affinities": [
@@ -1072,13 +1067,17 @@
         ],
         "text": ""
       },
-      "force": null
+      "force": {
+        "name": "Magma",
+        "duration": "Once",
+        "text": "Remove two adjacent permanences."
+      }
     },
     {
       "id": "57",
       "no": 57,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Sand Sea",
         "affinities": [
@@ -1088,13 +1087,17 @@
         ],
         "text": ""
       },
-      "force": null
+      "force": {
+        "name": "Supercell",
+        "duration": "Once",
+        "text": "Remove two lone permanences."
+      }
     },
     {
       "id": "58",
       "no": 58,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Cloud Sea",
         "affinities": [
@@ -1114,7 +1117,7 @@
       "id": "59",
       "no": 59,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Stone Towers",
         "affinities": [
@@ -1134,7 +1137,7 @@
       "id": "60",
       "no": 60,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "High Desert",
         "affinities": [
@@ -1147,14 +1150,14 @@
       "force": {
         "name": "Tornado",
         "duration": "Once",
-        "text": "Return two permanences."
+        "text": "Return two cards you played last round."
       }
     },
     {
       "id": "61",
       "no": 61,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Lagoon",
         "affinities": [
@@ -1162,19 +1165,19 @@
           "water",
           "water"
         ],
-        "text": ""
+        "text": "Play only on your first turn."
       },
       "force": {
         "name": "Flash Flood",
         "duration": "Once",
-        "text": "Remove a world's fire permanences."
+        "text": "Remove two fire permanences."
       }
     },
     {
       "id": "62",
       "no": 62,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Moor",
         "affinities": [
@@ -1182,19 +1185,19 @@
           "earth",
           "earth"
         ],
-        "text": ""
+        "text": "Play only on your first turn."
       },
       "force": {
         "name": "Avalanche",
         "duration": "Once",
-        "text": "Remove a world's air permanences."
+        "text": "Remove two air permanences."
       }
     },
     {
       "id": "63",
       "no": 63,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Cinder Field",
         "affinities": [
@@ -1202,19 +1205,19 @@
           "fire",
           "fire"
         ],
-        "text": ""
+        "text": "Play only on your first turn."
       },
       "force": {
         "name": "Wildfire",
         "duration": "Once",
-        "text": "Remove a world's earth permanences."
+        "text": "Remove two earth permanences."
       }
     },
     {
       "id": "64",
       "no": 64,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Peak",
         "affinities": [
@@ -1222,19 +1225,19 @@
           "air",
           "air"
         ],
-        "text": ""
+        "text": "Play only on your first turn."
       },
       "force": {
         "name": "Drought",
         "duration": "Once",
-        "text": "Remove a world's water permanences."
+        "text": "Remove two water permanences."
       }
     },
     {
       "id": "65",
       "no": 65,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Ice Sheet",
         "affinities": [
@@ -1252,7 +1255,7 @@
       "id": "66",
       "no": 66,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Thicket",
         "affinities": [
@@ -1270,7 +1273,7 @@
       "id": "67",
       "no": 67,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Badlands",
         "affinities": [
@@ -1288,7 +1291,7 @@
       "id": "68",
       "no": 68,
       "rarity": "A",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Wind Gap",
         "affinities": [
@@ -1299,14 +1302,14 @@
       "force": {
         "name": "Downdraft",
         "duration": "Once",
-        "text": "A fire permanence with one affinity becomes its own world."
+        "text": "A fire permanence becomes its own world."
       }
     },
     {
       "id": "meta-echo",
       "no": 69,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "meta": {
         "name": "Echo",
         "text": "Play a card from your void."
@@ -1316,7 +1319,7 @@
       "id": "meta-hollow",
       "no": 70,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "meta": {
         "name": "Hollow",
         "text": "Return a card from your void."
@@ -1326,7 +1329,7 @@
       "id": "meta-equinox",
       "no": 71,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "meta": {
         "name": "Equinox",
         "text": "Return 3 cards from your void."
@@ -1336,7 +1339,7 @@
       "id": "meta-verge",
       "no": 72,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "meta": {
         "name": "Verge",
         "text": "Play two more cards this turn."
@@ -1346,7 +1349,7 @@
       "id": "meta-lull",
       "no": 73,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "meta": {
         "name": "Lull",
         "text": "Your opponent skips their next turn."
@@ -1356,7 +1359,7 @@
       "id": "meta-ebb",
       "no": 74,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "meta": {
         "name": "Ebb",
         "text": "Remove your opponent's last common."
@@ -1366,7 +1369,7 @@
       "id": "meta-horizon",
       "no": 75,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "meta": {
         "name": "Horizon",
         "text": "Remove a card from your opponent's binder."
@@ -1376,17 +1379,77 @@
       "id": "meta-calm",
       "no": 76,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "meta": {
         "name": "Calm",
         "text": "No forces this round."
       }
     },
     {
+      "id": "meta-aftershock",
+      "no": 77,
+      "rarity": "B",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "meta": {
+        "name": "Aftershock",
+        "text": "Your opponent takes the next two turns."
+      }
+    },
+    {
+      "id": "meta-stillness",
+      "no": 78,
+      "rarity": "B",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "meta": {
+        "name": "Stillness",
+        "text": "Your opponent passes."
+      }
+    },
+    {
+      "id": "meta-sunlight",
+      "no": 79,
+      "rarity": "B",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "meta": {
+        "name": "Sunlight",
+        "text": "Remove every force."
+      }
+    },
+    {
+      "id": "meta-weathering",
+      "no": 80,
+      "rarity": "B",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "meta": {
+        "name": "Weathering",
+        "text": "Return the last card your opponent played."
+      }
+    },
+    {
+      "id": "meta-thunder",
+      "no": 81,
+      "rarity": "B",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "meta": {
+        "name": "Thunder",
+        "text": "Play once more after both players pass."
+      }
+    },
+    {
+      "id": "meta-haze",
+      "no": 82,
+      "rarity": "B",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "meta": {
+        "name": "Haze",
+        "text": "Your opponent can't play forces next turn."
+      }
+    },
+    {
       "id": "83",
       "no": 83,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Ice Floe",
         "affinities": [
@@ -1401,10 +1464,47 @@
       }
     },
     {
+      "id": "84",
+      "no": 84,
+      "rarity": "C",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "permanence": {
+        "name": "Shoal",
+        "affinities": [
+          "water"
+        ],
+        "text": "The permanence below this gains water."
+      },
+      "force": {
+        "name": "Mist",
+        "duration": "Lasts the round",
+        "text": "An air permanence becomes water."
+      }
+    },
+    {
+      "id": "85",
+      "no": 85,
+      "rarity": "B",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "permanence": {
+        "name": "Fen",
+        "affinities": [
+          "water",
+          "earth"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Whirlpool",
+        "duration": "Once",
+        "text": "Play a card from a void."
+      }
+    },
+    {
       "id": "86",
       "no": 86,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Hill",
         "affinities": [
@@ -1419,10 +1519,46 @@
       }
     },
     {
+      "id": "87",
+      "no": 87,
+      "rarity": "C",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "permanence": {
+        "name": "Meadow",
+        "affinities": [
+          "earth"
+        ],
+        "text": "The permanence across from this gains earth."
+      },
+      "force": {
+        "name": "Mudslide",
+        "duration": "Lasts the round",
+        "text": "A fire permanence becomes earth."
+      }
+    },
+    {
+      "id": "88",
+      "no": 88,
+      "rarity": "C",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "permanence": {
+        "name": "Cavern",
+        "affinities": [
+          "earth"
+        ],
+        "text": "Its world can't be split."
+      },
+      "force": {
+        "name": "Sinkhole",
+        "duration": "Lasts the round",
+        "text": "A world can't lose permanences."
+      }
+    },
+    {
       "id": "89",
       "no": 89,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Dune",
         "affinities": [
@@ -1437,10 +1573,47 @@
       }
     },
     {
+      "id": "90",
+      "no": 90,
+      "rarity": "C",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "permanence": {
+        "name": "Barrens",
+        "affinities": [
+          "fire"
+        ],
+        "text": "The permanence beside this gains fire."
+      },
+      "force": {
+        "name": "Smoke",
+        "duration": "Lasts the round",
+        "text": "A water permanence loses its affinities."
+      }
+    },
+    {
+      "id": "91",
+      "no": 91,
+      "rarity": "B",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "permanence": {
+        "name": "Crater",
+        "affinities": [
+          "earth",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Meteor",
+        "duration": "Once",
+        "text": "Remove a permanence played last turn."
+      }
+    },
+    {
       "id": "92",
       "no": 92,
       "rarity": "C",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Ledge",
         "affinities": [
@@ -1451,18 +1624,54 @@
       "force": {
         "name": "Gust",
         "duration": "Once",
-        "text": "An air permanence with one affinity becomes its own world."
+        "text": "A ◯ permanence becomes its own world."
+      }
+    },
+    {
+      "id": "93",
+      "no": 93,
+      "rarity": "C",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "permanence": {
+        "name": "Ridge",
+        "affinities": [
+          "air"
+        ],
+        "text": "The permanence above this gains air."
+      },
+      "force": {
+        "name": "Breeze",
+        "duration": "Lasts the round",
+        "text": "A water permanence becomes air."
+      }
+    },
+    {
+      "id": "94",
+      "no": 94,
+      "rarity": "C",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "permanence": {
+        "name": "Eyrie",
+        "affinities": [
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Cyclone",
+        "duration": "Once",
+        "text": "Return a card you played last round."
       }
     },
     {
       "id": "95",
       "no": 95,
       "rarity": "B",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Hanging Valley",
         "affinities": [],
-        "text": "+1 world point if this world has water earth fire air."
+        "text": "Its world scores with one pip fewer."
       },
       "force": {
         "name": "Squall",
@@ -1474,7 +1683,7 @@
       "id": "96",
       "no": 96,
       "rarity": "S",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Ocean",
         "affinities": [
@@ -1487,15 +1696,15 @@
       },
       "force": {
         "name": "Tsunami",
-        "duration": "Lasts the round",
-        "text": "A world's permanences become water."
+        "duration": "Once",
+        "text": "Return a player's worlds."
       }
     },
     {
       "id": "97",
       "no": 97,
       "rarity": "S",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Pangaea",
         "affinities": [
@@ -1509,14 +1718,14 @@
       "force": {
         "name": "World Quake",
         "duration": "Once",
-        "text": "Every permanence becomes its own world."
+        "text": "Split every world."
       }
     },
     {
       "id": "98",
       "no": 98,
       "rarity": "S",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Core",
         "affinities": [
@@ -1529,15 +1738,15 @@
       },
       "force": {
         "name": "Firestorm",
-        "duration": "Lasts the round",
-        "text": "A world's permanences become fire."
+        "duration": "Once",
+        "text": "Remove a world."
       }
     },
     {
       "id": "99",
       "no": 99,
       "rarity": "S",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Trade Winds",
         "affinities": [
@@ -1558,7 +1767,7 @@
       "id": "100",
       "no": 100,
       "rarity": "S",
-      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "source": "Fifth pass: playable again (Nov 11, 2026)",
       "permanence": {
         "name": "Origin",
         "affinities": [
@@ -1569,7 +1778,11 @@
         ],
         "text": ""
       },
-      "force": null
+      "force": {
+        "name": "Unmaking",
+        "duration": "Once",
+        "text": "Remove every world."
+      }
     }
   ]
 }

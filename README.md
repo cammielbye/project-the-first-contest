@@ -64,14 +64,16 @@ Without a room, the page runs in **solo mode**: you play both seats and
 
 Choose **Computer** in the top bar (on a table without a room). It's the same table,
 binder and scoreboard, but the page plays by the rules, with the newest card pool (the
-fourth pass, Nov 8) and its five provisional 16-card binders (Water, Earth, Fire, Air and
-Even, drawn at random until real ones are built; no pinnacles). Since Nov 8 a contest is
-one round with no card cap, and worlds go up to 2×2. Since Nov 10 a world with one of each
-element or four of one element scores a world point, a world scores one point at most, and
-there's no Perfect World:
+fifth pass, Nov 11) and its five provisional 16-card binders (Water, Earth, Fire, Air and
+Even, drawn at random from the fourth pass until real ones are built; no pinnacles). Since
+Nov 11 a contest is best of three rounds with no card cap (Cam), and worlds go up to 2×2.
+Since Nov 10 a world with one of each element or four of one element scores a world point,
+a world scores one point at most, and there's no Perfect World:
 
-1. In the binder panel, choose your binder and the computer's, then **Start the
-   contest**. The opener is random.
+1. In the binder panel, choose your binder and the computer's, and the permanence you
+   reveal (your most pips to start with, or none), then **Start the contest**. Whoever
+   reveals the most pips goes second in round 1 (Cam, Nov 11); a tie is a coin flip. The
+   computer reveals its most pips. Openers alternate after round 1.
 2. Click a card in your binder to play the side it's showing; the tabs down the right
    edge (or **F**) turn every card over, **↻** flips one. If only its other side can be
    played, you're offered that one. Then click a highlighted spot, card or world, or a
@@ -85,9 +87,9 @@ there's no Perfect World:
 4. Hover any card to see both faces larger. **Log** shows every play; click a **Void**
    to look inside.
 
-The page counts everything: world points per world, the tie-break, the 10-card cap,
-round wins, and the Nov 2 test rule (a world worth 3 world points wins the contest at
-once). A contest survives a reload, and switching to **Friend** and back keeps both
+The page counts everything: world points per world, the tie-break, round wins, and
+(with the old scoring only) the Nov 2 test rule (a world worth 3 world points wins the
+contest at once). A contest survives a reload, and switching to **Friend** and back keeps both
 tables. Everything runs in your browser; nothing is sent anywhere. (The old
 `play.html` link now opens this.)
 
@@ -99,29 +101,32 @@ faster, for wide screens. The win-condition numbers can be changed per contest
 (`newContest(..., { knobs })`; the table uses the defaults in `KNOBS`).
 
 The computer doesn't see your binder (since Nov 7): it knows how many cards are in it and
-every card you've shown, and guesses the rest. At the start of each round it sets a card
-budget for the round and holds some of its strong cards back for later rounds.
+every card you've shown (the permanence you revealed included), and guesses the rest. At
+the start of each round it sets a card budget for the round and holds some of its strong
+cards back for later rounds.
 
 The rules live in `js/game/rules.js` and the opponent in `js/game/ai.js`. The same
-files run in node. Since Nov 10 the simulator and the table play the same rules by default:
-one round, no card cap, worlds of up to 2×2, and one world point at most per world (one of
-each element or four of one element), with no Perfect World. The simulator's random binders
-hold 16 cards since Nov 11 (10 commons, 4 uncommons, 2 rares; Cam: four binder pages of 2×2). Switches (scripts/lib/rule-flags.mjs):
-`--bo3` best of three, `--cap` or `--cap=N` a cap of 10 or N cards a round, `--open` open
-worlds with no size cap (the simulator's default Nov 8–9), `--sets` the scoring before
-Nov 10 (a point per complete set, Perfect World at 3).
+files run in node. Since Nov 11 the simulator and the table play the same rules by default:
+best of three, no card cap, worlds of up to 2×2, one world point at most per world (one of
+each element or four of one element) with no Perfect World, and the reveal for who opens
+(each side reveals its most pips). The simulator's random binders hold 16 cards since Nov 11
+(10 commons, 4 uncommons, 2 rares; Cam: four binder pages of 2×2). Switches
+(scripts/lib/rule-flags.mjs): `--bo1` one round (the default Nov 8–10), `--cap` or `--cap=N`
+a cap of 10 or N cards a round, `--open` open worlds with no size cap (the simulator's
+default Nov 8–9), `--sets` the scoring before Nov 10 (a point per complete set, Perfect World
+at 3), `--coin` a coin flip for who opens instead of the reveal.
 
 ```sh
-node scripts/test-rules4.mjs     # rule checks on hand-built tables, fourth-pass cards
-node scripts/test-rules3.mjs     # the same for the third pass (a saved copy of its card data),
-                                 # so the engine keeps playing it the same way
+node scripts/test-rules5.mjs     # rule checks on hand-built tables, fifth-pass cards
+node scripts/test-rules4.mjs     # the same for the fourth and third passes (saved copies of their
+node scripts/test-rules3.mjs     # card data), so the engine keeps playing them the same way
 node scripts/sim3.mjs 4          # computer v computer, every pairing of the five binders
 node scripts/sim3.mjs 1 --log    # and print one contest per pairing, play by play
 node scripts/sim3-pair.mjs 500 --a Tides --b Embers --seed 1107 --json out.json
                                  # one pairing, random opener: wins, how contests end,
                                  # cards left in each binder, plays and the cap by round,
                                  # world sizes, and how often each card gets played, by round
-node scripts/sim3-pair.mjs 500 --a Water --b Fire --bo3 --cap=7 --open   # best of three, a cap of 7, open worlds
+node scripts/sim3-pair.mjs 500 --a Water --b Fire --bo1 --cap=7 --open   # one round, a cap of 7, open worlds
 node scripts/sim3-pair.mjs 41 --seed 1108 --show 40   # replay one contest, play by play
 node scripts/sim3-pair.mjs 250 --aiA bigWorld=2 --aiB bigWorld=2
                                  # computers aiming for the 3-point world (Nov 7)
@@ -184,8 +189,9 @@ Where a card's text leaves a question open, the engine picks one reading (marked
   that scores. The point is that world's own, so it counts toward a world worth 3 world points.
 - Return (Cam, Nov 11, a rule): "return" can only put a card into its owner's binder, so card
   text keeps the short form ("Return a world."). In the engine a permanence's owner is the
-  player who played it, which is the same thing until a card can be played from the other
-  player's void (idea 12 in the idea pool).
+  player who played it; a card played from the other player's void (Whirlpool, Nov 11) is
+  still that player's card (`home` on the instance), so it goes back to their void at round
+  end or when removed, and to their binder when returned.
 - Grove ("When played, remove a common force"): any force from a common card on the table,
   either player's. Equinox is a meta card in the fourth pass (it was Cradle's force).
 - Echo's card from the void doesn't count toward the 10; Verge's two plays do.
@@ -200,10 +206,38 @@ Where a card's text leaves a question open, the engine picks one reading (marked
   one element, and one point at most. Either-or and any pips count toward four of one
   element as they do toward a set. Hanging Valley's +1 adds nothing under this rule. There's
   no Perfect World (`--sets` brings back the old scoring and the Perfect World).
-- One round and no cap (Nov 7; the simulator's default since Nov 8, `--bo3` and `--cap` to switch back): the round's winner
+- One round and no cap (Nov 7; the default Nov 8–10, `--bo1` since Nov 11): the round's winner
   wins the contest, and a player can play down to their last card. Passing stays, as a way
   to stop (a concession, in effect). With no cap the computer never passes just because
   it's ahead.
+- Best of three, no cap (Cam, Nov 11): the binder has to last all three rounds. The reveal
+  (Cam, Nov 11: "who goes second is decided by who chooses to reveal a permanence with the
+  highest number of affinities"): revealing is optional (none counts as 0 pips); the most
+  pips goes second; a tie is a coin flip; the card stays in the binder, known to the other
+  player; it decides round 1 only.
+- The fifth pass's forces (Nov 11) are read from their text, not their name (`forceKey` in
+  `js/game/rules.js`), because the fifth pass gives some old names new effects and repeats
+  effects under new names; the third and fourth passes keep playing by name.
+- "Remove two fire permanences" (the three-of-one-element rares) and "Return two fire
+  permanences" (Torrent) need two targets, as Flood and Heatwave do. Tornado ("Return two
+  cards you played last round") takes up to two, as Equinox takes up to three.
+- Cyclone and Tornado return cards from your void that you played last round, to your binder;
+  Meteor removes a permanence played in the turn just before (either player's).
+- Positional pips (Shoal, Meadow, Barrens, Ridge: "The permanence below this gains water."):
+  in a 2×2 world each direction names one cell (across is the diagonal); the pip is added after
+  every change of element and before nothing else, so "becomes" doesn't overwrite it, and a
+  blanked permanence gains nothing. In open worlds "beside" and "across" name every cell that way.
+- Hanging Valley (Nov 11: "Its world scores with one pip fewer."): three different elements,
+  or three of one element, make that world's point.
+- Sinkhole ("A world can't lose permanences."): nothing in that world is removed, returned,
+  moved out or split off; a force can still be aimed at the world, and does what it can.
+- "Play only on your first turn" is the player's first turn of the round; "Play only on a
+  new world" means the permanence starts a world.
+- The new meta cards: Aftershock ("Your opponent takes the next two turns") skips your next
+  turn; Stillness passes for your opponent; Sunlight removes every lasting force; Weathering
+  returns the newest of your opponent's cards on the table; Thunder gives you one more turn
+  after both players pass (the opener first if both have it); Haze stops your opponent's
+  forces on their next turn.
 - Open worlds (Nov 7; the simulator's default Nov 8–9, `--open` since Nov 10): a world is any
   connected shape of cards, lines included, on an 11×11 grid with no size cap. A split
   cuts the shape's bounding box down the middle. Placing offers one cell per set of
@@ -218,9 +252,9 @@ Where a card's text leaves a question open, the engine picks one reading (marked
 - "Becomes" always overwrites: whatever turns a permanence to an element leaves it a
   single affinity of that element. That covers every force aimed at one permanence
   (Cloudburst and the one-affinity commons too), the permanences that change their
-  neighbours (Lava Field, Shoal, Peak, Meadow) and the world-wide forces (Downpour,
-  Sandstorm, Waterspout, Dust Storm, and Firestorm and Tsunami, which turn every
-  permanence in the world to a single fire or water). Nothing changes every affinity
+  neighbours (the third pass's Lava Field, Shoal, Peak, Meadow) and the world-wide forces
+  (Downpour, Sandstorm, Waterspout, Dust Storm, and up to the fourth pass Firestorm and
+  Tsunami, which turned every permanence in the world to a single fire or water). Nothing changes every affinity
   on a card unless its text says so.
 
 ## Updating the cards and binders
@@ -232,13 +266,15 @@ Cards and test binders both come from `data/card-pool.md`, a copy of
 node scripts/sync-cards.mjs   # card-pool.md -> data/cards.json + data/binders.json
 ```
 
-**The fourth pass (Nov 8).** The newest pass is generated by `tools/cards/pass4.py`
-(`python3 tools/cards/pass4.py --md out.md`, then pasted over its section of the card
-pool). Its five binders are provisional, drawn at random. The engine reads permanence
-effects from their text, so rewording a permanence keeps working as long as it uses a
-wording the engine knows (`permEffects` in `js/game/rules.js`); `node scripts/test-rules4.mjs`
-fails on any permanence text it can't read. Forces are still keyed by name, except the
-element-wide "can't be removed / moved" protections. To play an older pass, sync from its
+**The fifth pass (Nov 11).** The newest pass is generated by `tools/cards/pass5.py`, which
+starts from the fourth pass (`tools/cards/pass4.py`) and applies the fifth pass's changes
+(`python3 tools/cards/pass5.py --md out.md`, then pasted at the top of the card pool; the
+pool page is `python3 tools/cards/pass5_page.py out.html`). Its five binders are the fourth
+pass's provisional ones, drawn at random. The engine reads permanence effects from their
+text, so rewording a permanence keeps working as long as it uses a wording the engine knows
+(`permEffects` in `js/game/rules.js`); `node scripts/test-rules5.mjs` fails on any permanence
+text it can't read, or any force or meta card it doesn't implement. Forces up to the fourth
+pass are keyed by name; the fifth pass's wordings are read from the text (`forceKey`). To play an older pass, sync from its
 saved copy (`node scripts/sync-cards.mjs data/versions/<file>.md`). The canvas's drawn faces
 are for the third pass, so the table shows plain faces for the fourth until it's drawn.
 

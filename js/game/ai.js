@@ -14,6 +14,8 @@
 //   and the other player's big world is a threat to answer.
 // - In a best-of-one contest with no card cap there's nothing to save, so it never passes just because it's ahead;
 //   it stops (a concession, in effect) only when no play helps.
+// Nov 11 (fifth pass): the table plays best of three with no cap again; the permanence a player revealed before the
+// contest counts as seen, and a card played from the other player's void is counted as its owner's.
 // - A plan for the rounds (opts.plan, on by default): at the start of each round it sets a card budget for the
 //   round and shares its strong cards (uncommons, rares, meta) out across the rounds still to come. Playing a
 //   card held back for a later round, or going over the round's budget, costs extra, so it does it only for a
@@ -64,10 +66,14 @@ export function makeAI(opts = {}) {
   function observe(s, M) {
     for (const Q of [0, 1]) {
       const now = new Map();
-      for (const k in s.inst) { const i = s.inst[k]; if (i.owner === Q) now.set(i.card, (now.get(i.card) || 0) + 1); }
+      // a card played from the other player's void (Whirlpool) is still its owner's (home)
+      for (const k in s.inst) { const i = s.inst[k]; if ((i.home ?? i.owner) === Q) now.set(i.card, (now.get(i.card) || 0) + 1); }
       for (const c of s.p[Q].void) now.set(c, (now.get(c) || 0) + 1);
       const seen = M.seen[Q];
       for (const [c, n] of now) if ((seen.get(c) || 0) < n) seen.set(c, n);
+      // the permanence Q revealed before the contest (Nov 11) is known to be in Q's binder until it shows up elsewhere
+      const rv = s.reveals && s.reveals[Q];
+      if (rv && !seen.get(rv)) seen.set(rv, 1);
       M.now[Q] = now;
     }
   }

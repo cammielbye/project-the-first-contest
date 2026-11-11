@@ -3,8 +3,8 @@
 // none, one or two elements. Every card is then rated by how much having it in a binder changes the chance of
 // winning, against an average card of its rarity, with the other 14 cards accounted for (a logistic regression).
 //
-// Usage: node scripts/sim3-rate.mjs [contests] [--bo3] [--cap] [--square] [--seed n] [--workers n] [--json out.json]
-//        (rules default to one round, no card cap, open worlds: see lib/rule-flags.mjs)
+// Usage: node scripts/sim3-rate.mjs [contests] [--bo1] [--cap] [--open] [--coin] [--seed n] [--workers n] [--json out.json]
+//        (rules default to best of three, no card cap, worlds of up to 2x2, the reveal for who opens: see lib/rule-flags.mjs)
 //        [--quick]                     the quick computer (no reply lookahead), about 6x faster, for wide screens
 //        [--styles plain,builder,…]    styles to draw from for each side, each contest (default: all six);
 //                                      --styles builder for one style
@@ -37,7 +37,7 @@ if (from) {
   };
   for (const st of cfg.styles) if (!STYLES[st]) throw new Error("unknown style " + st);
   const seed = Number(opt("--seed", 1)), first = Number(opt("--first", 0));
-  label = `${cfg.bo1 ? "one round" : "best of three"}, ${cfg.nocap ? "no card cap" : "cap of 10"}, ${cfg.open ? "uncapped worlds" : "worlds of up to 4"}; ${cfg.quick ? "quick" : "full"} computer, styles ${cfg.styles.join("/")}${Object.keys(cfg.ai).length ? " " + JSON.stringify(cfg.ai) : ""}${Object.keys(cfg.knobs).length ? "; " + JSON.stringify(cfg.knobs) : ""}${cfg.faces ? "; each side of a card rated alone" : ""}; seed ${seed}`;
+  label = `${cfg.bo1 ? "one round" : "best of three"}, ${cfg.nocap ? "no card cap" : "cap of 10"}, ${cfg.open ? "uncapped worlds" : "worlds of up to 4"}, ${cfg.coin ? "a coin decides who opens" : "the reveal decides who opens"}; ${cfg.quick ? "quick" : "full"} computer, styles ${cfg.styles.join("/")}${Object.keys(cfg.ai).length ? " " + JSON.stringify(cfg.ai) : ""}${Object.keys(cfg.knobs).length ? "; " + JSON.stringify(cfg.knobs) : ""}${cfg.faces ? "; each side of a card rated alone" : ""}; seed ${seed}`;
   const t0 = Date.now();
   rows = await runField(first, N, seed, cfg, Number(opt("--workers", cpus().length)));
   console.log(`${rows.length} contests in ${((Date.now() - t0) / 1000).toFixed(0)}s`);
@@ -54,6 +54,8 @@ function report(rows, label, csv) {
   console.log(`\n${rows.length} contests: ${label}`);
   const dec = rows.filter((r) => r.winner !== null);
   console.log(`first player won ${pct(dec.filter((r) => r.winner === r.opener).length, dec.length)} of decided; drawn ${pct(rows.length - dec.length, rows.length)}`);
+  const rv = rows.filter((r) => r.revealPips);
+  if (rv.length) console.log(`the reveal: tied (a coin decided) in ${pct(rv.filter((r) => r.byCoin).length, rv.length)}; pips revealed ${Object.entries(rv.flatMap((r) => r.revealPips).reduce((m, p) => ((m[p] = (m[p] || 0) + 1), m), {})).map(([p, k]) => `${p}: ${pct(k, 2 * rv.length)}`).join(", ")}`);
   const ways = {}; for (const r of rows) ways[r.why] = (ways[r.why] || 0) + 1;
   console.log(`how contests were won: ${Object.entries(ways).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${pct(v, rows.length)}`).join(", ")}`);
 

@@ -24,4 +24,4 @@ doesn't allow them.)
 | `card-pool-2026-11-10-before-unaffected.md` | `saved/card-pool-2026-11-10-before-unaffected` (`2818e31`) | The fourth pass with the two-pip permanences vanilla (Nov 10), before the ignore cycle became "Unaffected by forces." |
 | `card-pool-2026-11-11-binders-of-15.md` | `saved/card-pool-2026-11-11-binders-of-15` (`3d3b4f2`) | The fourth pass with the unaffected-by-forces cycle (Nov 10) and 15-card provisional binders, before binders went to 16 (Nov 11). |
 | `card-pool-2026-11-11-binders-9-4-3.md` | `saved/card-pool-2026-11-11-binders-9-4-3` (`fd1f175`) | The fourth pass with 16-card provisional binders of 9 commons, 4 uncommons and 3 rares (Nov 11), before 10 / 4 / 2. |
-| `card-pool-2026-11-11-fourth-pass-final.md` | `saved/card-pool-2026-11-11-fourth-pass-final` (HASH) | The fourth pass as it ended (Nov 11: 16-card binders of 10 / 4 / 2), before the fifth pass. |
+| `card-pool-2026-11-11-fourth-pass-final.md` | `saved/card-pool-2026-11-11-fourth-pass-final` (`c4cbc04`) | The fourth pass as it ended (Nov 11: 16-card binders of 10 / 4 / 2), before the fifth pass. |

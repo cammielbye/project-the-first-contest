@@ -6,9 +6,10 @@
 import * as R from "./game/rules.js";
 import { makeAI } from "./game/ai.js";
 
-// The table's rules (Nov 8, Cam: the game is one round again): one round, no card cap. Worlds stay 2x2 here; the
-// simulator plays open worlds, which this table can't draw yet.
-const TABLE_RULES = { bestOf: 1, noCap: true };
+// The table's rules (Nov 11, Cam: "let's go with best of 3 rounds and no cap on cards per round"): best of three, no card
+// cap, worlds of up to 2x2. Who opens round 1 is set by the reveal: each player may reveal a permanence from their binder,
+// and whoever reveals the most pips goes second (a tie is a coin flip).
+const TABLE_RULES = { bestOf: 3, noCap: true };
 
 const ME = 0, AI = 1;
 const SEAT = ["p1", "p2"]; // you sit where player 1 sits at the friend table
@@ -59,6 +60,14 @@ export function createComputer(ctx) {
   const choice = {
     mine: saved && saved.mine < binders.length ? saved.mine : 0,
     theirs: saved && saved.theirs < binders.length ? saved.theirs : Math.min(1, binders.length - 1),
+    reveal: saved && saved.reveal !== undefined ? saved.reveal : undefined, // the permanence you reveal: an id, null for none, undefined for your most pips
+  };
+  // the permanences you could reveal, most pips first
+  const revealable = (b) => [...new Set(b.cards)].filter((id) => R.C[id] && !R.C[id].meta).sort((a, c) => R.revealPips(c) - R.revealPips(a) || byPool(a, c));
+  const myReveal = () => {
+    const b = binders[choice.mine];
+    if (choice.reveal === null) return null;
+    return choice.reveal !== undefined && b.cards.includes(choice.reveal) ? choice.reveal : R.bestReveal(revealable(b));
   };
   let sel = null; // the card being played: { id, face, moves, picks, options, note }
   let busy = false; // the computer is thinking
@@ -89,9 +98,17 @@ export function createComputer(ctx) {
   const pockets = (b) => [...new Set(b.cards)].filter((id) => cardsById.has(id)).sort(byPool);
   function start() {
     const bm = binders[choice.mine], bt = binders[choice.theirs];
-    s = R.newContest(bm.cards, bt.cards, Math.random() < 0.5 ? ME : AI, ["You", "Computer"], TABLE_RULES);
+    // the reveal (Nov 11): the computer reveals its permanence with the most pips
+    const reveals = [myReveal(), R.bestReveal(revealable(bt))];
+    const coin = Math.random() < 0.5 ? ME : AI;
+    const opener = R.revealOpener(reveals[ME], reveals[AI], coin);
+    s = R.newContest(bm.cards, bt.cards, opener, ["You", "Computer"], Object.assign({ reveals }, TABLE_RULES));
     s.binderNames = [short(bm.name), short(bt.name)];
     s.order = [pockets(bm), pockets(bt)];
+    const said = (P) => (reveals[P] ? `${R.C[reveals[P]].name} (${R.revealPips(reveals[P])} pip${R.revealPips(reveals[P]) === 1 ? "" : "s"})` : "nothing");
+    const pm = R.revealPips(reveals[ME]), pa = R.revealPips(reveals[AI]);
+    const why = pm === pa ? "a tie, so a coin flip decides" : pm > pa ? "you revealed more pips, so you go second" : "the computer revealed more pips, so it goes second";
+    s.log.push({ r: 1, P: null, text: `You reveal ${said(ME)}; the computer reveals ${said(AI)}: ${why}.` });
     s.log.push({ r: 1, P: null, text: `Round 1. ${s.opener === ME ? "You open." : "The computer opens."}` });
     R.advance(s);
     sel = null; lastTs = 0; dismissed = null; busy = false;
@@ -214,7 +231,7 @@ export function createComputer(ctx) {
   }
   const PICK_WORDS = {
     cell: "choose where it goes", perm: "choose a permanence", world: "choose a world", player: "choose a player",
-    force: "choose a force in play", void: "choose a card from your void", obinder: "choose a card from the computer's binder", face: "choose which face to play",
+    force: "choose a force in play", void: "choose a card from a void", obinder: "choose a card from the computer's binder", face: "choose which face to play",
   };
   function pickHint() {
     const d = R.C[sel.id];
@@ -244,7 +261,7 @@ export function createComputer(ctx) {
   const forcesOnWorld = (wid) => R.forces(T).filter((f) => f.w === wid || f.w2 === wid);
   function whereIs(id) {
     if (s.p[ME].binder.includes(id)) return "binder";
-    if (Object.values(s.inst).some((i) => i.card === id && i.owner === ME)) return "table";
+    if (Object.values(s.inst).some((i) => i.card === id && (i.home ?? i.owner) === ME)) return "table";
     if (s.p[ME].void.includes(id)) return "void";
     return "gone";
   }
@@ -312,7 +329,7 @@ export function createComputer(ctx) {
       h("h2", { class: "binder-pick-title", text: "Play the computer" }),
       h("p", {
         class: "hint",
-        text: "The page applies every card's rules and the computer plays the other seat. One round, with no limit on cards: play down to your last card. Worlds go up to 2×2. A world with one of each element, or four of one element, scores a world point, and a world scores one point at most.",
+        text: "The page applies every card's rules and the computer plays the other seat. Best of three rounds, with no limit on cards a round: your binder has to last all three. Worlds go up to 2×2. A world with one of each element, or four of one element, scores a world point, and a world scores one point at most. Before the contest each player may reveal a permanence: whoever reveals the most pips goes second (a tie is a coin flip).",
       })
     );
     for (const [which, title] of [["mine", "Your binder"], ["theirs", "The computer's binder"]]) {
@@ -332,6 +349,17 @@ export function createComputer(ctx) {
       });
       panel.append(list);
     }
+    // the reveal: one of your permanences, or none
+    const mine = myReveal();
+    panel.append(h("h3", { class: "binder-pick-sub", text: "Reveal a permanence" }));
+    panel.append(h("p", { class: "hint", text: "The most pips goes second. The computer reveals its permanence with the most pips; the card you reveal stays in your binder, and the computer knows it's there." }));
+    const rl = h("div", { class: "reveal-list" });
+    for (const id of revealable(binders[choice.mine])) {
+      const on = mine === id, pips = R.revealPips(id);
+      rl.append(h("button", { class: `reveal-chip${on ? " on" : ""}`, "data-act": "cpu-reveal", "data-card": String(id), "aria-pressed": String(on) }, `${R.C[id].name} · ${pips} pip${pips === 1 ? "" : "s"}`));
+    }
+    rl.append(h("button", { class: `reveal-chip${mine === null ? " on" : ""}`, "data-act": "cpu-reveal", "data-card": "", "aria-pressed": String(mine === null) }, "Don't reveal"));
+    panel.append(rl);
     panel.append(h("div", { class: "cpu-start" }, h("button", { class: "primary", "data-act": "cpu-start" }, "Start the contest")));
   }
 
@@ -467,6 +495,8 @@ export function createComputer(ctx) {
         h("span", { class: "you", text: s.binderNames[P] }),
         pl.passed ? h("span", { class: "badge passed", text: "passed" }) : turn ? h("span", { class: "badge turn", text: P === ME ? "your turn" : busy ? "thinking" : "to play" }) : null,
         pl.skip ? h("span", { class: "badge passed", text: "skips next turn" }) : null,
+        pl.noForce ? h("span", { class: "badge passed", text: "no forces next turn" }) : null,
+        pl.encore ? h("span", { class: "badge turn", text: "plays once more after both pass" }) : null,
         h("span", { class: "muted small", text: `${pl.binder.length} left` })
       ),
       stat("Played", s.cap >= 1e6 ? String(pl.played) : `${pl.played}/${s.cap}`, `played ${pl.played >= s.cap ? "full" : ""}`),
@@ -610,6 +640,12 @@ export function createComputer(ctx) {
       switch (d.act) {
         case "cpu-choose":
           choice[d.which] = Number(d.k);
+          if (d.which === "mine") choice.reveal = undefined; // a new binder reveals its most pips again
+          store.set("tfc:cpu:choice", choice);
+          ctx.render();
+          return true;
+        case "cpu-reveal":
+          choice.reveal = d.card === "" ? null : d.card;
           store.set("tfc:cpu:choice", choice);
           ctx.render();
           return true;

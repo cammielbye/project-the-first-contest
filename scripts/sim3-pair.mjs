@@ -4,8 +4,8 @@
 //                                 are one round, no cap and open worlds; see lib/rule-flags.mjs)
 //        [--aiA k=v,k=v] [--aiB …] options for each side's computer, e.g. plan=0,hidden=0 for the Nov 1 player
 //        [--show k]               print contest k (counting from 0) play by play
-// The opener of round 1 is random in every contest (R.nextRound alternates it after that).
-import { ruleFlags, contestOpts } from "./lib/rule-flags.mjs";
+// The opener of round 1 is set by the reveal (Nov 11; random with --coin); R.nextRound alternates it after that.
+import { ruleFlags, contestOpts, openerFor } from "./lib/rule-flags.mjs";
 import { readFileSync, writeFileSync } from "node:fs";
 import * as R from "../js/game/rules.js";
 import { makeAI } from "../js/game/ai.js";
@@ -30,8 +30,8 @@ const optsA = aiOpts("--aiA"), optsB = aiOpts("--aiB");
 const show = Number(opt("--show", -1));
 
 function contest(k) {
-  const opener = rng() < 0.5 ? 0 : 1;
-  const s = R.newContest(A.cards, B.cards, opener, names, contestOpts(FL));
+  const { opener, reveals } = openerFor(FL, A.cards, B.cards, rng()); // the reveal (Nov 11), or the coin with --coin
+  const s = R.newContest(A.cards, B.cards, opener, names, { ...contestOpts(FL), reveals });
   const ai = [makeAI(Object.assign({ rng }, optsA)), makeAI(Object.assign({ rng }, optsB))];
   const rounds = []; // per round: { start: [binder sizes], moves: [n, n], ids: [[...], [...]] }
   const begin = () => rounds.push({ r: s.r, start: [s.p[0].binder.length, s.p[1].binder.length], moves: [0, 0], ids: [[], []] });
@@ -68,7 +68,7 @@ for (const c of out) {
   const shape = c.why === "rounds" ? (bo1 ? "on the count at the end of the round" : `${c.rounds.length} rounds`) : `${c.why} in round ${c.rounds.length}`;
   ends[shape] = (ends[shape] || 0) + 1;
 }
-console.log(`${N} contests, ${names[0]} v ${names[1]}, random opener, ${bo1 ? "one round" : "best of three"}, ${nocap ? "no card cap" : "cap of 10"}, ${open ? "open worlds" : "worlds of up to 4"}, computer ${JSON.stringify(optsA)} v ${JSON.stringify(optsB)} (${secs}s)`);
+console.log(`${N} contests, ${names[0]} v ${names[1]}, ${FL.coin ? "random opener" : "opener by the reveal"}, ${bo1 ? "one round" : "best of three"}, ${nocap ? "no card cap" : "cap of 10"}, ${open ? "open worlds" : "worlds of up to 4"}, computer ${JSON.stringify(optsA)} v ${JSON.stringify(optsB)} (${secs}s)`);
 console.log(`wins: ${names[0]} ${wins[0]} (${pct(wins[0], N)}), ${names[1]} ${wins[1]} (${pct(wins[1], N)}), drawn ${draws}`);
 console.log(`the round-1 opener won ${openerWins} of ${N - draws} decided contests (${pct(openerWins, N - draws)})`);
 console.log(`how contests ended: ${Object.entries(ends).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(", ")}`);

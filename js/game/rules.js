@@ -75,6 +75,11 @@ export function permEffects(t) {
   if (has(/^When played, remove a common force\./)) pe.played = "removeCommon";
   if ((m = has(/^\+1 (fire|water|air|earth) if you have a world point\./))) pe.bonusIfPoint = ELW[m[1]];
   if ((m = has(/^\+1 world point if this world has ((?:(?:fire|water|air|earth) ?)+)\./))) pe.worldPoint = m[1].trim().split(" ").map((e) => ELW[e]);
+  // fifth pass (Nov 11)
+  if (has(/^Its world scores with one pip fewer\./)) pe.fewer = 1; // Hanging Valley
+  if (has(/^Play only on your first turn\./)) pe.firstTurn = true; // the three-of-one-element rares
+  if (has(/^Play only on a new world\./)) pe.newWorld = true; // the three-different-element rares
+  if ((m = has(/^The permanence (below|above|beside|across from) this gains (fire|water|air|earth)\./))) pe.gain = { dir: m[1], el: ELW[m[2]] }; // positional (idea 11)
   if (!hit) pe.unknown = true;
   return pe;
 }
@@ -83,6 +88,33 @@ function forceEffects(t) {
   let m;
   if ((m = (t || "").match(/^(Fire|Water|Air|Earth) permanences can't be (removed|moved)\.$/))) return { protect: ELW[m[1].toLowerCase()], from: m[2] };
   return {};
+}
+// A force's behaviour key. Up to the fourth pass it's the force's name. The fifth pass (Nov 11) reuses effects under
+// several names and gives some old names new effects, so its wordings are read from the text instead: { k, el, to }.
+// Older passes' texts don't match these, so they keep playing as they did.
+const EXACT_KEYS = {
+  "Two permanences lose their affinities.": "blankTwo",
+  "Return a permanence and its adjacent permanences.": "returnAdj",
+  "Remove two adjacent permanences.": "removeAdjTwo",
+  "Remove two lone permanences.": "removeLoneTwo",
+  "Remove a permanence played last turn.": "removeLastTurn",
+  "Play a card from a void.": "playVoid",
+  "Return a player's worlds.": "returnPlayer",
+  "Remove a world.": "removeWorld",
+  "Split every world.": "splitAll",
+  "A world can't lose permanences.": "holdWorld",
+  "Return a card you played last round.": "lastRound1",
+  "Return two cards you played last round.": "lastRound2",
+};
+function forceKey(name, t) {
+  let m; t = t || "";
+  if ((m = t.match(/^An? (fire|water|air|earth) permanence loses its affinities\.$/))) return { k: "blankOne", el: ELW[m[1]] };
+  if ((m = t.match(/^An? (fire|water|air|earth) permanence becomes (fire|water|air|earth)\.$/))) return { k: "setOne", el: ELW[m[1]], to: ELW[m[2]] };
+  if ((m = t.match(/^A (fire|water|air|earth|◯) permanence becomes its own world\.$/))) return { k: "ownWorld", el: m[1] === "◯" ? 0 : ELW[m[1]] };
+  if ((m = t.match(/^Remove an? (fire|water|air|earth) or (fire|water|air|earth) permanence\.$/))) return { k: "removeOne", el: ELW[m[1]] | ELW[m[2]] };
+  if ((m = t.match(/^Remove two (fire|water|air|earth) permanences\.$/))) return { k: "removeTwo", el: ELW[m[1]] };
+  if ((m = t.match(/^Return two (fire|water|air|earth) permanences\.$/))) return { k: "returnTwo", el: ELW[m[1]] };
+  return { k: EXACT_KEYS[t] || name };
 }
 export let C = {};
 export function loadCards(json) {
@@ -103,6 +135,7 @@ export function loadCards(json) {
     };
     C[c.id].pe = permEffects(C[c.id].ptext || "");
     C[c.id].fe = forceEffects(C[c.id].ftext);
+    if (c.force) { const fk = forceKey(c.force.name, c.force.text); C[c.id].fkey = fk.k; C[c.id].fx = fk; }
     if (C[c.id].pe.unknown) unknown.push(`${C[c.id].name}: "${C[c.id].ptext}"`);
   }
   Object.defineProperty(C, "__unknown", { value: unknown, enumerable: false });
@@ -113,7 +146,9 @@ const one = (i) => C[i.card].aff.length === 1; // "with one affinity": one ring 
 
 // ---------------------------------------------------------------- state
 function newPlayer(ids, name) {
-  return { name, binder: ids.slice(), size: ids.length, void: [], played: 0, passed: false, skip: false, wins: 0, commons: [] };
+  // turns: turns started this round (for "Play only on your first turn."); thisRound/lastRound: the cards played this
+  // round and last (Cyclone, Tornado); encore: Thunder's play after both pass; lastPlay: taking it; noForce: Haze
+  return { name, binder: ids.slice(), size: ids.length, void: [], played: 0, passed: false, skip: false, wins: 0, commons: [], turns: 0, thisRound: [], lastRound: [], encore: false, lastPlay: false, noForce: false };
 }
 // opts (simulator switches; the table uses none): openWorlds (no cap on world size), bestOf (1 or 3 rounds, default 3),
 // noCap (no limit on cards a round: whole binders can be played), cap (cards a round when there is a cap, default 10),
@@ -123,8 +158,23 @@ export function newContest(idsA, idsB, opener, names = ["You", "Computer"], opts
   const s = {
     r: 1, cap: opts.noCap ? 1e9 : opts.cap || DEFAULT_CAP, bestOf: opts.bestOf || 3, scoring: opts.scoring || "point", roundStarter: opts.roundStarter || "alternate", knobs: opts.knobs || null, turn: opener, opener, p: [newPlayer(idsA, names[0]), newPlayer(idsB, names[1])], open: !!opts.openWorlds,
     inst: {}, worlds: {}, nid: 1, ts: 1, extras: [], calm: false, phase: "turn", winner: null, rounds: [], log: [], decisive: null,
+    thisTurn: [], lastTurn: [], reveals: opts.reveals || null,
   };
   return s;
+}
+// The reveal (Cam, Nov 11): before the contest each player may reveal a permanence from their binder, and whoever reveals
+// the most pips goes second. READINGS: revealing is optional (none counts as 0 pips); a tie is a coin flip (coin: 0 or 1,
+// the player who opens on a tie); the card stays in the binder, known to the other player; it decides round 1 only.
+export const revealPips = (id) => (id && C[id] && C[id].aff ? C[id].aff.length : 0);
+export function revealOpener(revA, revB, coin) {
+  const a = revealPips(revA), b = revealPips(revB);
+  return a > b ? 1 : b > a ? 0 : coin; // the one who revealed fewer pips opens
+}
+// the permanence a player reveals by default: the most pips in the binder (the first in binder order on a tie)
+export function bestReveal(ids) {
+  let best = null;
+  for (const id of ids) if (C[id] && !C[id].meta && (best === null || revealPips(id) > revealPips(best))) best = id;
+  return best;
 }
 export function clone(s) {
   const inst = {};
@@ -134,7 +184,9 @@ export function clone(s) {
   return {
     r: s.r, cap: s.cap, bestOf: s.bestOf, scoring: s.scoring, roundStarter: s.roundStarter, knobs: s.knobs, turn: s.turn, opener: s.opener, open: s.open, nid: s.nid, ts: s.ts, inst, worlds, extras: s.extras.slice(), calm: s.calm,
     phase: s.phase, winner: s.winner, rounds: s.rounds, log: [], decisive: s.decisive, turnStarted: s.turnStarted, why: s.why,
-    p: s.p.map((x) => ({ name: x.name, binder: x.binder.slice(), size: x.size, void: x.void.slice(), played: x.played, passed: x.passed, skip: x.skip, wins: x.wins, commons: x.commons.slice() })),
+    thisTurn: (s.thisTurn || []).slice(), lastTurn: (s.lastTurn || []).slice(), reveals: s.reveals || null,
+    p: s.p.map((x) => ({ name: x.name, binder: x.binder.slice(), size: x.size, void: x.void.slice(), played: x.played, passed: x.passed, skip: x.skip, wins: x.wins, commons: x.commons.slice(),
+      turns: x.turns || 0, thisRound: (x.thisRound || []).slice(), lastRound: (x.lastRound || []).slice(), encore: !!x.encore, lastPlay: !!x.lastPlay, noForce: !!x.noForce })),
   };
 }
 const dirty = (s) => { s._v = null; };
@@ -168,7 +220,9 @@ const isAdj = (s, a, b) => a.w === b.w && !!s.worlds[a.w] && geoOf(s.worlds[a.w]
 const permsIn = (s, w) => w.cells.filter((c) => c !== null).map((id) => s.inst[id]);
 const ownPerms = (s, P) => perms(s).filter((i) => i.owner === P);
 const named = (i) => C[i.card].name;
-const fname = (f) => C[f.card].fname;
+const fname = (f) => C[f.card].fkey || C[f.card].fname; // the force's behaviour key (its name, up to the fourth pass)
+const fx = (f) => C[f.card].fx || {};
+const shownName = (f) => C[f.card].fname;
 const ownsPerm = (s, P, name) => lists(s).owns.has(P + "|" + name);
 const ownsEffect = (s, P, key) => lists(s).owns.has(P + "|pe:" + key);
 const pe = (i) => C[i.card].pe || {};
@@ -205,12 +259,21 @@ const applies = (s, f, i) => !permIgnores(s, i, { card: f.card, caster: f.owner,
 const appliesW = (s, f, wid) => !worldIgnores(s, wid, { card: f.card, caster: f.owner, fid: f.id });
 
 // ---------------------------------------------------------------- the view: each permanence's affinities now
+// Behaviour keys (fname): names up to the fourth pass, text-read keys from the fifth (setOne, blankOne, blankTwo).
 const SET_EL = { Spark: F, Kindling: F, Rain: W, Snowmelt: W, Breeze: A, Thermal: A, Silt: E, Dustfall: E, Cloudburst: W,
   Updraft: F, Brushfire: F, Shower: W, Current: W, Rockfall: E, "Dust Devil": A, Riptide: W, "Dry Wind": A };
 const WORLD_SHIFT = { Downpour: [F, W], Sandstorm: [E, F], Waterspout: [W, A], "Dust Storm": [A, E] };
 const WORLD_BECOMES = { Firestorm: F, Tsunami: W };
-const CARD_BLANK = new Set(["Smolder", "Drizzle", "Dust", "Drying Wind", "Ember"]);
-const PAIR_BLANK = new Set(["Heatwave", "Steam Explosion"]);
+const CARD_BLANK = new Set(["Smolder", "Drizzle", "Dust", "Drying Wind", "Ember", "blankOne"]);
+const PAIR_BLANK = new Set(["Heatwave", "Steam Explosion", "blankTwo"]);
+// positional gains (idea 11): the cells a direction names, from a cell (x across, y down)
+function cellsToward(g, cell, dir) {
+  const x = cell % g.cols, y = (cell / g.cols) | 0, rows = Math.ceil(g.n / g.cols);
+  const d = dir === "below" ? [[0, 1]] : dir === "above" ? [[0, -1]] : dir === "beside" ? [[-1, 0], [1, 0]] : [[-1, -1], [1, -1], [-1, 1], [1, 1]];
+  const out = [];
+  for (const [dx, dy] of d) { const nx = x + dx, ny = y + dy; if (nx >= 0 && nx < g.cols && ny >= 0 && ny < rows) out.push(ny * g.cols + nx); }
+  return out;
+}
 const WORLD_BLANK_KIND = { Ashfall: A, Scorch: E };
 export function view(s) {
   if (s._v) return s._v;
@@ -235,7 +298,8 @@ export function view(s) {
   }
   for (const f of fs) {
     const n = fname(f);
-    if (SET_EL[n] !== undefined) { const i = s.inst[f.t]; if (i && applies(s, f, i)) tok[i.id] = [SET_EL[n]]; }
+    if (n === "setOne") { const i = s.inst[f.t]; if (i && applies(s, f, i)) tok[i.id] = [fx(f).to]; }
+    else if (SET_EL[n] !== undefined) { const i = s.inst[f.t]; if (i && applies(s, f, i)) tok[i.id] = [SET_EL[n]]; }
     else if (WORLD_SHIFT[n]) {
       const w = s.worlds[f.w]; if (!w) continue; const [x, y] = WORLD_SHIFT[n];
       for (const i of permsIn(s, w)) if (applies(s, f, i) && hasBit(tok[i.id], x)) tok[i.id] = [y];
@@ -264,8 +328,17 @@ export function view(s) {
     const x = pe(i).drawback;
     if (x && adjacent(s, i).some((t) => !blank[t.id] && hasBit(tok[t.id], x))) blank[i.id] = true;
   }
+  // "The permanence below this gains water." and its cycle (Nov 11): the pip is added after every change of element, so
+  // "becomes" doesn't overwrite it; a blanked permanence gains nothing; the giving card's text works while it's blanked
+  // (READINGS). In a 2x2 world each direction names one cell; in open worlds, "beside" and "across from" name every cell
+  // that way (READING).
+  const gained = {};
+  for (const i of ps) {
+    const gn = pe(i).gain; const w = s.worlds[i.w]; if (!gn || !w) continue;
+    for (const c of cellsToward(geoOf(w), i.cell, gn.dir)) { const t = w.cells[c]; if (t !== null && t !== undefined) (gained[t] = gained[t] || []).push(gn.el); }
+  }
   const cur = {};
-  for (const i of ps) cur[i.id] = blank[i.id] ? [] : tok[i.id];
+  for (const i of ps) cur[i.id] = blank[i.id] ? [] : gained[i.id] ? tok[i.id].concat(gained[i.id]) : tok[i.id];
   // "+1 water if you have a world point." and its cycle (Nov 9): a world point is a complete set in one of the player's
   // worlds right now, counted before any of these bonuses, so the bonus can't earn itself; points from the scoring cycle
   // don't count (READING). The +1 comes after every other change, so "becomes" doesn't overwrite it, but a blanked
@@ -273,7 +346,7 @@ export function view(s) {
   const bonus = ps.filter((i) => pe(i).bonusIfPoint && !blank[i.id]);
   if (bonus.length) {
     const pts = [0, 0];
-    for (const k in s.worlds) { const w = s.worlds[k], toks = []; for (const iid of w.cells) if (iid !== null) toks.push(...cur[iid]); pts[w.owner] += worldPoints(s, toks); }
+    for (const k in s.worlds) { const w = s.worlds[k], toks = []; for (const iid of w.cells) if (iid !== null) toks.push(...cur[iid]); pts[w.owner] += worldPoints(s, toks, fewerIn(s, w)); }
     for (const i of bonus) if (pts[i.owner] > 0) cur[i.id] = cur[i.id].concat([pe(i).bonusIfPoint]);
   }
   s._v = { tok: cur, blank };
@@ -284,10 +357,14 @@ const shows = (s, i, b) => hasBit(view(s).tok[i.id] || [], b);
 
 // ---------------------------------------------------------------- protections
 function protForce(s, i, name) { return forces(s).some((f) => fname(f) === name && applies(s, f, i)); }
+// "A world can't lose permanences." (Sinkhole, Nov 11): nothing in that world is removed, returned, moved out or split
+// off (READING); a permanence unaffected by forces isn't held by it either
+export const held = (s, i) => i.kind === "perm" && forces(s).some((f) => fname(f) === "holdWorld" && f.w === i.w && applies(s, f, i));
 // can i be removed? src: force src, or null for a meta card or a permanence's text
 export function canRemove(s, i, src) {
   if (i.kind !== "perm") return true;
   if (src && permIgnores(s, i, src)) return false;
+  if (held(s, i)) return false;
   for (const f of forces(s)) {
     if (!applies(s, f, i)) continue;
     const n = fname(f);
@@ -301,6 +378,7 @@ export function canRemove(s, i, src) {
 export function canMove(s, i, src) {
   if (pe(i).unmovable) return false;
   if (src && permIgnores(s, i, src)) return false;
+  if (held(s, i)) return false;
   for (const t of adjacent(s, i)) if (t.owner === i.owner && pe(t).adjUnmovable) return false;
   const w = s.worlds[i.w];
   if (w && permsIn(s, w).some((t) => pe(t).worldUnmovable)) return false;
@@ -361,7 +439,9 @@ function newWorld(s, P) {
   s.worlds[id] = { id, owner: P, cells: new Array(geo(s).n).fill(null), n };
   return s.worlds[id];
 }
-function toPile(s, i, where) { const pl = s.p[i.owner]; (where === "binder" ? pl.binder : pl.void).push(i.card); }
+// A card goes to its owner's pile: home, for a card played from the other player's void (Whirlpool: "it's yours as long
+// as it's in play", then back to its owner's void; a return puts it in its owner's binder, Cam Nov 11)
+function toPile(s, i, where) { const pl = s.p[i.home ?? i.owner]; (where === "binder" ? pl.binder : pl.void).push(i.card); }
 function dropForcesOn(s, iid) {
   for (const f of forces(s)) if (f.t === iid || f.t2 === iid || f.src === iid) { drop(s, f.id); toPile(s, f, "void"); }
 }
@@ -407,7 +487,7 @@ function swap(s, a, b) {
   wa.cells[ca] = b.id; wb.cells[cb] = a.id; a.w = wb.id; a.cell = cb; b.w = wa.id; b.cell = ca;
   dirty(s);
 }
-function returnWorld(s, w, ev) { for (const i of permsIn(s, w)) { ev.returned.push(i.card); leave(s, i, "binder"); } }
+function returnWorld(s, w, ev, src) { for (const i of permsIn(s, w)) { if ((src && permIgnores(s, i, src)) || held(s, i)) continue; ev.returned.push(i.card); leave(s, i, "binder"); } }
 function scatter(s, w, src) { // every movable permanence of w becomes its own world
   const list = permsIn(s, w);
   for (const i of list.slice(1)) if (s.inst[i.id] && (!src || canMove(s, i, src))) ownWorld(s, i);
@@ -480,7 +560,15 @@ const hasEach = (tokens, n) => { const { c, flex } = split(tokens); return feasi
 function maxSame(tokens) { let best = 0; for (let e = 0; e < 4; e++) { let n = 0; for (const t of tokens) if (t & (1 << e)) n++; if (n > best) best = n; } return best; }
 // Nov 10 (Cam): one of each element or four of one element in a world is a world point, and a world scores one point at
 // most; either-or and any pips count toward four of one element as they do toward a set (READING)
-function worldPoints(s, tokens) { return s.scoring === "sets" ? setsOf(tokens).k : hasEach(tokens, 1) || maxSame(tokens) >= 4 ? 1 : 0; }
+// "Its world scores with one pip fewer." (Hanging Valley, Nov 11): three different elements, or three of one element
+// (READING: two of them in a world, two fewer)
+function pointOf(tokens, fewer) {
+  const st = setsOf(tokens), same = maxSame(tokens), need = Math.max(1, 4 - (fewer || 0));
+  const dist = st.k >= 1 ? 4 : st.cov;
+  return { k: dist >= need || same >= need ? 1 : 0, cov: Math.min(3, Math.max(dist, same) + (fewer || 0)) };
+}
+const fewerIn = (s, w) => w.cells.reduce((n, iid) => n + (iid !== null ? pe(s.inst[iid]).fewer || 0 : 0), 0);
+function worldPoints(s, tokens, fewer) { return s.scoring === "sets" ? setsOf(tokens).k : pointOf(tokens, fewer).k; }
 const worldHas = (tokens, els) => { const need = [0, 0, 0, 0]; for (const b of els) need[Math.log2(b)]++; const { c, flex } = split(tokens); return feasible(c, flex, need); };
 export function score(s) {
   const v = view(s);
@@ -497,7 +585,7 @@ export function score(s) {
     // Under the Nov 10 rule a world scores one point at most, so Hanging Valley's +1 adds nothing (READING); cov is then
     // how far an unscored world has got toward its point (elements covered, or the most of one element), for the computer
     let wk = st.k, cov = st.cov;
-    if (pointRule) { const same = maxSame(toks); wk = st.k >= 1 || same >= 4 ? 1 : 0; cov = wk ? 0 : Math.min(3, Math.max(st.cov, same)); }
+    if (pointRule) { const pt = pointOf(toks, fewerIn(s, w)); wk = pt.k; cov = wk ? 0 : pt.cov; }
     else for (const iid of w.cells) if (iid !== null) { const wp = pe(s.inst[iid]).worldPoint; if (wp && worldHas(toks, wp)) wk++; }
     R.pts += wk; R.worlds.push({ id: w.id, n: w.n, k: wk, cov, cards: worldSize(w), perfect: wk >= pw });
     R.all.push(...toks);
@@ -543,9 +631,14 @@ function destinations(s, i, canonical) { // other worlds of its owner it can mov
   }
   return out;
 }
+// "Play only on your first turn." (Nov 11): the player's first turn of the round; looking ahead on the other player's
+// turn, the next turn is a first turn only if they haven't had one this round
+const firstTurn = (s, P) => (s.turn === P && s.phase === "turn" ? s.p[P].turns <= 1 : s.p[P].turns === 0);
 function permMoves(s, P, id, out, base) {
   const n = C[id].pe.played; const mk = (m) => out.push(Object.assign({ id, face: "perm" }, base || {}, m));
+  if (C[id].pe.firstTurn && !firstTurn(s, P)) return;
   for (const pl of placements(s, P)) {
+    if (C[id].pe.newWorld && pl.w !== "new") continue; // "Play only on a new world."
     const picks = [cellPick(pl.w, pl.cell)];
     if (n === "removeCommon") { // "When played, remove a common force." (READING: either player's, any force from a common card)
       let any = false;
@@ -556,7 +649,7 @@ function permMoves(s, P, id, out, base) {
       const s2 = clone(s); const me = placeFresh(s2, P, id, pl);
       const mine = ownPerms(s2, P).filter((i) => i.id !== me.id);
       const srcP = null; let any = false;
-      if (n === "return") for (const i of mine) { any = true; mk({ w: pl.w, cell: pl.cell, t: i.id, picks: picks.concat([permPick(i.id)]) }); }
+      if (n === "return") for (const i of mine) if (!held(s2, i)) { any = true; mk({ w: pl.w, cell: pl.cell, t: i.id, picks: picks.concat([permPick(i.id)]) }); }
       if (n === "move") for (const i of mine) if (canMove(s2, i, srcP)) for (const d of destinations(s2, i)) {
         any = true; mk({ w: pl.w, cell: pl.cell, t: i.id, w2: d.w2, cell2: d.cell, picks: picks.concat([permPick(i.id), cellPick(d.w2, d.cell)]) });
       }
@@ -570,9 +663,10 @@ function permMoves(s, P, id, out, base) {
     } else mk({ w: pl.w, cell: pl.cell, picks });
   }
 }
-// placeFresh: put a new permanence down (used for the "when played" lookahead and for applying)
-function placeFresh(s, P, id, pl) {
-  const i = newInst(s, P, id, "perm");
+// placeFresh: put a new permanence down (used for the "when played" lookahead and for applying); home: whose card it is,
+// when that's the other player (Whirlpool)
+function placeFresh(s, P, id, pl, home) {
+  const i = newInst(s, P, id, "perm", home !== undefined && home !== P ? { home } : null);
   const w = pl.w === "new" ? newWorld(s, P) : s.worlds[pl.w];
   put(s, i, w, pl.w === "new" ? geoOf(w).start : pl.cell);
   return i;
@@ -584,12 +678,18 @@ const MOVE_ONE = {};
 const CARD_LASTING_ANY = { Updraft: A, Brushfire: E, Shower: F, Current: E, Rockfall: A, "Dust Devil": E, Riptide: A, "Dry Wind": W };
 const OWN_WORLD_ONE = { Gust: A, Downdraft: F, Sinkhole: E };
 const CARD_LASTING_ONE = { Smolder: E, Drizzle: F, Dust: A, "Drying Wind": W, Spark: A, Kindling: E, Rain: F, Snowmelt: E, Breeze: W, Thermal: F, Silt: W, Dustfall: A };
-const WORLD_LASTING = new Set(["Freeze", "Tangle", "Fog", "Downpour", "Sandstorm", "Ashfall", "Dust Storm", "Scorch", "Waterspout", "Firestorm", "Eruption", "Tsunami", "Uplift"]);
+const WORLD_LASTING = new Set(["Freeze", "Tangle", "Fog", "Downpour", "Sandstorm", "Ashfall", "Dust Storm", "Scorch", "Waterspout", "Firestorm", "Eruption", "Tsunami", "Uplift", "holdWorld"]);
 const GLOBAL_LASTING = new Set(["Firebreak", "Windbreak", "Heat Dome", "Ice Storm", "High Pressure", "Permafrost", "Bramble", "Whiteout"]);
 const REMOVE_KIND = { Drought: W, Wildfire: E, "Flash Flood": F, Avalanche: A };
+// the cards P played last round still in P's void, as a list (Cyclone, Tornado)
+function lastRoundInVoid(s, P) {
+  const pl = s.p[P], v = pl.void.slice(), out = [];
+  for (const c of pl.lastRound || []) { const k = v.indexOf(c); if (k >= 0) { out.push(c); v.splice(k, 1); } }
+  return out;
+}
 
-function forceMoves(s, P, id, out) {
-  const d = C[id]; const n = d.fname; if (!n) return;
+function forceMoves(s, P, id, out, inEcho) {
+  const d = C[id]; if (!d.fname) return; const n = d.fkey || d.fname, X = d.fx || {};
   const src = { card: id, caster: P, fid: null };
   const all = perms(s);
   const tp = all.filter((i) => !permIgnores(s, i, src));
@@ -601,6 +701,7 @@ function forceMoves(s, P, id, out) {
   };
   const movesOf = (list) => { for (const i of list) if (canMove(s, i, src)) for (const dd of destinations(s, i)) mk({ t: i.id, w2: dd.w2, cell: dd.cell }, [permPick(i.id), cellPick(dd.w2, dd.cell)]); };
   const big = (i) => worldSize(s.worlds[i.w]) >= 2;
+  const back = (i) => !held(s, i); // can be returned
   if (REMOVE_ONE[n] !== undefined) { forT(tp.filter((i) => one(i) && shows(s, i, REMOVE_ONE[n]) && canRemove(s, i, src))); return; }
   if (MOVE_ONE[n] !== undefined) { movesOf(tp.filter((i) => one(i) && shows(s, i, MOVE_ONE[n]))); return; }
   if (OWN_WORLD_ONE[n] !== undefined) { forT(tp.filter((i) => one(i) && shows(s, i, OWN_WORLD_ONE[n]) && big(i) && canMove(s, i, src))); return; }
@@ -613,6 +714,44 @@ function forceMoves(s, P, id, out) {
     return;
   }
   switch (n) {
+    // fifth pass (Nov 11), read from the text (forceKey); X holds the elements it names
+    case "setOne": case "blankOne": forT(tp.filter((i) => shows(s, i, X.el))); return; // "An air permanence becomes water." / "loses its affinities."
+    case "ownWorld": forT(tp.filter((i) => (X.el ? shows(s, i, X.el) : one(i)) && big(i) && canMove(s, i, src))); return; // ◯: one printed pip
+    case "removeOne": forT(tp.filter((i) => shows(s, i, X.el) && canRemove(s, i, src))); return; // "Remove a fire or earth permanence."
+    // "Remove two fire permanences." (a world's permanences of that element before) and "Return two fire permanences."
+    // READING: they need two targets, as Flood and Heatwave do
+    case "removeTwo": pairs(tp.filter((i) => shows(s, i, X.el) && canRemove(s, i, src))); return;
+    case "returnTwo": pairs(tp.filter((i) => shows(s, i, X.el) && back(i))); return;
+    case "blankTwo": pairs(tp); return;
+    case "returnAdj": forT(tp.filter(back)); return;
+    case "removeAdjTwo": pairs(tp.filter((i) => canRemove(s, i, src)), (a, b) => isAdj(s, a, b)); return;
+    case "removeLoneTwo": pairs(tp.filter((i) => isLone(s, i) && canRemove(s, i, src))); return;
+    case "removeLastTurn": forT(tp.filter((i) => (s.lastTurn || []).includes(i.id) && canRemove(s, i, src))); return;
+    case "returnPlayer": for (const Q of [0, 1]) if (worldsOf(s, Q).some((w) => !worldIgnores(s, w.id, src) && permsIn(s, w).some((i) => !permIgnores(s, i, src) && back(i)))) mk({ P2: Q }, [{ k: "player", P: Q }]); return;
+    case "removeWorld": for (const w of tw) if (permsIn(s, w).some((i) => !permIgnores(s, i, src) && canRemove(s, i, src))) mk({ w: w.id }, [worldPick(w.id)]); return;
+    case "splitAll": if (Object.values(s.worlds).some((w) => worldSize(w) >= 2 && canSplit(s, w))) mk({}); return;
+    case "lastRound1": case "lastRound2": { // "Return a card you played last round." / two: from your void to your binder; two takes up to two (READING, as Equinox)
+      const L = lastRoundInVoid(s, P), seen = new Set();
+      if (n === "lastRound1" || L.length === 1) { for (const c of L) if (!seen.has(c)) { seen.add(c); mk({ cards: [c] }, [{ k: "void", card: c }]); } return; }
+      for (let a = 0; a < L.length; a++) for (let b = a + 1; b < L.length; b++) {
+        const key = [L[a], L[b]].sort().join("|"); if (seen.has(key)) continue; seen.add(key);
+        mk({ cards: [L[a], L[b]] }, [{ k: "void", card: L[a] }, { k: "void", card: L[b] }]);
+      }
+      return;
+    }
+    case "playVoid": { // "Play a card from a void." (idea 12): either player's void
+      if (inEcho) return;
+      for (const Q of [P, 1 - P]) {
+        const seen = new Set();
+        for (const v of s.p[Q].void) {
+          if (seen.has(v) || C[v].name === "Echo" || C[v].fkey === "playVoid") continue; seen.add(v);
+          const sub = [];
+          cardMoves(s, P, v, sub, true);
+          for (const m of sub) mk({ sub: m, from: Q }, [{ k: "void", card: v, P: Q }, { k: "face", face: m.face }].concat(m.picks));
+        }
+      }
+      return;
+    }
     case "Flare-up": for (const f of forces(s)) if (C[f.card].rarity === "C") mk({ f: f.id }, [{ k: "force", id: f.id }]); return;
     case "Ember": forT(tp.filter((i) => isLone(s, i))); return;
     case "Low Tide": for (const w of tw) if (w.owner === P) mk({ w: w.id }, [worldPick(w.id)]); return;
@@ -622,12 +761,12 @@ function forceMoves(s, P, id, out) {
     case "Eddy": pairs(tp, (a, b) => a.w === b.w && canMove(s, a, src) && canMove(s, b, src)); return;
     case "Overgrowth": for (const w of tw) if (w.owner === P) mk({ w: w.id }, [worldPick(w.id)]); return;
     case "Shelter": case "Cloudburst": forT(tp); return;
-    case "Vent": forT(tp.filter((i) => i.owner === P)); return;
+    case "Vent": forT(tp.filter((i) => i.owner === P && back(i))); return;
     case "Mire": for (const w of tw) if (worldSize(w) === 2) mk({ w: w.id }, [worldPick(w.id)]); return;
     case "Steam": for (const w of tw) if (worldSize(w) === 3) mk({ w: w.id }, [worldPick(w.id)]); return;
     case "Tremor": for (const w of tw) if (worldSize(w) === 2 && canSplit(s, w) && permsIn(s, w).some((i) => canMove(s, i, src))) mk({ w: w.id }, [worldPick(w.id)]); return;
     case "Heatwave": pairs(tp.filter((i) => shows(s, i, E))); return;
-    case "Flood": pairs(tp, (a, b) => isAdj(s, a, b)); return;
+    case "Flood": pairs(tp.filter(back), (a, b) => isAdj(s, a, b)); return;
     case "Gale": {
       const mv = tp.filter((i) => canMove(s, i, src));
       for (let a = 0; a < mv.length; a++) for (let b = a + 1; b < mv.length; b++) {
@@ -664,7 +803,7 @@ function forceMoves(s, P, id, out) {
     case "Typhoon": for (const w of tw) if (worldSize(w) >= 2 && canSplit(s, w)) mk({ w: w.id }, [worldPick(w.id)]); return;
     case "Monsoon": if (tp.some((i) => isLone(s, i))) mk({}); return;
     case "Steam Explosion": pairs(tp, (a, b) => isAdj(s, a, b)); return;
-    case "Tornado": pairs(tp); return;
+    case "Tornado": pairs(tp); return; // the third and fourth passes' "Return two permanences."
     case "Hurricane": for (const Q of [0, 1]) if (worldsOf(s, Q).some((w) => worldSize(w) >= 2 && canSplit(s, w))) mk({ P2: Q }, [{ k: "player", P: Q }]); return;
     case "Earthquake": for (const Q of [0, 1]) if (worldsOf(s, Q).some((w) => worldSize(w) >= 2 && canSplit(s, w))) mk({ P2: Q }, [{ k: "player", P: Q }]); return;
     case "Equinox": { // return 3 cards from your void, chosen in any order
@@ -704,6 +843,13 @@ function metaMoves(s, P, id, out, inEcho) {
     case "Hollow": { const seen = new Set(); for (const v of pl.void) if (!seen.has(v)) { seen.add(v); mk({ card: v }, [{ k: "void", card: v }]); } return; }
     case "Calm": if (!s.calm) mk({}); return;
     case "Lull": if (!opp.passed && !opp.skip) mk({}); return;
+    // fifth pass (Nov 11)
+    case "Aftershock": if (!opp.passed && !pl.skip) mk({}); return; // "Your opponent takes the next two turns.": you skip your next turn
+    case "Stillness": if (!opp.passed) mk({}); return; // "Your opponent passes."
+    case "Sunlight": if (forces(s).length) mk({}); return; // "Remove every force."
+    case "Weathering": { const i = newestOf(s, 1 - P); if (i) mk({ t: i.id }, []); return; } // "Return the last card your opponent played."
+    case "Thunder": if (!pl.encore) mk({}); return; // "Play once more after both players pass."
+    case "Haze": if (!opp.passed && !opp.noForce) mk({}); return; // "Your opponent can't play forces next turn."
     case "Equinox": { // a meta card since Nov 8 (Cradle's force face before): return 3 cards from your void, chosen in any order
       const v = [...new Set(pl.void)];
       if (!v.length) return;
@@ -715,6 +861,13 @@ function metaMoves(s, P, id, out, inEcho) {
     default: throw new Error("meta not implemented: " + n);
   }
 }
+// Weathering's target. READING: the newest of Q's cards on the table (a permanence or a force that lasts the round),
+// since a card that's already gone can't be returned; a permanence Sinkhole holds can't be
+function newestOf(s, Q) {
+  let best = null;
+  for (const k in s.inst) { const i = s.inst[k]; if (i.owner === Q && (i.kind !== "perm" || !held(s, i)) && (!best || i.ts > best.ts)) best = i; }
+  return best;
+}
 function lastCommon(s, P) {
   const L = s.p[P].commons;
   for (let k = L.length - 1; k >= 0; k--) { const i = s.inst[L[k]]; if (i) return i; }
@@ -725,7 +878,7 @@ function cardMoves(s, P, id, out, inEcho) {
   if (d.meta) { metaMoves(s, P, id, out, inEcho); return; }
   // d.only (simulator's one-sided cards, for rating each side alone): "perm" or "force"; the other side is discarded
   if (d.only !== "force") permMoves(s, P, id, out);
-  if (!s.calm && d.only !== "perm" && d.fname) forceMoves(s, P, id, out);
+  if (!s.calm && !s.p[P].noForce && d.only !== "perm" && d.fname) forceMoves(s, P, id, out, inEcho);
 }
 // what P may do now (empty when they can't play)
 export function legalMoves(s, P) {
@@ -749,18 +902,27 @@ export function movesFor(s, P, fireOnly) {
 const removeOne = (arr, id) => { const k = arr.indexOf(id); if (k >= 0) arr.splice(k, 1); return k >= 0; };
 // apply m for P: the card leaves the binder (or the void, for Echo), the effect happens.
 // Returns { removed, returned, text }.
+// fromVoid: true for P's own void (Echo), or a player's index for that player's void (Whirlpool, Nov 11).
 export function applyMove(s, P, m, fromVoid) {
   const pl = s.p[P], opp = s.p[1 - P]; const d = C[m.id];
   const ev = { removed: [], returned: [], moved: 0 };
-  if (fromVoid) removeOne(pl.void, m.id);
+  const srcQ = fromVoid === true ? P : typeof fromVoid === "number" ? fromVoid : null;
+  const home = srcQ === null ? P : srcQ, homePl = s.p[home]; // whose card it is
+  if (srcQ !== null) removeOne(s.p[srcQ].void, m.id);
   else {
     removeOne(pl.binder, m.id); pl.played++;
     if (s.extras.length) { const k = d.fireCard && s.extras.includes("fire") ? s.extras.indexOf("fire") : s.extras.indexOf("any"); s.extras.splice(k >= 0 ? k : 0, 1); }
   }
+  (pl.thisRound = pl.thisRound || []).push(m.id);
   const noteCommon = (iid) => { if (d.rarity === "C" && iid) pl.commons.push(iid); };
-  const gone = (i, where) => { if (!i || !s.inst[i.id]) return; (where === "void" ? ev.removed : ev.returned).push(i.card); leave(s, i, where); };
+  const gone = (i, where) => {
+    if (!i || !s.inst[i.id]) return;
+    if (where === "binder" && held(s, i)) return; // Sinkhole
+    (where === "void" ? ev.removed : ev.returned).push(i.card); leave(s, i, where);
+  };
   if (m.face === "perm") {
-    const i = placeFresh(s, P, m.id, m); noteCommon(i.id);
+    const i = placeFresh(s, P, m.id, m, home); noteCommon(i.id);
+    (s.thisTurn = s.thisTurn || []).push(i.id);
     const n = d.pe.played;
     if (n === "return" && m.t && s.inst[m.t]) gone(s.inst[m.t], "binder");
     if (n === "move" && m.t && s.inst[m.t] && s.worlds[m.w2]) { moveTo(s, s.inst[m.t], s.worlds[m.w2], m.cell2); ev.moved++; }
@@ -771,15 +933,21 @@ export function applyMove(s, P, m, fromVoid) {
     return ev;
   }
   if (m.face === "meta") {
-    pl.void.push(m.id);
+    homePl.void.push(m.id);
     switch (d.name) {
+      case "Aftershock": pl.skip = "Aftershock"; break;
+      case "Stillness": opp.passed = true; break;
+      case "Sunlight": for (const f of forces(s).slice()) gone(f, "void"); break;
+      case "Weathering": { const i = s.inst[m.t]; if (i) gone(i, "binder"); break; }
+      case "Thunder": pl.encore = true; break;
+      case "Haze": opp.noForce = true; break;
       case "Echo": applyMove(s, P, m.sub, true); break; // READING: the card from the void doesn't count toward the cap
       case "Ebb": { const i = s.inst[m.t]; if (i) gone(i, "void"); break; }
       case "Verge": s.extras.push("any", "any"); break;
       case "Horizon": if (removeOne(opp.binder, m.card)) opp.void.push(m.card); break;
       case "Hollow": if (removeOne(pl.void, m.card)) pl.binder.push(m.card); break;
       case "Calm": s.calm = true; break;
-      case "Lull": opp.skip = true; break;
+      case "Lull": opp.skip = "Lull"; break;
       case "Equinox": for (const c of m.cards || []) if (removeOne(pl.void, c)) pl.binder.push(c); break;
       case "Gap": { const w = s.worlds[m.w]; if (w) for (const i of permsIn(s, w)) if (canRemove(s, i, null)) gone(i, "void"); break; }
     }
@@ -787,27 +955,36 @@ export function applyMove(s, P, m, fromVoid) {
     return ev;
   }
   // force face
-  const n = d.fname; const src = { card: m.id, caster: P, fid: null };
+  const n = d.fkey || d.fname, X = d.fx || {}; const src = { card: m.id, caster: P, fid: null };
   if (d.fdur === "round") {
-    const f = newInst(s, P, m.id, "force", { t: m.t || null, t2: m.t2 || null, src: m.src || null, w: m.w || null, w2: m.w2 || null });
+    const f = newInst(s, P, m.id, "force", Object.assign({ t: m.t || null, t2: m.t2 || null, src: m.src || null, w: m.w || null, w2: m.w2 || null }, home !== P ? { home } : {}));
     if (n === "Whiteout") f.until = P; // ends at the start of the caster's next turn
     noteCommon(f.id);
     dirty(s);
     return ev;
   }
-  pl.void.push(m.id);
+  if (n !== "playVoid") homePl.void.push(m.id); // Whirlpool goes to the void after the card it plays (below)
   const T = m.t ? s.inst[m.t] : null, T2 = m.t2 ? s.inst[m.t2] : null, Wd = m.w ? s.worlds[m.w] : null;
-  if (REMOVE_ONE[n] !== undefined || n === "Thunderstorm" || n === "Lightning" || n === "Collapse") gone(T, "void");
+  if (REMOVE_ONE[n] !== undefined || n === "Thunderstorm" || n === "Lightning" || n === "Collapse" || n === "removeOne" || n === "removeLastTurn") gone(T, "void");
   else if (MOVE_ONE[n] !== undefined || n === "Drift" || n === "Whirl") { if (T && s.worlds[m.w2]) { moveTo(s, T, s.worlds[m.w2], m.cell); ev.moved++; } }
-  else if (OWN_WORLD_ONE[n] !== undefined || n === "Squall") { if (T) { ownWorld(s, T); ev.moved++; } }
+  else if (OWN_WORLD_ONE[n] !== undefined || n === "Squall" || n === "ownWorld") { if (T) { ownWorld(s, T); ev.moved++; } }
   else if (REMOVE_KIND[n] !== undefined) { if (Wd) for (const i of permsIn(s, Wd)) if (!permIgnores(s, i, src) && shows(s, i, REMOVE_KIND[n]) && canRemove(s, i, src)) gone(i, "void"); }
+  else if (n === "removeTwo" || n === "removeAdjTwo" || n === "removeLoneTwo") { gone(T, "void"); gone(T2, "void"); }
+  else if (n === "returnTwo") { gone(T, "binder"); gone(T2, "binder"); }
   else switch (n) {
     case "Flare-up": { const f = s.inst[m.f]; if (f) gone(f, "void"); break; }
-    case "Low Tide": case "Blizzard": case "Undertow": case "Mudflow": if (Wd) returnWorld(s, Wd, ev); break; // READING: returning isn't removal, so "can't be removed" doesn't stop it
+    case "Low Tide": case "Blizzard": case "Undertow": case "Mudflow": if (Wd) returnWorld(s, Wd, ev, src); break; // READING: returning isn't removal, so "can't be removed" doesn't stop it
     case "Crosswind": case "Eddy": if (T && T2) { swap(s, T, T2); ev.moved += 2; } break;
     case "Vent": gone(T, "binder"); break;
     case "Tremor": if (Wd) splitWorld(s, Wd, src); break;
     case "Flood": case "Tornado": gone(T, "binder"); gone(T2, "binder"); break;
+    // fifth pass (Nov 11)
+    case "returnAdj": if (T) { const adj = adjacent(s, T).filter((i) => !permIgnores(s, i, src)); gone(T, "binder"); for (const i of adj) gone(i, "binder"); } break;
+    case "returnPlayer": for (const w of worldsOf(s, m.P2)) if (!worldIgnores(s, w.id, src)) returnWorld(s, w, ev, src); break;
+    case "removeWorld": if (Wd) for (const i of permsIn(s, Wd)) if (!permIgnores(s, i, src) && canRemove(s, i, src)) gone(i, "void"); break;
+    case "splitAll": for (const w of Object.values(s.worlds)) if (!worldIgnores(s, w.id, src)) splitWorld(s, w, src); break;
+    case "lastRound1": case "lastRound2": for (const c of m.cards || []) if (removeOne(pl.void, c)) { pl.binder.push(c); removeOne(pl.lastRound, c); ev.returned.push(c); } break;
+    case "playVoid": applyMove(s, P, m.sub, m.from); homePl.void.push(m.id); break;
     case "Gale": {
       if (T && s.worlds[m.w2] && s.worlds[m.w2].cells[m.cell] === null) { moveTo(s, T, s.worlds[m.w2], m.cell); ev.moved++; }
       const w3 = s.worlds[m.w3]; if (T2 && w3) { const c = w3.cells[m.cell3] === null ? m.cell3 : openCells(w3)[0]; if (c !== undefined && worldSize(w3) < geoOf(w3).cap) { moveTo(s, T2, w3, c); ev.moved++; } }
@@ -846,17 +1023,27 @@ const verb = (name, third, base) => (name === "You" ? base : third); // "You pas
 export function advance(s) {
   for (let guard = 0; guard < 8; guard++) {
     if (s.phase !== "turn") return;
-    if (s.p[0].passed && s.p[1].passed) { endRound(s, null); return; }
+    if (s.p[0].passed && s.p[1].passed) {
+      // Thunder (Nov 11): "Play once more after both players pass." READING: one more turn, then the player passes again;
+      // if both played Thunder, this round's opener goes first
+      const e = [s.opener, 1 - s.opener].find((Q) => s.p[Q].encore);
+      if (e === undefined) { endRound(s, null); return; }
+      const q = s.p[e]; q.encore = false; q.passed = false; q.lastPlay = true;
+      s.turn = e; s.turnStarted = false; s.extras = [];
+      say(s, `${q.name} ${verb(q.name, "plays", "play")} once more (Thunder).`, e);
+      continue;
+    }
     const P = s.turn, pl = s.p[P];
     if (pl.passed) { s.turn = 1 - P; continue; }
     if (!s.turnStarted) {
       s.turnStarted = true;
+      pl.turns = (pl.turns || 0) + 1;
       for (const f of forces(s)) if (fname(f) === "Whiteout" && f.until === P) { drop(s, f.id); toPile(s, f, "void"); dirty(s); say(s, "Whiteout ends.", P); }
       const sc = score(s);
       if (ownsEffect(s, P, "cradle") && hasEach(sc[P].all, knob(s, "cradleEach"))) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} ${knob(s, "cradleEach")} of each affinity: Cradle wins the contest.`, P); endContest(s, P, "Cradle"); return; }
       const wc = winCard(s, P, sc);
       if (wc) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} ${wc.n} ${ELS[Math.log2(wc.el)]}: ${wc.name} wins the round.`, P); endRound(s, P, wc.name); return; }
-      if (pl.skip) { pl.skip = false; say(s, `${pl.name} ${verb(pl.name, "skips", "skip")} this turn (Lull).`, P); endTurn(s); continue; }
+      if (pl.skip) { const why = typeof pl.skip === "string" ? pl.skip : "Lull"; pl.skip = false; say(s, `${pl.name} ${verb(pl.name, "skips", "skip")} this turn (${why}).`, P); endTurn(s); continue; }
     }
     if (pl.played >= s.cap || !legalMoves(s, P).length) {
       if (s.extras.length) { endTurn(s); continue; }
@@ -866,7 +1053,13 @@ export function advance(s) {
     return; // waiting for P
   }
 }
-export function endTurn(s) { s.extras = []; s.turn = 1 - s.turn; s.turnStarted = false; }
+export function endTurn(s) {
+  const pl = s.p[s.turn];
+  pl.noForce = false; // Haze lasts the turn it falls on
+  if (pl.lastPlay) { pl.lastPlay = false; pl.passed = true; } // Thunder's play is over
+  s.lastTurn = s.thisTurn || []; s.thisTurn = []; // Meteor: "a permanence played last turn"
+  s.extras = []; s.turn = 1 - s.turn; s.turnStarted = false;
+}
 // Archipelago: checked at the start of its owner's turn, at 10 water (Cam, Nov 7, for the uncapped one-round test;
 // earlier the same day it was the end of the turn at 8, and before that the start of the turn at 8)
 export const ARCHIPELAGO_WATER = KNOBS.archipelagoWater; // kept for older imports
@@ -918,8 +1111,12 @@ function endRound(s, forced, why) {
     const back = i.kind === "perm" && /^Returns at round end/.test(C[i.card].ptext || "");
     drop(s, i.id); toPile(s, i, back ? "binder" : "void");
   }
-  s.worlds = {}; s.calm = false; s.extras = []; dirty(s);
-  for (const pl of s.p) { pl.played = 0; pl.passed = false; pl.skip = false; pl.commons = []; }
+  s.worlds = {}; s.calm = false; s.extras = []; s.thisTurn = []; s.lastTurn = []; dirty(s);
+  for (const pl of s.p) {
+    pl.played = 0; pl.passed = false; pl.skip = false; pl.commons = [];
+    pl.turns = 0; pl.encore = false; pl.lastPlay = false; pl.noForce = false;
+    pl.lastRound = pl.thisRound || []; pl.thisRound = [];
+  }
   const [a, b] = [s.p[0].wins, s.p[1].wins];
   const bestOf = s.bestOf || 3, need = Math.ceil(bestOf / 2);
   if (a >= need || b >= need || s.r >= bestOf) { endContest(s, a > b ? 0 : b > a ? 1 : null, "rounds"); return; }
@@ -952,8 +1149,11 @@ export function describePick(s, pk, me) {
     case "perm": { const i = s.inst[pk.id]; return i ? `${C[i.card].name} (${worldLabel(s, i.w, me)})` : "?"; }
     case "world": return worldLabel(s, pk.id, me);
     case "player": return pk.P === me ? "you" : s.p[pk.P].name;
-    case "force": { const f = s.inst[pk.id]; return f ? `${fname(f)} (${f.owner === me ? "yours" : possessive(s.p[f.owner].name).replace(/'s?$/, "") + "'s"})` : "?"; }
-    case "void": case "obinder": return C[pk.card].meta ? C[pk.card].name : `${C[pk.card].name} / ${C[pk.card].fname}`;
+    case "force": { const f = s.inst[pk.id]; return f ? `${shownName(f)} (${f.owner === me ? "yours" : possessive(s.p[f.owner].name).replace(/'s?$/, "") + "'s"})` : "?"; }
+    case "void": case "obinder": {
+      const nm = C[pk.card].meta ? C[pk.card].name : `${C[pk.card].name} / ${C[pk.card].fname}`;
+      return pk.P === undefined ? nm : `${nm} (${pk.P === me ? "your void" : possessive(s.p[pk.P].name) + " void"})`;
+    }
     case "face": return pk.face === "perm" ? "as a permanence" : pk.face === "force" ? "as a force" : "";
     default: return "";
   }
@@ -966,7 +1166,7 @@ export function describe(s, P, m) {
     if (pl === "return" && m.t) t += `, returning ${permLabel(s, m.t)}`;
     if (pl === "move" && m.t) t += `, moving ${permLabel(s, m.t)} to ${worldLabel(s, m.w2, -1)}`;
     if (pl === "swap" && m.t) t += `, swapping ${permLabel(s, m.t)} and ${permLabel(s, m.t2)}`;
-    if (pl === "removeCommon" && m.f && s.inst[m.f]) t += `, removing ${fname(s.inst[m.f])}`;
+    if (pl === "removeCommon" && m.f && s.inst[m.f]) t += `, removing ${shownName(s.inst[m.f])}`;
     return t + ".";
   }
   if (m.face === "meta") {
@@ -974,6 +1174,10 @@ export function describe(s, P, m) {
     if (m.cards) return `${who} played ${d.name}, returning ${m.cards.map((c) => C[c].name).join(", ")} to their binder.`;
     const extra = m.card ? ` (${C[m.card].name})` : m.w ? ` on ${worldLabel(s, m.w, -1)}` : m.t ? ` on ${permLabel(s, m.t)}` : "";
     return `${who} played ${d.name}${extra}.`;
+  }
+  if (m.sub) { // Whirlpool: a card from a void
+    const whose = m.from === P ? (who === "You" ? "your" : "their") : possessive(s.p[m.from].name);
+    return `${who} played ${d.fname} (${d.name}'s force): ${describe(s, P, m.sub).replace(who + " played ", "").replace(/\.$/, "")} from ${whose} void.`;
   }
   const bits = [];
   if (m.t) bits.push(permLabel(s, m.t));
@@ -983,7 +1187,7 @@ export function describe(s, P, m) {
   if (m.w) bits.push(worldLabel(s, m.w, -1));
   if (m.w2 && !m.t) bits.push(worldLabel(s, m.w2, -1));
   if (m.P2 !== undefined) bits.push(s.p[m.P2].name);
-  if (m.f) bits.push(fname(s.inst[m.f]));
+  if (m.f) bits.push(shownName(s.inst[m.f]));
   if (m.cards) return `${who} played ${d.fname} (${d.name}'s force), returning ${m.cards.map((c) => C[c].name).join(", ")} to their binder.`;
   return `${who} played ${d.fname} (${d.name}'s force)${bits.length ? " on " + bits.join(", ") : ""}.`;
 }

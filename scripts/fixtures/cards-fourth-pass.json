@@ -1,0 +1,1575 @@
+{
+  "source": "data/versions/card-pool-2026-11-11-fourth-pass-final.md",
+  "pass": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+  "syncedAt": "2026-11-11T12:21:27.085Z",
+  "counts": {
+    "cards": 86,
+    "meta": 8,
+    "withForceFace": 71,
+    "byRarity": {
+      "C": 23,
+      "B": 34,
+      "A": 24,
+      "S": 5
+    },
+    "fromSection": {
+      "Fourth pass: the pool by pip count (Nov 8, 2026)": 86
+    }
+  },
+  "missingNumbers": [
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    84,
+    85,
+    87,
+    88,
+    90,
+    91,
+    93,
+    94
+  ],
+  "warnings": [
+    "Fourth pass: the pool by pip count (Nov 8, 2026): table skipped (header: no. | placeholder | what it's for)",
+    "Fourth pass: the pool by pip count (Nov 8, 2026): table skipped (header: no. | placeholder | element | what it's for)",
+    "Binder B, Earth: no force face yet for Lava Plain",
+    "Binder D, Air: no force face yet for Sand Sea",
+    "Binder E, Even: no force face yet for Boiling Lake"
+  ],
+  "cards": [
+    {
+      "id": "1",
+      "no": 1,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Glacier",
+        "affinities": [
+          "water"
+        ],
+        "text": "Can't be moved."
+      },
+      "force": {
+        "name": "Thaw",
+        "duration": "Once",
+        "text": "Remove a force."
+      }
+    },
+    {
+      "id": "2",
+      "no": 2,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Bedrock",
+        "affinities": [
+          "earth"
+        ],
+        "text": "Can't be moved."
+      },
+      "force": {
+        "name": "Tangle",
+        "duration": "Lasts the round",
+        "text": "A world's permanences can't be moved."
+      }
+    },
+    {
+      "id": "3",
+      "no": 3,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Lava Field",
+        "affinities": [
+          "fire"
+        ],
+        "text": "Can't be moved."
+      },
+      "force": {
+        "name": "Spark",
+        "duration": "Lasts the round",
+        "text": "An air permanence with one affinity becomes fire."
+      }
+    },
+    {
+      "id": "4",
+      "no": 4,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Spire",
+        "affinities": [
+          "air"
+        ],
+        "text": "Can't be moved."
+      },
+      "force": {
+        "name": "Whirlwind",
+        "duration": "Once",
+        "text": "Two permanences become separate worlds."
+      }
+    },
+    {
+      "id": "5",
+      "no": 5,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Tide Pool",
+        "affinities": [
+          "water"
+        ],
+        "text": "Unaffected by forces."
+      },
+      "force": {
+        "name": "Drizzle",
+        "duration": "Lasts the round",
+        "text": "A fire permanence with one affinity loses it."
+      }
+    },
+    {
+      "id": "6",
+      "no": 6,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Stone Field",
+        "affinities": [
+          "earth"
+        ],
+        "text": "Unaffected by forces."
+      },
+      "force": {
+        "name": "Dust",
+        "duration": "Lasts the round",
+        "text": "An air permanence with one affinity loses it."
+      }
+    },
+    {
+      "id": "7",
+      "no": 7,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Ashfield",
+        "affinities": [
+          "fire"
+        ],
+        "text": "Unaffected by forces."
+      },
+      "force": {
+        "name": "Brushfire",
+        "duration": "Lasts the round",
+        "text": "An earth permanence becomes fire."
+      }
+    },
+    {
+      "id": "8",
+      "no": 8,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Summit",
+        "affinities": [
+          "air"
+        ],
+        "text": "Unaffected by forces."
+      },
+      "force": {
+        "name": "Crosswind",
+        "duration": "Once",
+        "text": "Swap two permanences between worlds."
+      }
+    },
+    {
+      "id": "9",
+      "no": 9,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Snowfield",
+        "affinities": [
+          "water"
+        ],
+        "text": "When played, return one of your permanences."
+      },
+      "force": {
+        "name": "Freeze",
+        "duration": "Lasts the round",
+        "text": "A world's water permanences can't be removed."
+      }
+    },
+    {
+      "id": "10",
+      "no": 10,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Grove",
+        "affinities": [
+          "earth"
+        ],
+        "text": "When played, remove a common force."
+      },
+      "force": {
+        "name": "Overgrowth",
+        "duration": "Lasts the round",
+        "text": "One of your worlds ignores common forces."
+      }
+    },
+    {
+      "id": "11",
+      "no": 11,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Lava Flow",
+        "affinities": [
+          "fire"
+        ],
+        "text": "When played, play another fire card."
+      },
+      "force": {
+        "name": "Lightning",
+        "duration": "Once",
+        "text": "Remove a lone permanence."
+      }
+    },
+    {
+      "id": "12",
+      "no": 12,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Bluff",
+        "affinities": [
+          "air"
+        ],
+        "text": "When played, move one of your permanences."
+      },
+      "force": {
+        "name": "Eddy",
+        "duration": "Once",
+        "text": "Swap two permanences in a world."
+      }
+    },
+    {
+      "id": "13",
+      "no": 13,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Marsh",
+        "affinities": [
+          "water|earth"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Mire",
+        "duration": "Lasts the round",
+        "text": "A world of two can't grow."
+      }
+    },
+    {
+      "id": "14",
+      "no": 14,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Steam Vent",
+        "affinities": [
+          "water|fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Vent",
+        "duration": "Once",
+        "text": "Return one of your permanences."
+      }
+    },
+    {
+      "id": "15",
+      "no": 15,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Sea Stack",
+        "affinities": [
+          "water|air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Riptide",
+        "duration": "Lasts the round",
+        "text": "An air permanence becomes water."
+      }
+    },
+    {
+      "id": "16",
+      "no": 16,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Flint",
+        "affinities": [
+          "earth|fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Sinkhole",
+        "duration": "Once",
+        "text": "An earth permanence with one affinity becomes its own world."
+      }
+    },
+    {
+      "id": "17",
+      "no": 17,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Pass",
+        "affinities": [
+          "earth|air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Whirl",
+        "duration": "Once",
+        "text": "Move a permanence to another world."
+      }
+    },
+    {
+      "id": "18",
+      "no": 18,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Scrubland",
+        "affinities": [
+          "fire|air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Dust Devil",
+        "duration": "Lasts the round",
+        "text": "An earth permanence becomes air."
+      }
+    },
+    {
+      "id": "19",
+      "no": 19,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Wilderness",
+        "affinities": [
+          "any"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Thunderstorm",
+        "duration": "Once",
+        "text": "Remove a ◯ permanence."
+      }
+    },
+    {
+      "id": "20",
+      "no": 20,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Delta",
+        "affinities": [
+          "water",
+          "earth"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Flood",
+        "duration": "Once",
+        "text": "Return two adjacent permanences."
+      }
+    },
+    {
+      "id": "21",
+      "no": 21,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Hot Spring",
+        "affinities": [
+          "water",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Scald",
+        "duration": "Once",
+        "text": "Remove a fire or earth permanence with one affinity."
+      }
+    },
+    {
+      "id": "22",
+      "no": 22,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Cloud Forest",
+        "affinities": [
+          "water",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Fog",
+        "duration": "Lasts the round",
+        "text": "A world can't grow."
+      }
+    },
+    {
+      "id": "23",
+      "no": 23,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Volcano",
+        "affinities": [
+          "earth",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Lava Bomb",
+        "duration": "Once",
+        "text": "Remove an earth or air permanence with one affinity."
+      }
+    },
+    {
+      "id": "24",
+      "no": 24,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Sea Cliff",
+        "affinities": [
+          "earth",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Gale",
+        "duration": "Once",
+        "text": "Move two permanences to other worlds."
+      }
+    },
+    {
+      "id": "25",
+      "no": 25,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Desert",
+        "affinities": [
+          "fire",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Heatwave",
+        "duration": "Lasts the round",
+        "text": "Two earth permanences lose their affinities."
+      }
+    },
+    {
+      "id": "26",
+      "no": 26,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Mangrove",
+        "affinities": [
+          "water",
+          "earth"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Undertow",
+        "duration": "Once",
+        "text": "Return a world of two."
+      }
+    },
+    {
+      "id": "27",
+      "no": 27,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Mud Pots",
+        "affinities": [
+          "water",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Downpour",
+        "duration": "Lasts the round",
+        "text": "A world's fire permanences become water."
+      }
+    },
+    {
+      "id": "28",
+      "no": 28,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Waterfall",
+        "affinities": [
+          "water",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Cloudburst",
+        "duration": "Lasts the round",
+        "text": "A permanence becomes water."
+      }
+    },
+    {
+      "id": "29",
+      "no": 29,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Cinder Cone",
+        "affinities": [
+          "earth",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Ashfall",
+        "duration": "Lasts the round",
+        "text": "A world's air permanences lose their affinities."
+      }
+    },
+    {
+      "id": "30",
+      "no": 30,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Canyon",
+        "affinities": [
+          "earth",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Dust Storm",
+        "duration": "Lasts the round",
+        "text": "A world's air permanences become earth."
+      }
+    },
+    {
+      "id": "31",
+      "no": 31,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Savanna",
+        "affinities": [
+          "fire",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Sandstorm",
+        "duration": "Lasts the round",
+        "text": "A world's earth permanences become fire."
+      }
+    },
+    {
+      "id": "32",
+      "no": 32,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Spring",
+        "affinities": [
+          "water",
+          "fire"
+        ],
+        "text": "Score a point per four water affinities."
+      },
+      "force": {
+        "name": "Low Tide",
+        "duration": "Once",
+        "text": "Return one of your worlds."
+      }
+    },
+    {
+      "id": "33",
+      "no": 33,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Mountain Range",
+        "affinities": [
+          "earth",
+          "air"
+        ],
+        "text": "Score a point per four earth affinities."
+      },
+      "force": null
+    },
+    {
+      "id": "34",
+      "no": 34,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Fumarole",
+        "affinities": [
+          "fire",
+          "air"
+        ],
+        "text": "Score a point per four fire affinities."
+      },
+      "force": {
+        "name": "Flare-up",
+        "duration": "Once",
+        "text": "Remove a common force."
+      }
+    },
+    {
+      "id": "35",
+      "no": 35,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Sky Isle",
+        "affinities": [
+          "air",
+          "any"
+        ],
+        "text": "Score a point per four air affinities."
+      },
+      "force": {
+        "name": "Waterspout",
+        "duration": "Lasts the round",
+        "text": "A world's water permanences become air."
+      }
+    },
+    {
+      "id": "36",
+      "no": 36,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Tidal Flat",
+        "affinities": [
+          "water",
+          "any"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Hail",
+        "duration": "Once",
+        "text": "Remove a fire or air permanence with one affinity."
+      }
+    },
+    {
+      "id": "37",
+      "no": 37,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Old Growth",
+        "affinities": [
+          "earth",
+          "any"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Bramble",
+        "duration": "Lasts the round",
+        "text": "Your worlds' permanences can't be moved."
+      }
+    },
+    {
+      "id": "38",
+      "no": 38,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Obsidian",
+        "affinities": [
+          "fire",
+          "any"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Scorch",
+        "duration": "Lasts the round",
+        "text": "A world's earth permanences lose their affinities."
+      }
+    },
+    {
+      "id": "39",
+      "no": 39,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Hidden Valley",
+        "affinities": [
+          "any",
+          "any"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Landslide",
+        "duration": "Once",
+        "text": "Remove an air or water permanence with one affinity."
+      }
+    },
+    {
+      "id": "40",
+      "no": 40,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Deep Lake",
+        "affinities": [
+          "water",
+          "water"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Ice Storm",
+        "duration": "Lasts the round",
+        "text": "Water permanences can't be removed."
+      }
+    },
+    {
+      "id": "41",
+      "no": 41,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Plateau",
+        "affinities": [
+          "earth",
+          "earth"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Permafrost",
+        "duration": "Lasts the round",
+        "text": "Earth permanences can't be removed."
+      }
+    },
+    {
+      "id": "42",
+      "no": 42,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Lava Lake",
+        "affinities": [
+          "fire",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Heat Dome",
+        "duration": "Lasts the round",
+        "text": "Fire permanences can't be removed."
+      }
+    },
+    {
+      "id": "43",
+      "no": 43,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Twin Peaks",
+        "affinities": [
+          "air",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "High Pressure",
+        "duration": "Lasts the round",
+        "text": "Air permanences can't be removed."
+      }
+    },
+    {
+      "id": "44",
+      "no": 44,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Mirage",
+        "affinities": [],
+        "text": "Copies every adjacent permanence's affinities."
+      },
+      "force": {
+        "name": "Heat Shimmer",
+        "duration": "Lasts the round",
+        "text": "A permanence copies an adjacent permanence."
+      }
+    },
+    {
+      "id": "45",
+      "no": 45,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Caldera Lake",
+        "affinities": [
+          "water",
+          "earth",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Collapse",
+        "duration": "Once",
+        "text": "Remove a permanence."
+      }
+    },
+    {
+      "id": "46",
+      "no": 46,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Rainforest",
+        "affinities": [
+          "water",
+          "earth",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Monsoon",
+        "duration": "Once",
+        "text": "Return every lone permanence."
+      }
+    },
+    {
+      "id": "47",
+      "no": 47,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Geyser Basin",
+        "affinities": [
+          "water",
+          "fire",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Typhoon",
+        "duration": "Once",
+        "text": "A world's permanences become separate worlds."
+      }
+    },
+    {
+      "id": "48",
+      "no": 48,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Red Canyon",
+        "affinities": [
+          "earth",
+          "fire",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": null
+    },
+    {
+      "id": "49",
+      "no": 49,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Archipelago",
+        "affinities": [
+          "water",
+          "water",
+          "earth"
+        ],
+        "text": ""
+      },
+      "force": null
+    },
+    {
+      "id": "50",
+      "no": 50,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Boiling Lake",
+        "affinities": [
+          "water",
+          "water",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": null
+    },
+    {
+      "id": "51",
+      "no": 51,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Misty Fjord",
+        "affinities": [
+          "water",
+          "water",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Whiteout",
+        "duration": "Lasts the round",
+        "text": "Worlds can't grow until your next turn."
+      }
+    },
+    {
+      "id": "52",
+      "no": 52,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Floodplain",
+        "affinities": [
+          "water",
+          "earth",
+          "earth"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Mudflow",
+        "duration": "Once",
+        "text": "Return a world of three."
+      }
+    },
+    {
+      "id": "53",
+      "no": 53,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Smoking Hills",
+        "affinities": [
+          "earth",
+          "earth",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Eruption",
+        "duration": "Lasts the round",
+        "text": "A world loses its affinities."
+      }
+    },
+    {
+      "id": "54",
+      "no": 54,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Highlands",
+        "affinities": [
+          "earth",
+          "earth",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Earthquake",
+        "duration": "Once",
+        "text": "Split each of a player's worlds."
+      }
+    },
+    {
+      "id": "55",
+      "no": 55,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Lava Coast",
+        "affinities": [
+          "water",
+          "fire",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Steam Explosion",
+        "duration": "Lasts the round",
+        "text": "Two adjacent permanences lose their affinities."
+      }
+    },
+    {
+      "id": "56",
+      "no": 56,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Lava Plain",
+        "affinities": [
+          "earth",
+          "fire",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": null
+    },
+    {
+      "id": "57",
+      "no": 57,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Sand Sea",
+        "affinities": [
+          "fire",
+          "fire",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": null
+    },
+    {
+      "id": "58",
+      "no": 58,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Cloud Sea",
+        "affinities": [
+          "water",
+          "air",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Hurricane",
+        "duration": "Once",
+        "text": "Rearrange a player's worlds."
+      }
+    },
+    {
+      "id": "59",
+      "no": 59,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Stone Towers",
+        "affinities": [
+          "earth",
+          "air",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Gale Force",
+        "duration": "Once",
+        "text": "Move three permanences to other worlds."
+      }
+    },
+    {
+      "id": "60",
+      "no": 60,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "High Desert",
+        "affinities": [
+          "fire",
+          "air",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Tornado",
+        "duration": "Once",
+        "text": "Return two permanences."
+      }
+    },
+    {
+      "id": "61",
+      "no": 61,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Lagoon",
+        "affinities": [
+          "water",
+          "water",
+          "water"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Flash Flood",
+        "duration": "Once",
+        "text": "Remove a world's fire permanences."
+      }
+    },
+    {
+      "id": "62",
+      "no": 62,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Moor",
+        "affinities": [
+          "earth",
+          "earth",
+          "earth"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Avalanche",
+        "duration": "Once",
+        "text": "Remove a world's air permanences."
+      }
+    },
+    {
+      "id": "63",
+      "no": 63,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Cinder Field",
+        "affinities": [
+          "fire",
+          "fire",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Wildfire",
+        "duration": "Once",
+        "text": "Remove a world's earth permanences."
+      }
+    },
+    {
+      "id": "64",
+      "no": 64,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Peak",
+        "affinities": [
+          "air",
+          "air",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Drought",
+        "duration": "Once",
+        "text": "Remove a world's water permanences."
+      }
+    },
+    {
+      "id": "65",
+      "no": 65,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Ice Sheet",
+        "affinities": [
+          "water"
+        ],
+        "text": "Fire permanences lose their affinities."
+      },
+      "force": {
+        "name": "Blizzard",
+        "duration": "Once",
+        "text": "Return a world."
+      }
+    },
+    {
+      "id": "66",
+      "no": 66,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Thicket",
+        "affinities": [
+          "earth"
+        ],
+        "text": "Air permanences lose their affinities."
+      },
+      "force": {
+        "name": "Shelter",
+        "duration": "Lasts the round",
+        "text": "A permanence can't be moved or removed."
+      }
+    },
+    {
+      "id": "67",
+      "no": 67,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Badlands",
+        "affinities": [
+          "fire"
+        ],
+        "text": "Water permanences lose their affinities."
+      },
+      "force": {
+        "name": "Ember",
+        "duration": "Lasts the round",
+        "text": "A lone permanence loses its affinities."
+      }
+    },
+    {
+      "id": "68",
+      "no": 68,
+      "rarity": "A",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Wind Gap",
+        "affinities": [
+          "air"
+        ],
+        "text": "Earth permanences lose their affinities."
+      },
+      "force": {
+        "name": "Downdraft",
+        "duration": "Once",
+        "text": "A fire permanence with one affinity becomes its own world."
+      }
+    },
+    {
+      "id": "meta-echo",
+      "no": 69,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "meta": {
+        "name": "Echo",
+        "text": "Play a card from your void."
+      }
+    },
+    {
+      "id": "meta-hollow",
+      "no": 70,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "meta": {
+        "name": "Hollow",
+        "text": "Return a card from your void."
+      }
+    },
+    {
+      "id": "meta-equinox",
+      "no": 71,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "meta": {
+        "name": "Equinox",
+        "text": "Return 3 cards from your void."
+      }
+    },
+    {
+      "id": "meta-verge",
+      "no": 72,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "meta": {
+        "name": "Verge",
+        "text": "Play two more cards this turn."
+      }
+    },
+    {
+      "id": "meta-lull",
+      "no": 73,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "meta": {
+        "name": "Lull",
+        "text": "Your opponent skips their next turn."
+      }
+    },
+    {
+      "id": "meta-ebb",
+      "no": 74,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "meta": {
+        "name": "Ebb",
+        "text": "Remove your opponent's last common."
+      }
+    },
+    {
+      "id": "meta-horizon",
+      "no": 75,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "meta": {
+        "name": "Horizon",
+        "text": "Remove a card from your opponent's binder."
+      }
+    },
+    {
+      "id": "meta-calm",
+      "no": 76,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "meta": {
+        "name": "Calm",
+        "text": "No forces this round."
+      }
+    },
+    {
+      "id": "83",
+      "no": 83,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Ice Floe",
+        "affinities": [
+          "water"
+        ],
+        "text": "+1 water if you have a world point."
+      },
+      "force": {
+        "name": "Current",
+        "duration": "Lasts the round",
+        "text": "An earth permanence becomes water."
+      }
+    },
+    {
+      "id": "86",
+      "no": 86,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Hill",
+        "affinities": [
+          "earth"
+        ],
+        "text": "+1 earth if you have a world point."
+      },
+      "force": {
+        "name": "Rockfall",
+        "duration": "Lasts the round",
+        "text": "An air permanence becomes earth."
+      }
+    },
+    {
+      "id": "89",
+      "no": 89,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Dune",
+        "affinities": [
+          "fire"
+        ],
+        "text": "+1 fire if you have a world point."
+      },
+      "force": {
+        "name": "Updraft",
+        "duration": "Lasts the round",
+        "text": "An air permanence becomes fire."
+      }
+    },
+    {
+      "id": "92",
+      "no": 92,
+      "rarity": "C",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Ledge",
+        "affinities": [
+          "air"
+        ],
+        "text": "+1 air if you have a world point."
+      },
+      "force": {
+        "name": "Gust",
+        "duration": "Once",
+        "text": "An air permanence with one affinity becomes its own world."
+      }
+    },
+    {
+      "id": "95",
+      "no": 95,
+      "rarity": "B",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Hanging Valley",
+        "affinities": [],
+        "text": "+1 world point if this world has water earth fire air."
+      },
+      "force": {
+        "name": "Squall",
+        "duration": "Once",
+        "text": "A permanence becomes its own world."
+      }
+    },
+    {
+      "id": "96",
+      "no": 96,
+      "rarity": "S",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Ocean",
+        "affinities": [
+          "water",
+          "water",
+          "water",
+          "water"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Tsunami",
+        "duration": "Lasts the round",
+        "text": "A world's permanences become water."
+      }
+    },
+    {
+      "id": "97",
+      "no": 97,
+      "rarity": "S",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Pangaea",
+        "affinities": [
+          "earth",
+          "earth",
+          "earth",
+          "earth"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "World Quake",
+        "duration": "Once",
+        "text": "Every permanence becomes its own world."
+      }
+    },
+    {
+      "id": "98",
+      "no": 98,
+      "rarity": "S",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Core",
+        "affinities": [
+          "fire",
+          "fire",
+          "fire",
+          "fire"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Firestorm",
+        "duration": "Lasts the round",
+        "text": "A world's permanences become fire."
+      }
+    },
+    {
+      "id": "99",
+      "no": 99,
+      "rarity": "S",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Trade Winds",
+        "affinities": [
+          "air",
+          "air",
+          "air",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": {
+        "name": "Jet Stream",
+        "duration": "Once",
+        "text": "Every permanence becomes its own world."
+      }
+    },
+    {
+      "id": "100",
+      "no": 100,
+      "rarity": "S",
+      "source": "Fourth pass: the pool by pip count (Nov 8, 2026)",
+      "permanence": {
+        "name": "Origin",
+        "affinities": [
+          "water",
+          "earth",
+          "fire",
+          "air"
+        ],
+        "text": ""
+      },
+      "force": null
+    }
+  ]
+}
