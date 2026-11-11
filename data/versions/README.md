@@ -22,3 +22,4 @@ doesn't allow them.)
 | `card-pool-2026-11-09-hanging-valley.md` | `saved/card-pool-2026-11-09-hanging-valley` (`12a7c1f`) | The fourth pass with Hanging Valley in #95 (Nov 9), before one either-or common per pair became a meta card. |
 | `card-pool-2026-11-10-before-vanilla-two-pips.md` | `saved/card-pool-2026-11-10-before-vanilla-two-pips` (`5d8c2d7`) | The fourth pass with six meta placeholders (Nov 9), before the two-pip permanences went vanilla (except the scoring cycle) and rings became pips. |
 | `card-pool-2026-11-10-before-unaffected.md` | `saved/card-pool-2026-11-10-before-unaffected` (`2818e31`) | The fourth pass with the two-pip permanences vanilla (Nov 10), before the ignore cycle became "Unaffected by forces." |
+| `card-pool-2026-11-11-binders-of-15.md` | `saved/card-pool-2026-11-11-binders-of-15` (HASH) | The fourth pass with the unaffected-by-forces cycle (Nov 10) and 15-card provisional binders, before binders went to 16 (Nov 11). |
