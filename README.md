@@ -182,6 +182,10 @@ Where a card's text leaves a question open, the engine picks one reading (marked
 - Hanging Valley ("+1 world point if this world has" the four elements, ringed; Nov 9): "has" means the
   world's affinities can show each element at once, counted as for sets, so it adds one to any world
   that scores. The point is that world's own, so it counts toward a world worth 3 world points.
+- Return (Cam, Nov 11, a rule): "return" can only put a card into its owner's binder, so card
+  text keeps the short form ("Return a world."). In the engine a permanence's owner is the
+  player who played it, which is the same thing until a card can be played from the other
+  player's void (idea 12 in the idea pool).
 - Grove ("When played, remove a common force"): any force from a common card on the table,
   either player's. Equinox is a meta card in the fourth pass (it was Cradle's force).
 - Echo's card from the void doesn't count toward the 10; Verge's two plays do.
