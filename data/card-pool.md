@@ -229,13 +229,15 @@
 
 **No open slots.** The last one (#95) became Hanging Valley on Nov 9.
 
-**Provisional test binders (Claude, Nov 8), 5.** For the playtest table and the simulator until Cam builds binders from this pool: 15 cards each (Cam, Nov 8: smaller binders), drawn the way the simulator draws random binders (8 commons, 4 uncommons with meta cards among them, 3 rares; no pinnacles), four leaning loosely on one element and one even. Not designed: swap them out freely. Swapped on Nov 9 for the either-or commons that became meta placeholders (each for its pair's remaining card, or the binder's first common of its element when it already had that): Water, Scrubland for Heath; Earth, Marsh for Mudflat; Earth, Scrubland for Heath; Earth, Pass for Foothills; Earth, Bedrock for Peat Bog; Fire, Lava Field for Heath; Air, Scrubland for Heath.
+**Provisional test binders (Claude, Nov 8), 5.** For the playtest table and the simulator until Cam builds binders from this pool: 16 cards each since Nov 11 (Cam: four binder pages of 2×2; 15 from Nov 8), drawn the way the simulator draws random binders (8 commons, 4 uncommons with meta cards among them, 3 rares; no pinnacles; one more common added on Nov 11), four leaning loosely on one element and one even. Not designed: swap them out freely. Swapped on Nov 9 for the either-or commons that became meta placeholders (each for its pair's remaining card, or the binder's first common of its element when it already had that): Water, Scrubland for Heath; Earth, Marsh for Mudflat; Earth, Scrubland for Heath; Earth, Pass for Foothills; Earth, Bedrock for Peat Bog; Fire, Lava Field for Heath; Air, Scrubland for Heath.
 
-- **Binder A, Water.** Leans water, loosely (drawn at random). Ashfield, Scrubland, Snowfield, Wilderness, Marsh, Stone Field, Lava Field, Glacier, Sea Cliff, Plateau, Hollow, Deep Lake, Ice Sheet, Stone Towers, Archipelago.
-- **Binder B, Earth.** Leans earth, loosely (drawn at random). Steam Vent, Marsh, Grove, Scrubland, Stone Field, Pass, Bedrock, Flint, Spring, Canyon, Sea Cliff, Hot Spring, Lava Plain, Smoking Hills, Geyser Basin.
-- **Binder C, Fire.** Leans fire, loosely (drawn at random). Stone Field, Lava Field, Summit, Lava Flow, Tide Pool, Scrubland, Ashfield, Steam Vent, Hidden Valley, Twin Peaks, Delta, Tidal Flat, Badlands, Caldera Lake, Sand Sea.
-- **Binder D, Air.** Leans air, loosely (drawn at random). Stone Field, Sea Stack, Tide Pool, Lava Field, Glacier, Wilderness, Scrubland, Summit, Savanna, Twin Peaks, Equinox, Desert, Sand Sea, Peak, Rainforest.
-- **Binder E, Even.** No lean (drawn at random). Spire, Summit, Ashfield, Bedrock, Snowfield, Bluff, Scrubland, Wilderness, Savanna, Horizon, Cloud Forest, Old Growth, Archipelago, Boiling Lake, Highlands.
+On Nov 11 each got one more common, drawn at random from the commons showing its element (any common for Even): Water, Steam Vent; Earth, Hill; Fire, Flint; Air, Pass; Even, Grove.
+
+- **Binder A, Water.** Leans water, loosely (drawn at random). Ashfield, Scrubland, Snowfield, Wilderness, Marsh, Stone Field, Lava Field, Glacier, Sea Cliff, Plateau, Hollow, Deep Lake, Ice Sheet, Stone Towers, Archipelago, Steam Vent.
+- **Binder B, Earth.** Leans earth, loosely (drawn at random). Steam Vent, Marsh, Grove, Scrubland, Stone Field, Pass, Bedrock, Flint, Spring, Canyon, Sea Cliff, Hot Spring, Lava Plain, Smoking Hills, Geyser Basin, Hill.
+- **Binder C, Fire.** Leans fire, loosely (drawn at random). Stone Field, Lava Field, Summit, Lava Flow, Tide Pool, Scrubland, Ashfield, Steam Vent, Hidden Valley, Twin Peaks, Delta, Tidal Flat, Badlands, Caldera Lake, Sand Sea, Flint.
+- **Binder D, Air.** Leans air, loosely (drawn at random). Stone Field, Sea Stack, Tide Pool, Lava Field, Glacier, Wilderness, Scrubland, Summit, Savanna, Twin Peaks, Equinox, Desert, Sand Sea, Peak, Rainforest, Pass.
+- **Binder E, Even.** No lean (drawn at random). Spire, Summit, Ashfield, Bedrock, Snowfield, Bluff, Scrubland, Wilderness, Savanna, Horizon, Cloud Forest, Old Growth, Archipelago, Boiling Lake, Highlands, Grove.
 
 ## Third pass: the full pool (Nov 2, 2026), saved separately
 

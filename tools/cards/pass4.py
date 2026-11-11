@@ -204,7 +204,7 @@ PH_USED = [p[2] for p in PLACEHOLDERS if p[2]]
 FREE_NAMES = [c[1] for c in CUT if c[1] not in PH_USED and c[1] not in ('Massif', 'Cradle')]
 
 # Provisional test binders (Claude, Nov 8), for the table and the simulator's named-binder runs until Cam builds binders
-# from this pool: drawn the way the simulator draws random binders (15 cards: 8 commons, 4 uncommons with meta cards among
+# from this pool: drawn the way the simulator draws random binders (15 cards on Nov 8, 16 since Nov 11: 8 commons, 4 uncommons with meta cards among
 # them, 3 rares; no pinnacles), four leaning on one element and one even. Fixed seeds, so they don't change on a resync.
 PROVISIONAL_BINDERS = [
  ('Water', 'Leans water, loosely (drawn at random)', ["Ashfield","Heath","Snowfield","Wilderness","Marsh","Stone Field","Lava Field","Glacier","Sea Cliff","Plateau","Hollow","Deep Lake","Ice Sheet","Stone Towers","Archipelago"]),
@@ -225,6 +225,15 @@ for _bn, _d, _cs in PROVISIONAL_BINDERS:
         _new = _mate[_n]
         if _new in _cs: _new = next(c['name'] for c in _commons if _bel[_bn] in c['affinities'] and c['name'] not in _cs)
         _cs[_i] = _new; BINDER_SWAPS.append((_bn, _n, _new))
+# Nov 11 (Cam: 16-card binders, four binder pages of 2x2): each binder gets one more common, drawn at random with a fixed
+# seed from the commons that show its element (any common for Even) and that it doesn't already hold
+import random as _random
+BINDER_ADDS = []
+for _k, (_bn, _d, _cs) in enumerate(PROVISIONAL_BINDERS):
+    _el = _bel.get(_bn)
+    _pick = [c['name'] for c in _commons if c['name'] not in _cs and (_el is None or any(_el in a.split('|') or a == 'any' for a in c['affinities']))]
+    _new = _random.Random(1111 + _k).choice(_pick)
+    _cs.append(_new); BINDER_ADDS.append((_bn, _new))
 
 # a run of element symbols counts as a single word (Cam, Nov 9); element words stand for their symbols in this text
 def words(t): return len(re.sub(r'\b(?:water|earth|fire|air)(?:\s+(?:water|earth|fire|air)\b)+', 'ELEMENTS', t).split())
@@ -236,7 +245,7 @@ def check():
     nums = sorted([c['no'] for c in ALL] + list(META_NO.values()) + [p[0] for p in META_PH] + [p[0] for p in PLACEHOLDERS] + OPEN)
     known = {c['name'] for c in ALL} | {m[0] for m in META}
     for bn, _d, cs in PROVISIONAL_BINDERS:
-        if len(cs) != 15 or len(set(cs)) != 15 or set(cs) - known: probs.append(('binder', bn, len(cs), set(cs) - known))
+        if len(cs) != 16 or len(set(cs)) != 16 or set(cs) - known: probs.append(('binder', bn, len(cs), set(cs) - known))
     phn = [p[2] for p in PLACEHOLDERS if p[2]]
     if set(phn) - {c[1] for c in CUT}: probs.append(('placeholder name not from a cut card', set(phn) - {c[1] for c in CUT}))
     if set(phn) & ({c['name'] for c in ALL} | {m[0] for m in META}): probs.append(('placeholder name in use', set(phn) & {c['name'] for c in ALL}))
@@ -326,7 +335,7 @@ def markdown():
     md += '\n'.join('| %d | %s | %s | %s |' % (no, nm or 'Unique %s %d' % (e, PH_NAMES[e].index(nm) + 1), e, UNIQUE_NOTE if nm else UNNAMED_NOTE) for k, (no, e, nm) in enumerate(PLACEHOLDERS)) + '\n\n'
     if OPEN: md += '**Open %s (%d).** %s. Cam (Nov 8): the slots this opens should go to more multi-affinity cards.\n' % ('slot' if len(OPEN) == 1 else 'slots', len(OPEN), 'Number ' + str(OPEN[0]) if len(OPEN) == 1 else 'Numbers %d–%d' % (OPEN[0], OPEN[-1]))
     else: md += '**No open slots.** The last one (#95) became Hanging Valley on Nov 9.\n'
-    md += '\n**Provisional test binders (Claude, Nov 8), %d.** For the playtest table and the simulator until Cam builds binders from this pool: 15 cards each (Cam, Nov 8: smaller binders), drawn the way the simulator draws random binders (8 commons, 4 uncommons with meta cards among them, 3 rares; no pinnacles), four leaning loosely on one element and one even. Not designed: swap them out freely. Swapped on Nov 9 for the either-or commons that became meta placeholders (each for its pair\'s remaining card, or the binder\'s first common of its element when it already had that): %s.\n\n' % (len(PROVISIONAL_BINDERS), '; '.join('%s, %s for %s' % (bn, new, old) for bn, old, new in BINDER_SWAPS))
+    md += '\n**Provisional test binders (Claude, Nov 8), %d.** For the playtest table and the simulator until Cam builds binders from this pool: 16 cards each since Nov 11 (Cam: four binder pages of 2×2; 15 from Nov 8), drawn the way the simulator draws random binders (8 commons, 4 uncommons with meta cards among them, 3 rares; no pinnacles; one more common added on Nov 11), four leaning loosely on one element and one even. Not designed: swap them out freely. Swapped on Nov 9 for the either-or commons that became meta placeholders (each for its pair\'s remaining card, or the binder\'s first common of its element when it already had that): %s.\n\n' % (len(PROVISIONAL_BINDERS), '; '.join('%s, %s for %s' % (bn, new, old) for bn, old, new in BINDER_SWAPS)) + 'On Nov 11 each got one more common, drawn at random from the commons showing its element (any common for Even): %s.\n\n' % '; '.join('%s, %s' % x for x in BINDER_ADDS)
     md += ''.join('- **Binder %s, %s.** %s. %s.\n' % (chr(65 + k), bn, d, ', '.join(cs)) for k, (bn, d, cs) in enumerate(PROVISIONAL_BINDERS))
     return md
 

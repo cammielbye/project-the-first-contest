@@ -27,9 +27,9 @@ const RETURNS = /^Returns at round end/;
 const POWER = { C: 1, B: 1.5, A: 2.2, S: 3 }; // how strong a card is, for planning the rounds
 const power = (d) => (d.meta ? 1.4 : POWER[d.rarity] + 0.15 * (d.aff ? d.aff.length : 0));
 // a binder's make-up, for guessing hidden cards: the third-pass test binders (25) and, since Nov 8, the simulator's
-// 15-card binders (8 commons, 4 uncommons, 3 rares, meta cards among them); scaled to the binder's size
-const TEMPLATES = { 25: { C: 14, B: 6, A: 4, meta: 1 }, 15: { C: 8, B: 3, A: 3, meta: 1 } };
-const templateFor = (n) => { const t = TEMPLATES[n > 20 ? 25 : 15], k = n > 20 ? 25 : 15, out = {}; for (const r in t) out[r] = Math.round((t[r] * n) / k); return out; };
+// 16-card binders since Nov 11 (9 commons, 4 uncommons, 3 rares, meta cards among them); scaled to the binder's size
+const TEMPLATES = { 25: { C: 14, B: 6, A: 4, meta: 1 }, 16: { C: 9, B: 3, A: 3, meta: 1 } };
+const templateFor = (n) => { const k = n > 20 ? 25 : 16, t = TEMPLATES[k], out = {}; for (const r in t) out[r] = Math.round((t[r] * n) / k); return out; };
 const rkey = (d) => (d.meta ? "meta" : d.rarity);
 const BITS = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
 const last = (s) => s.bestOf || 3; // the contest's last possible round

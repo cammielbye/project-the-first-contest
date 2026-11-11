@@ -1,4 +1,4 @@
-// Format comparison (Nov 10, for Cam): the same random 15-card binders played under each format, quick computer.
+// Format comparison (Nov 10, for Cam): the same random binders (16 cards since Nov 11; the Nov 10 runs used 15) played under each format, quick computer.
 // Formats: worlds of up to 2x2 or open; one round or best of three; a cap on cards a round per player, or none.
 // Scoring is the Nov 10 rule throughout (one world point per world, for one of each element or four of one element).
 // Usage: node scripts/sim-formats.mjs [contests per format] [--seed n] [--only key,key] [--json out.json]
