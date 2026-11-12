@@ -469,14 +469,10 @@ function fitBinder() {
   const sc = Math.max(0.16, Math.min((w - 178) / 1280, (hgt - 160) / 896, 0.75)); // two 2x2 pages side by side
   panel.style.setProperty("--bs", sc.toFixed(3));
 }
-// The spine: a three-ring mechanism on the leather gutter (Nov 11, replacing a drawn binding cord). The rings reach over
-// onto both pages, into punched holes.
+// The spine: a book's binding (Nov 11): the pages fold into a shaded gutter, with the sewing thread showing down the
+// fold and a headband at each end.
 function spineParts() {
-  const parts = [h("span", { class: "plate" })];
-  for (const y of ["18%", "50%", "82%"]) {
-    parts.push(h("span", { class: "hole l", style: `top:${y}` }), h("span", { class: "hole r", style: `top:${y}` }), h("span", { class: "ring", style: `top:${y}` }));
-  }
-  return parts;
+  return [h("span", { class: "headband top" }), h("span", { class: "headband bottom" })];
 }
 function renderBinder() {
   const panel = $("#binderPanel");
@@ -813,18 +809,24 @@ function layout() {
   const w = area.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
   const hgt = area.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
   const pad = 2 * 8; // the board's padding
+  // Cards stay on the runner, never over the wood (Cam, Nov 11). The runner is at most the table less 36px of wood on
+  // each side (css: calc(100% - 2 * var(--rim) - 72px), the area's padding included), and the cards keep clear of
+  // its woven bands: RUNNER_EDGE on each side.
+  const RUNNER_EDGE = 28;
+  const runMax = area.clientWidth - 72, inner = runMax - 2 * RUNNER_EDGE;
   // against the computer, worlds sit side by side: two rows of cards under a label, eight across
   const cols = vsComputer() ? 8 : GRID.cols, rows = vsComputer() ? 2 : GRID.rows, labels = vsComputer() ? 30 : 0;
-  const byW = (w - pad - GAP * (cols - 1)) / cols;
+  const fixed = vsComputer() ? 4 * GAP + 3 * 18 + 16 + 16 : (cols - 1) * GAP + pad; // everything across but the cards
+  const byW = (Math.min(w, inner) - fixed) / cols;
   const byH = (hgt - pad - labels - GAP * (rows - 1)) / rows / 1.4;
-  const cw = Math.max(36, Math.floor(Math.min(byW, byH)));
+  const cw = Math.max(24, Math.floor(Math.min(byW, byH)));
   table.style.setProperty("--cw", `${cw}px`);
   table.style.setProperty("--ts", String(cw / 320));
   table.style.setProperty("--gap", `${GAP}px`);
   // the runner is just wider than the cards on it
-  const boardW = vsComputer() ? cols * cw + 4 * GAP + 3 * 18 + 16 + 16 : cols * cw + (cols - 1) * GAP + pad;
+  const boardW = cols * cw + fixed;
   table.style.setProperty("--boardw", `${Math.round(boardW)}px`);
-  table.style.setProperty("--runw", `${Math.round(boardW + 64)}px`);
+  table.style.setProperty("--runw", `${Math.round(boardW + 2 * RUNNER_EDGE)}px`);
 }
 
 // A starfield for the table, drawn once: two tiles of different sizes so the

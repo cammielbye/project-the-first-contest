@@ -302,8 +302,10 @@ are for the third pass, so the table shows plain faces for the fourth until it's
 leather and its paper are placeholder images in `img/`, made by
 `python3 tools/textures/make_textures.py` (procedural, and every one tiles without a seam;
 the twill is grey and laid over the runner's colors with an overlay blend, so the runner's
-colors stay in `css/style.css`). The binder's spine is a three-ring mechanism drawn in CSS,
-and one small button above the binder's top right corner turns every card to its other face.
+colors stay in `css/style.css`). The binder's spine is a book's binding drawn in CSS (a
+shaded fold, the sewing thread and a headband at each end), and one small button above the
+binder's top right corner turns every card to its other face. Cards are sized so the boards
+stay on the runner, clear of its woven bands, and never reach over the wood (Cam, Nov 11).
 
 **Saving a version.** Before each change to the card pool, the version being
 replaced is copied to `data/versions/` with the date, and its commit is pushed

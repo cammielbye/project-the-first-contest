@@ -181,22 +181,19 @@ body.dragging-back [data-act="toggle-binder"] { outline: 2px dashed var(--accent
 .leaf::before { content: ""; position: absolute; top: 4px; bottom: 4px; width: 5px; z-index: -1; background: repeating-linear-gradient(to bottom, #d4c39c 0 2px, #b9a57c 2px 3px); }
 .leaf.left::before { left: -5px; border-radius: 3px 0 0 3px; box-shadow: -2px 0 3px rgba(0, 0, 0, .35); }
 .leaf.right::before { right: -5px; border-radius: 0 3px 3px 0; box-shadow: 2px 0 3px rgba(0, 0, 0, .35); }
-/* the spine: the leather gutter with a three-ring mechanism; the rings reach over onto both pages */
-.spine { position: relative; z-index: 2; width: 34px; margin: 0 -2px;
-  background: linear-gradient(to right, #1a0e06, #3a2314 22%, #4a2d1b 50%, #3a2314 78%, #1a0e06); box-shadow: inset 0 0 10px rgba(0, 0, 0, .75); }
-.spine .plate { position: absolute; top: 14px; bottom: 14px; left: 50%; width: 16px; transform: translateX(-50%); border-radius: 4px;
-  background: linear-gradient(to right, #3a3835, #8f8c84 18%, #dcd9d1 42%, #aeaba3 58%, #66635d 84%, #383633);
-  box-shadow: 0 0 0 1px #1b1917, 0 3px 8px rgba(0, 0, 0, .65); }
-.spine .plate::before, .spine .plate::after { content: ""; position: absolute; left: 50%; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #f4f2ec, #8d8a83 55%, #3d3b38); box-shadow: 0 1px 1px rgba(0, 0, 0, .6); }
-.spine .plate::before { top: 6px; } .spine .plate::after { bottom: 6px; }
-.spine .hole { position: absolute; width: 10px; height: 14px; margin-top: -7px; border-radius: 50%;
-  background: radial-gradient(ellipse at 50% 55%, #0c0703 45%, #3b2a17 75%, rgba(59, 42, 23, 0) 78%); }
-.spine .hole.l { left: -19px; } .spine .hole.r { right: -19px; }
-.spine .ring { position: absolute; left: -15px; right: -15px; height: 11px; margin-top: -5.5px; border-radius: 6px;
-  background: linear-gradient(to bottom, #fbfaf6 0%, #dedbd3 20%, #9a978f 52%, #5a5752 78%, #bdbab2 100%);
-  box-shadow: 0 0 0 1px rgba(28, 26, 24, .7), 0 4px 5px rgba(0, 0, 0, .55); }
-.spine .ring::after { content: ""; position: absolute; left: 6px; right: 6px; top: 2px; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, .8); filter: blur(.4px); }
+/* the spine: a book's binding (Nov 11): the pages fold down into a shaded gutter, the sewing thread shows along the fold,
+   and a striped headband caps each end */
+.spine { position: relative; z-index: 2; width: 18px; margin: 0 -1px;
+  background-color: #d9c9a2;
+  background-image:
+    linear-gradient(to right, rgba(50, 30, 8, .5), rgba(34, 20, 6, .72) 38%, rgba(14, 8, 2, .93) 50%, rgba(34, 20, 6, .72) 62%, rgba(50, 30, 8, .5)),
+    url("../img/binder-paper.jpg");
+  background-size: 100% 100%, 360px 360px; }
+.spine::before { content: ""; position: absolute; left: 50%; top: 9%; bottom: 9%; width: 1.5px; margin-left: -.75px; opacity: .4;
+  background: repeating-linear-gradient(to bottom, #e9dcbb 0 9px, transparent 9px 34px); }
+.spine .headband { position: absolute; left: 50%; width: 20px; height: 7px; margin-left: -10px; border-radius: 3px;
+  background: repeating-linear-gradient(to right, #7c231b 0 2px, #e3d3a8 2px 4px); box-shadow: 0 0 0 1px rgba(30, 14, 6, .7), 0 1px 2px rgba(0, 0, 0, .5); }
+.spine .headband.top { top: -4px; } .spine .headband.bottom { bottom: -4px; }
 .phead, .pfoot { font-family: "IM Fell English", Georgia, serif; font-style: italic; color: #7a6040; font-size: 14px; display: flex; justify-content: space-between; }
 .phead { margin-bottom: 6px; min-height: 20px; }
 .pfoot { margin-top: 6px; justify-content: flex-end; }
