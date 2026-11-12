@@ -1,7 +1,7 @@
 {
   "source": "data/card-pool.md",
-  "pass": "Fifth pass: playable again (Nov 11, 2026)",
-  "syncedAt": "2026-11-11T12:58:06.045Z",
+  "pass": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
+  "syncedAt": "2026-11-12T04:03:02.362Z",
   "counts": {
     "cards": 100,
     "meta": 14,
@@ -13,7 +13,7 @@
       "S": 5
     },
     "fromSection": {
-      "Fifth pass: playable again (Nov 11, 2026)": 100
+      "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)": 100
     }
   },
   "missingNumbers": [],
@@ -23,7 +23,7 @@
       "id": "1",
       "no": 1,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Glacier",
         "affinities": [
@@ -34,14 +34,14 @@
       "force": {
         "name": "Thaw",
         "duration": "Once",
-        "text": "Remove a force."
+        "text": "Remove a common force."
       }
     },
     {
       "id": "2",
       "no": 2,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Bedrock",
         "affinities": [
@@ -51,15 +51,15 @@
       },
       "force": {
         "name": "Tangle",
-        "duration": "Lasts the round",
-        "text": "A world's permanences can't be moved."
+        "duration": "Until your next turn",
+        "text": "No common forces until your next turn."
       }
     },
     {
       "id": "3",
       "no": 3,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Lava Field",
         "affinities": [
@@ -69,15 +69,15 @@
       },
       "force": {
         "name": "Ash",
-        "duration": "Lasts the round",
-        "text": "An earth permanence loses its affinities."
+        "duration": "Once",
+        "text": "Remove a common permanence."
       }
     },
     {
       "id": "4",
       "no": 4,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Spire",
         "affinities": [
@@ -88,14 +88,14 @@
       "force": {
         "name": "Whirlwind",
         "duration": "Once",
-        "text": "Two permanences become separate worlds."
+        "text": "Split one of your worlds."
       }
     },
     {
       "id": "5",
       "no": 5,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Tide Pool",
         "affinities": [
@@ -105,15 +105,15 @@
       },
       "force": {
         "name": "Drizzle",
-        "duration": "Lasts the round",
-        "text": "A fire permanence loses its affinities."
+        "duration": "Once",
+        "text": "Return a card from your void."
       }
     },
     {
       "id": "6",
       "no": 6,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Stone Field",
         "affinities": [
@@ -123,15 +123,15 @@
       },
       "force": {
         "name": "Dust",
-        "duration": "Lasts the round",
-        "text": "An air permanence loses its affinities."
+        "duration": "Until your next turn",
+        "text": "No common forces until your next turn."
       }
     },
     {
       "id": "7",
       "no": 7,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Ashfield",
         "affinities": [
@@ -142,14 +142,14 @@
       "force": {
         "name": "Brushfire",
         "duration": "Lasts the round",
-        "text": "An earth permanence becomes fire."
+        "text": "One of your permanences becomes fire."
       }
     },
     {
       "id": "8",
       "no": 8,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Summit",
         "affinities": [
@@ -160,14 +160,14 @@
       "force": {
         "name": "Crosswind",
         "duration": "Once",
-        "text": "Swap two permanences between worlds."
+        "text": "Swap two common permanences."
       }
     },
     {
       "id": "9",
       "no": 9,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Snowfield",
         "affinities": [
@@ -177,15 +177,15 @@
       },
       "force": {
         "name": "Freeze",
-        "duration": "Lasts the round",
-        "text": "A world's water permanences can't be removed."
+        "duration": "Once",
+        "text": "Play a permanence from your void."
       }
     },
     {
       "id": "10",
       "no": 10,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Grove",
         "affinities": [
@@ -195,15 +195,15 @@
       },
       "force": {
         "name": "Overgrowth",
-        "duration": "Lasts the round",
-        "text": "One of your worlds ignores common forces."
+        "duration": "Once",
+        "text": "Play another earth card."
       }
     },
     {
       "id": "11",
       "no": 11,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Lava Flow",
         "affinities": [
@@ -214,14 +214,14 @@
       "force": {
         "name": "Lightning",
         "duration": "Once",
-        "text": "Remove a lone permanence."
+        "text": "Remove a common permanence."
       }
     },
     {
       "id": "12",
       "no": 12,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Bluff",
         "affinities": [
@@ -232,14 +232,14 @@
       "force": {
         "name": "Eddy",
         "duration": "Once",
-        "text": "Swap two permanences in a world."
+        "text": "Swap two of your permanences."
       }
     },
     {
       "id": "13",
       "no": 13,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Marsh",
         "affinities": [
@@ -249,15 +249,15 @@
       },
       "force": {
         "name": "Mire",
-        "duration": "Lasts the round",
-        "text": "A world of two can't grow."
+        "duration": "Once",
+        "text": "Return a card from your void."
       }
     },
     {
       "id": "14",
       "no": 14,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Steam Vent",
         "affinities": [
@@ -275,7 +275,7 @@
       "id": "15",
       "no": 15,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Sea Stack",
         "affinities": [
@@ -286,14 +286,14 @@
       "force": {
         "name": "Riptide",
         "duration": "Lasts the round",
-        "text": "An air permanence becomes water."
+        "text": "One of your permanences becomes water."
       }
     },
     {
       "id": "16",
       "no": 16,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Flint",
         "affinities": [
@@ -303,15 +303,15 @@
       },
       "force": {
         "name": "Spark",
-        "duration": "Lasts the round",
-        "text": "An air permanence loses its affinities."
+        "duration": "Once",
+        "text": "Play another fire card."
       }
     },
     {
       "id": "17",
       "no": 17,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Pass",
         "affinities": [
@@ -322,14 +322,14 @@
       "force": {
         "name": "Whirl",
         "duration": "Once",
-        "text": "Move a permanence to another world."
+        "text": "Move a common permanence to another world."
       }
     },
     {
       "id": "18",
       "no": 18,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Scrubland",
         "affinities": [
@@ -340,14 +340,14 @@
       "force": {
         "name": "Dust Devil",
         "duration": "Lasts the round",
-        "text": "An earth permanence becomes air."
+        "text": "One of your permanences becomes air."
       }
     },
     {
       "id": "19",
       "no": 19,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Wilderness",
         "affinities": [
@@ -358,14 +358,14 @@
       "force": {
         "name": "Thunderstorm",
         "duration": "Once",
-        "text": "Remove a ◯ permanence."
+        "text": "Remove a common permanence."
       }
     },
     {
       "id": "20",
       "no": 20,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Delta",
         "affinities": [
@@ -377,14 +377,14 @@
       "force": {
         "name": "Flood",
         "duration": "Once",
-        "text": "Return two adjacent permanences."
+        "text": "Return two of your permanences."
       }
     },
     {
       "id": "21",
       "no": 21,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Hot Spring",
         "affinities": [
@@ -396,14 +396,14 @@
       "force": {
         "name": "Scald",
         "duration": "Once",
-        "text": "Remove a fire or earth permanence."
+        "text": "Remove an uncommon permanence."
       }
     },
     {
       "id": "22",
       "no": 22,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Cloud Forest",
         "affinities": [
@@ -414,15 +414,15 @@
       },
       "force": {
         "name": "Fog",
-        "duration": "Lasts the round",
-        "text": "A world can't grow."
+        "duration": "Until your next turn",
+        "text": "No uncommon forces until your next turn."
       }
     },
     {
       "id": "23",
       "no": 23,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Volcano",
         "affinities": [
@@ -434,14 +434,14 @@
       "force": {
         "name": "Lava Bomb",
         "duration": "Once",
-        "text": "Remove an earth or air permanence."
+        "text": "Remove an uncommon permanence."
       }
     },
     {
       "id": "24",
       "no": 24,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Sea Cliff",
         "affinities": [
@@ -453,14 +453,14 @@
       "force": {
         "name": "Gale",
         "duration": "Once",
-        "text": "Move two permanences to other worlds."
+        "text": "Move an uncommon permanence to another world."
       }
     },
     {
       "id": "25",
       "no": 25,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Desert",
         "affinities": [
@@ -471,15 +471,15 @@
       },
       "force": {
         "name": "Heatwave",
-        "duration": "Lasts the round",
-        "text": "Two earth permanences lose their affinities."
+        "duration": "Once",
+        "text": "Play another card."
       }
     },
     {
       "id": "26",
       "no": 26,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Mangrove",
         "affinities": [
@@ -491,14 +491,14 @@
       "force": {
         "name": "Undertow",
         "duration": "Once",
-        "text": "Return a world of two."
+        "text": "Return one of your worlds."
       }
     },
     {
       "id": "27",
       "no": 27,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Mud Pots",
         "affinities": [
@@ -509,15 +509,15 @@
       },
       "force": {
         "name": "Downpour",
-        "duration": "Lasts the round",
-        "text": "A world's fire permanences become water."
+        "duration": "Once",
+        "text": "Play a permanence from your void."
       }
     },
     {
       "id": "28",
       "no": 28,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Waterfall",
         "affinities": [
@@ -528,15 +528,15 @@
       },
       "force": {
         "name": "Cloudburst",
-        "duration": "Lasts the round",
-        "text": "A permanence becomes water."
+        "duration": "Once",
+        "text": "Return two cards from your void."
       }
     },
     {
       "id": "29",
       "no": 29,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Cinder Cone",
         "affinities": [
@@ -547,15 +547,15 @@
       },
       "force": {
         "name": "Ashfall",
-        "duration": "Lasts the round",
-        "text": "A world's air permanences lose their affinities."
+        "duration": "Once",
+        "text": "Split one of your worlds."
       }
     },
     {
       "id": "30",
       "no": 30,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Canyon",
         "affinities": [
@@ -566,15 +566,15 @@
       },
       "force": {
         "name": "Dust Storm",
-        "duration": "Lasts the round",
-        "text": "A world's air permanences become earth."
+        "duration": "Once",
+        "text": "Swap two of your permanences."
       }
     },
     {
       "id": "31",
       "no": 31,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Savanna",
         "affinities": [
@@ -585,15 +585,15 @@
       },
       "force": {
         "name": "Sandstorm",
-        "duration": "Lasts the round",
-        "text": "A world's earth permanences become fire."
+        "duration": "Once",
+        "text": "Play another card."
       }
     },
     {
       "id": "32",
       "no": 32,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Spring",
         "affinities": [
@@ -612,7 +612,7 @@
       "id": "33",
       "no": 33,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Mountain Range",
         "affinities": [
@@ -623,15 +623,15 @@
       },
       "force": {
         "name": "Rockslide",
-        "duration": "Lasts the round",
-        "text": "An air permanence becomes earth."
+        "duration": "Once",
+        "text": "Move one of your permanences."
       }
     },
     {
       "id": "34",
       "no": 34,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Fumarole",
         "affinities": [
@@ -642,15 +642,15 @@
       },
       "force": {
         "name": "Flare-up",
-        "duration": "Once",
-        "text": "Remove a common force."
+        "duration": "Until your next turn",
+        "text": "No uncommon forces until your next turn."
       }
     },
     {
       "id": "35",
       "no": 35,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Sky Isle",
         "affinities": [
@@ -661,15 +661,15 @@
       },
       "force": {
         "name": "Waterspout",
-        "duration": "Lasts the round",
-        "text": "A world's water permanences become air."
+        "duration": "Once",
+        "text": "Split one of your worlds."
       }
     },
     {
       "id": "36",
       "no": 36,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Tidal Flat",
         "affinities": [
@@ -681,14 +681,14 @@
       "force": {
         "name": "Hail",
         "duration": "Once",
-        "text": "Remove a fire or air permanence."
+        "text": "Return two of your permanences."
       }
     },
     {
       "id": "37",
       "no": 37,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Old Growth",
         "affinities": [
@@ -699,15 +699,15 @@
       },
       "force": {
         "name": "Bramble",
-        "duration": "Lasts the round",
-        "text": "Your worlds' permanences can't be moved."
+        "duration": "Until your next turn",
+        "text": "No uncommon forces until your next turn."
       }
     },
     {
       "id": "38",
       "no": 38,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Obsidian",
         "affinities": [
@@ -718,15 +718,15 @@
       },
       "force": {
         "name": "Scorch",
-        "duration": "Lasts the round",
-        "text": "A world's earth permanences lose their affinities."
+        "duration": "Once",
+        "text": "Remove an uncommon permanence."
       }
     },
     {
       "id": "39",
       "no": 39,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Hidden Valley",
         "affinities": [
@@ -738,14 +738,14 @@
       "force": {
         "name": "Landslide",
         "duration": "Once",
-        "text": "Remove an air or water permanence."
+        "text": "An uncommon permanence becomes its own world."
       }
     },
     {
       "id": "40",
       "no": 40,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Deep Lake",
         "affinities": [
@@ -756,15 +756,15 @@
       },
       "force": {
         "name": "Ice Storm",
-        "duration": "Lasts the round",
-        "text": "Water permanences can't be removed."
+        "duration": "Once",
+        "text": "Return two cards from your void."
       }
     },
     {
       "id": "41",
       "no": 41,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Plateau",
         "affinities": [
@@ -775,15 +775,15 @@
       },
       "force": {
         "name": "Permafrost",
-        "duration": "Lasts the round",
-        "text": "Earth permanences can't be removed."
+        "duration": "Once",
+        "text": "Play another card."
       }
     },
     {
       "id": "42",
       "no": 42,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Lava Lake",
         "affinities": [
@@ -794,15 +794,15 @@
       },
       "force": {
         "name": "Heat Dome",
-        "duration": "Lasts the round",
-        "text": "Fire permanences can't be removed."
+        "duration": "Once",
+        "text": "Play another fire card."
       }
     },
     {
       "id": "43",
       "no": 43,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Twin Peaks",
         "affinities": [
@@ -813,15 +813,15 @@
       },
       "force": {
         "name": "High Pressure",
-        "duration": "Lasts the round",
-        "text": "Air permanences can't be removed."
+        "duration": "Once",
+        "text": "Swap two of your permanences."
       }
     },
     {
       "id": "44",
       "no": 44,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Mirage",
         "affinities": [],
@@ -829,15 +829,15 @@
       },
       "force": {
         "name": "Heat Shimmer",
-        "duration": "Lasts the round",
-        "text": "A permanence copies an adjacent permanence."
+        "duration": "Once",
+        "text": "Move one of your permanences."
       }
     },
     {
       "id": "45",
       "no": 45,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Caldera Lake",
         "affinities": [
@@ -850,14 +850,14 @@
       "force": {
         "name": "Collapse",
         "duration": "Once",
-        "text": "Remove a permanence."
+        "text": "Remove a rare permanence."
       }
     },
     {
       "id": "46",
       "no": 46,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Rainforest",
         "affinities": [
@@ -870,14 +870,14 @@
       "force": {
         "name": "Monsoon",
         "duration": "Once",
-        "text": "Return every lone permanence."
+        "text": "Play a card from your void."
       }
     },
     {
       "id": "47",
       "no": 47,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Geyser Basin",
         "affinities": [
@@ -890,14 +890,14 @@
       "force": {
         "name": "Typhoon",
         "duration": "Once",
-        "text": "A world's permanences become separate worlds."
+        "text": "Move two of your permanences."
       }
     },
     {
       "id": "48",
       "no": 48,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Red Canyon",
         "affinities": [
@@ -909,15 +909,15 @@
       },
       "force": {
         "name": "Erosion",
-        "duration": "Lasts the round",
-        "text": "Two permanences lose their affinities."
+        "duration": "Once",
+        "text": "Return two of your worlds."
       }
     },
     {
       "id": "49",
       "no": 49,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Archipelago",
         "affinities": [
@@ -930,14 +930,14 @@
       "force": {
         "name": "Surge",
         "duration": "Once",
-        "text": "Return a permanence and its adjacent permanences."
+        "text": "Return three cards from your void."
       }
     },
     {
       "id": "50",
       "no": 50,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Boiling Lake",
         "affinities": [
@@ -950,14 +950,14 @@
       "force": {
         "name": "Torrent",
         "duration": "Once",
-        "text": "Return two fire permanences."
+        "text": "Play a card from your void."
       }
     },
     {
       "id": "51",
       "no": 51,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Misty Fjord",
         "affinities": [
@@ -969,15 +969,15 @@
       },
       "force": {
         "name": "Whiteout",
-        "duration": "Lasts the round",
-        "text": "Worlds can't grow until your next turn."
+        "duration": "Once",
+        "text": "Play a card from your void."
       }
     },
     {
       "id": "52",
       "no": 52,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Floodplain",
         "affinities": [
@@ -990,14 +990,14 @@
       "force": {
         "name": "Mudflow",
         "duration": "Once",
-        "text": "Return a world of three."
+        "text": "Return two of your worlds."
       }
     },
     {
       "id": "53",
       "no": 53,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Smoking Hills",
         "affinities": [
@@ -1009,15 +1009,15 @@
       },
       "force": {
         "name": "Eruption",
-        "duration": "Lasts the round",
-        "text": "A world loses its affinities."
+        "duration": "Once",
+        "text": "Play two more cards."
       }
     },
     {
       "id": "54",
       "no": 54,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Highlands",
         "affinities": [
@@ -1030,14 +1030,14 @@
       "force": {
         "name": "Earthquake",
         "duration": "Once",
-        "text": "Split each of a player's worlds."
+        "text": "Return two of your worlds."
       }
     },
     {
       "id": "55",
       "no": 55,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Lava Coast",
         "affinities": [
@@ -1049,15 +1049,15 @@
       },
       "force": {
         "name": "Steam Explosion",
-        "duration": "Lasts the round",
-        "text": "Two adjacent permanences lose their affinities."
+        "duration": "Once",
+        "text": "Play two more cards."
       }
     },
     {
       "id": "56",
       "no": 56,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Lava Plain",
         "affinities": [
@@ -1070,14 +1070,14 @@
       "force": {
         "name": "Magma",
         "duration": "Once",
-        "text": "Remove two adjacent permanences."
+        "text": "Play two more cards."
       }
     },
     {
       "id": "57",
       "no": 57,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Sand Sea",
         "affinities": [
@@ -1090,14 +1090,14 @@
       "force": {
         "name": "Supercell",
         "duration": "Once",
-        "text": "Remove two lone permanences."
+        "text": "Play two more cards."
       }
     },
     {
       "id": "58",
       "no": 58,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Cloud Sea",
         "affinities": [
@@ -1110,14 +1110,14 @@
       "force": {
         "name": "Hurricane",
         "duration": "Once",
-        "text": "Rearrange a player's worlds."
+        "text": "Move two of your permanences."
       }
     },
     {
       "id": "59",
       "no": 59,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Stone Towers",
         "affinities": [
@@ -1130,14 +1130,14 @@
       "force": {
         "name": "Gale Force",
         "duration": "Once",
-        "text": "Move three permanences to other worlds."
+        "text": "Move two of your permanences."
       }
     },
     {
       "id": "60",
       "no": 60,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "High Desert",
         "affinities": [
@@ -1157,7 +1157,7 @@
       "id": "61",
       "no": 61,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Lagoon",
         "affinities": [
@@ -1170,14 +1170,14 @@
       "force": {
         "name": "Flash Flood",
         "duration": "Once",
-        "text": "Remove two fire permanences."
+        "text": "Return three cards from your void."
       }
     },
     {
       "id": "62",
       "no": 62,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Moor",
         "affinities": [
@@ -1190,14 +1190,14 @@
       "force": {
         "name": "Avalanche",
         "duration": "Once",
-        "text": "Remove two air permanences."
+        "text": "Return two of your worlds."
       }
     },
     {
       "id": "63",
       "no": 63,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Cinder Field",
         "affinities": [
@@ -1210,14 +1210,14 @@
       "force": {
         "name": "Wildfire",
         "duration": "Once",
-        "text": "Remove two earth permanences."
+        "text": "Play two more cards."
       }
     },
     {
       "id": "64",
       "no": 64,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Peak",
         "affinities": [
@@ -1230,86 +1230,86 @@
       "force": {
         "name": "Drought",
         "duration": "Once",
-        "text": "Remove two water permanences."
+        "text": "Move two of your permanences."
       }
     },
     {
       "id": "65",
       "no": 65,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Ice Sheet",
         "affinities": [
           "water"
         ],
-        "text": "Fire permanences lose their affinities."
+        "text": "Each permanence in its world gains water."
       },
       "force": {
         "name": "Blizzard",
-        "duration": "Once",
-        "text": "Return a world."
+        "duration": "Until your next turn",
+        "text": "No rare forces until your next turn."
       }
     },
     {
       "id": "66",
       "no": 66,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Thicket",
         "affinities": [
           "earth"
         ],
-        "text": "Air permanences lose their affinities."
+        "text": "Each permanence in its world gains earth."
       },
       "force": {
         "name": "Shelter",
-        "duration": "Lasts the round",
-        "text": "A permanence can't be moved or removed."
+        "duration": "Until your next turn",
+        "text": "No rare forces until your next turn."
       }
     },
     {
       "id": "67",
       "no": 67,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Badlands",
         "affinities": [
           "fire"
         ],
-        "text": "Water permanences lose their affinities."
+        "text": "Each permanence in its world gains fire."
       },
       "force": {
         "name": "Ember",
-        "duration": "Lasts the round",
-        "text": "A lone permanence loses its affinities."
+        "duration": "Once",
+        "text": "Play two more cards."
       }
     },
     {
       "id": "68",
       "no": 68,
       "rarity": "A",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Wind Gap",
         "affinities": [
           "air"
         ],
-        "text": "Earth permanences lose their affinities."
+        "text": "Each permanence in its world gains air."
       },
       "force": {
         "name": "Downdraft",
         "duration": "Once",
-        "text": "A fire permanence becomes its own world."
+        "text": "A rare permanence becomes its own world."
       }
     },
     {
       "id": "meta-echo",
       "no": 69,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Echo",
         "text": "Play a card from your void."
@@ -1319,7 +1319,7 @@
       "id": "meta-hollow",
       "no": 70,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Hollow",
         "text": "Return a card from your void."
@@ -1329,7 +1329,7 @@
       "id": "meta-equinox",
       "no": 71,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Equinox",
         "text": "Return 3 cards from your void."
@@ -1339,7 +1339,7 @@
       "id": "meta-verge",
       "no": 72,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Verge",
         "text": "Play two more cards this turn."
@@ -1349,7 +1349,7 @@
       "id": "meta-lull",
       "no": 73,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Lull",
         "text": "Your opponent skips their next turn."
@@ -1359,7 +1359,7 @@
       "id": "meta-ebb",
       "no": 74,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Ebb",
         "text": "Remove your opponent's last common."
@@ -1369,7 +1369,7 @@
       "id": "meta-horizon",
       "no": 75,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Horizon",
         "text": "Remove a card from your opponent's binder."
@@ -1379,7 +1379,7 @@
       "id": "meta-calm",
       "no": 76,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Calm",
         "text": "No forces this round."
@@ -1389,7 +1389,7 @@
       "id": "meta-aftershock",
       "no": 77,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Aftershock",
         "text": "Your opponent takes the next two turns."
@@ -1399,7 +1399,7 @@
       "id": "meta-stillness",
       "no": 78,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Stillness",
         "text": "Your opponent passes."
@@ -1409,7 +1409,7 @@
       "id": "meta-sunlight",
       "no": 79,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Sunlight",
         "text": "Remove every force."
@@ -1419,7 +1419,7 @@
       "id": "meta-weathering",
       "no": 80,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Weathering",
         "text": "Return the last card your opponent played."
@@ -1429,7 +1429,7 @@
       "id": "meta-thunder",
       "no": 81,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Thunder",
         "text": "Play once more after both players pass."
@@ -1439,7 +1439,7 @@
       "id": "meta-haze",
       "no": 82,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "meta": {
         "name": "Haze",
         "text": "Your opponent can't play forces next turn."
@@ -1449,7 +1449,7 @@
       "id": "83",
       "no": 83,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Ice Floe",
         "affinities": [
@@ -1459,15 +1459,15 @@
       },
       "force": {
         "name": "Current",
-        "duration": "Lasts the round",
-        "text": "An earth permanence becomes water."
+        "duration": "Once",
+        "text": "Play a permanence from your void."
       }
     },
     {
       "id": "84",
       "no": 84,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Shoal",
         "affinities": [
@@ -1477,15 +1477,15 @@
       },
       "force": {
         "name": "Mist",
-        "duration": "Lasts the round",
-        "text": "An air permanence becomes water."
+        "duration": "Once",
+        "text": "Move one of your permanences."
       }
     },
     {
       "id": "85",
       "no": 85,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Fen",
         "affinities": [
@@ -1504,7 +1504,7 @@
       "id": "86",
       "no": 86,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Hill",
         "affinities": [
@@ -1515,14 +1515,14 @@
       "force": {
         "name": "Rockfall",
         "duration": "Lasts the round",
-        "text": "An air permanence becomes earth."
+        "text": "One of your permanences becomes earth."
       }
     },
     {
       "id": "87",
       "no": 87,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Meadow",
         "affinities": [
@@ -1532,15 +1532,15 @@
       },
       "force": {
         "name": "Mudslide",
-        "duration": "Lasts the round",
-        "text": "A fire permanence becomes earth."
+        "duration": "Once",
+        "text": "Move one of your permanences."
       }
     },
     {
       "id": "88",
       "no": 88,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Cavern",
         "affinities": [
@@ -1558,7 +1558,7 @@
       "id": "89",
       "no": 89,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Dune",
         "affinities": [
@@ -1568,15 +1568,15 @@
       },
       "force": {
         "name": "Updraft",
-        "duration": "Lasts the round",
-        "text": "An air permanence becomes fire."
+        "duration": "Once",
+        "text": "Play another fire card."
       }
     },
     {
       "id": "90",
       "no": 90,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Barrens",
         "affinities": [
@@ -1586,15 +1586,15 @@
       },
       "force": {
         "name": "Smoke",
-        "duration": "Lasts the round",
-        "text": "A water permanence loses its affinities."
+        "duration": "Once",
+        "text": "Swap two of your permanences."
       }
     },
     {
       "id": "91",
       "no": 91,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Crater",
         "affinities": [
@@ -1606,14 +1606,14 @@
       "force": {
         "name": "Meteor",
         "duration": "Once",
-        "text": "Remove a permanence played last turn."
+        "text": "Play two more fire cards."
       }
     },
     {
       "id": "92",
       "no": 92,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Ledge",
         "affinities": [
@@ -1624,14 +1624,14 @@
       "force": {
         "name": "Gust",
         "duration": "Once",
-        "text": "A ◯ permanence becomes its own world."
+        "text": "A common permanence becomes its own world."
       }
     },
     {
       "id": "93",
       "no": 93,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Ridge",
         "affinities": [
@@ -1641,15 +1641,15 @@
       },
       "force": {
         "name": "Breeze",
-        "duration": "Lasts the round",
-        "text": "A water permanence becomes air."
+        "duration": "Once",
+        "text": "Move one of your permanences."
       }
     },
     {
       "id": "94",
       "no": 94,
       "rarity": "C",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Eyrie",
         "affinities": [
@@ -1667,7 +1667,7 @@
       "id": "95",
       "no": 95,
       "rarity": "B",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Hanging Valley",
         "affinities": [],
@@ -1676,14 +1676,14 @@
       "force": {
         "name": "Squall",
         "duration": "Once",
-        "text": "A permanence becomes its own world."
+        "text": "Swap two of your permanences."
       }
     },
     {
       "id": "96",
       "no": 96,
       "rarity": "S",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Ocean",
         "affinities": [
@@ -1704,7 +1704,7 @@
       "id": "97",
       "no": 97,
       "rarity": "S",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Pangaea",
         "affinities": [
@@ -1725,7 +1725,7 @@
       "id": "98",
       "no": 98,
       "rarity": "S",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Core",
         "affinities": [
@@ -1746,7 +1746,7 @@
       "id": "99",
       "no": 99,
       "rarity": "S",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Trade Winds",
         "affinities": [
@@ -1767,7 +1767,7 @@
       "id": "100",
       "no": 100,
       "rarity": "S",
-      "source": "Fifth pass: playable again (Nov 11, 2026)",
+      "source": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
       "permanence": {
         "name": "Origin",
         "affinities": [

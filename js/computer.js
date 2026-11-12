@@ -29,7 +29,7 @@ const ORDER = [2, 8, 1, 4];
 const rankOf = (mask) => (mask === 15 ? 9 : Math.min(...ORDER.map((b, k) => (mask & b ? k : 9))));
 const inOrder = (masks) => masks.slice().sort((a, b) => rankOf(a) - rankOf(b));
 function chipSvg(mask) {
-  if (mask === 15) return `<svg viewBox="0 0 24 24" fill="none" stroke="#C2C5B8" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/></svg>`;
+  if (mask === 15) return `<svg viewBox="0 0 24 24" fill="none" stroke="#7FBF73" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/></svg>`; // "any", its own color (Nov 11)
   return ORDER
     .filter((b) => mask & b)
     .map((b) => `<svg viewBox="0 0 24 24" fill="none" stroke="${SYM[b].color}" stroke-width="2.2" stroke-linejoin="round"><path d="${SYM[b].d}"/></svg>`)

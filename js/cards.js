@@ -17,9 +17,16 @@ const SYMBOLS = {
   water: { color: "#7FA7B5", d: "M3.5 5 H20.5 L12 20.5 Z" },
   air: { color: "#D5D8CC", d: "M12 3.5 L20.5 19 H3.5 Z M3 12.5 H21" },
   earth: { color: "#A88F6B", d: "M3.5 5 H20.5 L12 20.5 Z M3 11.5 H21" },
-  any: { color: "#C2C5B8", d: "M4.5 12 a7.5 7.5 0 1 0 15 0 a7.5 7.5 0 1 0 -15 0 M10.5 12 a1.5 1.5 0 1 0 3 0 a1.5 1.5 0 1 0 -3 0" },
+  // "any" has its own color, apart from air's pale grey (Cam, Nov 11)
+  any: { color: "#7FBF73", d: "M4.5 12 a7.5 7.5 0 1 0 15 0 a7.5 7.5 0 1 0 -15 0 M10.5 12 a1.5 1.5 0 1 0 3 0 a1.5 1.5 0 1 0 -3 0" },
 };
 const RARITY_WORD = { C: "common", B: "uncommon", A: "rare", S: "pinnacle" };
+// Rarity is a letter with no diamond around it (Cam, Nov 11), in shades of one violet that no element uses: paler and
+// greyer at common, deeper and more saturated going up.
+export const RARITY_COLOR = { C: "#BDB6CF", B: "#AC93E2", A: "#9A6DF0", S: "#B653FF" };
+const RARW = { common: "C", uncommon: "B", rare: "A", pinnacle: "S" };
+const rarityGlyph = (r) =>
+  `<span role="img" aria-label="${RARITY_WORD[r]}" style="font-style:normal;font-weight:700;color:${RARITY_COLOR[r]};text-shadow:1px 1px 0 #0D0F0D;margin:0 .04em">${r}</span>`;
 
 const esc = (s) =>
   String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -58,19 +65,25 @@ const ringedSym = (el) => {
 };
 export function rulesHtml(text) {
   return esc(text)
+    // a rarity named in a rule is drawn as its symbol, as elements are (Cam, Nov 11): "Remove a [C] permanence."
+    .replace(/\b(common|uncommon|rare|pinnacle)(?=\s+(?:permanences?|forces?)\b)/gi, (_, r) => `\u0000Q${RARW[r.toLowerCase()]}\u0000`)
     .replace(/\b(becomes?|become)\s+(fire|water|air|earth)\b/gi, (_, v, e) => `${v} \u0000R${e.toLowerCase()}\u0000`)
     .replace(/\+1\s+(fire|water|air|earth)\b/gi, (_, e) => `+1 \u0000R${e.toLowerCase()}\u0000`)
     .replace(/\bgains\s+(fire|water|air|earth)\b/gi, (_, e) => `gains \u0000R${e.toLowerCase()}\u0000`) // a pip (Nov 11, positional)
     .replace(/\bhas((?:\s+(?:fire|water|air|earth)\b)+)/gi, (_, list) => "has " + `<span style="white-space:nowrap">${list.trim().replace(/(fire|water|air|earth)/gi, (e) => `\u0000R${e.toLowerCase()}\u0000`)}</span>`)
     .replace(/\b(fire|water|air|earth)\b/gi, (_, e) => `\u0000B${e.toLowerCase()}\u0000`)
-    .replace(/\u0000([RB])(fire|water|air|earth)\u0000([.,;:]?)/g, (_, k, e, p) => `<span style="white-space:nowrap">${k === "R" ? ringedSym(e) : bareSym(e)}${p}</span>`);
+    .replace(/\u0000([RB])(fire|water|air|earth)\u0000([.,;:]?)/g, (_, k, e, p) => `<span style="white-space:nowrap">${k === "R" ? ringedSym(e) : bareSym(e)}${p}</span>`)
+    .replace(/\u0000Q([CBAS])\u0000/g, (_, r) => rarityGlyph(r))
+    .replace(/\ban (?=<span role="img" aria-label="uncommon")/g, "a "); // "an uncommon" reads "a [B]" once drawn
 }
 
 const FOOT_RULE =`<svg width="288" height="10" viewBox="0 0 288 10" style="position:absolute;top:386px;left:16px" aria-hidden="true"><path d="M32 5 H256" stroke="#0D0F0D" stroke-width="3" transform="translate(0 1)"/><path d="M32 5 H256" stroke="#7E827A" stroke-width="1.4"/><path d="M24 5 L32 1 L40 5 L32 9 Z M248 5 L256 1 L264 5 L256 9 Z" fill="#7E827A"/></svg>`;
 
 function footer(card) {
   const no = card.no ? `${card.no}/100` : "—/100";
-  return `${FOOT_RULE}<div style="position:absolute;left:22px;top:404px;height:32px;display:flex;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.04em;color:#B9BCB0">${no}</div><div role="img" aria-label="Rarity ${card.rarity}, ${RARITY_WORD[card.rarity] || ""}" style="position:absolute;right:18px;top:402px;width:36px;height:36px"><div style="position:absolute;top:7px;left:7px;width:20px;height:20px;transform:rotate(45deg);border:1.6px solid #C2C5B8;box-shadow:1px 1px 0 #0D0F0D"></div><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;color:#C2C5B8;text-shadow:1px 1px 0 #0D0F0D">${esc(card.rarity)}</div></div>`;
+  // meta cards have no rarity (Oct 29)
+  const rar = card.meta ? "" : `<div role="img" aria-label="Rarity ${card.rarity}, ${RARITY_WORD[card.rarity] || ""}" style="position:absolute;right:18px;top:396px;height:44px;display:flex;align-items:center;font-size:40px;font-weight:700;line-height:1;color:${RARITY_COLOR[card.rarity] || "#C2C5B8"};text-shadow:1.5px 1.5px 0 #0D0F0D">${esc(card.rarity)}</div>`;
+  return `${FOOT_RULE}<div style="position:absolute;left:22px;top:404px;height:32px;display:flex;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.04em;color:#B9BCB0">${no}</div>${rar}`;
 }
 
 const PANEL = "position:absolute;left:16px;width:288px;border-radius:10px;box-shadow:inset 0 4px 12px rgba(0,0,0,.65),inset 0 -1px 0 rgba(255,255,255,.06)";
@@ -99,8 +112,9 @@ function fallbackHtml(card, face) {
   const text = p.text
     ? `<div style="position:absolute;left:10px;right:10px;bottom:10px;box-sizing:border-box;padding:6px 10px;border-radius:6px;background:rgba(13,15,13,.82);border:1px solid rgba(194,197,184,.28);font-size:32px;font-style:italic;line-height:1.08;color:#ECE6D6">${rulesHtml(p.text)}</div>`
     : "";
-  const syms = (p.affinities || []).map((a) => symbolSvg(a)).join("");
-  return `<div style="${BODY};background:#353A35"><div style="${TITLE};top:10px">${esc(p.name)}</div><div style="${PANEL};top:52px;height:280px;background:rgba(0,0,0,.2);overflow:hidden">${text}</div><div role="img" aria-label="Affinity" style="position:absolute;top:342px;left:16px;width:288px;height:36px;display:flex;align-items:center;justify-content:center;gap:12px">${syms}</div>${footer(card)}</div>`;
+  // pips 56px tall, about 12.5% of the card's height (Cam, Nov 11: 10-15%)
+  const syms = (p.affinities || []).map((a) => symbolSvg(a, 56)).join("");
+  return `<div style="${BODY};background:#353A35"><div style="${TITLE};top:10px">${esc(p.name)}</div><div style="${PANEL};top:52px;height:258px;background:rgba(0,0,0,.2);overflow:hidden">${text}</div><div role="img" aria-label="Affinity" style="position:absolute;top:318px;left:16px;width:288px;height:62px;display:flex;align-items:center;justify-content:center;gap:10px">${syms}</div>${footer(card)}</div>`;
 }
 
 // SVG ids (filters, patterns) must be unique on the page, and the same card

@@ -79,6 +79,7 @@ export function permEffects(t) {
   if (has(/^Play only on your first turn\./)) pe.firstTurn = true; // the three-of-one-element rares
   if (has(/^Play only on a new world\./)) pe.newWorld = true; // the three-different-element rares
   if ((m = has(/^The permanence (below|above|beside|across from) this gains (fire|water|air|earth)\./))) pe.gain = { dir: m[1], el: ELW[m[2]] }; // positional (idea 11)
+  if ((m = has(/^Each permanence in its world gains (fire|water|air|earth)\./))) pe.gainAll = ELW[m[1]]; // Ice Sheet's cycle, sixth pass
   if (!hit) pe.unknown = true;
   return pe;
 }
@@ -104,9 +105,35 @@ const EXACT_KEYS = {
   "A world can't lose permanences.": "holdWorld",
   "Return a card you played last round.": "lastRound1",
   "Return two cards you played last round.": "lastRound2",
+  // sixth pass (Nov 11): forces that help their owner
+  "Split one of your worlds.": "splitOwn",
+  "Play a permanence from your void.": "playVoidPerm",
+  "Play a card from your void.": "playOwnVoid",
+  "Swap two of your permanences.": "swapOwn",
+  "Move one of your permanences.": "moveOwn",
+  "Move two of your permanences.": "move2Own",
+  "Return one of your permanences.": "returnOwn",
+  "Return two of your permanences.": "returnOwn2",
+  "Return one of your worlds.": "returnOwnWorld",
+  "Return two of your worlds.": "returnOwnWorld2",
+  "Play another card.": "extraAny1",
+  "Play two more cards.": "extraAny2",
 };
+const COUNTW = { a: 1, one: 1, two: 2, three: 3 };
+const RARW = { common: "C", uncommon: "B", rare: "A", pinnacle: "S" };
 function forceKey(name, t) {
   let m; t = t || "";
+  // sixth pass (Nov 11): answers gated by rarity ("only its own rarity", Cam), and the rest
+  if ((m = t.match(/^Remove an? (common|uncommon|rare|pinnacle) permanence\.$/))) return { k: "removeR", r: RARW[m[1]] };
+  if ((m = t.match(/^Swap two (common|uncommon|rare|pinnacle) permanences\.$/))) return { k: "swapR", r: RARW[m[1]] };
+  if ((m = t.match(/^Move an? (common|uncommon|rare|pinnacle) permanence to another world\.$/))) return { k: "moveR", r: RARW[m[1]] };
+  if ((m = t.match(/^An? (common|uncommon|rare|pinnacle) permanence becomes its own world\.$/))) return { k: "ownWorldR", r: RARW[m[1]] };
+  if ((m = t.match(/^Remove an? (common|uncommon|rare|pinnacle) force\.$/))) return { k: "removeForceR", r: RARW[m[1]] };
+  if ((m = t.match(/^No (common|uncommon|rare|pinnacle) forces until your next turn\.$/))) return { k: "noForcesR", r: RARW[m[1]] };
+  if ((m = t.match(/^Return (a|one|two|three) cards? from your void\.$/))) return { k: "voidBack", n: COUNTW[m[1]] };
+  if ((m = t.match(/^Play another (fire|water|air|earth) card\.$/))) return { k: "extraEl", el: m[1], n: 1 };
+  if ((m = t.match(/^Play two more (fire|water|air|earth) cards\.$/))) return { k: "extraEl", el: m[1], n: 2 };
+  if ((m = t.match(/^One of your permanences becomes (fire|water|air|earth)\.$/))) return { k: "setOwn", to: ELW[m[1]] };
   if ((m = t.match(/^An? (fire|water|air|earth) permanence loses its affinities\.$/))) return { k: "blankOne", el: ELW[m[1]] };
   if ((m = t.match(/^An? (fire|water|air|earth) permanence becomes (fire|water|air|earth)\.$/))) return { k: "setOne", el: ELW[m[1]], to: ELW[m[2]] };
   if ((m = t.match(/^A (fire|water|air|earth|◯) permanence becomes its own world\.$/))) return { k: "ownWorld", el: m[1] === "◯" ? 0 : ELW[m[1]] };
@@ -297,7 +324,7 @@ export function view(s) {
   }
   for (const f of fs) {
     const n = fname(f);
-    if (n === "setOne") { const i = s.inst[f.t]; if (i && applies(s, f, i)) tok[i.id] = [fx(f).to]; }
+    if (n === "setOne" || n === "setOwn") { const i = s.inst[f.t]; if (i && applies(s, f, i)) tok[i.id] = [fx(f).to]; }
     else if (SET_EL[n] !== undefined) { const i = s.inst[f.t]; if (i && applies(s, f, i)) tok[i.id] = [SET_EL[n]]; }
     else if (WORLD_SHIFT[n]) {
       const w = s.worlds[f.w]; if (!w) continue; const [x, y] = WORLD_SHIFT[n];
@@ -333,8 +360,10 @@ export function view(s) {
   // that way (READING).
   const gained = {};
   for (const i of ps) {
-    const gn = pe(i).gain; const w = s.worlds[i.w]; if (!gn || !w) continue;
-    for (const c of cellsToward(geoOf(w), i.cell, gn.dir)) { const t = w.cells[c]; if (t !== null && t !== undefined) (gained[t] = gained[t] || []).push(gn.el); }
+    const w = s.worlds[i.w]; if (!w) continue;
+    const gn = pe(i).gain, ga = pe(i).gainAll;
+    if (gn) for (const c of cellsToward(geoOf(w), i.cell, gn.dir)) { const t = w.cells[c]; if (t !== null && t !== undefined) (gained[t] = gained[t] || []).push(gn.el); }
+    if (ga) for (const t of w.cells) if (t !== null && t !== undefined) (gained[t] = gained[t] || []).push(ga); // itself included
   }
   const cur = {};
   for (const i of ps) cur[i.id] = blank[i.id] ? [] : gained[i.id] ? tok[i.id].concat(gained[i.id]) : tok[i.id];
@@ -749,6 +778,53 @@ function forceMoves(s, P, id, out, inEcho) {
       }
       return;
     }
+    // ---- sixth pass (Nov 11). Answers reach only permanences (or forces) of the force's own rarity (X.r, Cam: "only its
+    // own rarity"); the rest act on their owner's own cards, void and binder.
+    case "removeR": forT(tp.filter((i) => C[i.card].rarity === X.r && canRemove(s, i, src))); return;
+    case "swapR": pairs(tp.filter((i) => C[i.card].rarity === X.r && canMove(s, i, src)), (a, b) => a.owner === b.owner); return; // READING: two of one player's, in one world or two
+    case "moveR": movesOf(tp.filter((i) => C[i.card].rarity === X.r)); return;
+    case "ownWorldR": forT(tp.filter((i) => C[i.card].rarity === X.r && big(i) && canMove(s, i, src))); return;
+    case "removeForceR": for (const f of forces(s)) if (C[f.card].rarity === X.r) mk({ f: f.id }, [{ k: "force", id: f.id }]); return;
+    case "noForcesR": if (!forces(s).some((f) => fname(f) === "noForcesR" && fx(f).r === X.r)) mk({}); return;
+    case "splitOwn": for (const w of tw) if (w.owner === P && worldSize(w) >= 2 && canSplit(s, w) && permsIn(s, w).some((i) => canMove(s, i, src))) mk({ w: w.id }, [worldPick(w.id)]); return;
+    case "swapOwn": pairs(tp.filter((i) => i.owner === P && canMove(s, i, src))); return;
+    case "moveOwn": movesOf(tp.filter((i) => i.owner === P)); return;
+    case "move2Own": { // two of your permanences, each to another of your worlds (as Gale)
+      const mv = tp.filter((i) => i.owner === P && canMove(s, i, src));
+      for (let a = 0; a < mv.length; a++) for (let b = a + 1; b < mv.length; b++) {
+        for (const d1 of destinations(s, mv[a], true)) for (const d2 of destinations(s, mv[b], true)) {
+          if (d1.w2 === mv[b].w && d2.w2 === mv[a].w) continue;
+          mk({ t: mv[a].id, w2: d1.w2, cell: d1.cell, t2: mv[b].id, w3: d2.w2, cell3: d2.cell }, [permPick(mv[a].id), cellPick(d1.w2, d1.cell), permPick(mv[b].id), cellPick(d2.w2, d2.cell)]);
+        }
+      }
+      return;
+    }
+    case "returnOwn": forT(tp.filter((i) => i.owner === P && back(i))); return;
+    case "returnOwn2": pairs(tp.filter((i) => i.owner === P && back(i))); return;
+    case "returnOwnWorld": for (const w of tw) if (w.owner === P) mk({ w: w.id }, [worldPick(w.id)]); return;
+    case "returnOwnWorld2": { const mine = tw.filter((w) => w.owner === P); for (let a = 0; a < mine.length; a++) for (let b = a + 1; b < mine.length; b++) mk({ w: mine[a].id, w2: mine[b].id }, [worldPick(mine[a].id), worldPick(mine[b].id)]); return; }
+    case "setOwn": forT(tp.filter((i) => i.owner === P)); return;
+    case "voidBack": { // "Return two cards from your void.": up to that many (READING, as Equinox)
+      const v = [...new Set(s.p[P].void)], k = X.n;
+      if (!v.length) return;
+      if (v.length <= k) { mk({ cards: v }, v.map((c) => ({ k: "void", card: c }))); return; }
+      const pick = (from, need, acc) => { if (!need) { mk({ cards: acc.slice() }, acc.map((c) => ({ k: "void", card: c }))); return; } for (let x = from; x < v.length; x++) { acc.push(v[x]); pick(x + 1, need - 1, acc); acc.pop(); } };
+      pick(0, k, []);
+      return;
+    }
+    case "playVoidPerm": case "playOwnVoid": { // "Play a permanence from your void." / "Play a card from your void." (Echo's)
+      if (inEcho) return;
+      const seen = new Set();
+      for (const v of s.p[P].void) {
+        if (seen.has(v) || C[v].name === "Echo" || ["playVoid", "playVoidPerm", "playOwnVoid"].includes(C[v].fkey)) continue; seen.add(v);
+        const sub = [];
+        if (n === "playVoidPerm") { if (!C[v].meta && C[v].only !== "force") permMoves(s, P, v, sub); }
+        else cardMoves(s, P, v, sub, true);
+        for (const m of sub) mk({ sub: m, from: P }, [{ k: "void", card: v }, { k: "face", face: m.face }].concat(m.picks));
+      }
+      return;
+    }
+    case "extraAny1": case "extraAny2": case "extraEl": mk({}); return; // "Play another card." and the rest: the plays come after
     case "Flare-up": for (const f of forces(s)) if (C[f.card].rarity === "C") mk({ f: f.id }, [{ k: "force", id: f.id }]); return;
     case "Ember": forT(tp.filter((i) => isLone(s, i))); return;
     case "Low Tide": for (const w of tw) if (w.owner === P) mk({ w: w.id }, [worldPick(w.id)]); return;
@@ -875,21 +951,26 @@ function cardMoves(s, P, id, out, inEcho) {
   if (d.meta) { metaMoves(s, P, id, out, inEcho); return; }
   // d.only (simulator's one-sided cards, for rating each side alone): "perm" or "force"; the other side is discarded
   if (d.only !== "force") permMoves(s, P, id, out);
-  if (!s.calm && !s.p[P].noForce && d.only !== "perm" && d.fname) forceMoves(s, P, id, out, inEcho);
+  const stopped = forces(s).some((f) => fname(f) === "noForcesR" && fx(f).r === d.rarity); // "No common forces until your next turn."
+  if (!s.calm && !s.p[P].noForce && !stopped && d.only !== "perm" && d.fname) forceMoves(s, P, id, out, inEcho);
 }
 // what P may do now (empty when they can't play)
 export function legalMoves(s, P) {
   const pl = s.p[P];
   if (s.phase !== "turn" || s.turn !== P || pl.passed || pl.played >= s.cap) return [];
-  return movesFor(s, P, s.extras.length > 0 && !s.extras.includes("any"));
+  return movesFor(s, P, s.extras.length > 0 && !s.extras.includes("any") ? s.extras : false);
 }
-// every move P's binder allows on this table, whoever's turn it is (for the computer's lookahead)
-export function movesFor(s, P, fireOnly) {
+// a card "with fire on it" (either-or and any pips included), for "Play another fire card."
+const cardHas = (id, el) => !!(C[id].aff && C[id].aff.some((t) => t & ELW[el]));
+// every move P's binder allows on this table, whoever's turn it is (for the computer's lookahead). only: false, or the
+// elements the extra plays allow ("Play another fire card"; true means fire, as before Nov 11)
+export function movesFor(s, P, only) {
   const pl = s.p[P];
+  const els = only === true ? ["fire"] : only || null;
   const out = []; const seen = new Set();
   for (const id of pl.binder) {
     if (seen.has(id)) continue; seen.add(id);
-    if (fireOnly && !C[id].fireCard) continue;
+    if (els && !els.some((e) => cardHas(id, e))) continue;
     cardMoves(s, P, id, out, false);
   }
   return out;
@@ -908,7 +989,7 @@ export function applyMove(s, P, m, fromVoid) {
   if (srcQ !== null) removeOne(s.p[srcQ].void, m.id);
   else {
     removeOne(pl.binder, m.id); pl.played++;
-    if (s.extras.length) { const k = d.fireCard && s.extras.includes("fire") ? s.extras.indexOf("fire") : s.extras.indexOf("any"); s.extras.splice(k >= 0 ? k : 0, 1); }
+    if (s.extras.length) { const k = s.extras.findIndex((e) => e !== "any" && cardHas(m.id, e)); const k2 = k >= 0 ? k : s.extras.indexOf("any"); s.extras.splice(k2 >= 0 ? k2 : 0, 1); }
   }
   (pl.thisRound = pl.thisRound || []).push(m.id);
   const noteCommon = (iid) => { if (d.rarity === "C" && iid) pl.commons.push(iid); };
@@ -925,7 +1006,7 @@ export function applyMove(s, P, m, fromVoid) {
     if (n === "move" && m.t && s.inst[m.t] && s.worlds[m.w2]) { moveTo(s, s.inst[m.t], s.worlds[m.w2], m.cell2); ev.moved++; }
     if (n === "swap" && m.t && s.inst[m.t] && s.inst[m.t2]) swap(s, s.inst[m.t], s.inst[m.t2]);
     if (n === "removeCommon" && m.f && s.inst[m.f]) gone(s.inst[m.f], "void");
-    if (n === "another" && d.pe.another === "fire") s.extras.push("fire"); // READING: only fire has such a card; extras track fire
+    if (n === "another") s.extras.push(d.pe.another); // "When played, play another fire card." 
     dirty(s);
     return ev;
   }
@@ -955,20 +1036,37 @@ export function applyMove(s, P, m, fromVoid) {
   const n = d.fkey || d.fname, X = d.fx || {}; const src = { card: m.id, caster: P, fid: null };
   if (d.fdur === "round") {
     const f = newInst(s, P, m.id, "force", Object.assign({ t: m.t || null, t2: m.t2 || null, src: m.src || null, w: m.w || null, w2: m.w2 || null }, home !== P ? { home } : {}));
-    if (n === "Whiteout") f.until = P; // ends at the start of the caster's next turn
+    if (n === "Whiteout" || n === "noForcesR") f.until = P; // ends at the start of the caster's next turn
     noteCommon(f.id);
     dirty(s);
     return ev;
   }
-  if (n !== "playVoid") homePl.void.push(m.id); // Whirlpool goes to the void after the card it plays (below)
+  if (!["playVoid", "playVoidPerm", "playOwnVoid"].includes(n)) homePl.void.push(m.id); // a force that plays a card from a void goes to the void after it (below)
   const T = m.t ? s.inst[m.t] : null, T2 = m.t2 ? s.inst[m.t2] : null, Wd = m.w ? s.worlds[m.w] : null;
-  if (REMOVE_ONE[n] !== undefined || n === "Thunderstorm" || n === "Lightning" || n === "Collapse" || n === "removeOne" || n === "removeLastTurn") gone(T, "void");
-  else if (MOVE_ONE[n] !== undefined || n === "Drift" || n === "Whirl") { if (T && s.worlds[m.w2]) { moveTo(s, T, s.worlds[m.w2], m.cell); ev.moved++; } }
-  else if (OWN_WORLD_ONE[n] !== undefined || n === "Squall" || n === "ownWorld") { if (T) { ownWorld(s, T); ev.moved++; } }
+  if (REMOVE_ONE[n] !== undefined || n === "Thunderstorm" || n === "Lightning" || n === "Collapse" || n === "removeOne" || n === "removeLastTurn" || n === "removeR") gone(T, "void");
+  else if (MOVE_ONE[n] !== undefined || n === "Drift" || n === "Whirl" || n === "moveR" || n === "moveOwn") { if (T && s.worlds[m.w2]) { moveTo(s, T, s.worlds[m.w2], m.cell); ev.moved++; } }
+  else if (OWN_WORLD_ONE[n] !== undefined || n === "Squall" || n === "ownWorld" || n === "ownWorldR") { if (T) { ownWorld(s, T); ev.moved++; } }
   else if (REMOVE_KIND[n] !== undefined) { if (Wd) for (const i of permsIn(s, Wd)) if (!permIgnores(s, i, src) && shows(s, i, REMOVE_KIND[n]) && canRemove(s, i, src)) gone(i, "void"); }
   else if (n === "removeTwo" || n === "removeAdjTwo" || n === "removeLoneTwo") { gone(T, "void"); gone(T2, "void"); }
-  else if (n === "returnTwo") { gone(T, "binder"); gone(T2, "binder"); }
+  else if (n === "returnTwo" || n === "returnOwn2") { gone(T, "binder"); gone(T2, "binder"); }
   else switch (n) {
+    // sixth pass (Nov 11)
+    case "swapR": case "swapOwn": if (T && T2) { swap(s, T, T2); ev.moved += 2; } break;
+    case "removeForceR": { const f = s.inst[m.f]; if (f) gone(f, "void"); break; }
+    case "splitOwn": if (Wd) splitWorld(s, Wd, src); break;
+    case "returnOwn": gone(T, "binder"); break;
+    case "returnOwnWorld": if (Wd) returnWorld(s, Wd, ev, src); break;
+    case "returnOwnWorld2": for (const w of [Wd, s.worlds[m.w2]]) if (w) returnWorld(s, w, ev, src); break;
+    case "voidBack": for (const c of m.cards || []) if (removeOne(pl.void, c)) { pl.binder.push(c); ev.returned.push(c); } break;
+    case "playVoidPerm": case "playOwnVoid": applyMove(s, P, m.sub, true); homePl.void.push(m.id); break;
+    case "extraAny1": s.extras.push("any"); break;
+    case "extraAny2": s.extras.push("any", "any"); break;
+    case "extraEl": for (let k = 0; k < X.n; k++) s.extras.push(X.el); break;
+    case "move2Own": {
+      if (T && s.worlds[m.w2] && s.worlds[m.w2].cells[m.cell] === null) { moveTo(s, T, s.worlds[m.w2], m.cell); ev.moved++; }
+      const w3 = s.worlds[m.w3]; if (T2 && w3) { const c = w3.cells[m.cell3] === null ? m.cell3 : openCells(w3)[0]; if (c !== undefined && worldSize(w3) < geoOf(w3).cap) { moveTo(s, T2, w3, c); ev.moved++; } }
+      break;
+    }
     case "Flare-up": { const f = s.inst[m.f]; if (f) gone(f, "void"); break; }
     case "Low Tide": case "Blizzard": case "Undertow": case "Mudflow": if (Wd) returnWorld(s, Wd, ev, src); break; // READING: returning isn't removal, so "can't be removed" doesn't stop it
     case "Crosswind": case "Eddy": if (T && T2) { swap(s, T, T2); ev.moved += 2; } break;
@@ -1035,7 +1133,7 @@ export function advance(s) {
     if (!s.turnStarted) {
       s.turnStarted = true;
       pl.turns = (pl.turns || 0) + 1;
-      for (const f of forces(s)) if (fname(f) === "Whiteout" && f.until === P) { drop(s, f.id); toPile(s, f, "void"); dirty(s); say(s, "Whiteout ends.", P); }
+      for (const f of forces(s).slice()) if (f.until === P) { drop(s, f.id); toPile(s, f, "void"); dirty(s); say(s, `${C[f.card].fname} ends.`, P); } // Whiteout, "No common forces until your next turn
       const sc = score(s);
       if (ownsEffect(s, P, "cradle") && hasEach(sc[P].all, knob(s, "cradleEach"))) { say(s, `${pl.name} ${verb(pl.name, "has", "have")} ${knob(s, "cradleEach")} of each affinity: Cradle wins the contest.`, P); endContest(s, P, "Cradle"); return; }
       const wc = winCard(s, P, sc);

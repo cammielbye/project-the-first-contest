@@ -260,7 +260,7 @@ export function makeAI(opts = {}) {
     if (o.hidden) observe(s, M);
     const plan = o.plan ? planFor(s, P, M) : null;
     const sv = o.hidden ? withGuess(s, Q, M) : s; // the table as P can know it
-    const pool = ms.length <= o.sample * 4 ? ms : moves(s, P, s.extras.length > 0 && !s.extras.includes("any"));
+    const pool = ms.length <= o.sample * 4 ? ms : moves(s, P, s.extras.length > 0 && !s.extras.includes("any") ? s.extras : false);
     const sc0 = R.score(sv);
     const now = R.outcome(sc0, P);
     const tried = tryAll(sv, P, pool, s);

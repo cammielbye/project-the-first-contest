@@ -1,11 +1,11 @@
-// Checks of the rules engine with the fifth-pass cards (data/cards.json, Nov 11), on hand-built tables.
-// The third and fourth passes keep their own checks against saved copies: test-rules3.mjs and test-rules4.mjs.
-// Run: node scripts/test-rules5.mjs
+// Checks of the rules engine with the fifth-pass cards, on hand-built tables: a saved copy (scripts/fixtures/cards-fifth-pass.json,
+// synced from data/versions/card-pool-2026-11-11-fifth-pass-final.md), so the engine keeps playing the fifth pass the same way.
+// The newest pass has test-rules6.mjs. Run: node scripts/test-rules5.mjs
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import * as R from "../js/game/rules.js";
 
-R.loadCards(JSON.parse(readFileSync(new URL("../data/cards.json", import.meta.url), "utf8")));
+R.loadCards(JSON.parse(readFileSync(new URL("./fixtures/cards-fifth-pass.json", import.meta.url), "utf8")));
 const ID = {};
 for (const c of Object.values(R.C)) { ID[c.name] = c.id; if (c.fname) ID[c.fname] = c.id; }
 const id = (name) => { assert.ok(ID[name], "no card " + name); return ID[name]; };
