@@ -465,19 +465,18 @@ function whereMine(id) {
 function fitBinder() {
   const panel = $("#binderPanel");
   if (!panel || !ui.binderOpen) return;
-  const w = panel.clientWidth - 28 - 30, hgt = panel.clientHeight - 110;
-  const sc = Math.max(0.16, Math.min((w - 174) / 1280, (hgt - 160) / 896, 0.75)); // two 2x2 pages side by side
+  const w = panel.clientWidth - 28, hgt = panel.clientHeight - 110; // no side tabs since Nov 11: the face switch sits above
+  const sc = Math.max(0.16, Math.min((w - 178) / 1280, (hgt - 160) / 896, 0.75)); // two 2x2 pages side by side
   panel.style.setProperty("--bs", sc.toFixed(3));
 }
-function spineSvg(hgt) {
-  let d = "", holes = "";
-  const n = Math.max(6, Math.round(hgt / 70));
-  for (let k = 0; k <= n; k++) {
-    const y = 20 + ((hgt - 40) * k) / n;
-    holes += `<circle cx="15" cy="${y.toFixed(1)}" r="2.6" fill="#140a04"/>`;
-    if (k < n) { const y2 = 20 + ((hgt - 40) * (k + 1)) / n; d += `M15 ${y.toFixed(1)} C4 ${((y + y2) / 2).toFixed(1)} 26 ${((y + y2) / 2).toFixed(1)} 15 ${y2.toFixed(1)} `; }
+// The spine: a three-ring mechanism on the leather gutter (Nov 11, replacing a drawn binding cord). The rings reach over
+// onto both pages, into punched holes.
+function spineParts() {
+  const parts = [h("span", { class: "plate" })];
+  for (const y of ["18%", "50%", "82%"]) {
+    parts.push(h("span", { class: "hole l", style: `top:${y}` }), h("span", { class: "hole r", style: `top:${y}` }), h("span", { class: "ring", style: `top:${y}` }));
   }
-  return `<svg viewBox="0 0 30 ${hgt}" preserveAspectRatio="none" aria-hidden="true">${holes}<path d="${d}" stroke="#1a0e06" stroke-width="3.2" fill="none" transform="translate(0.8 1)"/><path d="${d}" stroke="#b58a52" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>`;
+  return parts;
 }
 function renderBinder() {
   const panel = $("#binderPanel");
@@ -543,8 +542,8 @@ function renderBinder() {
 // An empty sleeve, saying where its card went.
 const goneSleeve = (label, where) => h("div", { class: "gone" }, h("span", {}, h("b", { text: label }), where));
 
-// The album, for either opponent: two pages of four pockets (2x2), page tabs on top, the
-// permanence/force tabs down the right edge. fillPocket(pocket, id) fills one pocket.
+// The album, for either opponent: two pages of four pockets (2x2), page tabs on top left, and one small button on top
+// right that turns every card to its other face (Nov 11; tabs down the right edge before). fillPocket fills one pocket.
 function buildAlbum(panel, { name, owner, slots, keys, fillPocket }) {
   fitBinder();
   const spreads = Math.max(1, Math.ceil(slots.length / (2 * PER_PAGE)));
@@ -566,17 +565,18 @@ function buildAlbum(panel, { name, owner, slots, keys, fillPocket }) {
   };
 
   const cover = h("div", { class: "cover" });
-  const sides = h("div", { class: "stabs" });
-  for (const [f, label] of [["permanence", "Permanence side"], ["force", "Force side"]]) {
-    sides.append(h("button", { class: ui.binderSide === f ? "on" : "", "data-act": "binder-faces", "data-face": f, title: `Turn every card to its ${f} face` }, label));
-  }
+  const other = ui.binderSide === "force" ? "permanence" : "force";
+  const sides = h(
+    "button",
+    { class: "face-toggle", "data-act": "binder-faces", "data-face": other, title: `Showing ${ui.binderSide} faces: turn every card to its ${other} face`, "aria-label": `Show ${other} faces` },
+    h("span", { class: "ft-now", text: ui.binderSide === "force" ? "Forces" : "Permanences" }),
+    h("span", { class: "ft-icon", "aria-hidden": "true", text: "⇄" })
+  );
   const tabs = h("div", { class: "ptabs" });
   for (let k = 0; k < spreads; k++) {
     tabs.append(h("button", { class: k === ui.binderPage ? "on" : "", "data-act": "binder-page", "data-page": String(k), title: `Pages ${2 * k + 1} and ${2 * k + 2}` }, `Pages ${2 * k + 1}–${2 * k + 2}`));
   }
-  const pageH = Math.round(24 + 26 + 1344 * Number(panel.style.getPropertyValue("--bs") || 0.3) + 18 + 14 + 26);
-  cover.append(sides, leaf(2 * ui.binderPage, "left"), h("div", { class: "spine" }), leaf(2 * ui.binderPage + 1, "right"), tabs);
-  cover.querySelector(".spine").innerHTML = spineSvg(pageH);
+  cover.append(sides, leaf(2 * ui.binderPage, "left"), h("div", { class: "spine" }, ...spineParts()), leaf(2 * ui.binderPage + 1, "right"), tabs);
 
   const nav = h(
     "div",

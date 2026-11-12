@@ -298,6 +298,13 @@ the text (`forceKey`), so a new card can reuse an effect by reusing its wording.
 saved copy (`node scripts/sync-cards.mjs data/versions/<file>.md`). The canvas's drawn faces
 are for the third pass, so the table shows plain faces for the fourth until it's drawn.
 
+**The table's textures (Nov 11).** The walnut tabletop, the runner's twill, the binder's
+leather and its paper are placeholder images in `img/`, made by
+`python3 tools/textures/make_textures.py` (procedural, and every one tiles without a seam;
+the twill is grey and laid over the runner's colors with an overlay blend, so the runner's
+colors stay in `css/style.css`). The binder's spine is a three-ring mechanism drawn in CSS,
+and one small button above the binder's top right corner turns every card to its other face.
+
 **Saving a version.** Before each change to the card pool, the version being
 replaced is copied to `data/versions/` with the date, and its commit is pushed
 to a `saved/card-pool-<date>-<name>` branch (this proxy doesn't allow tags).

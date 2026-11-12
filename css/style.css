@@ -125,7 +125,10 @@ body.dragging-back #binderPanel::before {
 body.dragging-back [data-act="toggle-binder"] { outline: 2px dashed var(--accent); }
 #binderPanel {
   --bs: 0.3;
-  background: radial-gradient(ellipse at 50% 40%, #2a2420 0%, #171513 78%);
+  /* the binder lies on the same walnut table, in lamplight */
+  background-color: #1c120b;
+  background-image: radial-gradient(ellipse 75% 60% at 50% 42%, rgba(255, 196, 130, .10), rgba(0, 0, 0, .55) 100%), url("../img/table-wood.jpg");
+  background-size: 100% 100%, 820px 820px;
   display: flex; flex-direction: column;
 }
 #binderPanel .binder-pick-title { font: 400 26px "IM Fell English", "Cormorant Garamond", Georgia, serif; color: #e6d3b0; margin: 18px 0 4px; }
@@ -136,17 +139,19 @@ body.dragging-back [data-act="toggle-binder"] { outline: 2px dashed var(--accent
   position: relative; display: grid; gap: 3px; align-content: start; text-align: left; min-height: 150px; padding: 18px 18px 16px 30px; border-radius: 6px 14px 14px 6px;
   color: #f0e2c6; border: 1px solid #24140b;
   background-color: #4b2e1d;
-  background-image: linear-gradient(to right, #2c190e 0 14px, transparent 14px 16px, rgba(0, 0, 0, .25) 16px 18px, transparent 18px),
-    radial-gradient(ellipse at 25% 15%, rgba(255, 214, 160, .14), transparent 50%), radial-gradient(ellipse at 85% 95%, rgba(0, 0, 0, .4), transparent 55%);
+  background-image: linear-gradient(to right, rgba(20, 10, 4, .75) 0 14px, transparent 14px 16px, rgba(0, 0, 0, .25) 16px 18px, transparent 18px),
+    radial-gradient(ellipse at 25% 15%, rgba(255, 214, 160, .14), transparent 50%), radial-gradient(ellipse at 85% 95%, rgba(0, 0, 0, .4), transparent 55%),
+    url("../img/binder-leather.jpg");
+  background-size: auto, auto, auto, 256px 256px;
   box-shadow: inset 0 0 30px rgba(0, 0, 0, .5), 0 10px 22px rgba(0, 0, 0, .55);
 }
 .binder-choice::before { content: ""; position: absolute; inset: 7px 7px 7px 22px; border-radius: 4px 9px 9px 4px; border: 1.5px dashed rgba(226, 192, 140, .4); pointer-events: none; }
-.binder-choice:hover:not(:disabled) { background-color: #573623; }
+.binder-choice:hover:not(:disabled) { filter: brightness(1.08); }
 .binder-choice strong { font: 400 26px "IM Fell English", "Cormorant Garamond", Georgia, serif; color: #f3e4c4; }
 .binder-choice span { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10.5px; letter-spacing: .08em; color: #d8b98a; text-transform: uppercase; }
 .binder-choice small { color: #e2cfae; font-size: 12px; line-height: 1.35; margin-top: 4px; }
 
-.album { display: flex; flex-direction: column; align-items: center; gap: 10px; margin: auto 0; padding: 34px 26px 6px 0; }
+.album { display: flex; flex-direction: column; align-items: center; gap: 10px; margin: auto 0; padding: 34px 0 6px; }
 .cover {
   position: relative; display: flex; padding: 18px; border-radius: 18px;
   background-color: #4b2e1d;
@@ -157,28 +162,41 @@ body.dragging-back [data-act="toggle-binder"] { outline: 2px dashed var(--accent
     radial-gradient(circle at 100% 0, rgba(25, 12, 6, .85) 0 26px, transparent 27px),
     radial-gradient(circle at 0 100%, rgba(25, 12, 6, .85) 0 26px, transparent 27px),
     radial-gradient(circle at 100% 100%, rgba(25, 12, 6, .85) 0 26px, transparent 27px),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .16 0 0 0 0 .09 0 0 0 0 .04 0 0 0 .7 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  box-shadow: inset 0 0 0 2px #24140b, inset 0 0 50px rgba(0, 0, 0, .55), inset 0 2px 0 rgba(255, 220, 170, .12), 0 24px 50px rgba(0, 0, 0, .7), 0 4px 0 #1d1008;
+    url("../img/binder-leather.jpg");
+  background-size: auto, auto, auto, auto, auto, auto, 300px 300px;
+  box-shadow: inset 0 0 0 2px #24140b, inset 0 0 50px rgba(0, 0, 0, .55), inset 0 2px 0 rgba(255, 220, 170, .14), 0 24px 50px rgba(0, 0, 0, .7), 0 4px 0 #1d1008;
 }
 .cover::before { content: ""; position: absolute; inset: 8px; border-radius: 12px; pointer-events: none; border: 2px dashed rgba(226, 192, 140, .42); box-shadow: 0 1px 0 rgba(0, 0, 0, .35); }
 .leaf {
   position: relative; z-index: 1; padding: 12px; display: flex; flex-direction: column; color: #4a3720;
   background-color: #e6d8b8;
-  background-image:
-    radial-gradient(circle at 78% 22%, rgba(150, 105, 40, .13) 0 10px, transparent 26px),
-    radial-gradient(circle at 18% 84%, rgba(150, 105, 40, .11) 0 6px, transparent 22px),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='4' seed='9'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .32 0 0 0 0 .16 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
-  box-shadow: inset 0 0 42px rgba(120, 82, 30, .38), inset 0 0 6px rgba(90, 60, 20, .4);
+  background-image: url("../img/binder-paper.jpg");
+  background-size: 360px 360px;
+  box-shadow: inset 0 0 36px rgba(120, 82, 30, .28), inset 0 0 5px rgba(90, 60, 20, .35);
 }
 .leaf.left { border-radius: 6px 2px 2px 6px; }
-.leaf.left::after { content: ""; position: absolute; top: 0; bottom: 0; right: 0; width: 30px; background: linear-gradient(to left, rgba(60, 38, 12, .34), transparent); pointer-events: none; }
+.leaf.left::after { content: ""; position: absolute; top: 0; bottom: 0; right: 0; width: 40px; background: linear-gradient(to left, rgba(50, 30, 8, .45), rgba(50, 30, 8, .12) 40%, transparent); pointer-events: none; }
 .leaf.right { border-radius: 2px 6px 6px 2px; }
-.leaf.right::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 30px; background: linear-gradient(to right, rgba(60, 38, 12, .36), transparent); pointer-events: none; }
+.leaf.right::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 40px; background: linear-gradient(to right, rgba(50, 30, 8, .48), rgba(50, 30, 8, .12) 40%, transparent); pointer-events: none; }
 .leaf::before { content: ""; position: absolute; top: 4px; bottom: 4px; width: 5px; z-index: -1; background: repeating-linear-gradient(to bottom, #d4c39c 0 2px, #b9a57c 2px 3px); }
 .leaf.left::before { left: -5px; border-radius: 3px 0 0 3px; box-shadow: -2px 0 3px rgba(0, 0, 0, .35); }
 .leaf.right::before { right: -5px; border-radius: 0 3px 3px 0; box-shadow: 2px 0 3px rgba(0, 0, 0, .35); }
-.spine { position: relative; z-index: 2; width: 30px; margin: 0 -2px; background: linear-gradient(to right, #2c190e, #4a2d1b 30%, #5a3822 50%, #4a2d1b 70%, #2c190e); box-shadow: inset 0 0 8px rgba(0, 0, 0, .7); }
-.spine svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* the spine: the leather gutter with a three-ring mechanism; the rings reach over onto both pages */
+.spine { position: relative; z-index: 2; width: 34px; margin: 0 -2px;
+  background: linear-gradient(to right, #1a0e06, #3a2314 22%, #4a2d1b 50%, #3a2314 78%, #1a0e06); box-shadow: inset 0 0 10px rgba(0, 0, 0, .75); }
+.spine .plate { position: absolute; top: 14px; bottom: 14px; left: 50%; width: 16px; transform: translateX(-50%); border-radius: 4px;
+  background: linear-gradient(to right, #3a3835, #8f8c84 18%, #dcd9d1 42%, #aeaba3 58%, #66635d 84%, #383633);
+  box-shadow: 0 0 0 1px #1b1917, 0 3px 8px rgba(0, 0, 0, .65); }
+.spine .plate::before, .spine .plate::after { content: ""; position: absolute; left: 50%; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f4f2ec, #8d8a83 55%, #3d3b38); box-shadow: 0 1px 1px rgba(0, 0, 0, .6); }
+.spine .plate::before { top: 6px; } .spine .plate::after { bottom: 6px; }
+.spine .hole { position: absolute; width: 10px; height: 14px; margin-top: -7px; border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 55%, #0c0703 45%, #3b2a17 75%, rgba(59, 42, 23, 0) 78%); }
+.spine .hole.l { left: -19px; } .spine .hole.r { right: -19px; }
+.spine .ring { position: absolute; left: -15px; right: -15px; height: 11px; margin-top: -5.5px; border-radius: 6px;
+  background: linear-gradient(to bottom, #fbfaf6 0%, #dedbd3 20%, #9a978f 52%, #5a5752 78%, #bdbab2 100%);
+  box-shadow: 0 0 0 1px rgba(28, 26, 24, .7), 0 4px 5px rgba(0, 0, 0, .55); }
+.spine .ring::after { content: ""; position: absolute; left: 6px; right: 6px; top: 2px; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, .8); filter: blur(.4px); }
 .phead, .pfoot { font-family: "IM Fell English", Georgia, serif; font-style: italic; color: #7a6040; font-size: 14px; display: flex; justify-content: space-between; }
 .phead { margin-bottom: 6px; min-height: 20px; }
 .pfoot { margin-top: 6px; justify-content: flex-end; }
@@ -203,11 +221,12 @@ body.dragging-back [data-act="toggle-binder"] { outline: 2px dashed var(--accent
   font-family: "IM Fell English", Georgia, serif; font-style: italic; color: #8a7050; font-size: 12px; line-height: 1.2; }
 .pocket .gone b { display: block; font-style: normal; color: #6b5233; font-size: 13px; }
 .pocket.blank { background: rgba(110, 80, 40, .05); }
-.stabs { position: absolute; right: -26px; top: 46px; display: flex; flex-direction: column; gap: 6px; z-index: 0; }
-.stabs button { width: 34px; height: auto; min-height: 54px; padding: 14px 0 14px 6px; border-radius: 0 7px 7px 0; border: none; writing-mode: vertical-rl; font: 13px "IM Fell English", Georgia, serif; color: #5c4528;
-  background: linear-gradient(to right, #b9a57c, #d9c9a2); box-shadow: 2px 2px 4px rgba(0, 0, 0, .45); }
-.stabs button.on { background: linear-gradient(to right, #d8c8a0, #efe3c4); color: #2e1f0e; }
-.stabs button:hover:not(:disabled) { background: linear-gradient(to right, #ccb88e, #e9dcbb); }
+/* the permanence/force switch: one small button above the binder's top right corner (Cam, Nov 11) */
+.face-toggle { position: absolute; top: -30px; right: 22px; z-index: 0; display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 11px 3px; border: none; border-radius: 8px 8px 0 0;
+  font: 14px "IM Fell English", Georgia, serif; color: #2e1f0e; background: linear-gradient(to top, #c9b68c, #e9dcbb); box-shadow: 0 -2px 4px rgba(0, 0, 0, .35); cursor: pointer; }
+.face-toggle:hover { background: linear-gradient(to top, #d8c8a0, #f3e8cc); }
+.face-toggle .ft-icon { font-size: 13px; }
+.face-toggle .ft-now { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #6a5232; }
 .ptabs { position: absolute; top: -28px; left: 34px; display: flex; gap: 6px; z-index: 0; }
 .ptabs button { height: 30px; padding: 0 14px 6px; border: none; border-radius: 8px 8px 0 0; font: 15px "IM Fell English", Georgia, serif; color: #5c4528;
   background: linear-gradient(to top, #b9a57c, #d9c9a2); box-shadow: 0 -2px 4px rgba(0, 0, 0, .35); }
@@ -576,30 +595,30 @@ button.icon-btn:hover:not(:disabled) { background: #ffffff10; color: var(--text)
   --runner-band: #9a7a44; /* ochre */
   --runner-edge: #cdbb93; /* cream */
 }
-#table::before { /* the tabletop: dark brown wood with long grain, a lamp's warmth in the middle */
+#table::before { /* the tabletop: walnut boards (img/table-wood.jpg, tools/textures/make_textures.py), a lamp's warmth in the middle */
   content: ""; position: absolute; inset: var(--rim); z-index: -2; border-radius: 22px; pointer-events: none;
   background-color: var(--wood);
   background-image:
-    radial-gradient(ellipse 70% 55% at 50% 48%, rgba(255, 196, 130, .11), transparent 72%),
-    linear-gradient(to bottom, rgba(0, 0, 0, .28), transparent 12%, transparent 88%, rgba(0, 0, 0, .32)),
-    repeating-linear-gradient(to bottom, transparent 0 157px, rgba(0, 0, 0, .55) 157px 159px, rgba(255, 220, 170, .06) 159px 160px),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='320'%3E%3Cfilter id='k'%3E%3CfeTurbulence type='turbulence' baseFrequency='.0018 .045' numOctaves='4' seed='21' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .07 0 0 0 0 .04 0 0 0 0 .02 0 0 0 2.6 -.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23k%29'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='320'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.02 .9' numOctaves='2' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .33 0 0 0 0 .19 0 0 0 1.1 -.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23h%29'/%3E%3C/svg%3E");
-  box-shadow: 0 0 0 2px #140b06, 0 0 0 5px #4a2e1c, 0 0 0 6px #1a0f08, 0 20px 46px rgba(0, 0, 0, .75), inset 0 0 70px rgba(0, 0, 0, .55), inset 0 2px 0 rgba(255, 220, 170, .08);
+    radial-gradient(ellipse 70% 55% at 50% 46%, rgba(255, 200, 140, .14), transparent 72%),
+    radial-gradient(ellipse 120% 90% at 50% 50%, transparent 55%, rgba(0, 0, 0, .45) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, .25), transparent 10%, transparent 90%, rgba(0, 0, 0, .3)),
+    url("../img/table-wood.jpg");
+  background-size: 100% 100%, 100% 100%, 100% 100%, 820px 820px;
+  box-shadow: 0 0 0 2px #140b06, 0 0 0 5px #4a2e1c, 0 0 0 6px #1a0f08, 0 20px 46px rgba(0, 0, 0, .75), inset 0 0 60px rgba(0, 0, 0, .5), inset 0 2px 0 rgba(255, 220, 170, .1);
 }
-#table::after { /* the runner: woven oxblood cloth with ochre and cream bands along its edges */
+#table::after { /* the runner: oxblood twill (img/runner-weave.png, laid over its colors) with ochre and cream bands along its edges */
   content: ""; position: absolute; top: calc(var(--rim) + 10px); bottom: calc(var(--rim) + 10px); left: 50%; z-index: -1; pointer-events: none;
   width: min(var(--runw, 70%), calc(100% - 2 * var(--rim) - 72px)); transform: translateX(-50%);
-  border-radius: 3px;
+  border-radius: 2px;
   background-color: var(--runner);
   background-image:
+    url("../img/runner-weave.png"),
+    radial-gradient(ellipse 90% 60% at 50% 45%, rgba(255, 190, 150, .07), transparent 70%),
     linear-gradient(to right, var(--runner-edge) 0 3px, transparent 3px 9px, var(--runner-band) 9px 15px, transparent 15px 19px, var(--runner-band) 19px 21px, transparent 21px),
-    linear-gradient(to left, var(--runner-edge) 0 3px, transparent 3px 9px, var(--runner-band) 9px 15px, transparent 15px 19px, var(--runner-band) 19px 21px, transparent 21px),
-    repeating-linear-gradient(45deg, rgba(255, 220, 190, .035) 0 2px, transparent 2px 14px),
-    repeating-linear-gradient(-45deg, rgba(255, 220, 190, .035) 0 2px, transparent 2px 14px),
-    repeating-linear-gradient(0deg, rgba(0, 0, 0, .16) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(90deg, rgba(0, 0, 0, .12) 0 1px, transparent 1px 3px);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, .55), inset 0 0 26px rgba(0, 0, 0, .45);
+    linear-gradient(to left, var(--runner-edge) 0 3px, transparent 3px 9px, var(--runner-band) 9px 15px, transparent 15px 19px, var(--runner-band) 19px 21px, transparent 21px);
+  background-size: 192px 192px, 100% 100%, 100% 100%, 100% 100%;
+  background-blend-mode: overlay, normal, normal, normal;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, .5), 0 6px 14px rgba(0, 0, 0, .45), inset 0 0 30px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 220, 190, .08);
 }
 /* the cards sit on the runner */
 .area { justify-items: center; }
