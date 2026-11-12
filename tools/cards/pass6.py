@@ -133,6 +133,29 @@ for n, (f, d, t, role) in FORCES.items():
 for n, t in TEXTS.items():
     c = BY[n]; CHANGED.setdefault(n, []).append('text: was "%s"' % c['text']); c['text'] = t
 
+# ---- Nov 12 (Cam): "With uncapped turns, playing extra cards in a row doesnt do anything so lets just move that effect
+# back to the idea pool" (CARD-28), and the protections stop only the other player's cards ("concisely worded as only
+# opponents cards"). The freed force faces are open until Cam says what goes there.
+OPEN = 'open'
+EXTRA_PLAYS = [n for n, v in FORCES.items() if v[2].startswith(('Play another', 'Play two more'))]
+for n in EXTRA_PLAYS:
+    c = BY[n]
+    CHANGED.setdefault(n, []).append('Nov 12: force "%s" to the idea pool; open' % c['force_text'])
+    c.update(force='', duration=None, force_text=''); ROLE[n] = OPEN
+TEXTS_NOV12 = {
+    'Lava Flow': '',  # "When played, play another fire card." to the idea pool too
+    'Glacier': "Your opponent can't move this.", 'Bedrock': "Your opponent can't move this.",
+    'Lava Field': "Your opponent can't move this.", 'Spire': "Your opponent can't move this.",
+    'Tide Pool': "Unaffected by your opponent's forces.", 'Stone Field': "Unaffected by your opponent's forces.",
+    'Ashfield': "Unaffected by your opponent's forces.", 'Summit': "Unaffected by your opponent's forces.",
+    'Cavern': "Your opponent can't split its world.",
+}
+for n, t in TEXTS_NOV12.items():
+    c = BY[n]; CHANGED.setdefault(n, []).append('Nov 12: text was "%s"' % c['text']); c['text'] = t
+c = BY['Cavern']
+CHANGED['Cavern'].append('Nov 12: force was "%s"' % c['force_text'])
+c['force_text'] = "Your world ignores your opponent's forces."
+
 META, META_NO, NEW_META = pass5.META, pass5.META_NO, pass5.NEW_META
 ALL = [c for k, t, b, cs in GROUPS for c in cs]
 PROVISIONAL_BINDERS = pass4.PROVISIONAL_BINDERS
@@ -142,7 +165,7 @@ def check():
     probs = []
     names = collections.Counter([c['name'] for c in ALL] + [m[0] for m in META])
     probs += [('duplicate name', k) for k, v in names.items() if v > 1]
-    fnames = collections.Counter(c['force'] for c in ALL)
+    fnames = collections.Counter(c['force'] for c in ALL if c['force'])
     probs += [('duplicate force name', k) for k, v in fnames.items() if v > 1]
     probs += [('force name is a card name', c['force']) for c in ALL if c['force'] in names]
     nums = sorted([c['no'] for c in ALL] + list(META_NO.values()))
@@ -159,9 +182,11 @@ def check():
     return probs
 
 def dur_label(c):
-    return 'Until your next turn' if c['duration'] == UNTIL else 'Lasts the round' if c['duration'] == R else 'Once'
+    return '—' if not c['force'] else 'Until your next turn' if c['duration'] == UNTIL else 'Lasts the round' if c['duration'] == R else 'Once'
 
 def row(c):
+    if not c['force']:
+        return '| %d | %s | %s | %s | %s | — | — | No force for the moment. |' % (c['no'], c['name'], c['rarity'], aff_cell(c['affinities']), c['text'] or '—')
     return '| %d | %s | %s | %s | %s | %s | %s | %s |' % (c['no'], c['name'], c['rarity'], aff_cell(c['affinities']), c['text'] or '—', c['force'], dur_label(c), c['force_text'])
 
 ORDER_KEYS = pass5.ORDER_KEYS
@@ -179,13 +204,16 @@ def markdown():
 
 > Cam (Nov 11): playing a permanence and having it answered at once "feels worse for some reason than it does in magic. I think it's because magic decks normally have way fewer pieces of interaction than creatures or threats." He wants to keep double-sided cards ("I want to persist with double sided until I feel there's no way to make it work") and: "let's go with one in ten are hard removal. one in ten can move or swap opponents cards. another one in ten can negate enemy forces." A force that reaches the other player reaches only permanences of its own rarity, shown with rarity symbols in the text like element symbols. "I want to get rid of all the \\"x loses its affinities\\" because it doesn't feel right. I want to generally avoid forces sticking around on the table where possible." Everything new here is Claude's draft against that brief, not adopted. The fifth pass as it ended is saved in the repo at `data/versions/card-pool-2026-11-11-fifth-pass-final.md` (branch `saved/card-pool-2026-11-11-fifth-pass-final`).
 
+**Changes on Nov 12 (Cam).** "With uncapped turns, playing extra cards in a row doesnt do anything so lets just move that effect back to the idea pool": the {len(EXTRA_PLAYS)} forces that only added plays ({', '.join('%s on %s' % (FORCES[n][0], n) for n in EXTRA_PLAYS)}) and Lava Flow's "When played, play another fire card." are in the idea pool (CARD-28); those force faces are open for now, and Lava Flow has no text. The meta card Verge ("Play two more cards this turn.") has the same effect and is unchanged for now. The protections stop only the other player's cards, "concisely worded as only opponents cards" (Cam): "Your opponent can't move this." (was "Can't be moved."), "Unaffected by your opponent's forces." (was "Unaffected by forces."), Cavern's "Your opponent can't split its world.", and Sinkhole's "Your world ignores your opponent's forces." (was "A world can't lose permanences."). The first draft of the sixth pass is saved in the repo (`data/versions/card-pool-2026-11-12-sixth-pass-first-draft.md`, branch `saved/card-pool-2026-11-12-sixth-pass-first-draft`).
+
 **The format** is unchanged from the fifth pass: best of three, no cap on cards a round, the reveal for who goes second, worlds up to 2×2, one world point at most from a world's affinities with card effects adding to it.
 
 **The 86 force faces by role.**
 - **Hard removal ({tot[REM]}):** commons {lst(REM, 'C')}: "Remove a common permanence." Uncommons {lst(REM, 'B')}: "Remove an uncommon permanence." Rare {lst(REM, 'A')}: "Remove a rare permanence." Pinnacles {lst(REM, 'S')}: a world, every world.
 - **Moving or swapping the other player's cards ({tot[MOV]}):** commons {lst(MOV, 'C')}; uncommons {lst(MOV, 'B')}; rare {lst(MOV, 'A')}; pinnacles {lst(MOV, 'S')}.
-- **Stopping the other player's forces ({tot[NEG]}):** commons {lst(NEG, 'C')}; uncommons {lst(NEG, 'B')}; rares {lst(NEG, 'A')}. "No common forces until your next turn" stops that rarity's forces for the other player's next turn; Thaw removes a common force; Sinkhole holds a world.
-- **Helping their owner ({tot[SELF]}):** each element leans on its own verbs. Water brings cards back (from your void to your binder, or straight into play) and returns your own permanences and worlds to your binder, which saves them for a later round; earth returns whole worlds and holds; fire plays more cards in a turn; air moves, swaps and splits your own cards, which matters now that positions give pips and a split can turn one world point into two. Four commons change one of your own permanences' element for the round, one per element.
+- **Stopping the other player's forces ({tot[NEG]}):** commons {lst(NEG, 'C')}; uncommons {lst(NEG, 'B')}; rares {lst(NEG, 'A')}. "No common forces until your next turn" stops that rarity's forces for the other player's next turn; Thaw removes a common force; Sinkhole shields one of your worlds from the other player's forces.
+- **Helping their owner ({tot[SELF]}):** each element leans on its own verbs. Water brings cards back (from your void to your binder, or straight into play) and returns your own permanences and worlds to your binder, which saves them for a later round; earth returns whole worlds; air moves, swaps and splits your own cards, which matters now that positions give pips and a split can turn one world point into two. Four commons change one of your own permanences' element for the round, one per element. Fire's own verb (extra plays) went to the idea pool on Nov 12.
+- **Open ({tot[OPEN]}):** {', '.join(sorted(EXTRA_PLAYS))}: no force for the moment.
 - **The rarity gate:** "only its own rarity" (Cam). The pinnacles keep their world-scale forces, which aim at no single permanence (Claude's reading; open).
 - **Lasting forces:** {len(lasting)} of 86 stay on the table (down from about 40): the {sum(1 for c in lasting if c['duration'] == UNTIL)} "No … forces until your next turn", Sinkhole, and the four commons that change an element for the round.
 - **No "loses its affinities"** anywhere: the twelve blanking forces are gone, and Ice Sheet's rare cycle now reads "Each permanence in its world gains water" (and earth, fire, air).

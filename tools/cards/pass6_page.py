@@ -24,7 +24,7 @@ STYLE = STYLE.replace('</style>', '''  .tag-new { background: var(--draft); colo
   :root[data-theme="dark"] { --rC: #BDB6CF; --rB: #AC93E2; --rA: #9A6DF0; --rS: #B653FF; }
   .rar-C b, .rtext-C { color: var(--rC); } .rar-B b, .rtext-B { color: var(--rB); } .rar-A b, .rtext-A { color: var(--rA); } .rar-S b, .rtext-S { color: var(--rS); }
   .tag-role { background: transparent; border: 1px solid currentColor; }
-  .role-removal { color: #B5502D; } .role-move { color: #3F7F95; } .role-negate { color: #7A6A3A; }
+  .role-removal { color: #B5502D; } .role-move { color: #3F7F95; } .role-negate { color: #7A6A3A; } .role-open { color: #8a8a8a; border-style: dashed; }
   .rtext { font-weight: 700; }
 </style>''')
 
@@ -42,7 +42,7 @@ def rarity(r):
     if not r: return '<span class="rar rar-none" aria-label="No rarity">meta</span>'
     return '<span class="rar rar-%s" role="img" aria-label="%s"><i></i><b>%s</b></span>' % (r, RWORD[r], r)
 
-ROLE_LABEL = {pass6.REM: 'removal', pass6.MOV: 'moves theirs', pass6.NEG: 'stops forces'}
+ROLE_LABEL = {pass6.REM: 'removal', pass6.MOV: 'moves theirs', pass6.NEG: 'stops forces', pass6.OPEN: 'open'}
 def tags(c):
     out = []
     role = pass6.ROLE[c['name']]
@@ -58,7 +58,7 @@ def ftext(t):  # a rarity named in a rule is shown as its letter, as on the card
 def card_row(c):
     dur = pass6.dur_label(c).lower()
     text = ftext(c['text']) if c['text'] else '<span class="vanilla">No text</span>'
-    force = f'<em>{esc(c["force"])}</em> <span class="dur">{dur}</span> {ftext(c["force_text"])}'
+    force = f'<em>{esc(c["force"])}</em> <span class="dur">{dur}</span> {ftext(c["force_text"])}' if c['force'] else '<span class="vanilla">No force for the moment (its extra play went to the idea pool, Nov 12)</span>'
     return f'''<li class="card">
   <span class="no">{c['no']:02d}<small>/100</small></span>
   <span class="name"><b>{esc(c['name'])}</b>{tags(c)}</span>
@@ -138,7 +138,7 @@ page = f'''<title>Sixth Pass Card Pool</title>
 <div class="wrap">
   <header>
     <h1>Sixth Pass Card Pool</h1>
-    <p class="lede">Fewer answers, gated by rarity (Nov 11, 2026): <b>{len(pass6.ALL) + len(pass5.META)}</b> cards. Of the 86 force faces, <b>{roles[pass6.REM]}</b> are hard removal, <b>{roles[pass6.MOV]}</b> move or swap the other player's cards and <b>{roles[pass6.NEG]}</b> stop the other player's forces (Cam: about one in ten each); the other <b>{roles[pass6.SELF]}</b> help their owner. A force that reaches the other player reaches only permanences of its own rarity. No card loses its affinities any more, and <b>{n_lasting}</b> forces stay on the table. <b>{n_changed}</b> cards changed, all Claude's drafts against Cam's brief. <b>{rc['C']}</b> commons, <b>{rc['B']}</b> uncommons, <b>{rc['A']}</b> rares, <b>{rc['S']}</b> pinnacles and <b>{len(pass5.META)}</b> meta cards.</p>
+    <p class="lede">Fewer answers, gated by rarity (Nov 11, 2026): <b>{len(pass6.ALL) + len(pass5.META)}</b> cards. Of the 86 force faces, <b>{roles[pass6.REM]}</b> are hard removal, <b>{roles[pass6.MOV]}</b> move or swap the other player's cards and <b>{roles[pass6.NEG]}</b> stop the other player's forces (Cam: about one in ten each); <b>{roles[pass6.SELF]}</b> help their owner, and <b>{roles[pass6.OPEN]}</b> are open since their extra plays went back to the idea pool (Nov 12). Protections now stop only the other player's cards. A force that reaches the other player reaches only permanences of its own rarity. No card loses its affinities any more, and <b>{n_lasting}</b> forces stay on the table. <b>{n_changed}</b> cards changed, all Claude's drafts against Cam's brief. <b>{rc['C']}</b> commons, <b>{rc['B']}</b> uncommons, <b>{rc['A']}</b> rares, <b>{rc['S']}</b> pinnacles and <b>{len(pass5.META)}</b> meta cards.</p>
     <div class="legend" aria-label="Key">{legend_marks}<span class="sep" aria-hidden="true"></span>{legend_rar}<span class="sep" aria-hidden="true"></span><span class="key"><span class="tag tag-role role-removal">removal</span></span><span class="key"><span class="tag tag-role role-move">moves theirs</span></span><span class="key"><span class="tag tag-role role-negate">stops forces</span></span><span class="key"><span class="tag tag-changed">changed</span>hover for why</span></div>
   </header>
 

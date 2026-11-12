@@ -232,8 +232,10 @@ Where a card's text leaves a question open, the engine picks one reading (marked
   this gains water."): in a 2×2 world each direction names one cell (across is the diagonal); the pip is added after
   every change of element and before nothing else, so "becomes" doesn't overwrite it, and a
   blanked permanence gains nothing. In open worlds "beside" and "across" name every cell that way.
-- Sinkhole ("A world can't lose permanences."): nothing in that world is removed, returned,
-  moved out or split off; a force can still be aimed at the world, and does what it can.
+- Sinkhole in the fifth pass ("A world can't lose permanences."): nothing in that world is
+  removed, returned, moved out or split off; a force can still be aimed at the world, and does
+  what it can. In the sixth pass (Nov 12) it reads "Your world ignores your opponent's forces."
+  and is aimed at one of the caster's own worlds.
 - "Play only on your first turn" is the player's first turn of the round; "Play only on a
   new world" means the permanence starts a world.
 - The new meta cards: Aftershock ("Your opponent takes the next two turns") skips your next
@@ -249,9 +251,13 @@ Where a card's text leaves a question open, the engine picks one reading (marked
   one player's, in one world or two.
 - The sixth pass's forces that help their owner touch only their owner's cards, void and
   binder. "Return two cards from your void" takes up to two, as Equinox does; "Play a
-  permanence from your void" plays its permanence face; "Play another earth card" allows a
-  card with earth on it (either-or and any included), and extra plays of different elements
-  stack in any order.
+  permanence from your void" plays its permanence face. Extra plays ("Play another earth
+  card", "Play two more cards") went back to the idea pool on Nov 12 (Cam: with uncapped
+  turns they do nothing); the engine still reads them for the older passes and Verge.
+- Protections that stop only the other player's cards (Cam, Nov 12): "Your opponent can't
+  move this.", "Unaffected by your opponent's forces." and "Your opponent can't split its
+  world." never block their owner's own forces. "Can't be moved." and "Unaffected by forces."
+  in the older passes still block everyone's.
 - "Each permanence in its world gains water" (Ice Sheet's cycle, sixth pass) includes the
   card itself.
 - On the cards, a rarity named in a rule is drawn as its letter in the rarity's color ("an

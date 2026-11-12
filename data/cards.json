@@ -1,11 +1,11 @@
 {
   "source": "data/card-pool.md",
   "pass": "Sixth pass: fewer answers, gated by rarity (Nov 11, 2026)",
-  "syncedAt": "2026-11-12T04:03:02.362Z",
+  "syncedAt": "2026-11-12T07:05:04.453Z",
   "counts": {
     "cards": 100,
     "meta": 14,
-    "withForceFace": 86,
+    "withForceFace": 72,
     "byRarity": {
       "C": 29,
       "B": 42,
@@ -17,7 +17,13 @@
     }
   },
   "missingNumbers": [],
-  "warnings": [],
+  "warnings": [
+    "Binder A, Water: no force face yet for Plateau",
+    "Binder B, Earth: no force face yet for Grove, Flint, Lava Plain",
+    "Binder C, Fire: no force face yet for Badlands, Flint",
+    "Binder D, Air: no force face yet for Savanna, Desert, Sand Sea",
+    "Binder E, Even: no force face yet for Savanna, Grove, Flint"
+  ],
   "cards": [
     {
       "id": "1",
@@ -29,7 +35,7 @@
         "affinities": [
           "water"
         ],
-        "text": "Can't be moved."
+        "text": "Your opponent can't move this."
       },
       "force": {
         "name": "Thaw",
@@ -47,7 +53,7 @@
         "affinities": [
           "earth"
         ],
-        "text": "Can't be moved."
+        "text": "Your opponent can't move this."
       },
       "force": {
         "name": "Tangle",
@@ -65,7 +71,7 @@
         "affinities": [
           "fire"
         ],
-        "text": "Can't be moved."
+        "text": "Your opponent can't move this."
       },
       "force": {
         "name": "Ash",
@@ -83,7 +89,7 @@
         "affinities": [
           "air"
         ],
-        "text": "Can't be moved."
+        "text": "Your opponent can't move this."
       },
       "force": {
         "name": "Whirlwind",
@@ -101,7 +107,7 @@
         "affinities": [
           "water"
         ],
-        "text": "Unaffected by forces."
+        "text": "Unaffected by your opponent's forces."
       },
       "force": {
         "name": "Drizzle",
@@ -119,7 +125,7 @@
         "affinities": [
           "earth"
         ],
-        "text": "Unaffected by forces."
+        "text": "Unaffected by your opponent's forces."
       },
       "force": {
         "name": "Dust",
@@ -137,7 +143,7 @@
         "affinities": [
           "fire"
         ],
-        "text": "Unaffected by forces."
+        "text": "Unaffected by your opponent's forces."
       },
       "force": {
         "name": "Brushfire",
@@ -155,7 +161,7 @@
         "affinities": [
           "air"
         ],
-        "text": "Unaffected by forces."
+        "text": "Unaffected by your opponent's forces."
       },
       "force": {
         "name": "Crosswind",
@@ -193,11 +199,7 @@
         ],
         "text": "When played, remove a common force."
       },
-      "force": {
-        "name": "Overgrowth",
-        "duration": "Once",
-        "text": "Play another earth card."
-      }
+      "force": null
     },
     {
       "id": "11",
@@ -209,7 +211,7 @@
         "affinities": [
           "fire"
         ],
-        "text": "When played, play another fire card."
+        "text": ""
       },
       "force": {
         "name": "Lightning",
@@ -301,11 +303,7 @@
         ],
         "text": ""
       },
-      "force": {
-        "name": "Spark",
-        "duration": "Once",
-        "text": "Play another fire card."
-      }
+      "force": null
     },
     {
       "id": "17",
@@ -469,11 +467,7 @@
         ],
         "text": ""
       },
-      "force": {
-        "name": "Heatwave",
-        "duration": "Once",
-        "text": "Play another card."
-      }
+      "force": null
     },
     {
       "id": "26",
@@ -583,11 +577,7 @@
         ],
         "text": ""
       },
-      "force": {
-        "name": "Sandstorm",
-        "duration": "Once",
-        "text": "Play another card."
-      }
+      "force": null
     },
     {
       "id": "32",
@@ -773,11 +763,7 @@
         ],
         "text": ""
       },
-      "force": {
-        "name": "Permafrost",
-        "duration": "Once",
-        "text": "Play another card."
-      }
+      "force": null
     },
     {
       "id": "42",
@@ -792,11 +778,7 @@
         ],
         "text": ""
       },
-      "force": {
-        "name": "Heat Dome",
-        "duration": "Once",
-        "text": "Play another fire card."
-      }
+      "force": null
     },
     {
       "id": "43",
@@ -1007,11 +989,7 @@
         ],
         "text": ""
       },
-      "force": {
-        "name": "Eruption",
-        "duration": "Once",
-        "text": "Play two more cards."
-      }
+      "force": null
     },
     {
       "id": "54",
@@ -1047,11 +1025,7 @@
         ],
         "text": ""
       },
-      "force": {
-        "name": "Steam Explosion",
-        "duration": "Once",
-        "text": "Play two more cards."
-      }
+      "force": null
     },
     {
       "id": "56",
@@ -1067,11 +1041,7 @@
         ],
         "text": ""
       },
-      "force": {
-        "name": "Magma",
-        "duration": "Once",
-        "text": "Play two more cards."
-      }
+      "force": null
     },
     {
       "id": "57",
@@ -1087,11 +1057,7 @@
         ],
         "text": ""
       },
-      "force": {
-        "name": "Supercell",
-        "duration": "Once",
-        "text": "Play two more cards."
-      }
+      "force": null
     },
     {
       "id": "58",
@@ -1207,11 +1173,7 @@
         ],
         "text": "Play only on your first turn."
       },
-      "force": {
-        "name": "Wildfire",
-        "duration": "Once",
-        "text": "Play two more cards."
-      }
+      "force": null
     },
     {
       "id": "64",
@@ -1281,11 +1243,7 @@
         ],
         "text": "Each permanence in its world gains fire."
       },
-      "force": {
-        "name": "Ember",
-        "duration": "Once",
-        "text": "Play two more cards."
-      }
+      "force": null
     },
     {
       "id": "68",
@@ -1546,12 +1504,12 @@
         "affinities": [
           "earth"
         ],
-        "text": "Its world can't be split."
+        "text": "Your opponent can't split its world."
       },
       "force": {
         "name": "Sinkhole",
         "duration": "Lasts the round",
-        "text": "A world can't lose permanences."
+        "text": "Your world ignores your opponent's forces."
       }
     },
     {
@@ -1566,11 +1524,7 @@
         ],
         "text": "+1 fire if you have a world point."
       },
-      "force": {
-        "name": "Updraft",
-        "duration": "Once",
-        "text": "Play another fire card."
-      }
+      "force": null
     },
     {
       "id": "90",
@@ -1603,11 +1557,7 @@
         ],
         "text": ""
       },
-      "force": {
-        "name": "Meteor",
-        "duration": "Once",
-        "text": "Play two more fire cards."
-      }
+      "force": null
     },
     {
       "id": "92",

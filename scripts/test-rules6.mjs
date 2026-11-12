@@ -108,24 +108,40 @@ test("the void forces: Drizzle returns a card from your void; Freeze plays a per
   const su = forceTargets(s, 0, "Surge");
   assert.equal(su.length, 1); assert.equal(su[0].cards.length, 2); // Echo and Snowfield
 });
-test("Overgrowth: play another earth card, and only an earth card", () => {
-  const s = table(["Grove", "Hill", "Dune", "Volcano"], ["Spire"]);
-  R.play(s, 0, R.legalMoves(s, 0).find((m) => m.id === id("Grove") && m.face === "force"));
-  assert.equal(s.turn, 0);
-  const ms = R.legalMoves(s, 0);
-  assert.deepEqual([...new Set(ms.map((m) => R.C[m.id].name))].sort(), ["Hill", "Volcano"]);
+test("Nov 12: no force adds plays any more, and Lava Flow has no text", () => {
+  for (const c of DATA.cards) assert.ok(!/^Play (another|two more)/.test((c.force && c.force.text) || ""), c.name);
+  assert.equal(R.C[id("Lava Flow")].ptext || "", "");
+  assert.ok(!R.C[id("Flint")].fname); // open for now
 });
-test("Meteor: two more fire cards; Ember: two more of any card", () => {
-  const s = table(["Crater", "Dune", "Lava Lake", "Hill"], ["Spire"]);
-  R.play(s, 0, R.legalMoves(s, 0).find((m) => m.id === id("Crater") && m.face === "force"));
-  assert.deepEqual(s.extras, ["fire", "fire"]);
-  R.play(s, 0, R.legalMoves(s, 0).find((m) => m.id === id("Dune") && m.face === "perm"));
-  assert.equal(s.turn, 0);
-  const t = table(["Badlands", "Hill", "Ice Floe", "Ledge"], ["Spire"]);
-  R.play(t, 0, R.legalMoves(t, 0).find((m) => m.id === id("Badlands") && m.face === "force"));
-  R.play(t, 0, R.legalMoves(t, 0).find((m) => m.id === id("Hill")));
-  R.play(t, 0, R.legalMoves(t, 0).find((m) => m.id === id("Ice Floe")));
-  assert.equal(t.turn, 1);
+test("Nov 12: protections stop only the other player's cards", () => {
+  // "Your opponent can't move this.": Spire moves for its owner's swaps, not for the other player's
+  const s = table(["Bluff", "Summit"], ["Barrens"]);
+  put(s, 0, "Hill"); put(s, 0, "Spire", "Hill", 1); put(s, 0, "Ice Floe", "Hill", 2);
+  assert.ok(forceTargets(s, 0, "Eddy").some((m) => [m.t, m.t2].includes(findPerm(s, "Spire").id)));
+  s.turn = 1;
+  const cw = R.movesFor(s, 1, false).filter((m) => m.face === "force" && m.id === id("Barrens"));
+  assert.ok(cw.length === 0 || cw.every((m) => ![m.t, m.t2].includes(findPerm(s, "Spire").id)));
+  s.turn = 0;
+  // "Unaffected by your opponent's forces.": Summit's own player can change it; the other player can't remove it
+  const t2 = table(["Scrubland"], ["Lava Field"]);
+  const su = put(t2, 0, "Summit");
+  assert.ok(forceTargets(t2, 0, "Dust Devil").some((m) => m.t === su.id));
+  t2.turn = 1;
+  assert.ok(!R.movesFor(t2, 1, false).some((m) => m.face === "force" && m.id === id("Lava Field") && m.t === su.id));
+});
+test("Nov 12: Cavern's world splits for its owner only; Sinkhole shields one of your worlds from the other player", () => {
+  const s = table(["Spire", "Cavern"], ["Pangaea"]);
+  put(s, 0, "Cavern"); put(s, 0, "Hill", "Cavern", 1);
+  assert.equal(forceTargets(s, 0, "Whirlwind").length, 1); // "Split one of your worlds." on Cavern's world
+  s.turn = 1;
+  assert.ok(!R.movesFor(s, 1, false).some((m) => m.face === "force" && m.id === id("Pangaea"))); // World Quake has nothing it may split
+  s.turn = 0;
+  const t2 = table(["Cavern"], ["Lava Field"]);
+  const h = put(t2, 0, "Hill"); put(t2, 1, "Ice Floe");
+  assert.ok(forceTargets(t2, 0, "Sinkhole").every((m) => t2.worlds[m.w].owner === 0));
+  R.applyMove(t2, 0, forceTargets(t2, 0, "Sinkhole")[0]);
+  t2.turn = 1;
+  assert.ok(!R.movesFor(t2, 1, false).some((m) => m.face === "force" && m.id === id("Lava Field") && m.t === h.id));
 });
 test("Ice Sheet: each permanence in its world gains water, itself included", () => {
   const s = table([], []);
