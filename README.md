@@ -313,6 +313,14 @@ shaded fold, the sewing thread and a headband at each end), and one small button
 binder's top right corner turns every card to its other face. Cards are sized so the boards
 stay on the runner, clear of its woven bands, and never reach over the wood (Cam, Nov 11).
 
+**Pips in the corners (Nov 19).** A permanence face puts each pip in its element's corner (Cam):
+earth top left, water top right, fire bottom left, air bottom right. A second pip of the same
+element goes in the same corner, stacked along the side away from it, so a card with two water
+shows both at the top right. "Any" and either-or pips have no corner of their own and sit in a
+row under the art (Claude's call). The title, art, rules text and footer sit in the column
+between the two sides of pips, so the art is centred on the card; rules text on permanences
+is 24px to fit that column. Force and meta faces are unchanged.
+
 **Saving a version.** Before each change to the card pool, the version being
 replaced is copied to `data/versions/` with the date, and its commit is pushed
 to a `saved/card-pool-<date>-<name>` branch (this proxy doesn't allow tags).
