@@ -145,7 +145,7 @@ def art_ocean(i):
       + DOTS([(190,178,1.6),(200,190,1.4),(172,176,1.2),(206,204,1.2)], HI))
 
 GLYPH={'fire':('M12 3.5 L20.5 19 H3.5 Z',EMB),'water':('M3.5 5 H20.5 L12 20.5 Z',WAT),
-       'air':('M12 3.5 L20.5 19 H3.5 Z M3 12.5 H21',AIR),'earth':('M3.5 5 H20.5 L12 20.5 Z M3 11.5 H21',EARTHC),'any':('M6 6 H18 V18 H6 Z','#000000')}  # any: a solid black square (Cam, Nov 19), after a green circle (Nov 11)
+       'air':('M12 3.5 L20.5 19 H3.5 Z M3 12.5 H21',AIR),'earth':('M3.5 5 H20.5 L12 20.5 Z M3 11.5 H21',EARTHC),'any':('M6 6 H18 V18 H6 Z','#FFFFFF')}  # any: a solid black square, very thin white border, sharp corners (Cam, Nov 19), after a green circle (Nov 11)
 # Either-or affinity ("fire|earth"): one outline, the left half from the first element and the right
 # half from the second, coloured by two clips that meet on the exact vertical line x = 12.
 UPG = ('fire', 'air')
@@ -174,8 +174,10 @@ RING = '#E6E1D3'
 def _sym(el, cx, cy, sc):
     d, c = GLYPH[el]
     t = 'translate(%.2f %.2f) scale(%.3f)' % (cx - 12 * sc, cy - 12 * sc, sc)
-    return ('<g transform="translate(0.7 0.7)"><g transform="%s" stroke="%s"><path d="%s"></path></g></g>'
-            '<g transform="%s" stroke="%s"><path d="%s"%s></path></g>') % (t, SH, d, t, c, d, ' fill="%s"' % c if el == 'any' else '')
+    join = ' stroke-linejoin="miter"' if el == 'any' else ''
+    own = join + (' fill="#000000" stroke-width="0.6"' if el == 'any' else '')
+    return ('<g transform="translate(0.7 0.7)"><g transform="%s" stroke="%s"><path d="%s"%s></path></g></g>'
+            '<g transform="%s" stroke="%s"><path d="%s"%s></path></g>') % (t, SH, d, join, t, c, d, own)
 def ringed(el, size=32, sc=0.8):
     if '|' in el:
         a, b = el.split('|')
