@@ -124,11 +124,11 @@ function fallbackHtml(card, face) {
   return `<div style="${BODY};background:#353A35"><div role="img" aria-label="${label}">${cornerPips(affs)}</div><div style="${CENTRE}"><div style="${CENTRE_TITLE}">${esc(p.name)}</div><div style="flex:1 1 0;min-height:0;position:relative;border-radius:10px;box-shadow:inset 0 4px 12px rgba(0,0,0,.65),inset 0 -1px 0 rgba(255,255,255,.06);background:rgba(0,0,0,.2);overflow:hidden">${text}</div>${looseRow}${foot}</div></div>`;
 }
 
-// Permanence pips sit in the card's corners, one corner per element (Cam, Nov 19): earth top left, water top
-// right, fire bottom left, air bottom right. A second pip of the same element goes in the same corner, stacked
+// Permanence pips sit in the card's corners, one corner per element in pip order (Cam, Nov 19): water top left,
+// earth top right, fire bottom left, air bottom right. A second pip of the same element goes in the same corner, stacked
 // along the side away from it. Pips are 50px, about 11% of the card's height (Cam, Nov 11: 10-15%). The title,
 // art, text and footer sit in the column between the two sides of pips, so the art is centred on the card.
-const PIP_CORNER = { earth: ["left", "top"], water: ["right", "top"], fire: ["left", "bottom"], air: ["right", "bottom"] };
+const PIP_CORNER = { water: ["left", "top"], earth: ["right", "top"], fire: ["left", "bottom"], air: ["right", "bottom"] };
 const PIP = 50, PIP_GAP = 4, PIP_EDGE = 8;
 function cornerPips(affs) {
   let out = "";
