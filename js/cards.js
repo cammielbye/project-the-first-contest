@@ -109,39 +109,13 @@ function fallbackHtml(card, face) {
     return `<div style="${BODY};background:#2A2F32"><svg width="320" height="448" style="position:absolute;top:0;left:0" aria-hidden="true"><rect x="5.5" y="5.5" width="309" height="437" rx="10" fill="none" stroke="#7E8A90" stroke-width="1" stroke-dasharray="3 5" opacity=".55"/></svg><div style="${TITLE};top:10px;font-style:italic">${esc(name)}</div><div style="${COLUMN};top:52px;bottom:70px"><div style="${FLEXPANEL};background:rgba(0,0,0,.22)"></div><div style="${DURLABEL};color:#A9B3B8">${esc(dur)}</div>${f && f.text ? `<div style="${TEXTBOX}">${rulesHtml(f.text)}</div>` : ""}</div>${footer(card)}</div>`;
   }
   const p = card.permanence;
-  const affs = p.affinities || [];
   const text = p.text
-    ? `<div style="position:absolute;left:6px;right:6px;bottom:6px;box-sizing:border-box;padding:5px 8px;border-radius:6px;background:rgba(13,15,13,.82);border:1px solid rgba(194,197,184,.28);font-size:24px;font-style:italic;line-height:1.08;text-align:center;color:#ECE6D6">${rulesHtml(p.text)}</div>`
+    ? `<div style="position:absolute;left:10px;right:10px;bottom:10px;box-sizing:border-box;padding:6px 10px;border-radius:6px;background:rgba(13,15,13,.82);border:1px solid rgba(194,197,184,.28);font-size:32px;font-style:italic;line-height:1.08;color:#ECE6D6">${rulesHtml(p.text)}</div>`
     : "";
-  // Pips without a corner of their own ("any", either-or) sit in a row under the art.
-  const loose = affs.filter((a) => !PIP_CORNER[a]);
-  const looseRow = loose.length
-    ? `<div style="flex:none;height:46px;display:flex;align-items:center;justify-content:center;gap:6px">${loose.map((a) => symbolSvg(a, 44)).join("")}</div>`
-    : "";
-  const rar = card.meta ? "" : `<span role="img" aria-label="Rarity ${card.rarity}, ${RARITY_WORD[card.rarity] || ""}" style="font-size:34px;font-weight:700;line-height:1;color:${RARITY_COLOR[card.rarity] || "#C2C5B8"};text-shadow:1.5px 1.5px 0 #0D0F0D">${esc(card.rarity)}</span>`;
-  const foot = `<div style="flex:none;height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 4px;border-top:1px solid rgba(126,130,122,.55)"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.04em;color:#B9BCB0">${card.no ? `${card.no}/100` : "—/100"}</span>${rar}</div>`;
-  const label = affs.length ? `Affinity: ${affs.map((a) => a.replace("|", " or ")).join(", ")}` : "No affinity";
-  return `<div style="${BODY};background:#353A35"><div role="img" aria-label="${label}">${cornerPips(affs)}</div><div style="${CENTRE}"><div style="${CENTRE_TITLE}">${esc(p.name)}</div><div style="flex:1 1 0;min-height:0;position:relative;border-radius:10px;box-shadow:inset 0 4px 12px rgba(0,0,0,.65),inset 0 -1px 0 rgba(255,255,255,.06);background:rgba(0,0,0,.2);overflow:hidden">${text}</div>${looseRow}${foot}</div></div>`;
+  // pips 56px tall, about 12.5% of the card's height (Cam, Nov 11: 10-15%)
+  const syms = (p.affinities || []).map((a) => symbolSvg(a, 56)).join("");
+  return `<div style="${BODY};background:#353A35"><div style="${TITLE};top:10px">${esc(p.name)}</div><div style="${PANEL};top:52px;height:258px;background:rgba(0,0,0,.2);overflow:hidden">${text}</div><div role="img" aria-label="Affinity" style="position:absolute;top:318px;left:16px;width:288px;height:62px;display:flex;align-items:center;justify-content:center;gap:10px">${syms}</div>${footer(card)}</div>`;
 }
-
-// Permanence pips sit in the card's corners, one corner per element in pip order (Cam, Nov 19): water top left,
-// earth top right, fire bottom left, air bottom right. A second pip of the same element goes in the same corner, stacked
-// along the side away from it. Pips are 50px, about 11% of the card's height (Cam, Nov 11: 10-15%). The title,
-// art, text and footer sit in the column between the two sides of pips, so the art is centred on the card.
-const PIP_CORNER = { water: ["left", "top"], earth: ["right", "top"], fire: ["left", "bottom"], air: ["right", "bottom"] };
-const PIP = 50, PIP_GAP = 4, PIP_EDGE = 8;
-function cornerPips(affs) {
-  let out = "";
-  for (const [el, [side, end]] of Object.entries(PIP_CORNER)) {
-    const n = affs.filter((a) => a === el).length;
-    for (let i = 0; i < n; i++)
-      out += `<div style="position:absolute;${side}:${PIP_EDGE}px;${end}:${PIP_EDGE + i * (PIP + PIP_GAP)}px;width:${PIP}px;height:${PIP}px">${symbolSvg(el, PIP)}</div>`;
-  }
-  return out;
-}
-const CENTRE = `position:absolute;top:${PIP_EDGE}px;bottom:${PIP_EDGE}px;left:${2 * PIP_EDGE + PIP}px;right:${2 * PIP_EDGE + PIP}px;display:flex;flex-direction:column;gap:6px`;
-const CENTRE_TITLE =
-  "flex:none;height:50px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:22px;font-weight:600;line-height:1.05;color:#ECE6D6;text-shadow:1px 1px 0 #0D0F0D";
 
 // SVG ids (filters, patterns) must be unique on the page, and the same card
 // can be drawn several times at once (binder, table, preview).
