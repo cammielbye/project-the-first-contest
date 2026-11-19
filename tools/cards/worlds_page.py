@@ -20,7 +20,7 @@ def symbol(a):
     svg = lib.ringed(a, 32)
     vb = re.search(r'viewBox="([^"]+)"', svg).group(1)
     inner = svg[svg.index('>') + 1:svg.rindex('</svg>')]
-    return '<symbol id="r-%s" viewBox="%s"><g fill="none" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">%s</g></symbol>' % (a.replace('|', '-'), vb, inner)
+    return '<symbol id="r-%s" viewBox="%s"><g fill="none" stroke-width="1.9" stroke-linejoin="miter" stroke-linecap="butt">%s</g></symbol>' % (a.replace('|', '-'), vb, inner)
 symbols = '<svg width="0" height="0" style="position:absolute" aria-hidden="true">%s</svg>' % ''.join(symbol(a) for a in kinds)
 
 used = sorted({n for f in worlds for n in f['cards']}, key=lambda n: cards[n]['no'])

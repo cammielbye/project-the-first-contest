@@ -10,8 +10,9 @@ export function setFaceArt(faces) {
   FACES = faces || {};
 }
 
-// Affinity symbols as drawn on the canvas: thin carved strokes with a dark
-// offset shadow; the bars on air and earth run right across the triangle.
+// Affinity symbols as drawn on the canvas: thin carved strokes with a dark offset shadow,
+// sharp corners and flat ends (Cam, Nov 19: to match the "any" square); the bars on air
+// and earth run right across the triangle.
 const SYMBOLS = {
   fire: { color: "#D0663F", d: "M12 3.5 L20.5 19 H3.5 Z" },
   water: { color: "#7FA7B5", d: "M3.5 5 H20.5 L12 20.5 Z" },
@@ -19,7 +20,7 @@ const SYMBOLS = {
   earth: { color: "#A88F6B", d: "M3.5 5 H20.5 L12 20.5 Z M3 11.5 H21" },
   // "any" is a solid black square with a very thin white border and sharp corners (Cam, Nov 19), after a green
   // circle (Nov 11)
-  any: { color: "#FFFFFF", fill: "#000000", width: 0.6, join: "miter", d: "M6 6 H18 V18 H6 Z" },
+  any: { color: "#FFFFFF", fill: "#000000", width: 0.6, join: "miter", d: "M4.5 4.5 H19.5 V19.5 H4.5 Z" },
 };
 const RARITY_WORD = { C: "common", B: "uncommon", A: "rare", S: "pinnacle" };
 // Rarity is a letter with no diamond around it (Cam, Nov 11), in shades of one violet that no element uses: paler and
@@ -44,7 +45,7 @@ function sym(kind, cx, cy, sc) {
   return `<g transform="translate(0.7 0.7)"><g transform="${t}" stroke="#0D0F0D"><path d="${s.d}"${join}/></g></g><g transform="${t}" stroke="${s.color}"><path d="${s.d}"${own}/></g>`;
 }
 function symbolSvg(kind, size = 32) {
-  const open = (w, vb) => `<svg width="${w}" height="${size}" viewBox="${vb}" fill="none" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">`;
+  const open = (w, vb) => `<svg width="${w}" height="${size}" viewBox="${vb}" fill="none" stroke-width="1.9" stroke-linejoin="miter" stroke-linecap="butt" aria-hidden="true">`;
   if (kind.includes("|")) {
     const [a, b] = kind.split("|");
     const cap = `<rect x="1.2" y="1.2" width="57.6" height="29.6" rx="14.8"/>`, slash = `<path d="M33.6 6 L26.4 26"/>`;
@@ -61,10 +62,10 @@ function symbolSvg(kind, size = 32) {
 // are the elements a world must have (Hanging Valley, Nov 9: Cam asked for each circled).
 // Matches the canvas's own faces (gen/pass3_cards.py).
 const bareSym = (el) =>
-  `<svg viewBox="0 0 24 24" role="img" aria-label="${el}" style="width:.78em;height:.78em;vertical-align:-.07em;margin:0 .04em" fill="none" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><g transform="translate(1 1)" stroke="#0D0F0D"><path d="${SYMBOLS[el].d}"/></g><g stroke="${SYMBOLS[el].color}"><path d="${SYMBOLS[el].d}"/></g></svg>`;
+  `<svg viewBox="0 0 24 24" role="img" aria-label="${el}" style="width:.78em;height:.78em;vertical-align:-.07em;margin:0 .04em" fill="none" stroke-width="2.4" stroke-linejoin="miter" stroke-linecap="butt"><g transform="translate(1 1)" stroke="#0D0F0D"><path d="${SYMBOLS[el].d}"/></g><g stroke="${SYMBOLS[el].color}"><path d="${SYMBOLS[el].d}"/></g></svg>`;
 const ringedSym = (el) => {
   const t = "translate(6.4 6.8) scale(0.8)";
-  return `<svg viewBox="0 0 32 32" role="img" aria-label="${el} affinity" style="width:.98em;height:.98em;vertical-align:-.17em;margin:0 .03em" fill="none" stroke-linejoin="round" stroke-linecap="round"><circle cx="16.8" cy="16.8" r="14" stroke="#0D0F0D" stroke-width="2.2"/><circle cx="16" cy="16" r="14" stroke="${RING}" stroke-width="2"/><g transform="translate(0.9 0.9)"><g transform="${t}" stroke="#0D0F0D" stroke-width="2.6"><path d="${SYMBOLS[el].d}"/></g></g><g transform="${t}" stroke="${SYMBOLS[el].color}" stroke-width="2.6"><path d="${SYMBOLS[el].d}"/></g></svg>`;
+  return `<svg viewBox="0 0 32 32" role="img" aria-label="${el} affinity" style="width:.98em;height:.98em;vertical-align:-.17em;margin:0 .03em" fill="none" stroke-linejoin="miter" stroke-linecap="butt"><circle cx="16.8" cy="16.8" r="14" stroke="#0D0F0D" stroke-width="2.2"/><circle cx="16" cy="16" r="14" stroke="${RING}" stroke-width="2"/><g transform="translate(0.9 0.9)"><g transform="${t}" stroke="#0D0F0D" stroke-width="2.6"><path d="${SYMBOLS[el].d}"/></g></g><g transform="${t}" stroke="${SYMBOLS[el].color}" stroke-width="2.6"><path d="${SYMBOLS[el].d}"/></g></svg>`;
 };
 export function rulesHtml(text) {
   return esc(text)

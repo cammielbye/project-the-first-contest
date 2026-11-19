@@ -145,7 +145,7 @@ def art_ocean(i):
       + DOTS([(190,178,1.6),(200,190,1.4),(172,176,1.2),(206,204,1.2)], HI))
 
 GLYPH={'fire':('M12 3.5 L20.5 19 H3.5 Z',EMB),'water':('M3.5 5 H20.5 L12 20.5 Z',WAT),
-       'air':('M12 3.5 L20.5 19 H3.5 Z M3 12.5 H21',AIR),'earth':('M3.5 5 H20.5 L12 20.5 Z M3 11.5 H21',EARTHC),'any':('M6 6 H18 V18 H6 Z','#FFFFFF')}  # any: a solid black square, very thin white border, sharp corners (Cam, Nov 19), after a green circle (Nov 11)
+       'air':('M12 3.5 L20.5 19 H3.5 Z M3 12.5 H21',AIR),'earth':('M3.5 5 H20.5 L12 20.5 Z M3 11.5 H21',EARTHC),'any':('M4.5 4.5 H19.5 V19.5 H4.5 Z','#FFFFFF')}  # any: a solid black square, very thin white border, sharp corners (Cam, Nov 19), after a green circle (Nov 11)
 # Either-or affinity ("fire|earth"): one outline, the left half from the first element and the right
 # half from the second, coloured by two clips that meet on the exact vertical line x = 12.
 UPG = ('fire', 'air')
@@ -186,22 +186,22 @@ def ringed(el, size=32, sc=0.8):
                  '<rect x="1.2" y="1.2" width="57.6" height="29.6" rx="14.8" stroke="%s" stroke-width="1.4"></rect>'
                  '<path d="M33.6 6 L26.4 26" stroke="%s" stroke-width="1.4"></path>' % (SH, RING, RING)
                  + _sym(a, 15.5, 16.4, 0.72 * sc / 0.8) + _sym(b, 44.5, 16.4, 0.72 * sc / 0.8))
-        return ('<svg width="%.0f" height="%d" viewBox="0 0 60 32" fill="none" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">%s</svg>'
+        return ('<svg width="%.0f" height="%d" viewBox="0 0 60 32" fill="none" stroke-width="1.9" stroke-linejoin="miter" stroke-linecap="butt" aria-hidden="true">%s</svg>'
                 % (w, size, inner))
     inner = ('<g transform="translate(0.7 0.7)" stroke="%s"><circle cx="16" cy="16" r="14.6"></circle></g>'
              '<circle cx="16" cy="16" r="14.6" stroke="%s" stroke-width="1.4"></circle>' % (SH, RING)
              + _sym(el, 16, 16.4, sc))
-    return ('<svg width="%d" height="%d" viewBox="0 0 32 32" fill="none" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">%s</svg>'
+    return ('<svg width="%d" height="%d" viewBox="0 0 32 32" fill="none" stroke-width="1.9" stroke-linejoin="miter" stroke-linecap="butt" aria-hidden="true">%s</svg>'
             % (size, size, inner))
 def glyph(el, size=28):
     if CIRCLED:
         return ringed(el, size + 4)
     if '|' in el:
         a, b = el.split('|')
-        return ('<svg width="%d" height="%d" viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">%s</svg>'
+        return ('<svg width="%d" height="%d" viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linejoin="miter" stroke-linecap="butt" aria-hidden="true">%s</svg>'
                 % (size, size, hybrid_inner(a, b)))
     d,c=GLYPH[el]
-    return ('<svg width="%d" height="%d" viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">'
+    return ('<svg width="%d" height="%d" viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linejoin="miter" stroke-linecap="butt" aria-hidden="true">'
             '<g transform="translate(0.8 0.8)" stroke="%s"><path d="%s"></path></g><g stroke="%s"><path d="%s"></path></g></svg>') % (size,size,SH,d,c,d)
 
 def affinity_label(tags):
