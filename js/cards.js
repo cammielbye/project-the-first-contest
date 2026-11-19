@@ -17,8 +17,8 @@ const SYMBOLS = {
   water: { color: "#7FA7B5", d: "M3.5 5 H20.5 L12 20.5 Z" },
   air: { color: "#D5D8CC", d: "M12 3.5 L20.5 19 H3.5 Z M3 12.5 H21" },
   earth: { color: "#A88F6B", d: "M3.5 5 H20.5 L12 20.5 Z M3 11.5 H21" },
-  // "any" has its own color, apart from air's pale grey (Cam, Nov 11)
-  any: { color: "#7FBF73", d: "M4.5 12 a7.5 7.5 0 1 0 15 0 a7.5 7.5 0 1 0 -15 0 M10.5 12 a1.5 1.5 0 1 0 3 0 a1.5 1.5 0 1 0 -3 0" },
+  // "any" is a solid black square (Cam, Nov 19), after a green circle (Nov 11)
+  any: { color: "#000000", fill: "#000000", d: "M6 6 H18 V18 H6 Z" },
 };
 const RARITY_WORD = { C: "common", B: "uncommon", A: "rare", S: "pinnacle" };
 // Rarity is a letter with no diamond around it (Cam, Nov 11), in shades of one violet that no element uses: paler and
@@ -38,7 +38,8 @@ function sym(kind, cx, cy, sc) {
   const s = SYMBOLS[kind];
   if (!s) return "";
   const t = `translate(${(cx - 12 * sc).toFixed(2)} ${(cy - 12 * sc).toFixed(2)}) scale(${sc})`;
-  return `<g transform="translate(0.7 0.7)"><g transform="${t}" stroke="#0D0F0D"><path d="${s.d}"/></g></g><g transform="${t}" stroke="${s.color}"><path d="${s.d}"/></g>`;
+  const fill = s.fill ? ` fill="${s.fill}"` : "";
+  return `<g transform="translate(0.7 0.7)"><g transform="${t}" stroke="#0D0F0D"><path d="${s.d}"/></g></g><g transform="${t}" stroke="${s.color}"><path d="${s.d}"${fill}/></g>`;
 }
 function symbolSvg(kind, size = 32) {
   const open = (w, vb) => `<svg width="${w}" height="${size}" viewBox="${vb}" fill="none" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">`;
