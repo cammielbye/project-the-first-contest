@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Branch B test table</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* VOICE: a quiet night table for a rules test; nothing decorative competes with the cards.
+   IDEA: the cards lie on a dark runner, each player's worlds in 2x2 frames, the binder open beside it.
+   PICTURE: the board itself, both players' worlds, filling the first screen.
+   COLOUR and TYPE: green-black felt, stone-grey cards as on the main table, ember for forces, gold for a perfect world;
+   Cormorant Garamond for card names, IBM Plex Sans for everything else.
+   LAYOUT: board left, binder and card preview right; below 980px the binder drops under the board. */
+:root{color-scheme:dark;--bg:#171a16;--felt:#232922;--rule:#3d453a;--ink:#ece6d6;--mute:#a7ab9c;--card:#353a35;--back:#2e2622;
+--ember:#d0663f;--gold:#d2a24a;--sel:#e6e1d3;--ok:#8fb08a}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "IBM Plex Sans",system-ui,sans-serif;overflow-x:clip}
+button{font:inherit;color:inherit}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:12px max(2vw,14px);border-bottom:1px solid var(--rule);background:#1d211c;position:sticky;top:0;z-index:5}
+h1{font:700 26px/1.05 "Cormorant Garamond",serif;margin:0;letter-spacing:.01em}
+.status{font-weight:600}.status small{font-weight:400;color:var(--mute)}
+.count{display:flex;gap:6px;align-items:center;color:var(--mute)}
+.count b{color:var(--ink);font-weight:600}
+.btn{border:1px solid var(--rule);background:#2a3029;border-radius:8px;padding:8px 13px;min-height:40px;cursor:pointer}
+.btn:hover{border-color:#6c7566}.btn:focus-visible,.card:focus-visible,.world:focus-visible{outline:2px solid var(--sel);outline-offset:2px}
+.btn.go{background:#3b4a37;border-color:#62785b}.btn.warn{background:#4a2d25;border-color:#8a4a38}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.sm{min-height:30px;padding:3px 9px;font-size:13px}
+.push{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:0;min-height:calc(100vh - 66px)}
+.board{background:var(--felt);padding:14px max(2vw,14px) 24px;display:flex;flex-direction:column;gap:12px}
+.side{border:1px solid var(--rule);border-radius:12px;padding:10px 12px 12px;background:#1f241e}
+.side.on{border-color:#7d8a74;box-shadow:0 0 0 1px #7d8a74 inset}
+.sidehead{display:flex;align-items:baseline;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.sidehead h2{font:700 21px/1 "Cormorant Garamond",serif;margin:0}
+.pts{font-weight:600}.pts.big{color:var(--gold)}
+.worlds{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start}
+.world{border:1px dashed #56604f;border-radius:10px;padding:6px;display:grid;grid-template-columns:repeat(2,104px);grid-auto-rows:146px;gap:6px;position:relative;background:#1a1e19}
+.world .wp{position:absolute;top:-10px;right:8px;background:#2a3029;border:1px solid var(--rule);border-radius:10px;padding:0 7px;font-size:12px}
+.world.perfect{border:2px solid var(--gold);box-shadow:0 0 14px #d2a24a55}.world.perfect .wp{background:#5a4a22;border-color:var(--gold)}
+.world.target{border-color:var(--sel);cursor:pointer}.world.new{grid-template-columns:104px;place-items:center;color:var(--mute);font-size:13px;text-align:center;min-height:136px}
+.slot{border:1px dashed #3a4236;border-radius:7px}
+.card{width:104px;height:146px;border-radius:7px;border:1px solid #4a5047;background:var(--card);padding:5px 5px 4px;display:flex;flex-direction:column;gap:3px;text-align:left;cursor:pointer;position:relative;box-shadow:0 2px 0 #0d0f0d}
+.card .nm{font:700 17px/1.02 "Cormorant Garamond",serif}
+.card .pips{display:flex;flex-wrap:wrap;gap:2px}
+.card .tx{font-size:11.5px;line-height:1.2;color:#d8d3c4;margin-top:auto}
+.card.back{background:var(--back);border-color:#7a4632}
+.card.back .nm{color:#f0b9a0}
+.card.sel{outline:2px solid var(--sel);outline-offset:1px}
+.card.fresh::after{content:"new";position:absolute;right:4px;bottom:3px;font-size:10px;color:var(--mute)}
+.card.dim{opacity:.4;cursor:default}
+.mid{min-height:48px;border-radius:10px;padding:8px 12px;background:#2b3029;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.mid .say{margin-right:6px}
+.banner{border-radius:10px;padding:10px 14px;background:#4d3f1d;border:1px solid var(--gold);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+aside{border-left:1px solid var(--rule);padding:14px;display:flex;flex-direction:column;gap:14px;background:#1b1f1a}
+aside h3{margin:0 0 6px;font:700 19px/1.1 "Cormorant Garamond",serif}
+.tabs{display:flex;gap:6px;margin-bottom:8px}
+.tabs .btn{flex:1}.tabs .btn.on{background:#3b4a37}
+.binder{display:grid;grid-template-columns:repeat(4,74px);gap:6px;justify-content:start;background:#e9e2cf0d;border:1px solid var(--rule);border-radius:8px;padding:8px}
+.binder .card{width:74px;height:104px;padding:4px}.binder .card .nm{font-size:14px}.binder .card .tx{display:none}
+.binder .empty{width:74px;height:104px;border:1px dashed #3a4236;border-radius:7px}
+.preview{display:flex;gap:10px}
+.big{width:150px;min-height:210px;border-radius:9px;border:1px solid #4a5047;background:var(--card);padding:9px;display:flex;flex-direction:column;gap:6px}
+.big.back{background:var(--back);border-color:#7a4632}
+.big .nm{font:700 21px/1.05 "Cormorant Garamond",serif}.big .tx{font-size:13px;line-height:1.3}.big .lbl{font-size:11px;color:var(--mute)}
+.log{font-size:13px;color:var(--mute);max-height:220px;overflow:auto;margin:0;padding:0;list-style:none}
+.log li{margin-bottom:3px}
+details{font-size:14px;color:#d8d3c4}details summary{cursor:pointer;font-weight:600;color:var(--ink)}
+details ul{padding-left:18px;margin:6px 0}
+.hint{color:var(--mute);font-size:13px}
+@media(max-width:980px){.wrap{grid-template-columns:minmax(0,1fr)}aside{border-left:0;border-top:1px solid var(--rule)}}
+@media(max-width:600px){.world{grid-template-columns:repeat(2,76px);grid-auto-rows:106px}.world .card{width:76px;height:106px}.world .card .tx{display:none}.world.new{grid-template-columns:76px}}
+@media(prefers-reduced-motion:no-preference){.card{transition:transform .12s}.card:not(.dim):hover{transform:translateY(-2px)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Branch B test table</h1>
+  <div class="status" id="status"></div>
+  <div class="count" id="counts"></div>
+  <div class="push">
+    <button class="btn" data-act="undo" id="undo">Undo</button>
+    <button class="btn go" data-act="end" id="end">End turn</button>
+    <button class="btn warn" data-act="newgame">New game</button>
+  </div>
+</header>
+<div class="wrap">
+  <main class="board">
+    <section class="side" id="side1"></section>
+    <div class="mid" id="mid"></div>
+    <div id="banner"></div>
+    <section class="side" id="side0"></section>
+  </main>
+  <aside>
+    <div><h3 id="bindertitle">Binder</h3><div class="tabs" id="tabs"></div><div class="binder" id="binder"></div>
+      <p class="hint">Click a card in your binder, then a world, to play it. Hover any card to read both sides.</p></div>
+    <div><h3>Card</h3><div class="preview" id="preview"><p class="hint">Hover or select a card.</p></div></div>
+    <details><summary>Rules for this test</summary><ul>
+      <li>Both players use the same 24 cards. Best of one.</li>
+      <li>Whole turns back and forth, 9 each. Turn 10 is shared: both players lock in, then reveal together.</li>
+      <li>Each turn: play up to one landscape and use up to one force. Using a force flips the card; its front pips stop counting and its back pips count instead.</li>
+      <li>A landscape can't use its force the turn it's played (Claude's reading). Cards that say "Next turn, flip this back" do so on their own at the start of their owner's turn.</li>
+      <li>Worlds hold up to 2&times;2. A world point is one of each element or four of one element, each pip counted once, as many as a world holds.</li>
+      <li>A world worth 3 world points is a perfect world and wins at once. Otherwise most world points after turn 10 wins.</li>
+      <li>Forces' effects are applied by hand with the buttons: flip, flip back, move, swap, return, extra play.</li>
+    </ul></details>
+    <div><h3>Log</h3><ul class="log" id="log"></ul></div>
+    <p class="hint">From the <a href="https://claude.ai/artifact/15AjJvCx46oZH94BmBz9V3" style="color:var(--ink)">Branch B doc</a>: Claude's first draft of the test cards, Nov 20.</p>
+  </aside>
+</div>
+<script>
+{
+const CARDS=[
+["Spring",["water"],"Overflow",[],"Play another permanence this turn."],
+["Lake",["water","water"],"Flood",["water"],"Return an opponent's permanence with one pip to its owner's binder."],
+["Tidal Flat",["water","earth"],"High Tide",["water","water"],"Next turn, flip this back.",1],
+["Cloud Forest",["water","earth","air"],"Downpour",["water"],"Flip back each flipped permanence in this world."],
+["Glacier",["water","water","earth"],"Meltwater",["water","water"],"Return a flipped permanence of yours to your binder."],
+["Ocean",["water","water","water","water"],"Tsunami",["water","water"],"Return each permanence with one pip in one opponent's world to its owner's binder."],
+["Hills",["earth"],"Rockslide",[],"Swap two of your permanences in different worlds."],
+["Plateau",["earth","earth"],"Uplift",["earth","earth"],"Join two of your worlds into one, if they fit in a 2×2."],
+["Cavern",["earth","earth"],"Cave-in",["earth"],"Your opponent's forces can't touch other permanences in this world."],
+["Forest",["water","earth"],"Wildfire",["fire"],"Flip an opponent's permanence with one pip. Next turn, flip this back.",1],
+["Fault Line",["earth","fire"],"Earthquake",[],"Split one of your opponent's worlds into two."],
+["Highlands",["earth","earth","earth"],"Erosion",["earth","earth"],"Move another permanence in this world to another of your worlds."],
+["Ash Plain",["fire"],"Kindling",[],"Flip another permanence in this world. Its force happens."],
+["Lava Field",["fire","fire"],"Lava Flow",["fire"],"Return another permanence in this world to your binder. Play another permanence this turn."],
+["Volcano",["earth","fire"],"Eruption",["fire"],"Flip an opponent's permanence."],
+["Desert",["fire","fire","air"],"Mirage",["any","any"],"No text: its pips count as any element."],
+["Hot Springs",["water","fire"],"Geyser",["water"],"Play another permanence this turn. Next turn, flip this back.",1],
+["Caldera",["fire","fire","fire"],"Supervolcano",["fire","fire"],"Flip every other permanence, yours and your opponent's."],
+["Meadow",["air"],"Gust",[],"Move a permanence of yours to another world, or a new one."],
+["Trade Winds",["water","air"],"Hurricane",["air"],"Move an opponent's permanence into a new world of its own."],
+["Cliffs",["earth","air"],"Seedwind",["air"],"Play another permanence this turn, into a different world."],
+["Dunes",["fire","air"],"Wandering Dunes",["fire","air"],"Move this to another of your worlds, or a new one."],
+["Cloud Sea",["water","air","air"],"Rain",["water"],"Flip back a permanence of yours."],
+["Peak",["air","air","air"],"Gale",["air","air"],"Move up to two permanences of yours to other worlds, or new ones."]
+].map(([n,p,b,bp,t,fb])=>({n,p,b,bp,t,fb:!!fb}));
+const E=["water","earth","fire","air"];
+const SYM={fire:["#D0663F","M12 3.5 L20.5 19 H3.5 Z"],water:["#7FA7B5","M3.5 5 H20.5 L12 20.5 Z"],air:["#D5D8CC","M12 3.5 L20.5 19 H3.5 Z M3 12.5 H21"],earth:["#A88F6B","M3.5 5 H20.5 L12 20.5 Z M3 11.5 H21"],any:["#FFFFFF","M4.5 4.5 H19.5 V19.5 H4.5 Z"]};
+const pip=(k,s)=>{const[c,d]=SYM[k],t="translate(6.4 6.4) scale(.8)",any=k==="any";
+  return `<svg width="${s}" height="${s}" viewBox="0 0 32 32" role="img" aria-label="${k}" fill="none" stroke-width="1.9" stroke-linejoin="miter" stroke-linecap="butt"><circle cx="16" cy="16" r="14.4" stroke="#E6E1D3" stroke-width="2"/><g transform="translate(.7 .7)"><g transform="${t}" stroke="#0D0F0D"><path d="${d}"/></g></g><g transform="${t}" stroke="${c}"><path d="${d}"${any?' fill="#000" stroke-width=".6"':""}/></g></svg>`;};
+const pips=(a,s)=>a.length?a.map(k=>pip(k,s)).join(""):`<span class="hint" style="font-size:11px">no pips</span>`;
+const KEY="branchb-table-v1";
+let S,undo=[],ui={sel:null,mode:null,tab:0,hover:null};
+const who=i=>`Player ${i+1}`;
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+function fresh(){const first=Math.random()<.5?0:1;
+  S={first,half:0,phase:"play",played:0,forced:0,extra:0,seq:0,inst:{},stage:[{},{}],locked:[false,false],winner:null,dismissed:false,
+     P:[0,1].map(()=>({binder:CARDS.map((_,i)=>i),worlds:[]})),log:[]};
+  log(`New game. ${who(first)} goes first (coin toss).`);}
+function log(m){S.log.unshift(m);if(S.log.length>200)S.log.pop();}
+const shared=()=>S.half>=18;
+const active=()=>shared()?(S.locked[S.first]?1-S.first:S.first):(S.half%2===0?S.first:1-S.first);
+const turnNo=()=>shared()?10:Math.floor(S.half/2)+1;
+const I=id=>S.inst[id],C=id=>CARDS[I(id).c];
+const face=id=>I(id).f?C(id).bp:C(id).p;
+function find(id){for(const s of[0,1])for(let w=0;w<S.P[s].worlds.length;w++){const k=S.P[s].worlds[w].indexOf(id);if(k>=0)return{s,w,k};}return null;}
+function worldPts(ids){const c={water:0,earth:0,fire:0,air:0};let any=0;
+  for(const id of ids)for(const p of face(id))p==="any"?any++:c[p]++;
+  let best=0;const rec=i=>{if(i===any){const m=Math.min(...E.map(e=>c[e]));for(let s=0;s<=m;s++){const v=s+E.reduce((a,e)=>a+Math.floor((c[e]-s)/4),0);if(v>best)best=v;}return;}
+    for(const e of E){c[e]++;rec(i+1);c[e]--;}};rec(0);return best;}
+const total=s=>S.P[s].worlds.reduce((a,w)=>a+worldPts(w),0);
+function snap(){undo.push(JSON.stringify(S));if(undo.length>120)undo.shift();}
+function tidy(){for(const s of[0,1])S.P[s].worlds=S.P[s].worlds.filter(w=>w.length);}
+function checkPerfect(){if(S.winner)return;for(const s of[0,1])S.P[s].worlds.forEach(w=>{if(worldPts(w)>=3&&!S.winner){S.winner={s,why:"perfect"};log(`${who(s)} has a perfect world (3 world points) and wins.`);}});}
+function startTurn(){const owners=shared()?[0,1]:[active()];
+  for(const s of owners)for(const w of S.P[s].worlds)for(const id of w)if(I(id).f&&C(id).fb){I(id).f=false;log(`${C(id).b} flips back to ${C(id).n} (${who(s)}).`);}
+  S.played=0;S.forced=0;S.extra=0;}
+function place(s,id,target){const W=S.P[s].worlds;if(target==="new")W.push([id]);else{if(W[target].length>=4)return false;W[target].push(id);}return true;}
+function play(s,ci,target){snap();const id="c"+(++S.seq);S.inst[id]={c:ci,o:s,f:false,h:S.half};
+  S.P[s].binder.splice(S.P[s].binder.indexOf(ci),1);place(s,id,target);S.played++;
+  log(`${who(s)} plays ${CARDS[ci].n}${target==="new"?" into a new world":` into world ${target+1}`}.`);}
+function useForce(id){snap();I(id).f=true;S.forced++;log(`${who(I(id).o)} uses ${C(id).n}: ${C(id).b}. "${C(id).t}"`);}
+function render(){tidy();checkPerfect();save();const a=active(),sh=shared();
+  document.getElementById("status").innerHTML=S.phase==="over"?"Contest over":sh?`Turn 10 · shared <small>${S.phase==="lock"?`${who(a)} locks in`:S.phase==="resolve"?"apply forces by hand, then finish":""}</small>`:`Turn ${turnNo()} of 9 · ${who(a)} <small>${who(S.first)} went first</small>`;
+  const cap=1+S.extra;document.getElementById("counts").innerHTML=S.phase==="play"||S.phase==="lock"?`Landscapes <b>${S.played}/${cap}</b> <button class="btn sm" data-act="extra" title="A card's force gives another play">+1 play</button> Forces <b>${S.forced}/1</b>`:"";
+  document.getElementById("undo").disabled=!undo.length;
+  const end=document.getElementById("end");end.textContent=S.phase==="lock"?`Lock in ${who(a)}`:S.phase==="reveal"?"Reveal both":S.phase==="resolve"?"Finish contest":S.half===17?"End turn 9 · to shared turn 10":"End turn";end.disabled=S.phase==="over";
+  for(const s of[0,1])renderSide(s);renderMid();renderBinder();renderPreview();
+  document.getElementById("log").innerHTML=S.log.map(m=>`<li>${esc(m)}</li>`).join("");
+  const b=document.getElementById("banner");
+  if(S.winner&&!S.dismissed)b.innerHTML=`<div class="banner"><b>${S.winner.why==="perfect"?`${who(S.winner.s)} wins with a perfect world.`:S.winner.s===null?"Draw: equal world points (no tie-break set yet).":`${who(S.winner.s)} wins on world points, ${total(S.winner.s)} to ${total(1-S.winner.s)}.`}</b>${S.phase!=="over"?'<button class="btn sm" data-act="dismiss">Keep playing anyway</button>':""}<button class="btn sm" data-act="newgame">New game</button></div>`;else b.innerHTML="";}
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+function cardHtml(id){const i=I(id),c=CARDS[i.c],sel=ui.sel===id;
+  return `<button class="card${i.f?" back":""}${sel?" sel":""}${i.h===S.half&&!i.f?" fresh":""}" data-act="card" data-id="${id}" aria-label="${esc(i.f?c.b:c.n)}"><span class="nm">${esc(i.f?c.b:c.n)}</span><span class="pips">${pips(i.f?c.bp:c.p,22)}</span><span class="tx">${i.f?esc(c.t):""}</span></button>`;}
+function renderSide(s){const el=document.getElementById("side"+s),P=S.P[s],tgt=ui.mode&&targetSide()===s;
+  el.classList.toggle("on",S.phase!=="over"&&(shared()?S.phase==="lock"&&active()===s:active()===s));
+  const staged=S.phase==="lock"&&S.stage[s].play&&active()===s?` · staged: ${esc(CARDS[S.stage[s].play.c].n)}`:"";
+  el.innerHTML=`<div class="sidehead"><h2>${who(s)}</h2><span class="pts${total(s)>=3?" big":""}">${total(s)} world point${total(s)===1?"":"s"}</span><span class="hint">${P.binder.length} in binder${S.locked[s]&&S.phase==="lock"?" · locked in":""}${staged}</span></div>
+  <div class="worlds">${P.worlds.map((w,wi)=>{const pts=worldPts(w),ok=tgt&&w.length<4&&!(ui.mode.kind!=="play"&&w.includes(ui.sel));
+    return `<div class="world${pts>=3?" perfect":""}${ok?" target":""}" ${ok?`data-act="world" data-side="${s}" data-w="${wi}" tabindex="0" role="button"`:""}><span class="wp">World ${wi+1} · ${pts} pt${pts===1?"":"s"}</span>${w.map(cardHtml).join("")}${Array.from({length:4-w.length},()=>'<span class="slot"></span>').join("")}</div>`;}).join("")}
+  ${tgt?`<button class="world new target" data-act="world" data-side="${s}" data-w="new">New world</button>`:(P.worlds.length?"":`<p class="hint">No worlds yet.</p>`)}</div>`;}
+function targetSide(){if(!ui.mode)return -1;if(ui.mode.kind==="play")return ui.mode.s;return find(ui.sel)?.s??-1;}
+function renderMid(){const m=document.getElementById("mid");let h="";
+  if(S.phase==="reveal")h=`<span class="say">Both players are locked in. Reveal to play both landscapes and flip both forces at once.</span>`;
+  else if(ui.mode?.kind==="play")h=`<span class="say">Choose a world for <b>${esc(CARDS[ui.mode.c].n)}</b>.</span><button class="btn sm" data-act="cancel">Cancel</button>`;
+  else if(ui.mode?.kind==="move")h=`<span class="say">Choose where <b>${esc(C(ui.sel).n)}</b> goes.</span><button class="btn sm" data-act="cancel">Cancel</button>`;
+  else if(ui.mode?.kind==="swap")h=`<span class="say">Choose a card to swap with <b>${esc(C(ui.sel).n)}</b>.</span><button class="btn sm" data-act="cancel">Cancel</button>`;
+  else if(ui.sel&&I(ui.sel)){const i=I(ui.sel),c=C(ui.sel),a=active();
+    const can=(S.phase==="play"||S.phase==="lock")&&i.o===a&&!i.f&&i.h!==S.half&&S.forced<1&&!(S.phase==="lock"&&S.stage[a].force);
+    const why=i.o!==a?"not your card":i.f?"already flipped":i.h===S.half?"played this turn":S.forced>=1||S.stage[a]?.force?"force used this turn":"";
+    h=`<span class="say"><b>${esc(i.f?c.b:c.n)}</b> (${who(i.o)})</span>
+    ${S.phase==="play"||S.phase==="lock"?`<button class="btn sm go" data-act="force" ${can?"":"disabled"} title="${why}">${S.phase==="lock"?"Lock in force":"Use force"}: ${esc(c.b)}</button>`:""}
+    <button class="btn sm" data-act="flip" ${i.f?"disabled":""}>Flip (by an effect)</button><button class="btn sm" data-act="flipback" ${i.f?"":"disabled"}>Flip back</button>
+    <button class="btn sm" data-act="move">Move</button><button class="btn sm" data-act="swap">Swap</button><button class="btn sm" data-act="return">Return to binder</button><button class="btn sm" data-act="cancel">Close</button>`;}
+  else if(S.phase==="lock"){const st=S.stage[active()];h=`<span class="say">${who(active())}: choose a landscape to play and a force to use, then lock in. ${st.play?`Play: <b>${esc(CARDS[st.play.c].n)}</b>. `:""}${st.force?`Force: <b>${esc(C(st.force).b)}</b>.`:""}</span>${st.play||st.force?'<button class="btn sm" data-act="clearstage">Clear</button>':""}`;}
+  else if(S.phase==="resolve")h=`<span class="say">Apply both forces by hand, then finish the contest.</span>`;
+  else if(S.phase==="over")h=`<span class="say">Final: ${who(0)} ${total(0)}, ${who(1)} ${total(1)}.</span>`;
+  else h=`<span class="say hint">Select a card in play for its actions, or a binder card to play it.</span>`;
+  m.innerHTML=h;}
+function binderOwner(){return S.phase==="play"||S.phase==="lock"?active():null;}
+function renderBinder(){const s=binderOwner(),b=document.getElementById("binder"),t=document.getElementById("tabs");
+  document.getElementById("bindertitle").textContent=s===null?"Binder":`${who(s)}'s binder`;
+  if(s===null){b.innerHTML=`<p class="hint" style="grid-column:1/-1">No plays now.</p>`;t.innerHTML="";return;}
+  t.innerHTML=[0,1,2].map(k=>`<button class="btn sm${ui.tab===k?" on":""}" data-act="tab" data-k="${k}">Spread ${k+1}</button>`).join("");
+  const have=new Set(S.P[s].binder),staged=S.stage[s].play?.c,cap=1+S.extra,canPlay=S.phase==="lock"?!S.stage[s].play:S.played<cap;
+  b.innerHTML=CARDS.slice(ui.tab*8,ui.tab*8+8).map((c,k)=>{const ci=ui.tab*8+k;if(!have.has(ci)||ci===staged)return'<span class="empty"></span>';
+    return `<button class="card${canPlay?"":" dim"}${ui.mode?.kind==="play"&&ui.mode.c===ci?" sel":""}" data-act="bcard" data-c="${ci}" aria-label="${esc(c.n)}"><span class="nm">${esc(c.n)}</span><span class="pips">${pips(c.p,16)}</span></button>`;}).join("");}
+function renderPreview(){const ci=ui.hover??(ui.sel&&I(ui.sel)?I(ui.sel).c:ui.mode?.kind==="play"?ui.mode.c:null),p=document.getElementById("preview");
+  if(ci===null||ci===undefined){p.innerHTML='<p class="hint">Hover or select a card.</p>';return;}const c=CARDS[ci];
+  p.innerHTML=`<div class="big"><span class="lbl">Landscape</span><span class="nm">${esc(c.n)}</span><span class="pips">${pips(c.p,22)}</span></div><div class="big back"><span class="lbl">Force${c.fb?" · flips back":""}</span><span class="nm">${esc(c.b)}</span><span class="pips">${pips(c.bp,22)}</span><span class="tx">${esc(c.t)}</span></div>`;}
+function endTurn(){if(S.phase==="lock"){const a=active();snap();S.locked[a]=true;log(`${who(a)} locks in.`);ui={...ui,sel:null,mode:null};
+    if(S.locked[0]&&S.locked[1])S.phase="reveal";else{S.forced=0;S.played=0;S.extra=0;}return;}
+  if(S.phase==="reveal"){snap();for(const s of[S.first,1-S.first]){const st=S.stage[s];
+      if(st.play){const id="c"+(++S.seq);S.inst[id]={c:st.play.c,o:s,f:false,h:S.half};S.P[s].binder.splice(S.P[s].binder.indexOf(st.play.c),1);
+        if(st.play.w!=="new"&&S.P[s].worlds[st.play.w]&&S.P[s].worlds[st.play.w].length<4)S.P[s].worlds[st.play.w].push(id);else S.P[s].worlds.push([id]);log(`Reveal: ${who(s)} plays ${CARDS[st.play.c].n}.`);}
+      if(st.force&&I(st.force)&&!I(st.force).f){I(st.force).f=true;log(`Reveal: ${who(s)} uses ${C(st.force).n}: ${C(st.force).b}. "${C(st.force).t}"`);}}
+    S.phase="resolve";return;}
+  if(S.phase==="resolve"){snap();S.phase="over";if(!S.winner){const d=total(0)-total(1);S.winner={s:d>0?0:d<0?1:null,why:"points"};}log(`Contest over: ${who(0)} ${total(0)}, ${who(1)} ${total(1)}.`);return;}
+  snap();S.half++;ui={...ui,sel:null,mode:null};
+  if(S.half===18){S.phase="lock";log("Turn 10, shared: both players lock in, then reveal together.");startTurn();}
+  else{startTurn();log(`Turn ${turnNo()}: ${who(active())}.`);}}
+document.addEventListener("click",e=>{const t=e.target.closest("[data-act]");if(!t)return;const act=t.dataset.act,a=active();
+  if(act==="undo"){if(undo.length){S=JSON.parse(undo.pop());ui.sel=null;ui.mode=null;}}
+  else if(act==="newgame"){undo=[];fresh();ui={sel:null,mode:null,tab:0,hover:null};}
+  else if(act==="end")endTurn();
+  else if(act==="dismiss")S.dismissed=true;
+  else if(act==="tab")ui.tab=+t.dataset.k;
+  else if(act==="extra"){snap();S.extra++;log(`${who(a)} gets another play from a force.`);}
+  else if(act==="cancel"){ui.sel=null;ui.mode=null;}
+  else if(act==="bcard"){if(t.classList.contains("dim"))return;ui.sel=null;ui.mode={kind:"play",c:+t.dataset.c,s:binderOwner()};}
+  else if(act==="card"){const id=t.dataset.id;
+    if(ui.mode?.kind==="swap"&&id!==ui.sel){const A=find(ui.sel),B=find(id);if(A&&B&&A.s===B.s){snap();S.P[A.s].worlds[A.w][A.k]=id;S.P[B.s].worlds[B.w][B.k]=ui.sel;log(`${C(ui.sel).n} and ${C(id).n} swap places.`);ui.mode=null;ui.sel=null;}}
+    else{ui.mode=null;ui.sel=ui.sel===id?null:id;}}
+  else if(act==="world"){const s=+t.dataset.side,w=t.dataset.w==="new"?"new":+t.dataset.w;
+    if(ui.mode?.kind==="play"){if(S.phase==="lock"){S.stage[s].play={c:ui.mode.c,w};log(`${who(s)} chooses a landscape (hidden until reveal).`);}else play(s,ui.mode.c,w);ui.mode=null;}
+    else if(ui.mode?.kind==="move"){const id=ui.sel,f=find(id);snap();S.P[f.s].worlds[f.w].splice(f.k,1);
+      if(w==="new")S.P[s].worlds.push([id]);else S.P[s].worlds[w].push(id);log(`${C(id).n} moves ${w==="new"?"into a new world":`to world ${w+1}`}.`);ui.mode=null;ui.sel=null;}}
+  else if(ui.sel&&I(ui.sel)){const id=ui.sel;
+    if(act==="force"){if(S.phase==="lock"){S.stage[a].force=id;log(`${who(a)} chooses a force (hidden until reveal).`);}else useForce(id);ui.sel=null;}
+    else if(act==="flip"){snap();I(id).f=true;log(`${C(id).n} is flipped by an effect (its force doesn't happen).`);}
+    else if(act==="flipback"){snap();I(id).f=false;log(`${C(id).b} flips back to ${C(id).n}.`);}
+    else if(act==="move")ui.mode={kind:"move"};
+    else if(act==="swap")ui.mode={kind:"swap"};
+    else if(act==="return"){snap();const f=find(id),o=I(id).o;S.P[f.s].worlds[f.w].splice(f.k,1);S.P[o].binder.push(I(id).c);S.P[o].binder.sort((x,y)=>x-y);log(`${C(id).n} returns to ${who(o)}'s binder.`);delete S.inst[id];ui.sel=null;}}
+  if(act==="clearstage"){S.stage[a]={};}
+  render();});
+document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches(".world.target[role=button]")){e.preventDefault();e.target.click();}if(e.key==="Escape"){ui.sel=null;ui.mode=null;render();}});
+document.addEventListener("mouseover",e=>{const t=e.target.closest(".card");const ci=t?(t.dataset.c!==undefined?+t.dataset.c:t.dataset.id&&I(t.dataset.id)?I(t.dataset.id).c:null):null;if(ci!==ui.hover){ui.hover=ci;renderPreview();}});
+try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.P&&s.inst)S=s;}catch(e){}
+if(!S)fresh();
+render();
+}
+</script>
+</body>
+</html>

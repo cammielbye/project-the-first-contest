@@ -10,6 +10,13 @@ accounts. The **Friend / Computer** switch in the top bar picks who you play:
   seat (see *Playing against the computer* below). `index.html?vs=computer` opens
   straight to it.
 
+
+**Branch B test table (Nov 23).** `branch-b/index.html` is a separate, self-contained page for testing
+Branch B, the path where you play a landscape and later flip it to use its force (the Branch B doc on
+claude.ai). Two players share one screen with the same 24 draft cards; they play, flip, move and return
+cards by hand, and the page enforces one landscape and one force a turn, runs 9 turns each and a shared
+10th, and counts world points and perfect worlds. It doesn't touch the main table.
+On GitHub Pages: https://cammielbye.github.io/project-the-first-contest/branch-b/
 ## Playing
 
 1. Open the page and press **Host a contest**. Copy the invite link and paste it
