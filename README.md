@@ -11,11 +11,15 @@ accounts. The **Friend / Computer** switch in the top bar picks who you play:
   straight to it.
 
 
-**Branch B test table (Nov 23).** `branch-b/index.html` is a separate, self-contained page for testing
-Branch B, the path where you play a landscape and later flip it to use its force (the Branch B doc on
-claude.ai). Two players share one screen with the same 24 draft cards; they play, flip, move and return
-cards by hand, and the page enforces one landscape and one force a turn, runs 9 turns each and a shared
-10th, and counts world points and perfect worlds. It doesn't touch the main table.
+**Branch B table (Nov 23).** `branch-b/` is a separate copy of the table for Branch B, the path where you play
+a landscape and later flip it to use its force (the Branch B doc on claude.ai). It has the main table's look and
+its three ways to play: against the computer, two players on one screen, and a friend online (PeerJS, rooms
+prefixed `tfcb-`). The rules are enforced by `branch-b/js/rules-b.js` (24 draft cards, one landscape and one force
+a turn, 9 turns each then a shared 10th that both players lock in, world points and perfect worlds); the computer
+is `branch-b/js/ai-b.js` (one turn ahead, and it sees a perfect world one card away). Since Nov 23 the four
+single-pip cards can be played on an opponent's world (Cam). `node scripts/test-branch-b.mjs` checks the engine;
+`node scripts/sim-branch-b.mjs 120` plays computer-v-computer contests (`NOAWAY=1` turns the blockers off to
+compare). It doesn't touch the main table. Friend mode needs the GitHub Pages copy.
 On GitHub Pages: https://cammielbye.github.io/project-the-first-contest/branch-b/
 ## Playing
 
