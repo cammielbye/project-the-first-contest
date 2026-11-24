@@ -22,6 +22,13 @@ single-pip cards can be played on an opponent's world (Cam). `node scripts/test-
 compare). The table deals binders by the same stages, chosen at the top (mid by default, Nov 23: Cam didn't want
 to playtest with a binder that has so many 3-pip cards). It doesn't touch the main table. Friend mode needs the GitHub Pages copy.
 On GitHub Pages: https://cammielbye.github.io/project-the-first-contest/branch-b/
+
+**Branch B card pool (Nov 23).** `data/cards-branch-b.json` is the sixth pass (the last 100-card pool) under Branch
+B's rules: vanilla fronts (the 38 front abilities are kept in the file's `ideaPool`), a cycle of eight blockers,
+backs with their own pips, and the 14 meta cards. `python3 tools/cards/branchb_pool.py --json data/cards-branch-b.json --md data/card-pool-branch-b.md`
+rebuilds it from `data/cards.json` and checks it; `python3 tools/cards/branchb_page.py out.html` makes the list view
+(the "Branch B Card Pool" artifact). The table still plays the 24 draft cards until the pool is wired in.
+
 ## Playing
 
 1. Open the page and press **Host a contest**. Copy the invite link and paste it
