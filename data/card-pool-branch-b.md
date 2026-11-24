@@ -8,12 +8,12 @@ List view, front and back: [Branch B Card Pool](https://claude.ai/artifact/SPVNb
 - **Fronts are vanilla.** The 38 front abilities are in the idea pool (listed below). The only front text left is the blockers'.
 - **Blockers, a cycle of eight** (two commons per element): Lava Flow, Ice Floe, Shoal, Hill, Meadow, Dune, Ridge, Eyrie. "Can be played on an opponent's world."
 - **Backs have pips.** Most cards lose a pip when flipped, and every one-pip card but Bedrock loses its only pip. Counts: 33 lose every pip, 48 lose some, 3 keep every pip, 2 have none on either side; 3 change element where it's thematic (mud, obsidian, a lava coast making land).
-- **Durations.** "Lasts the round" (one round now) is "while flipped": the effect lives on the flipped card, as Cave-in's does, and ends if the card is flipped back or leaves play. 74 once, 7 until your next turn, 5 while flipped.
+- **Durations.** "Lasts the round" (one round now) is "while flipped": the effect lives on the flipped card, as Cave-in's does, and ends if the card is flipped back or leaves play. 69 once, 7 until your next turn, 5 while flipped, 5 open.
 - **Forces on the table are flipped cards,** so "remove a force" is "flip back" (Thaw, Sunlight).
-- **The extra plays are back.** They went to the idea pool on Nov 12 because "with uncapped turns, playing extra cards in a row doesnt do anything" (Cam). A Branch B turn has one landscape, so they matter again: 14 cards.
+- **The extra plays are back, one more at most, on 1- and 2-pip cards only.** They went to the idea pool on Nov 12 because "with uncapped turns, playing extra cards in a row doesnt do anything" (Cam). A Branch B turn has one landscape, so they matter again: 9 cards. Cam (Nov 23): "'play two more' is definitely too strong. 'Play one more' and moving it to a 1 or 2 pip card instead of a 3 pip card." The five 3-pip cards that had one (Smoking Hills, Lava Coast, Lava Plain, Sand Sea, Cinder Field) are open until a force is chosen.
 - **8 cards flip back on their own,** from natural cycles: Tide Pool, Snowfield, Grove, Mud Pots, Savanna, Spring, Tidal Flat, Mirage.
 - **Meta cards** are played in place of the turn's landscape, then go to the void (Claude's reading). Six changed words for the new turn: Calm, Aftershock, Stillness, Sunlight, Thunder, Haze.
-- **Rarities** are unchanged. The four one-pip rares (Ice Sheet, Thicket, Badlands, Wind Gap) and the two no-pip uncommons (Mirage, Hanging Valley) were rare for their front text, which is now in the idea pool.
+- **Rarities** are unchanged. One-pip rares stay: Cam (Nov 23), "I'd like to have some 1 pip rares and just because I think it's interesting. we'll figure out what their effects have to be to qualify them as rares." Ice Sheet, Thicket, Badlands and Wind Gap keep their sixth-pass backs until then. The two no-pip uncommons (Mirage, Hanging Valley) were uncommon for their front text, which is now in the idea pool.
 
 ## Landscapes (86)
 
@@ -71,21 +71,21 @@ List view, front and back: [Branch B Card Pool](https://claude.ai/artifact/SPVNb
 | 50 | Boiling Lake | A | 2 water, 1 fire | — | Torrent | 2 water | Once | Play a card from your void. |
 | 51 | Misty Fjord | A | 2 water, 1 air | — | Whiteout | 2 water | Once | Play a card from your void. |
 | 52 | Floodplain | A | 1 water, 2 earth | — | Mudflow | 1 water, 1 earth | Once | Return two of your worlds. |
-| 53 | Smoking Hills | A | 2 earth, 1 fire | — | Eruption | 2 earth | Once | Play two more permanences this turn. |
+| 53 | Smoking Hills | A | 2 earth, 1 fire | — | — | 2 earth | — | Open: no force for the moment. |
 | 54 | Highlands | A | 2 earth, 1 air | — | Earthquake | 2 earth | Once | Return two of your worlds. |
-| 55 | Lava Coast | A | 1 water, 2 fire | — | Steam Explosion | 1 water, 1 earth | Once | Play two more permanences this turn. |
-| 56 | Lava Plain | A | 1 earth, 2 fire | — | Magma | 1 earth, 1 fire | Once | Play two more permanences this turn. |
-| 57 | Sand Sea | A | 2 fire, 1 air | — | Supercell | 1 fire, 1 air | Once | Play two more permanences this turn. |
+| 55 | Lava Coast | A | 1 water, 2 fire | — | — | 1 water, 1 earth | — | Open: no force for the moment. |
+| 56 | Lava Plain | A | 1 earth, 2 fire | — | — | 1 earth, 1 fire | — | Open: no force for the moment. |
+| 57 | Sand Sea | A | 2 fire, 1 air | — | — | 1 fire, 1 air | — | Open: no force for the moment. |
 | 58 | Cloud Sea | A | 1 water, 2 air | — | Hurricane | 1 water | Once | Move two of your permanences. |
 | 59 | Stone Towers | A | 1 earth, 2 air | — | Gale Force | 1 earth, 1 air | Once | Move two of your permanences. |
 | 60 | High Desert | A | 1 fire, 2 air | — | Tornado | 1 fire, 1 air | Once | Return the last two permanences you played. |
 | 61 | Lagoon | A | 3 water | — | Flash Flood | 2 water | Once | Return three cards from your void. |
 | 62 | Moor | A | 3 earth | — | Avalanche | 2 earth | Once | Return two of your worlds. |
-| 63 | Cinder Field | A | 3 fire | — | Wildfire | 2 fire | Once | Play two more permanences this turn. |
+| 63 | Cinder Field | A | 3 fire | — | — | 2 fire | — | Open: no force for the moment. |
 | 64 | Peak | A | 3 air | — | Drought | 2 air | Once | Move two of your permanences. |
 | 65 | Ice Sheet | A | 1 water | — | Blizzard | none | Until your next turn | No rare forces until your next turn. |
 | 66 | Thicket | A | 1 earth | — | Shelter | none | Until your next turn | No rare forces until your next turn. |
-| 67 | Badlands | A | 1 fire | — | Ember | none | Once | Play two more permanences this turn. |
+| 67 | Badlands | A | 1 fire | — | Ember | none | Once | Play another permanence this turn. |
 | 68 | Wind Gap | A | 1 air | — | Downdraft | none | Once | A rare permanence becomes its own world. |
 | 83 | Ice Floe | C | 1 water | Can be played on an opponent's world. | Current | none | Once | Play a permanence from your void. |
 | 84 | Shoal | C | 1 water | Can be played on an opponent's world. | Mist | none | Once | Move one of your permanences. |
@@ -95,7 +95,7 @@ List view, front and back: [Branch B Card Pool](https://claude.ai/artifact/SPVNb
 | 88 | Cavern | C | 1 earth | — | Sinkhole | none | While flipped | This world ignores your opponent's forces. |
 | 89 | Dune | C | 1 fire | Can be played on an opponent's world. | Updraft | none | Once | Play another fire permanence this turn. |
 | 90 | Barrens | C | 1 fire | — | Smoke | none | Once | Swap two of your permanences. |
-| 91 | Crater | B | 1 earth, 1 fire | — | Meteor | 1 earth | Once | Play two more fire permanences this turn. |
+| 91 | Crater | B | 1 earth, 1 fire | — | Meteor | 1 earth | Once | Play another fire permanence this turn. |
 | 92 | Ledge | C | 1 air | — | Gust | none | Once | A common permanence becomes its own world. |
 | 93 | Ridge | C | 1 air | Can be played on an opponent's world. | Breeze | none | Once | Move one of your permanences. |
 | 94 | Eyrie | C | 1 air | Can be played on an opponent's world. | Cyclone | none | Once | Return the last permanence you played. |

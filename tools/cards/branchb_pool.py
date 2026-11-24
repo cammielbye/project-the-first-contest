@@ -43,13 +43,16 @@ TEXT = {  # back texts that change with the rules (sixth pass -> Branch B), and 
     'Eyrie': ('Return the last permanence you played.', 'was "Return a card you played last round."; one round now'),
     'High Desert': ('Return the last two permanences you played.', 'was "Return two cards you played last round."; one round now'),
 }
-RESTORED = {  # the Nov 12 extra plays, back from the idea pool, worded for a capped turn
+RESTORED = {  # the Nov 12 extra plays, back from the idea pool, worded for a capped turn. Cam, Nov 23: '"play two more"
+    # is definitely too strong. "Play one more" and moving it to a 1 or 2 pip card instead of a 3 pip card.'
     'Play another earth card.': 'Play another earth permanence this turn.',
     'Play another fire card.': 'Play another fire permanence this turn.',
     'Play another card.': 'Play another permanence this turn.',
-    'Play two more fire cards.': 'Play two more fire permanences this turn.',
-    'Play two more cards.': 'Play two more permanences this turn.',
+    'Play two more fire cards.': 'Play another fire permanence this turn.',
+    'Play two more cards.': 'Play another permanence this turn.',
 }
+ONE_MORE = 'Cam, Nov 23: "play two more" is definitely too strong; "play one more"'
+OFF_THREE = 'Cam, Nov 23: extra plays go on a 1 or 2 pip card, not a 3 pip card; open until a force is chosen'
 FLIPS_BACK = {  # the natural cycles
     'Tide Pool': 'the tide comes back in', 'Tidal Flat': 'the tide', 'Spring': 'low tide, then high', 'Snowfield': 'the seasons',
     'Grove': 'a forest regrows', 'Savanna': 'grass burns and grows back', 'Mud Pots': 'mud bubbles up again', 'Mirage': 'a mirage comes and goes',
@@ -108,14 +111,19 @@ def build():
         if f.get('text'):
             fname, dur, ftext = f['name'], DUR[f['duration']], f['text']
             if f['duration'] == 'Lasts the round': changes.append('lasted the round; now while flipped')
-        else:  # an open face: its Nov 12 extra play comes back
+        elif len(p['affinities']) >= 3:  # no extra plays on 3-pip cards (Cam, Nov 23): open
+            fname, dur, ftext, role = '', '', '', 'open'
+            changes.append('open: its Nov 12 extra play ("%s") stays in the idea pool. %s' % (pass6.FORCES[n][2], OFF_THREE))
+        else:  # an open face: its Nov 12 extra play comes back, as one more
             fname, d0, old, _r = pass6.FORCES[n]
             dur, ftext, role = 'Once', RESTORED[old], pass6.SELF
             changes.append('extra play back from the idea pool (was "%s")' % old)
+            if 'two more' in old: changes.append(ONE_MORE)
         if n in TEXT:
             ftext, why = TEXT[n]; changes.append(why)
         fb = n in FLIPS_BACK
         if fb:
+            assert ftext, n
             ftext += ' Next turn, flip this back.'
             changes.append('flips back: %s' % FLIPS_BACK[n])
         back = BACK.get(n, [])
@@ -135,12 +143,14 @@ def pipcount(ps): return len(ps)
 def check():
     probs = []
     if [c['no'] for c in CARDS] != list(range(1, 101)): probs.append(('numbering',))
-    names = collections.Counter([c['name'] for c in CARDS] + [c['back']['name'] for c in LAND])
+    names = collections.Counter([c['name'] for c in CARDS] + [c['back']['name'] for c in LAND if c['back']['name']])
     probs += [('duplicate name', k) for k, v in names.items() if v > 1]
     for c in LAND:
         b = c['back']
         if len(b['pips']) > len(c['front']['pips']): probs.append(('back has more pips', c['name']))
-        if not b['text']: probs.append(('no back text', c['name']))
+        if not b['text'] and c['role'] != 'open': probs.append(('no back text', c['name']))
+        if 'two more' in b['text']: probs.append(('two more', c['name']))
+        if b['text'].startswith('Play another') and len(c['front']['pips']) >= 3: probs.append(('extra play on a 3-pip card', c['name']))
         core = b['text'].replace(' Next turn, flip this back.', '')
         if words(core) >= 8: probs.append(('8+ words', c['name'], core))
         if words(b['text']) > 16: probs.append(('16+ words on a back', c['name'], b['text']))
@@ -170,7 +180,8 @@ def stats():
         else: s['loses some'] += 1
         if b and set(b) - set(x for p in f for x in p.split('|')) - {'any'}: s['changes element'] += 1
         if c['back']['flipsBack']: s['flips back'] += 1
-        s['dur ' + c['back']['duration']] += 1
+        s['dur ' + (c['back']['duration'] or 'open')] += 1
+        if c['back']['text'].startswith('Play another'): s['extra plays'] += 1
     return s
 
 ELWORD = {'water': 'water', 'earth': 'earth', 'fire': 'fire', 'air': 'air', 'any': 'any'}
@@ -187,7 +198,7 @@ def markdown():
         b = c['back']
         rows.append('| %d | %s | %s | %s | %s | %s | %s | %s | %s |' % (
             c['no'], c['name'], c['rarity'], pips_md(c['front']['pips']), c['front']['text'] or '—',
-            b['name'], pips_md(b['pips']), b['duration'] + (', flips back' if b['flipsBack'] else ''), b['text']))
+            b['name'] or '—', pips_md(b['pips']), (b['duration'] or '—') + (', flips back' if b['flipsBack'] else ''), b['text'] or 'Open: no force for the moment.'))
     mrows = ['| %d | %s | %s | %s |' % (m['no'], m['name'], m['text'], m['was'] or '—') for m in META]
     ideas = ['- "%s" (%s)' % (t, ', '.join(ns)) for t, ns in IDEA.items()]
     return f'''# Branch B card pool (first draft, Nov 23, 2026)
@@ -200,12 +211,12 @@ List view, front and back: [Branch B Card Pool](https://claude.ai/artifact/SPVNb
 - **Fronts are vanilla.** The {sum(len(v) for v in IDEA.values())} front abilities are in the idea pool (listed below). The only front text left is the blockers'.
 - **Blockers, a cycle of eight** (two commons per element): {', '.join(c['name'] for c in LAND if c['blocker'])}. "Can be played on an opponent's world."
 - **Backs have pips.** Most cards lose a pip when flipped, and every one-pip card but Bedrock loses its only pip. Counts: {s['loses every pip']} lose every pip, {s['loses some']} lose some, {s['keeps every pip']} keep every pip, {s['no pips either side']} have none on either side; {s['changes element']} change element where it's thematic (mud, obsidian, a lava coast making land).
-- **Durations.** "Lasts the round" (one round now) is "while flipped": the effect lives on the flipped card, as Cave-in's does, and ends if the card is flipped back or leaves play. {s['dur Once']} once, {s['dur Until your next turn']} until your next turn, {s['dur While flipped']} while flipped.
+- **Durations.** "Lasts the round" (one round now) is "while flipped": the effect lives on the flipped card, as Cave-in's does, and ends if the card is flipped back or leaves play. {s['dur Once']} once, {s['dur Until your next turn']} until your next turn, {s['dur While flipped']} while flipped, {s['dur open']} open.
 - **Forces on the table are flipped cards,** so "remove a force" is "flip back" (Thaw, Sunlight).
-- **The extra plays are back.** They went to the idea pool on Nov 12 because "with uncapped turns, playing extra cards in a row doesnt do anything" (Cam). A Branch B turn has one landscape, so they matter again: 14 cards.
+- **The extra plays are back, one more at most, on 1- and 2-pip cards only.** They went to the idea pool on Nov 12 because "with uncapped turns, playing extra cards in a row doesnt do anything" (Cam). A Branch B turn has one landscape, so they matter again: {s['extra plays']} cards. Cam (Nov 23): "'play two more' is definitely too strong. 'Play one more' and moving it to a 1 or 2 pip card instead of a 3 pip card." The five 3-pip cards that had one ({', '.join(c['name'] for c in LAND if c['role'] == 'open')}) are open until a force is chosen.
 - **{s['flips back']} cards flip back on their own,** from natural cycles: {', '.join(c['name'] for c in LAND if c['back']['flipsBack'])}.
 - **Meta cards** are played in place of the turn's landscape, then go to the void (Claude's reading). Six changed words for the new turn: Calm, Aftershock, Stillness, Sunlight, Thunder, Haze.
-- **Rarities** are unchanged. The four one-pip rares (Ice Sheet, Thicket, Badlands, Wind Gap) and the two no-pip uncommons (Mirage, Hanging Valley) were rare for their front text, which is now in the idea pool.
+- **Rarities** are unchanged. One-pip rares stay: Cam (Nov 23), "I'd like to have some 1 pip rares and just because I think it's interesting. we'll figure out what their effects have to be to qualify them as rares." Ice Sheet, Thicket, Badlands and Wind Gap keep their sixth-pass backs until then. The two no-pip uncommons (Mirage, Hanging Valley) were uncommon for their front text, which is now in the idea pool.
 
 ## Landscapes (86)
 

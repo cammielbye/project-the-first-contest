@@ -1828,7 +1828,7 @@
    "id": "53",
    "name": "Smoking Hills",
    "rarity": "A",
-   "role": "self",
+   "role": "open",
    "front": {
     "pips": [
      "earth",
@@ -1839,13 +1839,13 @@
    },
    "blocker": false,
    "back": {
-    "name": "Eruption",
+    "name": "",
     "pips": [
      "earth",
      "earth"
     ],
-    "duration": "Once",
-    "text": "Play two more permanences this turn.",
+    "duration": "",
+    "text": "",
     "flipsBack": false
    },
    "sixth": {
@@ -1855,7 +1855,7 @@
     "forceText": ""
    },
    "changes": [
-    "extra play back from the idea pool (was \"Play two more cards.\")"
+    "open: its Nov 12 extra play (\"Play two more cards.\") stays in the idea pool. Cam, Nov 23: extra plays go on a 1 or 2 pip card, not a 3 pip card; open until a force is chosen"
    ]
   },
   {
@@ -1896,7 +1896,7 @@
    "id": "55",
    "name": "Lava Coast",
    "rarity": "A",
-   "role": "self",
+   "role": "open",
    "front": {
     "pips": [
      "water",
@@ -1907,13 +1907,13 @@
    },
    "blocker": false,
    "back": {
-    "name": "Steam Explosion",
+    "name": "",
     "pips": [
      "water",
      "earth"
     ],
-    "duration": "Once",
-    "text": "Play two more permanences this turn.",
+    "duration": "",
+    "text": "",
     "flipsBack": false
    },
    "sixth": {
@@ -1923,7 +1923,7 @@
     "forceText": ""
    },
    "changes": [
-    "extra play back from the idea pool (was \"Play two more cards.\")",
+    "open: its Nov 12 extra play (\"Play two more cards.\") stays in the idea pool. Cam, Nov 23: extra plays go on a 1 or 2 pip card, not a 3 pip card; open until a force is chosen",
     "back pips: lava meets the sea and makes land"
    ]
   },
@@ -1932,7 +1932,7 @@
    "id": "56",
    "name": "Lava Plain",
    "rarity": "A",
-   "role": "self",
+   "role": "open",
    "front": {
     "pips": [
      "earth",
@@ -1943,13 +1943,13 @@
    },
    "blocker": false,
    "back": {
-    "name": "Magma",
+    "name": "",
     "pips": [
      "earth",
      "fire"
     ],
-    "duration": "Once",
-    "text": "Play two more permanences this turn.",
+    "duration": "",
+    "text": "",
     "flipsBack": false
    },
    "sixth": {
@@ -1959,7 +1959,7 @@
     "forceText": ""
    },
    "changes": [
-    "extra play back from the idea pool (was \"Play two more cards.\")"
+    "open: its Nov 12 extra play (\"Play two more cards.\") stays in the idea pool. Cam, Nov 23: extra plays go on a 1 or 2 pip card, not a 3 pip card; open until a force is chosen"
    ]
   },
   {
@@ -1967,7 +1967,7 @@
    "id": "57",
    "name": "Sand Sea",
    "rarity": "A",
-   "role": "self",
+   "role": "open",
    "front": {
     "pips": [
      "fire",
@@ -1978,13 +1978,13 @@
    },
    "blocker": false,
    "back": {
-    "name": "Supercell",
+    "name": "",
     "pips": [
      "fire",
      "air"
     ],
-    "duration": "Once",
-    "text": "Play two more permanences this turn.",
+    "duration": "",
+    "text": "",
     "flipsBack": false
    },
    "sixth": {
@@ -1994,7 +1994,7 @@
     "forceText": ""
    },
    "changes": [
-    "extra play back from the idea pool (was \"Play two more cards.\")"
+    "open: its Nov 12 extra play (\"Play two more cards.\") stays in the idea pool. Cam, Nov 23: extra plays go on a 1 or 2 pip card, not a 3 pip card; open until a force is chosen"
    ]
   },
   {
@@ -2172,7 +2172,7 @@
    "id": "63",
    "name": "Cinder Field",
    "rarity": "A",
-   "role": "self",
+   "role": "open",
    "front": {
     "pips": [
      "fire",
@@ -2183,13 +2183,13 @@
    },
    "blocker": false,
    "back": {
-    "name": "Wildfire",
+    "name": "",
     "pips": [
      "fire",
      "fire"
     ],
-    "duration": "Once",
-    "text": "Play two more permanences this turn.",
+    "duration": "",
+    "text": "",
     "flipsBack": false
    },
    "sixth": {
@@ -2200,7 +2200,7 @@
    },
    "changes": [
     "front text to the idea pool: \"Play only on your first turn.\"",
-    "extra play back from the idea pool (was \"Play two more cards.\")"
+    "open: its Nov 12 extra play (\"Play two more cards.\") stays in the idea pool. Cam, Nov 23: extra plays go on a 1 or 2 pip card, not a 3 pip card; open until a force is chosen"
    ]
   },
   {
@@ -2315,7 +2315,7 @@
     "name": "Ember",
     "pips": [],
     "duration": "Once",
-    "text": "Play two more permanences this turn.",
+    "text": "Play another permanence this turn.",
     "flipsBack": false
    },
    "sixth": {
@@ -2326,7 +2326,8 @@
    },
    "changes": [
     "front text to the idea pool: \"Each permanence in its world gains fire.\"",
-    "extra play back from the idea pool (was \"Play two more cards.\")"
+    "extra play back from the idea pool (was \"Play two more cards.\")",
+    "Cam, Nov 23: \"play two more\" is definitely too strong; \"play one more\""
    ]
   },
   {
@@ -2781,7 +2782,7 @@
      "earth"
     ],
     "duration": "Once",
-    "text": "Play two more fire permanences this turn.",
+    "text": "Play another fire permanence this turn.",
     "flipsBack": false
    },
    "sixth": {
@@ -2791,7 +2792,8 @@
     "forceText": ""
    },
    "changes": [
-    "extra play back from the idea pool (was \"Play two more fire cards.\")"
+    "extra play back from the idea pool (was \"Play two more fire cards.\")",
+    "Cam, Nov 23: \"play two more\" is definitely too strong; \"play one more\""
    ]
   },
   {

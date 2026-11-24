@@ -80,6 +80,7 @@ def tags(c):
     if c.get('blocker'): out.append('<span class="tag tag-block" title="Can be played on an opponent\'s world">blocker</span>')
     if c.get('role') in ROLE_LABEL: out.append('<span class="tag tag-role role-%s" title="Reaches the other player">%s</span>' % (c['role'], ROLE_LABEL[c['role']]))
     if any(x.startswith('extra play back') for x in c['changes']): out.append('<span class="tag tag-back" title="Back from the idea pool">extra play</span>')
+    if c.get('role') == 'open': out.append('<span class="tag tag-role role-open" title="No force for the moment">open</span>')
     return ''.join(out)
 
 def changes(c):
@@ -88,6 +89,10 @@ def changes(c):
 
 def card_row(c):
     f, b = c['front'], c['back']
+    if not b['text']:
+        back_html = f'<span class="back-head">{plate(b["pips"], 20, True)}<span class="vanilla">Open: no force for the moment. Extra plays go on 1- and 2-pip cards (Cam, Nov 23).</span></span>'
+    else:
+        back_html = None
     ftxt = f'<span class="ftxt">{esc(f["text"])}</span>' if f['text'] else ''
     text = b['text'].replace(' Next turn, flip this back.', '')
     flip = ' Next turn, flip this back.' if b['flipsBack'] else ''
@@ -97,7 +102,7 @@ def card_row(c):
   <span class="name"><b>{esc(c['name'])}</b>{tags(c)}</span>
   {rarity(c['rarity'])}
   <span class="face face-front">{plate(f['pips'])}{ftxt}</span>
-  <span class="face face-back"><span class="back-head">{plate(b['pips'], 20, True)}<em>{esc(b['name'])}</em><span class="dur">{esc(b['duration'].lower())}</span>{chip_flip}</span><span class="btxt">{ftext(text)}{esc(flip)}</span></span>
+  <span class="face face-back">{back_html or f'<span class="back-head">{plate(b["pips"], 20, True)}<em>{esc(b["name"])}</em><span class="dur">{esc(b["duration"].lower())}</span>{chip_flip}</span><span class="btxt">{ftext(text)}{esc(flip)}</span>'}</span>
   {changes(c)}
 </li>'''
 
@@ -130,7 +135,7 @@ SECTIONS = [
               sub('Common · one element', '', pick(lambda c: one_el(c) and not c['blocker'])),
               sub('Common · either-or', 'One pip that counts as either element.', pick(lambda c: n(c) == 1 and '|' in c['front']['pips'][0])),
               sub('Common · any', '', pick(lambda c: c['rarity'] == 'C' and c['front']['pips'] == ['any'])),
-              sub('Rare · one pip', 'Rare for their front text ("each permanence in its world gains its element"), which is in the idea pool now.', pick(lambda c: n(c) == 1 and c['rarity'] == 'A'))]),
+              sub('Rare · one pip', 'Cam, Nov 23: "I\'d like to have some 1 pip rares and just because I think it\'s interesting. we\'ll figure out what their effects have to be to qualify them as rares." Their backs are the sixth pass\'s for now; their old front text is in the idea pool.', pick(lambda c: n(c) == 1 and c['rarity'] == 'A'))]),
  ('Two pips', [sub('Uncommon · two elements', '', pick(lambda c: n(c) == 2 and len(kinds(c)) == 2 and 'any' not in kinds(c))),
                sub('Uncommon · with any', '', pick(lambda c: n(c) == 2 and 'any' in kinds(c))),
                sub('Uncommon · two of one element', '', pick(lambda c: n(c) == 2 and len(kinds(c)) == 1 and 'any' not in kinds(c)))]),
@@ -170,13 +175,13 @@ page = f'''<title>Branch B Card Pool</title>
 <div class="wrap">
   <header>
     <h1>Branch B Card Pool</h1>
-    <p class="lede">The last 100-card pool (the sixth pass) under Branch B's rules, first draft (Nov 23, 2026). Cam: "let's get the card pool back into a 100 card playable state like it once was." Fronts are vanilla: the <b>{n_idea}</b> front abilities are in the idea pool, listed at the bottom. The only front text left is the <b>8</b> blockers'. Every one of the <b>86</b> landscapes has a force on its back, with its own pips: <b>{st['loses every pip']}</b> lose every pip when flipped, <b>{st['loses some']}</b> lose some, <b>{st['keeps every pip']}</b> keep them all, and <b>{st['changes element']}</b> change element. <b>{st['flips back']}</b> flip back on their own. <b>{roles['removal']}</b> forces are hard removal, <b>{roles['move']}</b> move or swap the other player's cards and <b>{roles['negate']}</b> stop the other player's forces. <b>{rc['C']}</b> commons, <b>{rc['B']}</b> uncommons, <b>{rc['A']}</b> rares, <b>{rc['S']}</b> pinnacles and <b>{len(B.META)}</b> meta cards. Everything beyond Cam's three answers is Claude's draft.</p>
-    <div class="legend" aria-label="Key">{legend_marks}<span class="sep" aria-hidden="true"></span>{legend_rar}<span class="sep" aria-hidden="true"></span><span class="key"><span class="tag tag-block">blocker</span></span><span class="key"><span class="tag tag-flip">flips back</span></span><span class="key"><span class="tag tag-back">extra play</span>back from the idea pool</span><span class="key"><span class="tag tag-role role-removal">removal</span></span><span class="key"><span class="tag tag-role role-move">moves theirs</span></span><span class="key"><span class="tag tag-role role-negate">stops forces</span></span></div>
+    <p class="lede">The last 100-card pool (the sixth pass) under Branch B's rules, first draft (Nov 23, 2026). Cam: "let's get the card pool back into a 100 card playable state like it once was." Fronts are vanilla: the <b>{n_idea}</b> front abilities are in the idea pool, listed at the bottom. The only front text left is the <b>8</b> blockers'. Every landscape's back has its own pips: <b>{st['loses every pip']}</b> lose every pip when flipped, <b>{st['loses some']}</b> lose some, <b>{st['keeps every pip']}</b> keep them all, and <b>{st['changes element']}</b> change element. <b>{st['flips back']}</b> flip back on their own. <b>{st['extra plays']}</b> give one extra play, all on 1- or 2-pip cards, and <b>{roles['open']}</b> rares are open. <b>{roles['removal']}</b> forces are hard removal, <b>{roles['move']}</b> move or swap the other player's cards and <b>{roles['negate']}</b> stop the other player's forces. <b>{rc['C']}</b> commons, <b>{rc['B']}</b> uncommons, <b>{rc['A']}</b> rares, <b>{rc['S']}</b> pinnacles and <b>{len(B.META)}</b> meta cards. Everything beyond Cam's three answers is Claude's draft.</p>
+    <div class="legend" aria-label="Key">{legend_marks}<span class="sep" aria-hidden="true"></span>{legend_rar}<span class="sep" aria-hidden="true"></span><span class="key"><span class="tag tag-block">blocker</span></span><span class="key"><span class="tag tag-flip">flips back</span></span><span class="key"><span class="tag tag-back">extra play</span>back from the idea pool</span><span class="key"><span class="tag tag-role role-open">open</span>no force yet</span><span class="key"><span class="tag tag-role role-removal">removal</span></span><span class="key"><span class="tag tag-role role-move">moves theirs</span></span><span class="key"><span class="tag tag-role role-negate">stops forces</span></span></div>
   </header>
 
   <div class="format">
     <p><b>Branch B's rules.</b> A binder of 24, best of one. Nine whole turns each, then a shared 10th where both players lock in a landscape and a force and reveal together. Each turn, up to one landscape played and one force used. Using a force flips its card: its front pips stop counting and its back pips count. Worlds go up to 2×2. A world point is one of each element or four of one, uncapped per world, each pip counted once. A 2×2 world worth 3 points is a perfect world and wins at once; otherwise most world points after the 10th turn wins. Removed cards go to their owner's void; returned cards go to their owner's binder.</p>
-    <p><b>What the rules changed on the cards.</b> "Lasts the round" is <b>while flipped</b>: the effect lives on the flipped card and ends if it's flipped back or leaves play. The forces on the table are flipped cards, so "remove a force" is "flip back". The extra plays are back: they left on Nov 12 because "with uncapped turns, playing extra cards in a row doesnt do anything" (Cam), and a Branch B turn has one landscape. A rarity letter in a force's text is the rarity it reaches: <span class="rtext rtext-C">C</span> common, <span class="rtext rtext-B">B</span> uncommon, <span class="rtext rtext-A">A</span> rare.</p>
+    <p><b>What the rules changed on the cards.</b> "Lasts the round" is <b>while flipped</b>: the effect lives on the flipped card and ends if it's flipped back or leaves play. The forces on the table are flipped cards, so "remove a force" is "flip back". The extra plays are back: they left on Nov 12 because "with uncapped turns, playing extra cards in a row doesnt do anything" (Cam), and a Branch B turn has one landscape. Cam (Nov 23): "'play two more' is definitely too strong. 'Play one more' and moving it to a 1 or 2 pip card instead of a 3 pip card." So every extra play is one more, and the five 3-pip cards that had one are open. A rarity letter in a force's text is the rarity it reaches: <span class="rtext rtext-C">C</span> common, <span class="rtext rtext-B">B</span> uncommon, <span class="rtext rtext-A">A</span> rare.</p>
     <label class="toggle"><input type="checkbox" id="show-changes"> Show what changed on each card since the sixth pass</label>
   </div>
 
