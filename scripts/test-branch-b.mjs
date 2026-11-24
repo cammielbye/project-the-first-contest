@@ -182,5 +182,17 @@ ok(R.pointsOfPips(["water", "water", "water"]) === 0, "three water score nothing
   ok(s.P[0].binder.includes(ci("Spring")) && !s.P[1].binder.includes(ci("Spring")), "Flood sends it back to its owner's binder");
 }
 
+// the shared 10th: a locked-in card returned before its turn to resolve does nothing, and the contest still ends
+{
+  const s = quiet(0);
+  for (let k = 0; k < 18; k++) R.endTurn(s);
+  const lake = put(s, 0, "Lake"); const sp = put(s, 1, "Spring"); put(s, 1, "Hills", 0);
+  R.beginForce(s, 0, lake); R.lockIn(s, 0);
+  R.beginForce(s, 1, sp); R.lockIn(s, 1);
+  ok(s.inst[lake].f && s.inst[sp].f, "both locked-in cards flip at the reveal");
+  R.pick(s, { t: "card", id: idOf(s, "Hills") });
+  ok(s.phase === "over", "the second force resolves on its own and the contest ends");
+}
+
 console.log(`${n - fails}/${n} checks pass`);
 process.exit(fails ? 1 : 0);

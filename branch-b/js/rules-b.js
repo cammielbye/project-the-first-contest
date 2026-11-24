@@ -223,7 +223,7 @@ export function cancelForce(s) {
 }
 export function choices(s) {
   const pd = s.pending;
-  if (!pd) return null;
+  if (!pd || !s.inst[pd.id]) return null;
   const st = FORCES[s.inst[pd.id].c].step?.(s, pd.P, pd.id, pd.picks);
   return st && st.opts.length ? st : null;
 }
@@ -240,6 +240,11 @@ export function pick(s, opt) {
 // resolve the pending force once it needs no more choices
 function settle(s) {
   while (s.pending && (s.pending.stopped || !choices(s))) {
+    if (!s.inst[s.pending.id] || !findCard(s, s.pending.id)) { // its card left play before its turn to resolve
+      s.pending = s.queue.shift() || null;
+      if (s.phase === "resolve" && !s.pending) finish(s);
+      continue;
+    }
     const { P, id, picks, nested } = s.pending;
     s.pending = null;
     const c = card(s, id);
@@ -447,10 +452,15 @@ function reveal(s) {
     const st = s.stage[P];
     if (st.play) { say(s, P, "Reveal:"); place(s, P, st.play.ci, st.play.w, st.play.side ?? P); }
   }
+  // both locked-in forces are used at once: both cards flip now, and their effects then happen in turn order
   s.queue = [];
   for (const P of [s.first, 1 - s.first]) {
     const id = s.stage[P].force;
-    if (id && s.inst[id] && !s.inst[id].f) s.queue.push({ P, id, picks: [], locked: true });
+    if (id && s.inst[id] && !s.inst[id].f) {
+      s.inst[id].f = true;
+      say(s, P, `Reveal: ${vb(s, P, "uses", "use")} ${card(s, id).n}: ${card(s, id).b}.${card(s, id).t ? ` "${card(s, id).t}"` : ""}`);
+      s.queue.push({ P, id, picks: [], locked: true, nested: true });
+    }
   }
   s.phase = "resolve";
   checkWin(s);
