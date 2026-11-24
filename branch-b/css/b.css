@@ -1,5 +1,5 @@
 /* Branch B table (Nov 23): the main playtest table's look (css/style.css): walnut tabletop with an oxblood runner,
-   a dark scoreboard plaque across it, and the binder as a leather book with paper leaves of 2x2 pockets. */
+   a dark scoreboard plaque across it, and the binder as a leather book with paper pages of 2x2 pockets, two open at a time. */
 :root {
   --bg: #161a19; --panel: #1b211f; --raised: #26302c; --line: #34413d;
   --text: #e8e3d6; --muted: #9aa49d; --accent: #d9c9a3; --gold: #d2a24a; --pick: #e9b44c;
@@ -97,8 +97,8 @@ h1 span { color: var(--muted); font-size: 18px; }
 .pocket::after { content: ""; position: absolute; inset: 0; border-radius: 7px; z-index: 3; pointer-events: none; background: linear-gradient(118deg, rgba(255, 255, 255, .22) 0%, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0) 72%, rgba(255, 255, 255, .08) 100%); }
 .pocket .tok { box-shadow: 0 2px 4px rgba(40, 25, 8, .4); }
 @media (prefers-reduced-motion: no-preference) { .pocket .tok:not(.dim) { transition: transform .15s ease; } .pocket .tok:not(.dim):hover { transform: translateY(-4px); } }
-.spreads { display: flex; gap: 6px; }
-.spreads button.on { background: #5a3a24; border-color: #8a5d3a; }
+.pagetabs { display: flex; gap: 6px; }
+.pagetabs button.on { background: #5a3a24; border-color: #8a5d3a; }
 .logbox { width: 100%; max-width: 420px; background: rgba(14, 18, 16, .88); border: 1px solid rgba(255, 255, 255, .07); border-radius: 10px; padding: 8px 12px; }
 .logbox h2 { margin: 0 0 4px; font: 400 17px "IM Fell English", Georgia, serif; color: #e6d3b0; }
 .logbox ul { list-style: none; margin: 0; padding: 0; max-height: 210px; overflow: auto; font-size: 12.5px; color: var(--muted); }

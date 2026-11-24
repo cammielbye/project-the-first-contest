@@ -19,7 +19,8 @@ a turn, 9 turns each then a shared 10th that both players lock in, world points 
 is `branch-b/js/ai-b.js` (one turn ahead, and it sees a perfect world one card away). Since Nov 23 the four
 single-pip cards can be played on an opponent's world (Cam). `node scripts/test-branch-b.mjs` checks the engine;
 `node scripts/sim-branch-b.mjs 120` plays computer-v-computer contests (`NOAWAY=1` turns the blockers off to
-compare). It doesn't touch the main table. Friend mode needs the GitHub Pages copy.
+compare). The table deals binders by the same stages, chosen at the top (mid by default, Nov 23: Cam didn't want
+to playtest with a binder that has so many 3-pip cards). It doesn't touch the main table. Friend mode needs the GitHub Pages copy.
 On GitHub Pages: https://cammielbye.github.io/project-the-first-contest/branch-b/
 ## Playing
 

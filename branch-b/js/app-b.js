@@ -17,7 +17,8 @@ const TOK = 96, POCKET = 73;
 
 let mode = params.get("join") ? "friend" : store.get("bb:mode", "computer");
 let S = null, undo = [];
-const ui = { binderSel: null, cardSel: null, spread: 0, busy: false, rules: false, dismissed: false };
+const ui = { binderSel: null, cardSel: null, opening: 0, busy: false, rules: false, dismissed: false };
+let stage = store.get("bb:stage", "mid"); // which binders a new contest deals (the simulation stages)
 const F = { net: null, role: null, room: null, status: "", linked: false };
 
 // ---------------------------------------------------------------- who is who
@@ -33,8 +34,8 @@ const saveKey = () => `bb:state:${mode}`;
 function save() { if (S && !(mode === "friend" && F.role === "guest")) store.set(saveKey(), S); }
 function load() { const s = store.get(saveKey(), null); return s && s.v === 1 && s.P ? s : null; }
 function newContest() {
-  S = R.newGame(Math.random() < 0.5 ? 0 : 1, NAMES[mode]);
-  undo = []; Object.assign(ui, { binderSel: null, cardSel: null, spread: 0, dismissed: false });
+  S = R.newGame(Math.random() < 0.5 ? 0 : 1, NAMES[mode], stage);
+  undo = []; Object.assign(ui, { binderSel: null, cardSel: null, opening: 0, dismissed: false });
   save(); broadcast(); render(); kickComputer();
 }
 function apply(P, a) {
@@ -77,7 +78,7 @@ function broadcast() { if (mode === "friend" && F.role === "host" && F.net) F.ne
 function startFriend(role, room) {
   if (!window.RTCPeerConnection || !window.Peer) { F.status = "This copy of the table can't open a connection. Use the GitHub Pages copy for Friend mode."; render(); return; }
   F.role = role; F.room = room.toUpperCase(); F.linked = false;
-  if (role === "host") { S = load(); if (!S) { S = R.newGame(Math.random() < 0.5 ? 0 : 1, NAMES.friend); save(); } }
+  if (role === "host") { S = load(); if (!S) { S = R.newGame(Math.random() < 0.5 ? 0 : 1, NAMES.friend, stage); save(); } }
   else S = null;
   F.net = createNet({
     mode: role, room: F.room, peerOptions: peerOptionsFromUrl(params),
@@ -124,6 +125,8 @@ function playable(P) { return mine(P) && !ui.busy && R.legalPlays(S, P).length >
 function render() {
   document.querySelectorAll("#modes button").forEach((b) => b.classList.toggle("on", b.dataset.mode === mode));
   $("undoBtn").disabled = mode === "friend" || !undo.length || ui.busy;
+  document.querySelectorAll("#stages button").forEach((b) => b.classList.toggle("on", b.dataset.stage === stage));
+  $("stages").title = S && S.stage && S.stage !== stage ? `This contest uses ${S.stage}-game binders; the next one uses ${stage}-game binders.` : "";
   if (mode === "friend" && !F.role) { $("areaTop").innerHTML = ""; $("areaBottom").innerHTML = ""; $("plaque").innerHTML = ""; $("binderPanel").innerHTML = ""; $("status").innerHTML = ""; return renderOverlay(); }
   if (!S) { $("status").textContent = F.status; renderOverlay(); return; }
   const T = targets();
@@ -196,11 +199,15 @@ function renderBinder() {
     const cls = `${canPlay ? "" : "dim"} ${ui.binderSel === ci ? "sel" : ""}`;
     return `<div class="pocket">${token(ci, false, POCKET, cls).replace('class="tok', `data-act="bcard" data-ci="${ci}" data-back="0" tabindex="0" role="button" aria-label="${esc(R.CARDS[ci].n)}" class="tok`)}</div>`;
   };
-  const base = ui.spread * 8, leaf = (k, side) => `<div class="leaf ${side}"><div class="phead"><span>${side === "left" ? `Spread ${ui.spread + 1}` : ""}</span><span>${base + k + 1}–${base + k + 4}</span></div><div class="pockets">${[0, 1, 2, 3].map((j) => pocket(base + k + j)).join("")}</div></div>`;
+  // the binder holds the cards this player brought, four to a page, two pages open at a time
+  const deck = S.P[V].deck || R.CARDS.map((c) => c.i), openings = Math.max(1, Math.ceil(deck.length / 8));
+  ui.opening = Math.min(ui.opening, openings - 1);
+  const base = ui.opening * 8, page = 2 * ui.opening + 1;
+  const leaf = (k, side) => `<div class="leaf ${side}"><div class="phead"><span>${side === "left" ? `Page ${page}` : ""}</span><span>${side === "right" ? `Page ${page + 1}` : ""}</span></div><div class="pockets">${[0, 1, 2, 3].map((j) => (deck[base + k + j] === undefined ? '<div class="pocket"></div>' : pocket(deck[base + k + j]))).join("")}</div></div>`;
   const title = mode === "local" ? `${label(V)}'s binder` : "Your binder";
   $("binderPanel").innerHTML = `<h2 class="btitle">${esc(title)}</h2><p class="bhint">${canPlay ? "Click a landscape, then a world on the table. Hover any card to read both sides." : "Hover any card to read both sides."}</p>
     <div class="cover">${leaf(0, "left")}<div class="spine"><span class="hb t"></span><span class="hb b"></span></div>${leaf(4, "right")}</div>
-    <div class="spreads">${[0, 1, 2].map((k) => `<button data-act="spread" data-k="${k}" class="${ui.spread === k ? "on" : ""}">Spread ${k + 1}</button>`).join("")}</div>
+    <div class="pagetabs">${Array.from({ length: openings }, (_, k) => `<button data-act="pages" data-k="${k}" class="${ui.opening === k ? "on" : ""}">Pages ${2 * k + 1}–${2 * k + 2}</button>`).join("")}</div>
     <div class="logbox"><h2>Log</h2><ul>${S.log.slice(-60).reverse().map((l) => `<li class="${l.P === 0 ? "p0" : l.P === 1 ? "p1" : ""}">${esc(l.text)}</li>`).join("")}</ul></div>`;
 }
 function renderOverlay() {
@@ -208,7 +215,7 @@ function renderOverlay() {
   if (ui.rules) {
     o.hidden = false;
     o.innerHTML = `<div class="dialog"><h2>Rules for this test</h2><ul>
-      <li>Both players use the same 24 draft cards. Best of one; a coin toss picks who goes first.</li>
+      <li>Binders follow the stage chosen at the top: early, every card with 1 or 2 pips (16); mid, those plus one random 3-pip card each (17); late, all 24. Best of one; a coin toss picks who goes first.</li>
       <li>Whole turns back and forth, 9 each. Turn 10 is shared: both players lock in a landscape and a force, then reveal together; forces resolve in turn order.</li>
       <li>Each turn: play up to one landscape and use up to one force. Using a force flips the card: its front pips stop counting and its back pips count.</li>
       <li>A landscape can't use its force the turn it's played. A card flipped by another card's force doesn't use its own force, unless the text says "Its force happens."</li>
@@ -255,7 +262,8 @@ document.addEventListener("click", (e) => {
   if (a === "host") return startFriend("host", code());
   if (a === "join") { const c = ($("joinCode")?.value || "").trim(); if (c.length >= 4) startFriend("guest", c); return; }
   if (a === "copy") { navigator.clipboard?.writeText(`${location.origin}${location.pathname}?join=${F.room}`).catch(() => {}); return; }
-  if (a === "spread") { ui.spread = +t.dataset.k; return render(); }
+  if (a === "pages") { ui.opening = +t.dataset.k; return render(); }
+  if (a === "stage") { stage = t.dataset.stage; store.set("bb:stage", stage); render(); return; }
   if (!S) return;
   if (a === "new") { if (mode === "friend" && F.role === "guest") F.net?.send({ type: "act", a: { k: "new" } }); else newContest(); return; }
   if (a === "undo") { if (undo.length && !ui.busy) { S = JSON.parse(undo.pop()); ui.binderSel = null; ui.cardSel = null; save(); render(); } return; }

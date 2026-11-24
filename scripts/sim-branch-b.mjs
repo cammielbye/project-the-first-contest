@@ -11,19 +11,13 @@ import { planFor, act } from "../branch-b/js/ai-b.js";
 
 const N = Number(process.argv[2] || 100);
 const STAGES = process.argv[3] ? [process.argv[3]] : ["early", "mid", "late"];
-function binderFor(stage) {
-  const small = R.CARDS.filter((c) => c.p.length <= 2).map((c) => c.i);
-  if (stage === "early") return small;
-  if (stage === "mid") { const three = R.CARDS.filter((c) => c.p.length === 3); return [...small, three[Math.floor(Math.random() * three.length)].i].sort((a, b) => a - b); }
-  return R.CARDS.map((c) => c.i);
-}
 if (process.env.NOAWAY) for (const c of R.CARDS) c.away = false; // compare: no card can be played on the other player's world
 for (const stage of STAGES) {
   const res = { away: 0, perfect: 0, points: 0, draw: 0, firstWins: 0, secondWins: 0, pts: [], perfectTurn: {}, used: {} };
   const t0 = Date.now();
   for (let g = 0; g < N; g++) {
     const s = R.newGame(g % 2);
-    s.P[0].binder = binderFor(stage); s.P[1].binder = binderFor(stage);
+    s.P[0].binder = R.binderFor(stage); s.P[1].binder = R.binderFor(stage);
     s.quiet = true;
     let guard = 0;
     while (s.phase !== "over" && guard++ < 400) {
@@ -49,7 +43,7 @@ for (const stage of STAGES) {
     res.pts.push(R.total(s, 0) + R.total(s, 1));
   }
   const pc = (x) => `${((100 * x) / N).toFixed(1)}%`;
-  console.log(`\n${stage.toUpperCase()}: binders of ${binderFor(stage).length} cards${stage === "mid" ? " (one 3-pip card each)" : ""}`);
+  console.log(`\n${stage.toUpperCase()}: binders of ${R.binderFor(stage).length} cards${stage === "mid" ? " (one 3-pip card each)" : ""}`);
   console.log(`${N} contests in ${((Date.now() - t0) / 1000).toFixed(1)}s`);
   console.log(`won by a perfect world ${pc(res.perfect)}, on world points ${pc(res.points)}, drawn ${pc(res.draw)}`);
   console.log(`first player won ${pc(res.firstWins)}, second ${pc(res.secondWins)}`);

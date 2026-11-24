@@ -53,7 +53,7 @@ const ui = {
   selected: null, // { from: "binder"|"table"|"void", iid }
   voidOpen: null, // seat whose void is shown
   hover: null, // iid under the pointer
-  binderPage: 0, // which two-page spread of the binder is open
+  binderPage: 0, // which two pages of the binder are open
   binderSide: "permanence", // the side the binder's tabs last turned every card to
 };
 let net = null;
@@ -542,8 +542,8 @@ const goneSleeve = (label, where) => h("div", { class: "gone" }, h("span", {}, h
 // right that turns every card to its other face (Nov 11; tabs down the right edge before). fillPocket fills one pocket.
 function buildAlbum(panel, { name, owner, slots, keys, fillPocket }) {
   fitBinder();
-  const spreads = Math.max(1, Math.ceil(slots.length / (2 * PER_PAGE)));
-  ui.binderPage = Math.min(Math.max(0, ui.binderPage), spreads - 1);
+  const openings = Math.max(1, Math.ceil(slots.length / (2 * PER_PAGE)));
+  ui.binderPage = Math.min(Math.max(0, ui.binderPage), openings - 1);
 
   const leaf = (pg, which) => {
     const page = h("div", { class: `leaf ${which}` });
@@ -569,7 +569,7 @@ function buildAlbum(panel, { name, owner, slots, keys, fillPocket }) {
     h("span", { class: "ft-icon", "aria-hidden": "true", text: "⇄" })
   );
   const tabs = h("div", { class: "ptabs" });
-  for (let k = 0; k < spreads; k++) {
+  for (let k = 0; k < openings; k++) {
     tabs.append(h("button", { class: k === ui.binderPage ? "on" : "", "data-act": "binder-page", "data-page": String(k), title: `Pages ${2 * k + 1} and ${2 * k + 2}` }, `Pages ${2 * k + 1}–${2 * k + 2}`));
   }
   cover.append(sides, leaf(2 * ui.binderPage, "left"), h("div", { class: "spine" }, ...spineParts()), leaf(2 * ui.binderPage + 1, "right"), tabs);
@@ -578,8 +578,8 @@ function buildAlbum(panel, { name, owner, slots, keys, fillPocket }) {
     "div",
     { class: "bnav" },
     h("button", { "data-act": "binder-page", "data-page": String(ui.binderPage - 1), disabled: ui.binderPage === 0, title: "Previous pages (←)" }, "‹"),
-    h("span", { text: `Pages ${2 * ui.binderPage + 1}–${2 * ui.binderPage + 2} of ${2 * spreads}` }),
-    h("button", { "data-act": "binder-page", "data-page": String(ui.binderPage + 1), disabled: ui.binderPage >= spreads - 1, title: "Next pages (→)" }, "›"),
+    h("span", { text: `Pages ${2 * ui.binderPage + 1}–${2 * ui.binderPage + 2} of ${2 * openings}` }),
+    h("button", { "data-act": "binder-page", "data-page": String(ui.binderPage + 1), disabled: ui.binderPage >= openings - 1, title: "Next pages (→)" }, "›"),
     h("span", { class: "keys", text: keys })
   );
   panel.append(h("div", { class: "album" }, cover, nav));

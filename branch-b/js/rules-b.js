@@ -45,12 +45,22 @@ const K = Object.fromEntries(CARDS.map((c) => [c.n, c.i]));
 export const NAMES = ["Player 1", "Player 2"];
 
 // ---------------------------------------------------------------- state
-export function newGame(first = Math.random() < 0.5 ? 0 : 1, names = NAMES) {
+// Binders by how far into the game a player is (Cam, Nov 23: cards are found on a steep curve by pip count, so most
+// binders hold few big cards). The same stages as the simulations: early, every card with 1 or 2 pips; mid, that plus
+// one card with 3 pips picked at random; late, the whole pool.
+export const STAGES = ["early", "mid", "late"];
+export function binderFor(stage) {
+  const small = CARDS.filter((c) => c.p.length <= 2).map((c) => c.i);
+  if (stage === "early") return small;
+  if (stage === "mid") { const three = CARDS.filter((c) => c.p.length === 3); return [...small, three[Math.floor(Math.random() * three.length)].i].sort((a, b) => a - b); }
+  return CARDS.map((c) => c.i);
+}
+export function newGame(first = Math.random() < 0.5 ? 0 : 1, names = NAMES, stage = "late") {
   const s = {
     v: 1, first, half: 0, phase: "turn", names: names.slice(), seq: 0, ts: 0, quiet: false,
     played: 0, forced: 0, extra: 0, notWith: null, pending: null, queue: [],
     stage: [{}, {}], locked: [false, false], winner: null,
-    inst: {}, P: [0, 1].map(() => ({ binder: CARDS.map((c) => c.i), worlds: [] })), log: [],
+    stage, inst: {}, P: [0, 1].map(() => { const b = binderFor(stage); return { deck: b.slice(), binder: b, worlds: [] }; }), log: [],
   };
   say(s, null, `${vb(s, first, "goes", "go")} first (coin toss).`);
   say(s, null, `Turn 1: ${s.names[first]}.`);
