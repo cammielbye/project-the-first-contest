@@ -2,7 +2,7 @@
 
 > Cam (Nov 23): "let's get the card pool back into a 100 card playable state like it once was. Find the last 100 card pool and update it with any changes we've made to core rules since then." On the fronts: "return the abilities to the idea pool so we don't forget about them, then create the card pool list view like before so I can look through the pool (front and back)." The void and meta cards: "Keep both". Blockers: "A cycle of eight". Everything else is Claude's draft against Branch B's settled rules, not adopted.
 
-Source: the sixth pass (design/card-pool.md; data/cards.json in the playtest repo). Data: data/cards-branch-b.json. Made by tools/cards/branchb_pool.py.
+List view, front and back: [Branch B Card Pool](https://claude.ai/artifact/SPVNbQcNGnatLHGeF2fqow). Source: the sixth pass (design/card-pool.md; data/cards.json in the playtest repo). Data: data/cards-branch-b.json, made by tools/cards/branchb_pool.py.
 
 **What changed, and why.**
 - **Fronts are vanilla.** The 38 front abilities are in the idea pool (listed below). The only front text left is the blockers'.
@@ -110,22 +110,22 @@ Source: the sixth pass (design/card-pool.md; data/cards.json in the playtest rep
 
 Played in place of the turn's landscape.
 
-| No. | Card | Text |
-| --- | --- | --- |
-| 69 | Echo | Play a card from your void. |
-| 70 | Hollow | Return a card from your void. |
-| 71 | Equinox | Return 3 cards from your void. |
-| 72 | Verge | Play two more cards this turn. |
-| 73 | Lull | Your opponent skips their next turn. |
-| 74 | Ebb | Remove your opponent's last common. |
-| 75 | Horizon | Remove a card from your opponent's binder. |
-| 76 | Calm | No forces until your next turn. | was "No forces this round."
-| 77 | Aftershock | Your opponent has the next two turns. | was "Your opponent takes the next two turns."
-| 78 | Stillness | Your opponent plays no permanence next turn. | was "Your opponent passes."
-| 79 | Sunlight | Flip back every permanence. | was "Remove every force."
-| 80 | Weathering | Return the last card your opponent played. |
-| 81 | Thunder | Play a permanence after the last turn. | was "Play once more after both players pass."
-| 82 | Haze | Your opponent can't use forces next turn. | was "Your opponent can't play forces next turn."
+| No. | Card | Text | Sixth pass, where it changed |
+| --- | --- | --- | --- |
+| 69 | Echo | Play a card from your void. | — |
+| 70 | Hollow | Return a card from your void. | — |
+| 71 | Equinox | Return 3 cards from your void. | — |
+| 72 | Verge | Play two more cards this turn. | — |
+| 73 | Lull | Your opponent skips their next turn. | — |
+| 74 | Ebb | Remove your opponent's last common. | — |
+| 75 | Horizon | Remove a card from your opponent's binder. | — |
+| 76 | Calm | No forces until your next turn. | No forces this round. |
+| 77 | Aftershock | Your opponent has the next two turns. | Your opponent takes the next two turns. |
+| 78 | Stillness | Your opponent plays no permanence next turn. | Your opponent passes. |
+| 79 | Sunlight | Flip back every permanence. | Remove every force. |
+| 80 | Weathering | Return the last card your opponent played. | — |
+| 81 | Thunder | Play a permanence after the last turn. | Play once more after both players pass. |
+| 82 | Haze | Your opponent can't use forces next turn. | Your opponent can't play forces next turn. |
 
 ## Front abilities, now in the idea pool (38)
 

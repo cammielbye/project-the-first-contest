@@ -188,13 +188,13 @@ def markdown():
         rows.append('| %d | %s | %s | %s | %s | %s | %s | %s | %s |' % (
             c['no'], c['name'], c['rarity'], pips_md(c['front']['pips']), c['front']['text'] or '—',
             b['name'], pips_md(b['pips']), b['duration'] + (', flips back' if b['flipsBack'] else ''), b['text']))
-    mrows = ['| %d | %s | %s |%s' % (m['no'], m['name'], m['text'], (' was "%s"' % m['was']) if m['was'] else '') for m in META]
+    mrows = ['| %d | %s | %s | %s |' % (m['no'], m['name'], m['text'], m['was'] or '—') for m in META]
     ideas = ['- "%s" (%s)' % (t, ', '.join(ns)) for t, ns in IDEA.items()]
     return f'''# Branch B card pool (first draft, Nov 23, 2026)
 
 > Cam (Nov 23): "let's get the card pool back into a 100 card playable state like it once was. Find the last 100 card pool and update it with any changes we've made to core rules since then." On the fronts: "return the abilities to the idea pool so we don't forget about them, then create the card pool list view like before so I can look through the pool (front and back)." The void and meta cards: "Keep both". Blockers: "A cycle of eight". Everything else is Claude's draft against Branch B's settled rules, not adopted.
 
-Source: the sixth pass (design/card-pool.md; data/cards.json in the playtest repo). Data: data/cards-branch-b.json. Made by tools/cards/branchb_pool.py.
+List view, front and back: [Branch B Card Pool](https://claude.ai/artifact/SPVNbQcNGnatLHGeF2fqow). Source: the sixth pass (design/card-pool.md; data/cards.json in the playtest repo). Data: data/cards-branch-b.json, made by tools/cards/branchb_pool.py.
 
 **What changed, and why.**
 - **Fronts are vanilla.** The {sum(len(v) for v in IDEA.values())} front abilities are in the idea pool (listed below). The only front text left is the blockers'.
@@ -217,8 +217,8 @@ Source: the sixth pass (design/card-pool.md; data/cards.json in the playtest rep
 
 Played in place of the turn's landscape.
 
-| No. | Card | Text |
-| --- | --- | --- |
+| No. | Card | Text | Sixth pass, where it changed |
+| --- | --- | --- | --- |
 {chr(10).join(mrows)}
 
 ## Front abilities, now in the idea pool (38)
