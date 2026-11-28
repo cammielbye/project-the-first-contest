@@ -107,13 +107,13 @@ def card_row(c):
 </li>'''
 
 def meta_row(m):
-    was = f'<span class="was">Was: {esc(m["was"])}</span>' if m['was'] else ''
+    was = f'<span class="was">In the idea pool since Nov 28: {esc(m["was"])}</span>' if m['was'] else ''
     return f'''<li class="card card-meta">
   <span class="no">{m['no']:02d}<small>/100</small></span>
   <span class="name"><b>{esc(m['name'])}</b></span>
   {rarity(None)}
   <span class="face face-front"><span class="plate plate-none" role="img" aria-label="Meta card">meta</span></span>
-  <span class="face face-back"><span class="btxt">{esc(m['text'])}</span>{was}</span>
+  <span class="face face-back"><span class="vanilla">Blank: no ability yet.</span>{was}</span>
   {changes(m)}
 </li>'''
 
@@ -144,7 +144,7 @@ SECTIONS = [
                  sub('Rare · three of one element', '', pick(lambda c: n(c) == 3 and len(kinds(c)) == 1))]),
  ('Four pips', [sub('Pinnacle', '', pick(lambda c: n(c) == 4))]),
  ('No pips', [sub('Uncommon', 'Mirage and Hanging Valley were uncommon for their front text, which is in the idea pool now.', pick(lambda c: n(c) == 0)),
-              sub('Meta cards · no rarity', "One face, shown in the back column. Played in place of the turn's landscape, then to the void (Claude's reading).", [meta_row(m) for m in B.META])]),
+              sub('Meta cards · no rarity', "One face, shown in the back column. Played in place of the turn's landscape. Abilities blank since Nov 28 (Cam: \"blank the meta card abilities to be clear, leave the names and art and layout\"); what they said is in the idea pool.", [meta_row(m) for m in B.META])]),
 ]
 assert sum(s.count('<li class="card') for _t, subs in SECTIONS for s in subs) == 100
 
@@ -189,9 +189,11 @@ page = f'''<title>Branch B Card Pool</title>
     <div class="cols" aria-hidden="true"><span>No.</span><span>Card</span><span></span><span>Front</span><span>Back</span></div>
     {''.join(section(title, subs) for title, subs in SECTIONS)}
     <section class="group" aria-labelledby="idea-pool">
-      <h2 id="idea-pool"><span>Front abilities, now in the idea pool</span><span class="count">{n_idea} cards</span></h2>
+      <h2 id="idea-pool"><span>Abilities now in the idea pool</span><span class="count">{n_idea + len(B.META_IDEA)} cards</span></h2>
       <div class="sub"><h3><span>Cam, Nov 23: "return the abilities to the idea pool so we don't forget about them"</span><span class="count">{len(B.IDEA)}</span></h3>
       <ol class="ideas">{ideas}</ol></div>
+      <div class="sub"><h3><span>Meta card abilities, Nov 28: "lets just blank all the meta cards, move the current abilities to the idea pool"</span><span class="count">{len(B.META_IDEA)}</span></h3>
+      <ol class="ideas">{''.join(f'<li><span>{esc(t)}</span><span class="who">{esc(n)}</span></li>' for n, t in B.META_IDEA)}</ol></div>
     </section>
   </main>
 

@@ -89,13 +89,17 @@ META_TEXT = {  # meta cards whose words the rules changed
 }
 ROLE = dict(pass6.ROLE)
 
+META_IDEA = []  # (card, the ability it had until Nov 28)
 def build():
     cards, idea = [], collections.OrderedDict()
     for c in sorted(SRC['cards'], key=lambda c: c['no']):
         if 'meta' in c:
+            # Cam, Nov 28: "lets just blank all the meta cards, move the current abilities to the idea pool", and
+            # "blank the meta card abilities to be clear, leave the names and art and layout"
             m = c['meta']; t, why = META_TEXT.get(m['name'], (m['text'], None))
-            cards.append({'no': c['no'], 'id': c['id'], 'name': m['name'], 'meta': True, 'rarity': c['rarity'], 'text': t,
-                          'was': m['text'] if why else None, 'changes': [why] if why else []})
+            META_IDEA.append((m['name'], t))
+            cards.append({'no': c['no'], 'id': c['id'], 'name': m['name'], 'meta': True, 'rarity': c['rarity'], 'text': '',
+                          'was': t, 'changes': ['ability to the idea pool (Cam, Nov 28): "%s"' % t] + ([why] if why else [])})
             continue
         p, f = c['permanence'], c.get('force') or {}
         n, changes = p['name'], []
@@ -199,7 +203,7 @@ def markdown():
         rows.append('| %d | %s | %s | %s | %s | %s | %s | %s | %s |' % (
             c['no'], c['name'], c['rarity'], pips_md(c['front']['pips']), c['front']['text'] or '—',
             b['name'] or '—', pips_md(b['pips']), (b['duration'] or '—') + (', flips back' if b['flipsBack'] else ''), b['text'] or 'Open: no force for the moment.'))
-    mrows = ['| %d | %s | %s | %s |' % (m['no'], m['name'], m['text'], m['was'] or '—') for m in META]
+    mrows = ['| %d | %s | blank | %s |' % (m['no'], m['name'], m['was']) for m in META]
     ideas = ['- "%s" (%s)' % (t, ', '.join(ns)) for t, ns in IDEA.items()]
     return f'''# Branch B card pool (first draft, Nov 23, 2026)
 
@@ -215,7 +219,7 @@ List view, front and back: [Branch B Card Pool](https://claude.ai/artifact/SPVNb
 - **Forces on the table are flipped cards,** so "remove a force" is "flip back" (Thaw, Sunlight).
 - **The extra plays are back, one more at most, on 1- and 2-pip cards only.** They went to the idea pool on Nov 12 because "with uncapped turns, playing extra cards in a row doesnt do anything" (Cam). A Branch B turn has one landscape, so they matter again: {s['extra plays']} cards. Cam (Nov 23): "'play two more' is definitely too strong. 'Play one more' and moving it to a 1 or 2 pip card instead of a 3 pip card." The five 3-pip cards that had one ({', '.join(c['name'] for c in LAND if c['role'] == 'open')}) are open until a force is chosen.
 - **{s['flips back']} cards flip back on their own,** from natural cycles: {', '.join(c['name'] for c in LAND if c['back']['flipsBack'])}.
-- **Meta cards** are played in place of the turn's landscape, then go to the void (Claude's reading). Six changed words for the new turn: Calm, Aftershock, Stillness, Sunlight, Thunder, Haze.
+- **Meta cards** are played in place of the turn's landscape, then go to the void (Claude's reading). Their abilities are blank since Nov 28 and are listed in the idea pool below.
 - **Rarities** are unchanged. One-pip rares stay: Cam (Nov 23), "I'd like to have some 1 pip rares and just because I think it's interesting. we'll figure out what their effects have to be to qualify them as rares." Ice Sheet, Thicket, Badlands and Wind Gap keep their sixth-pass backs until then. The two no-pip uncommons (Mirage, Hanging Valley) were uncommon for their front text, which is now in the idea pool.
 
 ## Landscapes (86)
@@ -226,15 +230,19 @@ List view, front and back: [Branch B Card Pool](https://claude.ai/artifact/SPVNb
 
 ## Meta cards (14)
 
-Played in place of the turn's landscape.
+Played in place of the turn's landscape. Their abilities are blank (Cam, Nov 28: "blank the meta card abilities to be clear, leave the names and art and layout"); what they said before is in the idea pool.
 
-| No. | Card | Text | Sixth pass, where it changed |
+| No. | Card | Ability | In the idea pool since Nov 28 |
 | --- | --- | --- | --- |
 {chr(10).join(mrows)}
 
 ## Front abilities, now in the idea pool (38)
 
 {chr(10).join(ideas)}
+
+## Meta card abilities, now in the idea pool (14, Nov 28)
+
+{chr(10).join('- "%s" (%s)' % (t, n) for n, t in META_IDEA)}
 '''
 
 if __name__ == '__main__':
@@ -243,7 +251,7 @@ if __name__ == '__main__':
     if '--json' in sys.argv:
         out = {'pass': 'Branch B pool, first draft (Nov 23, 2026)', 'source': 'sixth pass, data/cards.json',
                'rules': 'Branch B: fronts vanilla but blockers; backs with their own pips; meta cards in place of the landscape',
-               'counts': {'landscapes': len(LAND), 'meta': len(META)}, 'ideaPool': [{'text': t, 'cards': ns} for t, ns in IDEA.items()], 'cards': CARDS}
+               'counts': {'landscapes': len(LAND), 'meta': len(META)}, 'ideaPool': [{'text': t, 'cards': ns} for t, ns in IDEA.items()] + [{'text': t, 'cards': [n], 'from': 'meta ability, Nov 28'} for n, t in META_IDEA], 'cards': CARDS}
         json.dump(out, open(sys.argv[sys.argv.index('--json') + 1], 'w'), indent=1, ensure_ascii=False)
     if '--md' in sys.argv:
         open(sys.argv[sys.argv.index('--md') + 1], 'w').write(markdown())

@@ -174,6 +174,104 @@
    "cards": [
     "Hanging Valley"
    ]
+  },
+  {
+   "text": "Play a card from your void.",
+   "cards": [
+    "Echo"
+   ],
+   "from": "meta ability, Nov 28"
+  },
+  {
+   "text": "Return a card from your void.",
+   "cards": [
+    "Hollow"
+   ],
+   "from": "meta ability, Nov 28"
+  },
+  {
+   "text": "Return 3 cards from your void.",
+   "cards": [
+    "Equinox"
+   ],
+   "from": "meta ability, Nov 28"
+  },
+  {
+   "text": "Play two more cards this turn.",
+   "cards": [
+    "Verge"
+   ],
+   "from": "meta ability, Nov 28"
+  },
+  {
+   "text": "Your opponent skips their next turn.",
+   "cards": [
+    "Lull"
+   ],
+   "from": "meta ability, Nov 28"
+  },
+  {
+   "text": "Remove your opponent's last common.",
+   "cards": [
+    "Ebb"
+   ],
+   "from": "meta ability, Nov 28"
+  },
+  {
+   "text": "Remove a card from your opponent's binder.",
+   "cards": [
+    "Horizon"
+   ],
+   "from": "meta ability, Nov 28"
+  },
+  {
+   "text": "No forces until your next turn.",
+   "cards": [
+    "Calm"
+   ],
+   "from": "meta ability, Nov 28"
+  },
+  {
+   "text": "Your opponent has the next two turns.",
+   "cards": [
+    "Aftershock"
+   ],
+   "from": "meta ability, Nov 28"
+  },
+  {
+   "text": "Your opponent plays no permanence next turn.",
+   "cards": [
+    "Stillness"
+   ],
+   "from": "meta ability, Nov 28"
+  },
+  {
+   "text": "Flip back every permanence.",
+   "cards": [
+    "Sunlight"
+   ],
+   "from": "meta ability, Nov 28"
+  },
+  {
+   "text": "Return the last card your opponent played.",
+   "cards": [
+    "Weathering"
+   ],
+   "from": "meta ability, Nov 28"
+  },
+  {
+   "text": "Play a permanence after the last turn.",
+   "cards": [
+    "Thunder"
+   ],
+   "from": "meta ability, Nov 28"
+  },
+  {
+   "text": "Your opponent can't use forces next turn.",
+   "cards": [
+    "Haze"
+   ],
+   "from": "meta ability, Nov 28"
   }
  ],
  "cards": [
@@ -2366,9 +2464,11 @@
    "name": "Echo",
    "meta": true,
    "rarity": "B",
-   "text": "Play a card from your void.",
-   "was": null,
-   "changes": []
+   "text": "",
+   "was": "Play a card from your void.",
+   "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"Play a card from your void.\""
+   ]
   },
   {
    "no": 70,
@@ -2376,9 +2476,11 @@
    "name": "Hollow",
    "meta": true,
    "rarity": "B",
-   "text": "Return a card from your void.",
-   "was": null,
-   "changes": []
+   "text": "",
+   "was": "Return a card from your void.",
+   "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"Return a card from your void.\""
+   ]
   },
   {
    "no": 71,
@@ -2386,9 +2488,11 @@
    "name": "Equinox",
    "meta": true,
    "rarity": "B",
-   "text": "Return 3 cards from your void.",
-   "was": null,
-   "changes": []
+   "text": "",
+   "was": "Return 3 cards from your void.",
+   "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"Return 3 cards from your void.\""
+   ]
   },
   {
    "no": 72,
@@ -2396,9 +2500,11 @@
    "name": "Verge",
    "meta": true,
    "rarity": "B",
-   "text": "Play two more cards this turn.",
-   "was": null,
-   "changes": []
+   "text": "",
+   "was": "Play two more cards this turn.",
+   "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"Play two more cards this turn.\""
+   ]
   },
   {
    "no": 73,
@@ -2406,9 +2512,11 @@
    "name": "Lull",
    "meta": true,
    "rarity": "B",
-   "text": "Your opponent skips their next turn.",
-   "was": null,
-   "changes": []
+   "text": "",
+   "was": "Your opponent skips their next turn.",
+   "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"Your opponent skips their next turn.\""
+   ]
   },
   {
    "no": 74,
@@ -2416,9 +2524,11 @@
    "name": "Ebb",
    "meta": true,
    "rarity": "B",
-   "text": "Remove your opponent's last common.",
-   "was": null,
-   "changes": []
+   "text": "",
+   "was": "Remove your opponent's last common.",
+   "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"Remove your opponent's last common.\""
+   ]
   },
   {
    "no": 75,
@@ -2426,9 +2536,11 @@
    "name": "Horizon",
    "meta": true,
    "rarity": "B",
-   "text": "Remove a card from your opponent's binder.",
-   "was": null,
-   "changes": []
+   "text": "",
+   "was": "Remove a card from your opponent's binder.",
+   "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"Remove a card from your opponent's binder.\""
+   ]
   },
   {
    "no": 76,
@@ -2436,9 +2548,10 @@
    "name": "Calm",
    "meta": true,
    "rarity": "B",
-   "text": "No forces until your next turn.",
-   "was": "No forces this round.",
+   "text": "",
+   "was": "No forces until your next turn.",
    "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"No forces until your next turn.\"",
     "was \"No forces this round.\"; one round now"
    ]
   },
@@ -2448,9 +2561,10 @@
    "name": "Aftershock",
    "meta": true,
    "rarity": "B",
-   "text": "Your opponent has the next two turns.",
-   "was": "Your opponent takes the next two turns.",
+   "text": "",
+   "was": "Your opponent has the next two turns.",
    "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"Your opponent has the next two turns.\"",
     "was \"… takes …\"; \"take\" is kept for the ante"
    ]
   },
@@ -2460,9 +2574,10 @@
    "name": "Stillness",
    "meta": true,
    "rarity": "B",
-   "text": "Your opponent plays no permanence next turn.",
-   "was": "Your opponent passes.",
+   "text": "",
+   "was": "Your opponent plays no permanence next turn.",
    "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"Your opponent plays no permanence next turn.\"",
     "was \"Your opponent passes.\"; no passing now, and passing for the round would end their contest"
    ]
   },
@@ -2472,9 +2587,10 @@
    "name": "Sunlight",
    "meta": true,
    "rarity": "B",
-   "text": "Flip back every permanence.",
-   "was": "Remove every force.",
+   "text": "",
+   "was": "Flip back every permanence.",
    "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"Flip back every permanence.\"",
     "was \"Remove every force.\"; the forces on the table are flipped cards now"
    ]
   },
@@ -2484,9 +2600,11 @@
    "name": "Weathering",
    "meta": true,
    "rarity": "B",
-   "text": "Return the last card your opponent played.",
-   "was": null,
-   "changes": []
+   "text": "",
+   "was": "Return the last card your opponent played.",
+   "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"Return the last card your opponent played.\""
+   ]
   },
   {
    "no": 81,
@@ -2494,9 +2612,10 @@
    "name": "Thunder",
    "meta": true,
    "rarity": "B",
-   "text": "Play a permanence after the last turn.",
-   "was": "Play once more after both players pass.",
+   "text": "",
+   "was": "Play a permanence after the last turn.",
    "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"Play a permanence after the last turn.\"",
     "was \"Play once more after both players pass.\"; the contest ends after the shared 10th turn"
    ]
   },
@@ -2506,9 +2625,10 @@
    "name": "Haze",
    "meta": true,
    "rarity": "B",
-   "text": "Your opponent can't use forces next turn.",
-   "was": "Your opponent can't play forces next turn.",
+   "text": "",
+   "was": "Your opponent can't use forces next turn.",
    "changes": [
+    "ability to the idea pool (Cam, Nov 28): \"Your opponent can't use forces next turn.\"",
     "was \"… can't play forces …\"; forces are used now"
    ]
   },

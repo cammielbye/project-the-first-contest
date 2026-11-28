@@ -57,8 +57,8 @@ def meta(c):
     no = c['no']
     body = frame('#0B0B0B', '<div class="nm">%s</div><img class="art art-b" src="%s" alt="%s, pixel art placeholder">'
                             '<div class="pips pips-b"><span class="nopips">meta card · one face</span></div>'
-                            '<div class="btxt"><span class="ph">placeholder</span>%s</div><div class="rule"></div><div class="no">%d/100</div>'
-                            % (esc(c['name']), uri(ROOT + '/branch-b/img/pixel/%03d-meta.png' % no), esc(c['name']), esc(c['text']), no))
+                            '<div class="btxt open"><span class="ph">blank</span>%s</div><div class="rule"></div><div class="no">%d/100</div>'
+                            % (esc(c['name']), uri(ROOT + '/branch-b/img/pixel/%03d-meta.png' % no), esc(c['name']), esc(c['text']) or 'No ability yet.', no))
     return ('<li class="slot" data-n="%d" data-k="9-9-%03d" data-g="9" data-r="M" data-el="" data-q="%s"><div class="card meta" role="group" aria-label="%s, meta card %d"><span class="flip"><span class="face front">%s</span></span></div></li>'
             % (no, no, esc(c['name'].lower()), esc(c['name']), no, body))
 cards = ''.join(meta(c) if c.get('meta') else landscape(c) for c in POOL)
@@ -186,7 +186,7 @@ page = f'''<!DOCTYPE html>
 {symbols()}
 <div class="wrap">
 <h1>Framework Set</h1>
-<p class="lede">All 100 cards with their names, pixel art, layout and pips (Nov 28). Click a landscape to flip it. The abilities and effects on the backs are placeholders. Cam: "the abilities and effects should currently be considered messy." The art is quick template art, to be hand-tuned for the cards you care about.</p>
+<p class="lede">All 100 cards with their names, pixel art, layout and pips (Nov 28). Click a landscape to flip it. The abilities and effects on the backs are placeholders. Cam: "the abilities and effects should currently be considered messy." The meta cards' abilities are blank (Nov 28); what they said is in the idea pool. The art is quick template art, to be hand-tuned for the cards you care about.</p>
 <div class="bar" role="toolbar" aria-label="Filters">
 <div class="chips">{chips}</div>
 <label class="sort">Sort <select id="sort" aria-label="Sort cards"><option value="pips" selected>By pips, then rarity</option><option value="no">By number</option></select></label>

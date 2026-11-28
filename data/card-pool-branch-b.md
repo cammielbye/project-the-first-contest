@@ -12,7 +12,7 @@ List view, front and back: [Branch B Card Pool](https://claude.ai/artifact/SPVNb
 - **Forces on the table are flipped cards,** so "remove a force" is "flip back" (Thaw, Sunlight).
 - **The extra plays are back, one more at most, on 1- and 2-pip cards only.** They went to the idea pool on Nov 12 because "with uncapped turns, playing extra cards in a row doesnt do anything" (Cam). A Branch B turn has one landscape, so they matter again: 9 cards. Cam (Nov 23): "'play two more' is definitely too strong. 'Play one more' and moving it to a 1 or 2 pip card instead of a 3 pip card." The five 3-pip cards that had one (Smoking Hills, Lava Coast, Lava Plain, Sand Sea, Cinder Field) are open until a force is chosen.
 - **8 cards flip back on their own,** from natural cycles: Tide Pool, Snowfield, Grove, Mud Pots, Savanna, Spring, Tidal Flat, Mirage.
-- **Meta cards** are played in place of the turn's landscape, then go to the void (Claude's reading). Six changed words for the new turn: Calm, Aftershock, Stillness, Sunlight, Thunder, Haze.
+- **Meta cards** are played in place of the turn's landscape, then go to the void (Claude's reading). Their abilities are blank since Nov 28 and are listed in the idea pool below.
 - **Rarities** are unchanged. One-pip rares stay: Cam (Nov 23), "I'd like to have some 1 pip rares and just because I think it's interesting. we'll figure out what their effects have to be to qualify them as rares." Ice Sheet, Thicket, Badlands and Wind Gap keep their sixth-pass backs until then. The two no-pip uncommons (Mirage, Hanging Valley) were uncommon for their front text, which is now in the idea pool.
 
 ## Landscapes (86)
@@ -108,24 +108,24 @@ List view, front and back: [Branch B Card Pool](https://claude.ai/artifact/SPVNb
 
 ## Meta cards (14)
 
-Played in place of the turn's landscape.
+Played in place of the turn's landscape. Their abilities are blank (Cam, Nov 28: "blank the meta card abilities to be clear, leave the names and art and layout"); what they said before is in the idea pool.
 
-| No. | Card | Text | Sixth pass, where it changed |
+| No. | Card | Ability | In the idea pool since Nov 28 |
 | --- | --- | --- | --- |
-| 69 | Echo | Play a card from your void. | — |
-| 70 | Hollow | Return a card from your void. | — |
-| 71 | Equinox | Return 3 cards from your void. | — |
-| 72 | Verge | Play two more cards this turn. | — |
-| 73 | Lull | Your opponent skips their next turn. | — |
-| 74 | Ebb | Remove your opponent's last common. | — |
-| 75 | Horizon | Remove a card from your opponent's binder. | — |
-| 76 | Calm | No forces until your next turn. | No forces this round. |
-| 77 | Aftershock | Your opponent has the next two turns. | Your opponent takes the next two turns. |
-| 78 | Stillness | Your opponent plays no permanence next turn. | Your opponent passes. |
-| 79 | Sunlight | Flip back every permanence. | Remove every force. |
-| 80 | Weathering | Return the last card your opponent played. | — |
-| 81 | Thunder | Play a permanence after the last turn. | Play once more after both players pass. |
-| 82 | Haze | Your opponent can't use forces next turn. | Your opponent can't play forces next turn. |
+| 69 | Echo | blank | Play a card from your void. |
+| 70 | Hollow | blank | Return a card from your void. |
+| 71 | Equinox | blank | Return 3 cards from your void. |
+| 72 | Verge | blank | Play two more cards this turn. |
+| 73 | Lull | blank | Your opponent skips their next turn. |
+| 74 | Ebb | blank | Remove your opponent's last common. |
+| 75 | Horizon | blank | Remove a card from your opponent's binder. |
+| 76 | Calm | blank | No forces until your next turn. |
+| 77 | Aftershock | blank | Your opponent has the next two turns. |
+| 78 | Stillness | blank | Your opponent plays no permanence next turn. |
+| 79 | Sunlight | blank | Flip back every permanence. |
+| 80 | Weathering | blank | Return the last card your opponent played. |
+| 81 | Thunder | blank | Play a permanence after the last turn. |
+| 82 | Haze | blank | Your opponent can't use forces next turn. |
 
 ## Front abilities, now in the idea pool (38)
 
@@ -155,3 +155,20 @@ Played in place of the turn's landscape.
 - "+1 air if you have a world point." (Ledge)
 - "The permanence above this gains air." (Ridge)
 - "+1 world point if this world has water earth fire air." (Hanging Valley)
+
+## Meta card abilities, now in the idea pool (14, Nov 28)
+
+- "Play a card from your void." (Echo)
+- "Return a card from your void." (Hollow)
+- "Return 3 cards from your void." (Equinox)
+- "Play two more cards this turn." (Verge)
+- "Your opponent skips their next turn." (Lull)
+- "Remove your opponent's last common." (Ebb)
+- "Remove a card from your opponent's binder." (Horizon)
+- "No forces until your next turn." (Calm)
+- "Your opponent has the next two turns." (Aftershock)
+- "Your opponent plays no permanence next turn." (Stillness)
+- "Flip back every permanence." (Sunlight)
+- "Return the last card your opponent played." (Weathering)
+- "Play a permanence after the last turn." (Thunder)
+- "Your opponent can't use forces next turn." (Haze)
