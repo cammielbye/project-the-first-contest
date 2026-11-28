@@ -1,0 +1,3087 @@
+{
+ "pass": "Branch B pool, first draft (Nov 23, 2026)",
+ "source": "sixth pass, data/cards.json",
+ "rules": "Branch B: fronts vanilla but blockers; backs with their own pips; meta cards in place of the landscape",
+ "counts": {
+  "landscapes": 86,
+  "meta": 14
+ },
+ "ideaPool": [
+  {
+   "text": "Your opponent can't move this.",
+   "cards": [
+    "Glacier",
+    "Bedrock",
+    "Lava Field",
+    "Spire"
+   ]
+  },
+  {
+   "text": "Unaffected by your opponent's forces.",
+   "cards": [
+    "Tide Pool",
+    "Stone Field",
+    "Ashfield",
+    "Summit"
+   ]
+  },
+  {
+   "text": "When played, return one of your permanences.",
+   "cards": [
+    "Snowfield"
+   ]
+  },
+  {
+   "text": "When played, remove a common force.",
+   "cards": [
+    "Grove"
+   ]
+  },
+  {
+   "text": "When played, move one of your permanences.",
+   "cards": [
+    "Bluff"
+   ]
+  },
+  {
+   "text": "Score a point per four water affinities.",
+   "cards": [
+    "Spring"
+   ]
+  },
+  {
+   "text": "Score a point per four earth affinities.",
+   "cards": [
+    "Mountain Range"
+   ]
+  },
+  {
+   "text": "Score a point per four fire affinities.",
+   "cards": [
+    "Fumarole"
+   ]
+  },
+  {
+   "text": "Score a point per four air affinities.",
+   "cards": [
+    "Sky Isle"
+   ]
+  },
+  {
+   "text": "Copies every adjacent permanence's affinities.",
+   "cards": [
+    "Mirage"
+   ]
+  },
+  {
+   "text": "Play only on a new world.",
+   "cards": [
+    "Caldera Lake",
+    "Rainforest",
+    "Geyser Basin",
+    "Red Canyon"
+   ]
+  },
+  {
+   "text": "Play only on your first turn.",
+   "cards": [
+    "Lagoon",
+    "Moor",
+    "Cinder Field",
+    "Peak"
+   ]
+  },
+  {
+   "text": "Each permanence in its world gains water.",
+   "cards": [
+    "Ice Sheet"
+   ]
+  },
+  {
+   "text": "Each permanence in its world gains earth.",
+   "cards": [
+    "Thicket"
+   ]
+  },
+  {
+   "text": "Each permanence in its world gains fire.",
+   "cards": [
+    "Badlands"
+   ]
+  },
+  {
+   "text": "Each permanence in its world gains air.",
+   "cards": [
+    "Wind Gap"
+   ]
+  },
+  {
+   "text": "+1 water if you have a world point.",
+   "cards": [
+    "Ice Floe"
+   ]
+  },
+  {
+   "text": "The permanence below this gains water.",
+   "cards": [
+    "Shoal"
+   ]
+  },
+  {
+   "text": "+1 earth if you have a world point.",
+   "cards": [
+    "Hill"
+   ]
+  },
+  {
+   "text": "The permanence beside this gains earth.",
+   "cards": [
+    "Meadow"
+   ]
+  },
+  {
+   "text": "Your opponent can't split its world.",
+   "cards": [
+    "Cavern"
+   ]
+  },
+  {
+   "text": "+1 fire if you have a world point.",
+   "cards": [
+    "Dune"
+   ]
+  },
+  {
+   "text": "The permanence across from this gains fire.",
+   "cards": [
+    "Barrens"
+   ]
+  },
+  {
+   "text": "+1 air if you have a world point.",
+   "cards": [
+    "Ledge"
+   ]
+  },
+  {
+   "text": "The permanence above this gains air.",
+   "cards": [
+    "Ridge"
+   ]
+  },
+  {
+   "text": "+1 world point if this world has water earth fire air.",
+   "cards": [
+    "Hanging Valley"
+   ]
+  }
+ ],
+ "cards": [
+  {
+   "no": 1,
+   "id": "1",
+   "name": "Glacier",
+   "rarity": "C",
+   "role": "negate",
+   "front": {
+    "pips": [
+     "water"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Thaw",
+    "pips": [],
+    "duration": "Once",
+    "text": "Flip back a common permanence.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Your opponent can't move this.",
+    "force": "Thaw",
+    "duration": "Once",
+    "forceText": "Remove a common force."
+   },
+   "changes": [
+    "front text to the idea pool: \"Your opponent can't move this.\"",
+    "was \"Remove a common force.\"; the forces on the table are flipped cards now"
+   ]
+  },
+  {
+   "no": 2,
+   "id": "2",
+   "name": "Bedrock",
+   "rarity": "C",
+   "role": "negate",
+   "front": {
+    "pips": [
+     "earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Tangle",
+    "pips": [
+     "earth"
+    ],
+    "duration": "Until your next turn",
+    "text": "No common forces until your next turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Your opponent can't move this.",
+    "force": "Tangle",
+    "duration": "Until your next turn",
+    "forceText": "No common forces until your next turn."
+   },
+   "changes": [
+    "front text to the idea pool: \"Your opponent can't move this.\"",
+    "back pips: keeps its pip: bedrock stays"
+   ]
+  },
+  {
+   "no": 3,
+   "id": "3",
+   "name": "Lava Field",
+   "rarity": "C",
+   "role": "removal",
+   "front": {
+    "pips": [
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Ash",
+    "pips": [],
+    "duration": "Once",
+    "text": "Remove a common permanence.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Your opponent can't move this.",
+    "force": "Ash",
+    "duration": "Once",
+    "forceText": "Remove a common permanence."
+   },
+   "changes": [
+    "front text to the idea pool: \"Your opponent can't move this.\""
+   ]
+  },
+  {
+   "no": 4,
+   "id": "4",
+   "name": "Spire",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Whirlwind",
+    "pips": [],
+    "duration": "Once",
+    "text": "Split one of your worlds.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Your opponent can't move this.",
+    "force": "Whirlwind",
+    "duration": "Once",
+    "forceText": "Split one of your worlds."
+   },
+   "changes": [
+    "front text to the idea pool: \"Your opponent can't move this.\""
+   ]
+  },
+  {
+   "no": 5,
+   "id": "5",
+   "name": "Tide Pool",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Drizzle",
+    "pips": [],
+    "duration": "Once",
+    "text": "Return a card from your void. Next turn, flip this back.",
+    "flipsBack": true
+   },
+   "sixth": {
+    "text": "Unaffected by your opponent's forces.",
+    "force": "Drizzle",
+    "duration": "Once",
+    "forceText": "Return a card from your void."
+   },
+   "changes": [
+    "front text to the idea pool: \"Unaffected by your opponent's forces.\"",
+    "flips back: the tide comes back in"
+   ]
+  },
+  {
+   "no": 6,
+   "id": "6",
+   "name": "Stone Field",
+   "rarity": "C",
+   "role": "negate",
+   "front": {
+    "pips": [
+     "earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Dust",
+    "pips": [],
+    "duration": "Until your next turn",
+    "text": "No common forces until your next turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Unaffected by your opponent's forces.",
+    "force": "Dust",
+    "duration": "Until your next turn",
+    "forceText": "No common forces until your next turn."
+   },
+   "changes": [
+    "front text to the idea pool: \"Unaffected by your opponent's forces.\""
+   ]
+  },
+  {
+   "no": 7,
+   "id": "7",
+   "name": "Ashfield",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Brushfire",
+    "pips": [],
+    "duration": "While flipped",
+    "text": "One of your permanences becomes fire.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Unaffected by your opponent's forces.",
+    "force": "Brushfire",
+    "duration": "Lasts the round",
+    "forceText": "One of your permanences becomes fire."
+   },
+   "changes": [
+    "front text to the idea pool: \"Unaffected by your opponent's forces.\"",
+    "lasted the round; now while flipped"
+   ]
+  },
+  {
+   "no": 8,
+   "id": "8",
+   "name": "Summit",
+   "rarity": "C",
+   "role": "move",
+   "front": {
+    "pips": [
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Crosswind",
+    "pips": [],
+    "duration": "Once",
+    "text": "Swap two common permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Unaffected by your opponent's forces.",
+    "force": "Crosswind",
+    "duration": "Once",
+    "forceText": "Swap two common permanences."
+   },
+   "changes": [
+    "front text to the idea pool: \"Unaffected by your opponent's forces.\""
+   ]
+  },
+  {
+   "no": 9,
+   "id": "9",
+   "name": "Snowfield",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Freeze",
+    "pips": [],
+    "duration": "Once",
+    "text": "Play a permanence from your void. Next turn, flip this back.",
+    "flipsBack": true
+   },
+   "sixth": {
+    "text": "When played, return one of your permanences.",
+    "force": "Freeze",
+    "duration": "Once",
+    "forceText": "Play a permanence from your void."
+   },
+   "changes": [
+    "front text to the idea pool: \"When played, return one of your permanences.\"",
+    "flips back: the seasons"
+   ]
+  },
+  {
+   "no": 10,
+   "id": "10",
+   "name": "Grove",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Overgrowth",
+    "pips": [],
+    "duration": "Once",
+    "text": "Play another earth permanence this turn. Next turn, flip this back.",
+    "flipsBack": true
+   },
+   "sixth": {
+    "text": "When played, remove a common force.",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "front text to the idea pool: \"When played, remove a common force.\"",
+    "extra play back from the idea pool (was \"Play another earth card.\")",
+    "flips back: a forest regrows"
+   ]
+  },
+  {
+   "no": 11,
+   "id": "11",
+   "name": "Lava Flow",
+   "rarity": "C",
+   "role": "removal",
+   "front": {
+    "pips": [
+     "fire"
+    ],
+    "text": "Can be played on an opponent's world."
+   },
+   "blocker": true,
+   "back": {
+    "name": "Lightning",
+    "pips": [],
+    "duration": "Once",
+    "text": "Remove a common permanence.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Lightning",
+    "duration": "Once",
+    "forceText": "Remove a common permanence."
+   },
+   "changes": [
+    "blocker: flows into their land"
+   ]
+  },
+  {
+   "no": 12,
+   "id": "12",
+   "name": "Bluff",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Eddy",
+    "pips": [],
+    "duration": "Once",
+    "text": "Swap two of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "When played, move one of your permanences.",
+    "force": "Eddy",
+    "duration": "Once",
+    "forceText": "Swap two of your permanences."
+   },
+   "changes": [
+    "front text to the idea pool: \"When played, move one of your permanences.\""
+   ]
+  },
+  {
+   "no": 13,
+   "id": "13",
+   "name": "Marsh",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water|earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Mire",
+    "pips": [],
+    "duration": "Once",
+    "text": "Return a card from your void.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Mire",
+    "duration": "Once",
+    "forceText": "Return a card from your void."
+   },
+   "changes": []
+  },
+  {
+   "no": 14,
+   "id": "14",
+   "name": "Steam Vent",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water|fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Vent",
+    "pips": [],
+    "duration": "Once",
+    "text": "Return one of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Vent",
+    "duration": "Once",
+    "forceText": "Return one of your permanences."
+   },
+   "changes": []
+  },
+  {
+   "no": 15,
+   "id": "15",
+   "name": "Sea Stack",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water|air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Riptide",
+    "pips": [],
+    "duration": "While flipped",
+    "text": "One of your permanences becomes water.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Riptide",
+    "duration": "Lasts the round",
+    "forceText": "One of your permanences becomes water."
+   },
+   "changes": [
+    "lasted the round; now while flipped"
+   ]
+  },
+  {
+   "no": 16,
+   "id": "16",
+   "name": "Flint",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "earth|fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Spark",
+    "pips": [],
+    "duration": "Once",
+    "text": "Play another fire permanence this turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "extra play back from the idea pool (was \"Play another fire card.\")"
+   ]
+  },
+  {
+   "no": 17,
+   "id": "17",
+   "name": "Pass",
+   "rarity": "C",
+   "role": "move",
+   "front": {
+    "pips": [
+     "earth|air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Whirl",
+    "pips": [],
+    "duration": "Once",
+    "text": "Move a common permanence to another world.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Whirl",
+    "duration": "Once",
+    "forceText": "Move a common permanence to another world."
+   },
+   "changes": []
+  },
+  {
+   "no": 18,
+   "id": "18",
+   "name": "Scrubland",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "fire|air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Dust Devil",
+    "pips": [],
+    "duration": "While flipped",
+    "text": "One of your permanences becomes air.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Dust Devil",
+    "duration": "Lasts the round",
+    "forceText": "One of your permanences becomes air."
+   },
+   "changes": [
+    "lasted the round; now while flipped"
+   ]
+  },
+  {
+   "no": 19,
+   "id": "19",
+   "name": "Wilderness",
+   "rarity": "C",
+   "role": "removal",
+   "front": {
+    "pips": [
+     "any"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Thunderstorm",
+    "pips": [],
+    "duration": "Once",
+    "text": "Remove a common permanence.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Thunderstorm",
+    "duration": "Once",
+    "forceText": "Remove a common permanence."
+   },
+   "changes": []
+  },
+  {
+   "no": 20,
+   "id": "20",
+   "name": "Delta",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Flood",
+    "pips": [
+     "water"
+    ],
+    "duration": "Once",
+    "text": "Return two of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Flood",
+    "duration": "Once",
+    "forceText": "Return two of your permanences."
+   },
+   "changes": []
+  },
+  {
+   "no": 21,
+   "id": "21",
+   "name": "Hot Spring",
+   "rarity": "B",
+   "role": "removal",
+   "front": {
+    "pips": [
+     "water",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Scald",
+    "pips": [
+     "water"
+    ],
+    "duration": "Once",
+    "text": "Remove an uncommon permanence.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Scald",
+    "duration": "Once",
+    "forceText": "Remove an uncommon permanence."
+   },
+   "changes": []
+  },
+  {
+   "no": 22,
+   "id": "22",
+   "name": "Cloud Forest",
+   "rarity": "B",
+   "role": "negate",
+   "front": {
+    "pips": [
+     "water",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Fog",
+    "pips": [
+     "water"
+    ],
+    "duration": "Until your next turn",
+    "text": "No uncommon forces until your next turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Fog",
+    "duration": "Until your next turn",
+    "forceText": "No uncommon forces until your next turn."
+   },
+   "changes": []
+  },
+  {
+   "no": 23,
+   "id": "23",
+   "name": "Volcano",
+   "rarity": "B",
+   "role": "removal",
+   "front": {
+    "pips": [
+     "earth",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Lava Bomb",
+    "pips": [
+     "fire"
+    ],
+    "duration": "Once",
+    "text": "Remove an uncommon permanence.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Lava Bomb",
+    "duration": "Once",
+    "forceText": "Remove an uncommon permanence."
+   },
+   "changes": []
+  },
+  {
+   "no": 24,
+   "id": "24",
+   "name": "Sea Cliff",
+   "rarity": "B",
+   "role": "move",
+   "front": {
+    "pips": [
+     "earth",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Gale",
+    "pips": [
+     "air"
+    ],
+    "duration": "Once",
+    "text": "Move an uncommon permanence to another world.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Gale",
+    "duration": "Once",
+    "forceText": "Move an uncommon permanence to another world."
+   },
+   "changes": []
+  },
+  {
+   "no": 25,
+   "id": "25",
+   "name": "Desert",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "fire",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Heatwave",
+    "pips": [
+     "fire"
+    ],
+    "duration": "Once",
+    "text": "Play another permanence this turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "extra play back from the idea pool (was \"Play another card.\")"
+   ]
+  },
+  {
+   "no": 26,
+   "id": "26",
+   "name": "Mangrove",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Undertow",
+    "pips": [
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Return one of your worlds.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Undertow",
+    "duration": "Once",
+    "forceText": "Return one of your worlds."
+   },
+   "changes": []
+  },
+  {
+   "no": 27,
+   "id": "27",
+   "name": "Mud Pots",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Downpour",
+    "pips": [
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Play a permanence from your void. Next turn, flip this back.",
+    "flipsBack": true
+   },
+   "sixth": {
+    "text": "",
+    "force": "Downpour",
+    "duration": "Once",
+    "forceText": "Play a permanence from your void."
+   },
+   "changes": [
+    "flips back: mud bubbles up again",
+    "back pips: water and fire make mud"
+   ]
+  },
+  {
+   "no": 28,
+   "id": "28",
+   "name": "Waterfall",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Cloudburst",
+    "pips": [
+     "water"
+    ],
+    "duration": "Once",
+    "text": "Return two cards from your void.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Cloudburst",
+    "duration": "Once",
+    "forceText": "Return two cards from your void."
+   },
+   "changes": []
+  },
+  {
+   "no": 29,
+   "id": "29",
+   "name": "Cinder Cone",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "earth",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Ashfall",
+    "pips": [
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Split one of your worlds.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Ashfall",
+    "duration": "Once",
+    "forceText": "Split one of your worlds."
+   },
+   "changes": []
+  },
+  {
+   "no": 30,
+   "id": "30",
+   "name": "Canyon",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "earth",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Dust Storm",
+    "pips": [
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Swap two of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Dust Storm",
+    "duration": "Once",
+    "forceText": "Swap two of your permanences."
+   },
+   "changes": []
+  },
+  {
+   "no": 31,
+   "id": "31",
+   "name": "Savanna",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "fire",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Sandstorm",
+    "pips": [
+     "air"
+    ],
+    "duration": "Once",
+    "text": "Play another permanence this turn. Next turn, flip this back.",
+    "flipsBack": true
+   },
+   "sixth": {
+    "text": "",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "extra play back from the idea pool (was \"Play another card.\")",
+    "flips back: grass burns and grows back"
+   ]
+  },
+  {
+   "no": 32,
+   "id": "32",
+   "name": "Spring",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Low Tide",
+    "pips": [
+     "water"
+    ],
+    "duration": "Once",
+    "text": "Return one of your worlds. Next turn, flip this back.",
+    "flipsBack": true
+   },
+   "sixth": {
+    "text": "Score a point per four water affinities.",
+    "force": "Low Tide",
+    "duration": "Once",
+    "forceText": "Return one of your worlds."
+   },
+   "changes": [
+    "front text to the idea pool: \"Score a point per four water affinities.\"",
+    "flips back: low tide, then high"
+   ]
+  },
+  {
+   "no": 33,
+   "id": "33",
+   "name": "Mountain Range",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "earth",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Rockslide",
+    "pips": [
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Move one of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Score a point per four earth affinities.",
+    "force": "Rockslide",
+    "duration": "Once",
+    "forceText": "Move one of your permanences."
+   },
+   "changes": [
+    "front text to the idea pool: \"Score a point per four earth affinities.\""
+   ]
+  },
+  {
+   "no": 34,
+   "id": "34",
+   "name": "Fumarole",
+   "rarity": "B",
+   "role": "negate",
+   "front": {
+    "pips": [
+     "fire",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Flare-up",
+    "pips": [
+     "air"
+    ],
+    "duration": "Until your next turn",
+    "text": "No uncommon forces until your next turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Score a point per four fire affinities.",
+    "force": "Flare-up",
+    "duration": "Until your next turn",
+    "forceText": "No uncommon forces until your next turn."
+   },
+   "changes": [
+    "front text to the idea pool: \"Score a point per four fire affinities.\""
+   ]
+  },
+  {
+   "no": 35,
+   "id": "35",
+   "name": "Sky Isle",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "air",
+     "any"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Waterspout",
+    "pips": [
+     "air"
+    ],
+    "duration": "Once",
+    "text": "Split one of your worlds.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Score a point per four air affinities.",
+    "force": "Waterspout",
+    "duration": "Once",
+    "forceText": "Split one of your worlds."
+   },
+   "changes": [
+    "front text to the idea pool: \"Score a point per four air affinities.\""
+   ]
+  },
+  {
+   "no": 36,
+   "id": "36",
+   "name": "Tidal Flat",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "any"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Hail",
+    "pips": [
+     "water"
+    ],
+    "duration": "Once",
+    "text": "Return two of your permanences. Next turn, flip this back.",
+    "flipsBack": true
+   },
+   "sixth": {
+    "text": "",
+    "force": "Hail",
+    "duration": "Once",
+    "forceText": "Return two of your permanences."
+   },
+   "changes": [
+    "flips back: the tide"
+   ]
+  },
+  {
+   "no": 37,
+   "id": "37",
+   "name": "Old Growth",
+   "rarity": "B",
+   "role": "negate",
+   "front": {
+    "pips": [
+     "earth",
+     "any"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Bramble",
+    "pips": [
+     "earth",
+     "any"
+    ],
+    "duration": "Until your next turn",
+    "text": "No uncommon forces until your next turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Bramble",
+    "duration": "Until your next turn",
+    "forceText": "No uncommon forces until your next turn."
+   },
+   "changes": [
+    "back pips: keeps both: old growth endures"
+   ]
+  },
+  {
+   "no": 38,
+   "id": "38",
+   "name": "Obsidian",
+   "rarity": "B",
+   "role": "removal",
+   "front": {
+    "pips": [
+     "fire",
+     "any"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Scorch",
+    "pips": [
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Remove an uncommon permanence.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Scorch",
+    "duration": "Once",
+    "forceText": "Remove an uncommon permanence."
+   },
+   "changes": [
+    "back pips: lava cools to glass"
+   ]
+  },
+  {
+   "no": 39,
+   "id": "39",
+   "name": "Hidden Valley",
+   "rarity": "B",
+   "role": "move",
+   "front": {
+    "pips": [
+     "any",
+     "any"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Landslide",
+    "pips": [
+     "any"
+    ],
+    "duration": "Once",
+    "text": "An uncommon permanence becomes its own world.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Landslide",
+    "duration": "Once",
+    "forceText": "An uncommon permanence becomes its own world."
+   },
+   "changes": []
+  },
+  {
+   "no": 40,
+   "id": "40",
+   "name": "Deep Lake",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "water"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Ice Storm",
+    "pips": [
+     "water"
+    ],
+    "duration": "Once",
+    "text": "Return two cards from your void.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Ice Storm",
+    "duration": "Once",
+    "forceText": "Return two cards from your void."
+   },
+   "changes": []
+  },
+  {
+   "no": 41,
+   "id": "41",
+   "name": "Plateau",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "earth",
+     "earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Permafrost",
+    "pips": [
+     "earth",
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Play another permanence this turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "extra play back from the idea pool (was \"Play another card.\")",
+    "back pips: keeps both, as the test Plateau did"
+   ]
+  },
+  {
+   "no": 42,
+   "id": "42",
+   "name": "Lava Lake",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "fire",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Heat Dome",
+    "pips": [
+     "fire"
+    ],
+    "duration": "Once",
+    "text": "Play another fire permanence this turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "extra play back from the idea pool (was \"Play another fire card.\")"
+   ]
+  },
+  {
+   "no": 43,
+   "id": "43",
+   "name": "Twin Peaks",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "air",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "High Pressure",
+    "pips": [
+     "air"
+    ],
+    "duration": "Once",
+    "text": "Swap two of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "High Pressure",
+    "duration": "Once",
+    "forceText": "Swap two of your permanences."
+   },
+   "changes": []
+  },
+  {
+   "no": 44,
+   "id": "44",
+   "name": "Mirage",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Heat Shimmer",
+    "pips": [],
+    "duration": "Once",
+    "text": "Move one of your permanences. Next turn, flip this back.",
+    "flipsBack": true
+   },
+   "sixth": {
+    "text": "Copies every adjacent permanence's affinities.",
+    "force": "Heat Shimmer",
+    "duration": "Once",
+    "forceText": "Move one of your permanences."
+   },
+   "changes": [
+    "front text to the idea pool: \"Copies every adjacent permanence's affinities.\"",
+    "flips back: a mirage comes and goes"
+   ]
+  },
+  {
+   "no": 45,
+   "id": "45",
+   "name": "Caldera Lake",
+   "rarity": "A",
+   "role": "removal",
+   "front": {
+    "pips": [
+     "water",
+     "earth",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Collapse",
+    "pips": [
+     "water",
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Remove a rare permanence.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Play only on a new world.",
+    "force": "Collapse",
+    "duration": "Once",
+    "forceText": "Remove a rare permanence."
+   },
+   "changes": [
+    "front text to the idea pool: \"Play only on a new world.\""
+   ]
+  },
+  {
+   "no": 46,
+   "id": "46",
+   "name": "Rainforest",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "earth",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Monsoon",
+    "pips": [
+     "water",
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Play a card from your void.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Play only on a new world.",
+    "force": "Monsoon",
+    "duration": "Once",
+    "forceText": "Play a card from your void."
+   },
+   "changes": [
+    "front text to the idea pool: \"Play only on a new world.\""
+   ]
+  },
+  {
+   "no": 47,
+   "id": "47",
+   "name": "Geyser Basin",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "fire",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Typhoon",
+    "pips": [
+     "water",
+     "fire"
+    ],
+    "duration": "Once",
+    "text": "Move two of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Play only on a new world.",
+    "force": "Typhoon",
+    "duration": "Once",
+    "forceText": "Move two of your permanences."
+   },
+   "changes": [
+    "front text to the idea pool: \"Play only on a new world.\""
+   ]
+  },
+  {
+   "no": 48,
+   "id": "48",
+   "name": "Red Canyon",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "earth",
+     "fire",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Erosion",
+    "pips": [
+     "earth",
+     "fire"
+    ],
+    "duration": "Once",
+    "text": "Return two of your worlds.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Play only on a new world.",
+    "force": "Erosion",
+    "duration": "Once",
+    "forceText": "Return two of your worlds."
+   },
+   "changes": [
+    "front text to the idea pool: \"Play only on a new world.\""
+   ]
+  },
+  {
+   "no": 49,
+   "id": "49",
+   "name": "Archipelago",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "water",
+     "earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Surge",
+    "pips": [
+     "water",
+     "water"
+    ],
+    "duration": "Once",
+    "text": "Return three cards from your void.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Surge",
+    "duration": "Once",
+    "forceText": "Return three cards from your void."
+   },
+   "changes": []
+  },
+  {
+   "no": 50,
+   "id": "50",
+   "name": "Boiling Lake",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "water",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Torrent",
+    "pips": [
+     "water",
+     "water"
+    ],
+    "duration": "Once",
+    "text": "Play a card from your void.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Torrent",
+    "duration": "Once",
+    "forceText": "Play a card from your void."
+   },
+   "changes": []
+  },
+  {
+   "no": 51,
+   "id": "51",
+   "name": "Misty Fjord",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "water",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Whiteout",
+    "pips": [
+     "water",
+     "water"
+    ],
+    "duration": "Once",
+    "text": "Play a card from your void.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Whiteout",
+    "duration": "Once",
+    "forceText": "Play a card from your void."
+   },
+   "changes": []
+  },
+  {
+   "no": 52,
+   "id": "52",
+   "name": "Floodplain",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "earth",
+     "earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Mudflow",
+    "pips": [
+     "water",
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Return two of your worlds.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Mudflow",
+    "duration": "Once",
+    "forceText": "Return two of your worlds."
+   },
+   "changes": []
+  },
+  {
+   "no": 53,
+   "id": "53",
+   "name": "Smoking Hills",
+   "rarity": "A",
+   "role": "open",
+   "front": {
+    "pips": [
+     "earth",
+     "earth",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "",
+    "pips": [
+     "earth",
+     "earth"
+    ],
+    "duration": "",
+    "text": "",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "open: its Nov 12 extra play (\"Play two more cards.\") stays in the idea pool. Cam, Nov 23: extra plays go on a 1 or 2 pip card, not a 3 pip card; open until a force is chosen"
+   ]
+  },
+  {
+   "no": 54,
+   "id": "54",
+   "name": "Highlands",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "earth",
+     "earth",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Earthquake",
+    "pips": [
+     "earth",
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Return two of your worlds.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Earthquake",
+    "duration": "Once",
+    "forceText": "Return two of your worlds."
+   },
+   "changes": []
+  },
+  {
+   "no": 55,
+   "id": "55",
+   "name": "Lava Coast",
+   "rarity": "A",
+   "role": "open",
+   "front": {
+    "pips": [
+     "water",
+     "fire",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "",
+    "pips": [
+     "water",
+     "earth"
+    ],
+    "duration": "",
+    "text": "",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "open: its Nov 12 extra play (\"Play two more cards.\") stays in the idea pool. Cam, Nov 23: extra plays go on a 1 or 2 pip card, not a 3 pip card; open until a force is chosen",
+    "back pips: lava meets the sea and makes land"
+   ]
+  },
+  {
+   "no": 56,
+   "id": "56",
+   "name": "Lava Plain",
+   "rarity": "A",
+   "role": "open",
+   "front": {
+    "pips": [
+     "earth",
+     "fire",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "",
+    "pips": [
+     "earth",
+     "fire"
+    ],
+    "duration": "",
+    "text": "",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "open: its Nov 12 extra play (\"Play two more cards.\") stays in the idea pool. Cam, Nov 23: extra plays go on a 1 or 2 pip card, not a 3 pip card; open until a force is chosen"
+   ]
+  },
+  {
+   "no": 57,
+   "id": "57",
+   "name": "Sand Sea",
+   "rarity": "A",
+   "role": "open",
+   "front": {
+    "pips": [
+     "fire",
+     "fire",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "",
+    "pips": [
+     "fire",
+     "air"
+    ],
+    "duration": "",
+    "text": "",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "open: its Nov 12 extra play (\"Play two more cards.\") stays in the idea pool. Cam, Nov 23: extra plays go on a 1 or 2 pip card, not a 3 pip card; open until a force is chosen"
+   ]
+  },
+  {
+   "no": 58,
+   "id": "58",
+   "name": "Cloud Sea",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "air",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Hurricane",
+    "pips": [
+     "water"
+    ],
+    "duration": "Once",
+    "text": "Move two of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Hurricane",
+    "duration": "Once",
+    "forceText": "Move two of your permanences."
+   },
+   "changes": []
+  },
+  {
+   "no": 59,
+   "id": "59",
+   "name": "Stone Towers",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "earth",
+     "air",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Gale Force",
+    "pips": [
+     "earth",
+     "air"
+    ],
+    "duration": "Once",
+    "text": "Move two of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Gale Force",
+    "duration": "Once",
+    "forceText": "Move two of your permanences."
+   },
+   "changes": []
+  },
+  {
+   "no": 60,
+   "id": "60",
+   "name": "High Desert",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "fire",
+     "air",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Tornado",
+    "pips": [
+     "fire",
+     "air"
+    ],
+    "duration": "Once",
+    "text": "Return the last two permanences you played.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Tornado",
+    "duration": "Once",
+    "forceText": "Return two cards you played last round."
+   },
+   "changes": [
+    "was \"Return two cards you played last round.\"; one round now"
+   ]
+  },
+  {
+   "no": 61,
+   "id": "61",
+   "name": "Lagoon",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "water",
+     "water"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Flash Flood",
+    "pips": [
+     "water",
+     "water"
+    ],
+    "duration": "Once",
+    "text": "Return three cards from your void.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Play only on your first turn.",
+    "force": "Flash Flood",
+    "duration": "Once",
+    "forceText": "Return three cards from your void."
+   },
+   "changes": [
+    "front text to the idea pool: \"Play only on your first turn.\""
+   ]
+  },
+  {
+   "no": 62,
+   "id": "62",
+   "name": "Moor",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "earth",
+     "earth",
+     "earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Avalanche",
+    "pips": [
+     "earth",
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Return two of your worlds.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Play only on your first turn.",
+    "force": "Avalanche",
+    "duration": "Once",
+    "forceText": "Return two of your worlds."
+   },
+   "changes": [
+    "front text to the idea pool: \"Play only on your first turn.\""
+   ]
+  },
+  {
+   "no": 63,
+   "id": "63",
+   "name": "Cinder Field",
+   "rarity": "A",
+   "role": "open",
+   "front": {
+    "pips": [
+     "fire",
+     "fire",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "",
+    "pips": [
+     "fire",
+     "fire"
+    ],
+    "duration": "",
+    "text": "",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Play only on your first turn.",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "front text to the idea pool: \"Play only on your first turn.\"",
+    "open: its Nov 12 extra play (\"Play two more cards.\") stays in the idea pool. Cam, Nov 23: extra plays go on a 1 or 2 pip card, not a 3 pip card; open until a force is chosen"
+   ]
+  },
+  {
+   "no": 64,
+   "id": "64",
+   "name": "Peak",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "air",
+     "air",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Drought",
+    "pips": [
+     "air",
+     "air"
+    ],
+    "duration": "Once",
+    "text": "Move two of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Play only on your first turn.",
+    "force": "Drought",
+    "duration": "Once",
+    "forceText": "Move two of your permanences."
+   },
+   "changes": [
+    "front text to the idea pool: \"Play only on your first turn.\""
+   ]
+  },
+  {
+   "no": 65,
+   "id": "65",
+   "name": "Ice Sheet",
+   "rarity": "A",
+   "role": "negate",
+   "front": {
+    "pips": [
+     "water"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Blizzard",
+    "pips": [],
+    "duration": "Until your next turn",
+    "text": "No rare forces until your next turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Each permanence in its world gains water.",
+    "force": "Blizzard",
+    "duration": "Until your next turn",
+    "forceText": "No rare forces until your next turn."
+   },
+   "changes": [
+    "front text to the idea pool: \"Each permanence in its world gains water.\""
+   ]
+  },
+  {
+   "no": 66,
+   "id": "66",
+   "name": "Thicket",
+   "rarity": "A",
+   "role": "negate",
+   "front": {
+    "pips": [
+     "earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Shelter",
+    "pips": [],
+    "duration": "Until your next turn",
+    "text": "No rare forces until your next turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Each permanence in its world gains earth.",
+    "force": "Shelter",
+    "duration": "Until your next turn",
+    "forceText": "No rare forces until your next turn."
+   },
+   "changes": [
+    "front text to the idea pool: \"Each permanence in its world gains earth.\""
+   ]
+  },
+  {
+   "no": 67,
+   "id": "67",
+   "name": "Badlands",
+   "rarity": "A",
+   "role": "self",
+   "front": {
+    "pips": [
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Ember",
+    "pips": [],
+    "duration": "Once",
+    "text": "Play another permanence this turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Each permanence in its world gains fire.",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "front text to the idea pool: \"Each permanence in its world gains fire.\"",
+    "extra play back from the idea pool (was \"Play two more cards.\")",
+    "Cam, Nov 23: \"play two more\" is definitely too strong; \"play one more\""
+   ]
+  },
+  {
+   "no": 68,
+   "id": "68",
+   "name": "Wind Gap",
+   "rarity": "A",
+   "role": "move",
+   "front": {
+    "pips": [
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Downdraft",
+    "pips": [],
+    "duration": "Once",
+    "text": "A rare permanence becomes its own world.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Each permanence in its world gains air.",
+    "force": "Downdraft",
+    "duration": "Once",
+    "forceText": "A rare permanence becomes its own world."
+   },
+   "changes": [
+    "front text to the idea pool: \"Each permanence in its world gains air.\""
+   ]
+  },
+  {
+   "no": 69,
+   "id": "meta-echo",
+   "name": "Echo",
+   "meta": true,
+   "rarity": "B",
+   "text": "Play a card from your void.",
+   "was": null,
+   "changes": []
+  },
+  {
+   "no": 70,
+   "id": "meta-hollow",
+   "name": "Hollow",
+   "meta": true,
+   "rarity": "B",
+   "text": "Return a card from your void.",
+   "was": null,
+   "changes": []
+  },
+  {
+   "no": 71,
+   "id": "meta-equinox",
+   "name": "Equinox",
+   "meta": true,
+   "rarity": "B",
+   "text": "Return 3 cards from your void.",
+   "was": null,
+   "changes": []
+  },
+  {
+   "no": 72,
+   "id": "meta-verge",
+   "name": "Verge",
+   "meta": true,
+   "rarity": "B",
+   "text": "Play two more cards this turn.",
+   "was": null,
+   "changes": []
+  },
+  {
+   "no": 73,
+   "id": "meta-lull",
+   "name": "Lull",
+   "meta": true,
+   "rarity": "B",
+   "text": "Your opponent skips their next turn.",
+   "was": null,
+   "changes": []
+  },
+  {
+   "no": 74,
+   "id": "meta-ebb",
+   "name": "Ebb",
+   "meta": true,
+   "rarity": "B",
+   "text": "Remove your opponent's last common.",
+   "was": null,
+   "changes": []
+  },
+  {
+   "no": 75,
+   "id": "meta-horizon",
+   "name": "Horizon",
+   "meta": true,
+   "rarity": "B",
+   "text": "Remove a card from your opponent's binder.",
+   "was": null,
+   "changes": []
+  },
+  {
+   "no": 76,
+   "id": "meta-calm",
+   "name": "Calm",
+   "meta": true,
+   "rarity": "B",
+   "text": "No forces until your next turn.",
+   "was": "No forces this round.",
+   "changes": [
+    "was \"No forces this round.\"; one round now"
+   ]
+  },
+  {
+   "no": 77,
+   "id": "meta-aftershock",
+   "name": "Aftershock",
+   "meta": true,
+   "rarity": "B",
+   "text": "Your opponent has the next two turns.",
+   "was": "Your opponent takes the next two turns.",
+   "changes": [
+    "was \"… takes …\"; \"take\" is kept for the ante"
+   ]
+  },
+  {
+   "no": 78,
+   "id": "meta-stillness",
+   "name": "Stillness",
+   "meta": true,
+   "rarity": "B",
+   "text": "Your opponent plays no permanence next turn.",
+   "was": "Your opponent passes.",
+   "changes": [
+    "was \"Your opponent passes.\"; no passing now, and passing for the round would end their contest"
+   ]
+  },
+  {
+   "no": 79,
+   "id": "meta-sunlight",
+   "name": "Sunlight",
+   "meta": true,
+   "rarity": "B",
+   "text": "Flip back every permanence.",
+   "was": "Remove every force.",
+   "changes": [
+    "was \"Remove every force.\"; the forces on the table are flipped cards now"
+   ]
+  },
+  {
+   "no": 80,
+   "id": "meta-weathering",
+   "name": "Weathering",
+   "meta": true,
+   "rarity": "B",
+   "text": "Return the last card your opponent played.",
+   "was": null,
+   "changes": []
+  },
+  {
+   "no": 81,
+   "id": "meta-thunder",
+   "name": "Thunder",
+   "meta": true,
+   "rarity": "B",
+   "text": "Play a permanence after the last turn.",
+   "was": "Play once more after both players pass.",
+   "changes": [
+    "was \"Play once more after both players pass.\"; the contest ends after the shared 10th turn"
+   ]
+  },
+  {
+   "no": 82,
+   "id": "meta-haze",
+   "name": "Haze",
+   "meta": true,
+   "rarity": "B",
+   "text": "Your opponent can't use forces next turn.",
+   "was": "Your opponent can't play forces next turn.",
+   "changes": [
+    "was \"… can't play forces …\"; forces are used now"
+   ]
+  },
+  {
+   "no": 83,
+   "id": "83",
+   "name": "Ice Floe",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water"
+    ],
+    "text": "Can be played on an opponent's world."
+   },
+   "blocker": true,
+   "back": {
+    "name": "Current",
+    "pips": [],
+    "duration": "Once",
+    "text": "Play a permanence from your void.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "+1 water if you have a world point.",
+    "force": "Current",
+    "duration": "Once",
+    "forceText": "Play a permanence from your void."
+   },
+   "changes": [
+    "front text to the idea pool: \"+1 water if you have a world point.\"",
+    "blocker: drifts"
+   ]
+  },
+  {
+   "no": 84,
+   "id": "84",
+   "name": "Shoal",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water"
+    ],
+    "text": "Can be played on an opponent's world."
+   },
+   "blocker": true,
+   "back": {
+    "name": "Mist",
+    "pips": [],
+    "duration": "Once",
+    "text": "Move one of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "The permanence below this gains water.",
+    "force": "Mist",
+    "duration": "Once",
+    "forceText": "Move one of your permanences."
+   },
+   "changes": [
+    "front text to the idea pool: \"The permanence below this gains water.\"",
+    "blocker: a hazard in their water"
+   ]
+  },
+  {
+   "no": 85,
+   "id": "85",
+   "name": "Fen",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "water",
+     "earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Whirlpool",
+    "pips": [
+     "water"
+    ],
+    "duration": "Once",
+    "text": "Play a card from a void.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Whirlpool",
+    "duration": "Once",
+    "forceText": "Play a card from a void."
+   },
+   "changes": []
+  },
+  {
+   "no": 86,
+   "id": "86",
+   "name": "Hill",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "earth"
+    ],
+    "text": "Can be played on an opponent's world."
+   },
+   "blocker": true,
+   "back": {
+    "name": "Rockfall",
+    "pips": [],
+    "duration": "While flipped",
+    "text": "One of your permanences becomes earth.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "+1 earth if you have a world point.",
+    "force": "Rockfall",
+    "duration": "Lasts the round",
+    "forceText": "One of your permanences becomes earth."
+   },
+   "changes": [
+    "front text to the idea pool: \"+1 earth if you have a world point.\"",
+    "blocker: one of the test blockers (Hills)",
+    "lasted the round; now while flipped"
+   ]
+  },
+  {
+   "no": 87,
+   "id": "87",
+   "name": "Meadow",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "earth"
+    ],
+    "text": "Can be played on an opponent's world."
+   },
+   "blocker": true,
+   "back": {
+    "name": "Mudslide",
+    "pips": [],
+    "duration": "Once",
+    "text": "Move one of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "The permanence beside this gains earth.",
+    "force": "Mudslide",
+    "duration": "Once",
+    "forceText": "Move one of your permanences."
+   },
+   "changes": [
+    "front text to the idea pool: \"The permanence beside this gains earth.\"",
+    "blocker: one of the test blockers"
+   ]
+  },
+  {
+   "no": 88,
+   "id": "88",
+   "name": "Cavern",
+   "rarity": "C",
+   "role": "negate",
+   "front": {
+    "pips": [
+     "earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Sinkhole",
+    "pips": [],
+    "duration": "While flipped",
+    "text": "This world ignores your opponent's forces.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "Your opponent can't split its world.",
+    "force": "Sinkhole",
+    "duration": "Lasts the round",
+    "forceText": "Your world ignores your opponent's forces."
+   },
+   "changes": [
+    "front text to the idea pool: \"Your opponent can't split its world.\"",
+    "lasted the round; now while flipped",
+    "was \"Your world …\"; \"this\" names the world it is in"
+   ]
+  },
+  {
+   "no": 89,
+   "id": "89",
+   "name": "Dune",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "fire"
+    ],
+    "text": "Can be played on an opponent's world."
+   },
+   "blocker": true,
+   "back": {
+    "name": "Updraft",
+    "pips": [],
+    "duration": "Once",
+    "text": "Play another fire permanence this turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "+1 fire if you have a world point.",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "front text to the idea pool: \"+1 fire if you have a world point.\"",
+    "blocker: dunes wander",
+    "extra play back from the idea pool (was \"Play another fire card.\")"
+   ]
+  },
+  {
+   "no": 90,
+   "id": "90",
+   "name": "Barrens",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Smoke",
+    "pips": [],
+    "duration": "Once",
+    "text": "Swap two of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "The permanence across from this gains fire.",
+    "force": "Smoke",
+    "duration": "Once",
+    "forceText": "Swap two of your permanences."
+   },
+   "changes": [
+    "front text to the idea pool: \"The permanence across from this gains fire.\""
+   ]
+  },
+  {
+   "no": 91,
+   "id": "91",
+   "name": "Crater",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [
+     "earth",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Meteor",
+    "pips": [
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Play another fire permanence this turn.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "",
+    "duration": "",
+    "forceText": ""
+   },
+   "changes": [
+    "extra play back from the idea pool (was \"Play two more fire cards.\")",
+    "Cam, Nov 23: \"play two more\" is definitely too strong; \"play one more\""
+   ]
+  },
+  {
+   "no": 92,
+   "id": "92",
+   "name": "Ledge",
+   "rarity": "C",
+   "role": "move",
+   "front": {
+    "pips": [
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Gust",
+    "pips": [],
+    "duration": "Once",
+    "text": "A common permanence becomes its own world.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "+1 air if you have a world point.",
+    "force": "Gust",
+    "duration": "Once",
+    "forceText": "A common permanence becomes its own world."
+   },
+   "changes": [
+    "front text to the idea pool: \"+1 air if you have a world point.\""
+   ]
+  },
+  {
+   "no": 93,
+   "id": "93",
+   "name": "Ridge",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "air"
+    ],
+    "text": "Can be played on an opponent's world."
+   },
+   "blocker": true,
+   "back": {
+    "name": "Breeze",
+    "pips": [],
+    "duration": "Once",
+    "text": "Move one of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "The permanence above this gains air.",
+    "force": "Breeze",
+    "duration": "Once",
+    "forceText": "Move one of your permanences."
+   },
+   "changes": [
+    "front text to the idea pool: \"The permanence above this gains air.\"",
+    "blocker: a ridge divides"
+   ]
+  },
+  {
+   "no": 94,
+   "id": "94",
+   "name": "Eyrie",
+   "rarity": "C",
+   "role": "self",
+   "front": {
+    "pips": [
+     "air"
+    ],
+    "text": "Can be played on an opponent's world."
+   },
+   "blocker": true,
+   "back": {
+    "name": "Cyclone",
+    "pips": [],
+    "duration": "Once",
+    "text": "Return the last permanence you played.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Cyclone",
+    "duration": "Once",
+    "forceText": "Return a card you played last round."
+   },
+   "changes": [
+    "blocker: nests on their cliffs",
+    "was \"Return a card you played last round.\"; one round now"
+   ]
+  },
+  {
+   "no": 95,
+   "id": "95",
+   "name": "Hanging Valley",
+   "rarity": "B",
+   "role": "self",
+   "front": {
+    "pips": [],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Squall",
+    "pips": [],
+    "duration": "Once",
+    "text": "Swap two of your permanences.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "+1 world point if this world has water earth fire air.",
+    "force": "Squall",
+    "duration": "Once",
+    "forceText": "Swap two of your permanences."
+   },
+   "changes": [
+    "front text to the idea pool: \"+1 world point if this world has water earth fire air.\""
+   ]
+  },
+  {
+   "no": 96,
+   "id": "96",
+   "name": "Ocean",
+   "rarity": "S",
+   "role": "move",
+   "front": {
+    "pips": [
+     "water",
+     "water",
+     "water",
+     "water"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Tsunami",
+    "pips": [
+     "water",
+     "water"
+    ],
+    "duration": "Once",
+    "text": "Return a player's worlds.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Tsunami",
+    "duration": "Once",
+    "forceText": "Return a player's worlds."
+   },
+   "changes": []
+  },
+  {
+   "no": 97,
+   "id": "97",
+   "name": "Pangaea",
+   "rarity": "S",
+   "role": "move",
+   "front": {
+    "pips": [
+     "earth",
+     "earth",
+     "earth",
+     "earth"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "World Quake",
+    "pips": [
+     "earth",
+     "earth"
+    ],
+    "duration": "Once",
+    "text": "Split every world.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "World Quake",
+    "duration": "Once",
+    "forceText": "Split every world."
+   },
+   "changes": []
+  },
+  {
+   "no": 98,
+   "id": "98",
+   "name": "Core",
+   "rarity": "S",
+   "role": "removal",
+   "front": {
+    "pips": [
+     "fire",
+     "fire",
+     "fire",
+     "fire"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Firestorm",
+    "pips": [
+     "fire",
+     "fire"
+    ],
+    "duration": "Once",
+    "text": "Remove a world.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Firestorm",
+    "duration": "Once",
+    "forceText": "Remove a world."
+   },
+   "changes": []
+  },
+  {
+   "no": 99,
+   "id": "99",
+   "name": "Trade Winds",
+   "rarity": "S",
+   "role": "move",
+   "front": {
+    "pips": [
+     "air",
+     "air",
+     "air",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Jet Stream",
+    "pips": [
+     "air",
+     "air"
+    ],
+    "duration": "Once",
+    "text": "Every permanence becomes its own world.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Jet Stream",
+    "duration": "Once",
+    "forceText": "Every permanence becomes its own world."
+   },
+   "changes": []
+  },
+  {
+   "no": 100,
+   "id": "100",
+   "name": "Origin",
+   "rarity": "S",
+   "role": "removal",
+   "front": {
+    "pips": [
+     "water",
+     "earth",
+     "fire",
+     "air"
+    ],
+    "text": ""
+   },
+   "blocker": false,
+   "back": {
+    "name": "Unmaking",
+    "pips": [],
+    "duration": "Once",
+    "text": "Remove every world.",
+    "flipsBack": false
+   },
+   "sixth": {
+    "text": "",
+    "force": "Unmaking",
+    "duration": "Once",
+    "forceText": "Remove every world."
+   },
+   "changes": []
+  }
+ ]
+}
