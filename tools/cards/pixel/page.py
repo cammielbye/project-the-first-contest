@@ -1,6 +1,6 @@
 # Pixel art for the framework set (Nov 28). `python3 build.py` renders every card's art into branch-b/img/pixel/;
 # `python3 page.py out.html` makes the Framework Set page. Placeholder art; the scene specs are in specs.py.
-# The framework set page: all 100 cards in the chosen look. Click a landscape to flip it.
+# The framework set page: all 100 cards in the chosen look. Sorted by number of pips, then rarity, both ascending. Click a landscape to flip it.
 import json, base64, html, sys
 HERE = __file__.rsplit('/', 1)[0]; sys.path.insert(0, HERE); ROOT = HERE.rsplit('/', 3)[0]
 from common import GLYPH, ORDER
@@ -49,17 +49,18 @@ def landscape(c):
                       '<div class="pips pips-b">%s</div>%s<div class="rule"></div><div class="no">%d/100</div>%s'
                       % (bname, uri(ROOT + '/branch-b/img/pixel/%03d-back.png' % no), esc(c['name']), bpips, btxt, no, rmark(r, col)))
     els = sorted({p.split('|')[0] for p in f['pips']} | {p.split('|')[1] for p in f['pips'] if '|' in p})
-    return ('<li class="slot" data-r="%s" data-el="%s" data-q="%s"><button class="card" aria-label="%s, card %d. Click to flip." aria-pressed="false">'
+    key = '%d-%d-%s-%03d' % (len(f['pips']), 'CBAS'.index(r), ''.join(str(ORDER.index(p.split('|')[0])) + ('9' if '|' in p else '') for p in sorted(f['pips'], key=lambda p: ORDER.index(p.split('|')[0]))), no)
+    return ('<li class="slot" data-n="%d" data-k="%s" data-g="%d" data-r="%s" data-el="%s" data-q="%s"><button class="card" aria-label="%s, card %d. Click to flip." aria-pressed="false">'
             '<span class="flip"><span class="face front">%s</span><span class="face back">%s</span></span></button></li>'
-            % (r, ' '.join(els), esc((c['name'] + ' ' + (b['name'] or '')).lower()), esc(c['name']), no, front, back))
+            % (no, key, len(f['pips']), r, ' '.join(els), esc((c['name'] + ' ' + (b['name'] or '')).lower()), esc(c['name']), no, front, back))
 def meta(c):
     no = c['no']
     body = frame('#0B0B0B', '<div class="nm">%s</div><img class="art art-b" src="%s" alt="%s, pixel art placeholder">'
                             '<div class="pips pips-b"><span class="nopips">meta card · one face</span></div>'
                             '<div class="btxt"><span class="ph">placeholder</span>%s</div><div class="rule"></div><div class="no">%d/100</div>'
                             % (esc(c['name']), uri(ROOT + '/branch-b/img/pixel/%03d-meta.png' % no), esc(c['name']), esc(c['text']), no))
-    return ('<li class="slot" data-r="M" data-el="" data-q="%s"><div class="card meta" role="group" aria-label="%s, meta card %d"><span class="flip"><span class="face front">%s</span></span></div></li>'
-            % (esc(c['name'].lower()), esc(c['name']), no, body))
+    return ('<li class="slot" data-n="%d" data-k="9-9-%03d" data-g="9" data-r="M" data-el="" data-q="%s"><div class="card meta" role="group" aria-label="%s, meta card %d"><span class="flip"><span class="face front">%s</span></span></div></li>'
+            % (no, no, esc(c['name'].lower()), esc(c['name']), no, body))
 cards = ''.join(meta(c) if c.get('meta') else landscape(c) for c in POOL)
 n = {k: sum(1 for c in POOL if (c.get('meta') and k == 'M') or c.get('rarity') == k and not c.get('meta')) for k in 'CBASM'}
 CSS = '''
@@ -81,7 +82,12 @@ h1 { font-family: 'Silkscreen', monospace; font-weight: 400; font-size: 30px; le
 .size { display: inline-flex; gap: 8px; align-items: center; font-size: 14px; color: var(--muted); }
 .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, calc(320px * var(--s))); gap: 22px 18px; justify-content: center; }
 .slot { width: calc(320px * var(--s)); height: calc(448px * var(--s)); perspective: 1400px; }
-.slot[hidden] { display: none; }
+.slot[hidden], .sep[hidden] { display: none; }
+.sep { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 12px; margin: 14px 0 -4px; padding-bottom: 6px; border-bottom: 1px solid #2E332F; font-family: 'Silkscreen', monospace; font-size: 17px; letter-spacing: 0.04em; color: #E8E2CF; }
+.sep:first-child { margin-top: 0; }
+.sep small { font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 13px; color: #9AA096; letter-spacing: 0; }
+.sort { display: inline-flex; gap: 8px; align-items: center; font-size: 14px; color: var(--muted); }
+.sort select { font: 14px 'IBM Plex Sans', system-ui; color: var(--ink); background: #232724; border: 1px solid #3A403A; border-radius: 8px; padding: 8px 10px; min-height: 36px; }
 .card { all: unset; display: block; width: 320px; height: 448px; transform: scale(var(--s)); transform-origin: top left; cursor: pointer; border-radius: 10px; }
 .card.meta { cursor: default; }
 .card:focus-visible { outline: 3px solid #E8E2CF; outline-offset: 4px; }
@@ -119,13 +125,34 @@ h1 { font-family: 'Silkscreen', monospace; font-weight: 400; font-size: 30px; le
 '''
 JS = '''
 (function () {
-  var grid = document.getElementById('grid'), slots = [].slice.call(grid.children), state = { r: 'all', q: '' };
-  function apply() {
-    slots.forEach(function (s) {
-      var ok = (state.r === 'all' || s.dataset.r === state.r) && (!state.q || s.dataset.q.indexOf(state.q) >= 0);
-      s.hidden = !ok;
+  var grid = document.getElementById('grid'), slots = [].slice.call(grid.querySelectorAll('.slot')), state = { r: 'all', q: '', sort: 'pips' };
+  var NAMES = { 0: 'No pips', 1: 'One pip', 2: 'Two pips', 3: 'Three pips', 4: 'Four pips', 9: 'Meta cards' };
+  function order() {
+    [].forEach.call(grid.querySelectorAll('.sep'), function (h) { h.remove(); });
+    var list = slots.slice().sort(function (a, b) {
+      return state.sort === 'pips' ? (a.dataset.k < b.dataset.k ? -1 : 1) : (+a.dataset.n - +b.dataset.n);
+    });
+    var last = null;
+    list.forEach(function (s) {
+      if (state.sort === 'pips' && s.dataset.g !== last) {
+        last = s.dataset.g; var h = document.createElement('li'); h.className = 'sep'; h.dataset.g = last;
+        h.setAttribute('role', 'presentation'); h.innerHTML = NAMES[last] + ' <small></small>'; grid.appendChild(h);
+      }
+      grid.appendChild(s);
     });
   }
+  function apply() {
+    var count = {};
+    slots.forEach(function (s) {
+      var ok = (state.r === 'all' || s.dataset.r === state.r) && (!state.q || s.dataset.q.indexOf(state.q) >= 0);
+      s.hidden = !ok; if (ok) count[s.dataset.g] = (count[s.dataset.g] || 0) + 1;
+    });
+    [].forEach.call(grid.querySelectorAll('.sep'), function (h) {
+      var n = count[h.dataset.g] || 0; h.hidden = !n; h.querySelector('small').textContent = n + (n === 1 ? ' card' : ' cards');
+    });
+  }
+  document.getElementById('sort').addEventListener('change', function (e) { state.sort = e.target.value; order(); apply(); });
+  order(); apply();
   grid.addEventListener('click', function (e) {
     var b = e.target.closest('button.card'); if (!b) return;
     b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
@@ -162,6 +189,7 @@ page = f'''<!DOCTYPE html>
 <p class="lede">All 100 cards with their names, pixel art, layout and pips (Nov 28). Click a landscape to flip it. The abilities and effects on the backs are placeholders. Cam: "the abilities and effects should currently be considered messy." The art is quick template art, to be hand-tuned for the cards you care about.</p>
 <div class="bar" role="toolbar" aria-label="Filters">
 <div class="chips">{chips}</div>
+<label class="sort">Sort <select id="sort" aria-label="Sort cards"><option value="pips" selected>By pips, then rarity</option><option value="no">By number</option></select></label>
 <label class="tog"><input type="checkbox" id="backs"> Show backs</label>
 <input class="search" id="q" type="search" placeholder="Find a card" aria-label="Find a card by name">
 <label class="size">Size <input id="sz" type="range" min="0.45" max="1" step="0.05" value="0.72" aria-label="Card size"></label>
