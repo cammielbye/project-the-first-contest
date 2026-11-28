@@ -29,6 +29,11 @@ backs with their own pips, and the 14 meta cards. `python3 tools/cards/branchb_p
 rebuilds it from `data/cards.json` and checks it; `python3 tools/cards/branchb_page.py out.html` makes the list view
 (the "Branch B Card Pool" artifact). The table still plays the 24 draft cards until the pool is wired in.
 
+**Framework set (Nov 28).** Placeholder pixel art for all 100 cards in the chosen look (2 mm corner, matte rarity
+border). `python3 tools/cards/pixel/build.py` renders each card's art into `branch-b/img/pixel/` (48 cells wide;
+fronts 48x46, backs and meta cards 48x31); `python3 tools/cards/pixel/page.py out.html` makes the "Framework Set"
+artifact. The scenes are specs in `tools/cards/pixel/specs.py`; backs show the same place when its force is used.
+
 ## Playing
 
 1. Open the page and press **Host a contest**. Copy the invite link and paste it
